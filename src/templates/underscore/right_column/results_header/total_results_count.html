@@ -1,0 +1,8 @@
+<p>
+  Showing
+  <% if (totalResults !== 0) { %>
+    <strong><%= first %>-<%= last %></strong> of
+  <% } %>
+  <span class="total-results-count"><strong><%= totalResults %></strong></span>
+  Data Set<%= totalResults === 1 ? "" : "s" %>
+</p>

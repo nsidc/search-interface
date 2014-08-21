@@ -1,0 +1,77 @@
+// rules for selectors shared between the projects go here
+// different values for the different projects can be configured with variables
+
+#facets {
+  clear: both;
+  font-size: 12px;
+
+  ul {
+    clear: both;
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  li {
+    margin: 0;
+    padding: $facet-li-padding;
+
+    &.disabled {
+      color: #888;
+    }
+
+    // copy some styling from bootstrap's dropdown menu divider class
+    &.divider {
+      background-color: rgb(229, 229, 229);
+      //border-bottom: white solid 1px;
+      height: 1px;
+      list-style-position: outside;
+      margin: 3px 1px;
+    }
+  }
+
+  label {
+    cursor: pointer;
+
+    .shortName {
+      @include inline-block();
+
+      margin-top: -5px;
+      overflow: hidden;
+      position: relative;
+      text-overflow: ellipsis;
+      top: 2px;
+      white-space: nowrap;
+      width: 101px;
+    }
+  }
+
+  input {
+    height: auto;
+    margin: 3px 3px 1px 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h3 {
+    float: left;
+    margin-top: 10px;
+  }
+
+  .count {
+    float: right;
+  }
+
+}
+
+
+.facetExpand,
+.facetCollapse {
+  cursor: pointer;
+  font-size: .88em;
+  font-weight: bold;
+  padding: 2px 0 0 10px;
+}

@@ -1,0 +1,26 @@
+// import project-specific code first, then common; if something in common
+// breaks the styling, it's probably not common any more
+//
+// the order in which modules are imported should not matter; if it does, the
+// code probably isn't actually modular
+
+@import 'global/global_nsidc';
+@import 'global/global_common';
+
+@import 'header/header_nsidc';
+@import 'header/header_common';
+
+@import 'vendor_overrides/vendor_overrides_nsidc';
+@import 'vendor_overrides/vendor_overrides_common';
+
+@import 'left_column/left_column_nsidc';
+@import 'left_column/left_column_common';
+
+@import 'search_results/search_results_nsidc';
+@import 'search_results/search_results_common';
+
+@import 'search_results_header/search_results_header_nsidc';
+@import 'search_results_header/search_results_header_common';
+
+@import 'search_results_footer/search_results_footer_nsidc';
+@import 'search_results_footer/search_results_footer_common';

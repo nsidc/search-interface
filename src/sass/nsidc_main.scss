@@ -1,0 +1,11 @@
+// get the project configuration
+@import 'config_nsidc';
+
+// get the common junk
+@import 'junk/common';
+
+// get the non-junk modules
+@import 'modules/nsidc';
+
+// get the rest of the junk
+@import 'junk/nsidc';

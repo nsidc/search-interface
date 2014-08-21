@@ -1,0 +1,282 @@
+#footerNSIDC {
+  background-color: #002248;
+  clear: both;
+  margin-top: 0;
+
+  p {
+    color: #fff;
+    font-size: .8em;
+  }
+
+  a {
+    color: #c9e1f9;
+  }
+
+  .footerElement {
+    margin-top: 8px;
+
+    img {
+      margin-top: 4px;
+    }
+
+  }
+
+  img.partner-logo {
+    border: 0;
+    margin-top: 0;
+    padding-right: 5px;
+    text-decoration: none;
+  }
+
+}
+
+.data-set-details img.image-icon {
+  float: left;
+  margin-right: 15px;
+}
+
+.loading-results-ajax {
+  @include opacity(.7);
+
+  background-color: #fff;
+  color: #000;
+  font-size: 15px;
+  font-weight: bold;
+  height: 1200px;
+  left: 0%;
+  padding-top: 20px;
+  position: relative;
+  text-align: center;
+  top: 0%;
+  vertical-align: middle;
+  width: 100%;
+}
+
+#left-column {
+  background: #f7f7f7;
+  padding: 20px 5px 10px 15px;
+  vertical-align: top;
+  width: 190px;
+
+  #refine-search-container p,
+  #narrow-results-container p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  #refine-search-container .add-space-top {
+    margin-top: 10px;
+  }
+
+  .spatial-coverage,
+  .temporal-coverage {
+    padding: 0 20px 0 10px;
+  }
+}
+
+#search-error {
+  background: #fff;
+  padding: 5em 0 15em;
+}
+
+#search-error-text {
+  font-size: 125%;
+  text-align: center;
+}
+
+a.spatial-coverage,
+a.temporal-coverage {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+span.term > .icon-remove-sign,
+span.spatial-coverage > .icon-remove-sign,
+span.temporal-coverage > .icon-remove-sign {
+  color: #808080;
+  font-size: 14px;
+  margin: 2px 0;
+  position: absolute;
+  right: 20px;
+}
+
+span.term > .icon-remove-sign:hover,
+span.spatial-coverage > .icon-remove-sign:hover,
+span.temporal-coverage > .icon-remove-sign:hover {
+  color: #069;
+  cursor: pointer;
+}
+
+.results-header-summary {
+  float: left;
+}
+
+.results-controls {
+  float: right;
+}
+
+.dataset-title {
+  float: left;
+}
+
+.results-text {
+  clear: left;
+  float: left;
+  padding-bottom: 7px;
+  width: 630px;
+
+  .more a.more-link {
+    background-image: url(img('arrow-down.png'));
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding-right: 15px;
+    text-decoration: none;
+  }
+
+}
+
+.summary a {
+  cursor: pointer;
+}
+
+.results-count-container {
+  width: 210px;
+}
+
+.results-row {
+  line-height: 1.1em;
+  padding-bottom: 12px;
+
+  .temporal-coverage {
+    padding-bottom: 12px;
+  }
+
+}
+
+.results-row:last-child {
+  padding-bottom: 0;
+}
+
+.spatial-row {
+  padding-bottom: 2px;
+}
+
+.spatial-row:last-child {
+  padding-bottom: 0;
+}
+
+.spatial-value {
+  @include inline-block(none);
+}
+
+.temporal-results {
+  padding-bottom: 3px;
+}
+
+.temporal-results:last-child {
+  padding-bottom: 0;
+}
+
+#sort-box {
+  float: left;
+  width: 250px;
+  // [disabled]margin-left: 30px;
+}
+
+#compare-container {
+  float: left;
+  margin-bottom: 20px;
+  margin-left: 200px;
+  margin-top: 20px;
+  width: 480px;
+
+  .compare-box {
+    border: 1px solid #e7e7e7;
+    float: left;
+    height: 50px;
+    margin: 0 11px;
+    width: 50px;
+  }
+
+  #compare-btn {
+    background-color: #e7e7e7;
+    background-image: url(img('arrow-down-white.png'));
+    background-position: 118px top;
+    background-repeat: no-repeat;
+    float: left;
+    height: 20px;
+    margin-top: 10px;
+    padding: 4px;
+    width: 130px;
+
+    p {
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 12px;
+      margin: 0;
+      padding-bottom: 4px;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 4px;
+    }
+
+  }
+
+}
+
+.compare-remove,
+.compare-remove2,
+.compare-remove3,
+.compare-remove4 {
+  left: 40px;
+  position: relative;
+  top: -5px;
+  z-index: 9999;
+}
+
+#compare-img1,
+#compare-img2,
+#compare-img3,
+#compare-img4 {
+  margin-top: -21px;
+}
+
+#compare-btn a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.leaflet-map-pane {
+  z-index: 0;
+}
+
+// spatial coverage popup
+.spatial-coverage.with-map-data:hover:after {
+  @include border-radius(5px);
+
+  background: rgba(0, 0, 0, .8);
+  color: #fff;
+  content: attr(data-bbox);
+  font-family: 'Lucida Console', Monospace;
+  padding: 5px 15px;
+  position: absolute;
+  white-space: pre;
+  width: 231px;
+  z-index: 9999;
+}
+
+.no-spatial-data-overlay {
+  color: #777;
+  cursor: default;
+  font-size: 16px;
+  line-height: 1em;
+  position: absolute;
+  text-align: center;
+  top: 60px;
+  width: 160px;
+}
+
+.map-without-data {
+  @include opacity(.45);
+}

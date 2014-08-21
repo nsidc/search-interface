@@ -1,0 +1,34 @@
+#head-text {
+  @include text-shadow(3px 3px 5px rgba(0, 0, 0, .3));
+  color: rgb(45, 77, 186);
+  cursor: pointer;
+  float: left;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 26px;
+  line-height: 1.2em;
+  margin: 10px 95px 6px 15px;
+  text-decoration: none;
+  width: 107px;
+}
+
+.geospatialInputFieldsNsew #northInput {
+  clear: right;
+}
+
+.geospatialInputFieldsNsew #northInput,
+.geospatialInputFieldsNsew #southInput {
+  display: block;
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+.geospatialInputFieldsNsew #eastInput {
+  clear: right;
+}
+
+.geospatialInputFieldsNsew #westInput {
+  clear: left;
+  margin-left: 20px;
+  margin-right: 58px;
+  margin-top: 10px;
+}

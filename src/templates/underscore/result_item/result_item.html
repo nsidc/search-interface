@@ -1,0 +1,19 @@
+
+<div class="results-text clearfix">
+  <h4 class="dataset-title">
+    <% if (url) { %>
+    <a href="<%= url %>" target="_blank"><%= title %></a>
+    <% } else { %>
+    <%= title %> (No Link Available)
+    <% } %>
+  </h4>
+
+  <div class="dataset-metadata">
+    <div class="results-row spatial-coverage"></div>
+    <div class="results-row author"></div>
+    <div class="results-row temporal-coverage"></div>
+    <div class="results-row datacenter"></div>
+    <div class="results-row summary"></div>
+  </div>
+
+</div>

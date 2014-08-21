@@ -1,0 +1,32 @@
+@import 'config_common';
+
+$project: 'acadis';
+
+// global
+$body-color: #000;
+
+// header
+$combo-box-drop-down-border-radius: 0 $default-border-radius $default-border-radius 0;
+$combo-box-input-border-radius: $default-border-radius 0 0 $default-border-radius;
+
+$header-bg: no-repeat url(img('banner.jpg')) 167px 100px #fff;
+$header-bg-position: -25px -50px;
+
+$header-search-criteria-width: 867px;
+$header-search-criteria-margin: 15px 15px 0 0;
+$search-criteria-add-on-border-left-color: #ddd;
+$search-criteria-box-shadow: 1px 2px 1px rgba(15, 38, 76, .4);
+$search-criteria-input-border: 1px solid #7a99aa;
+
+$header-spatial-container-width: 400px;
+$header-spatial-container-margin: 15px 0 0 50px;
+$header-spatial-options-width: 350px;
+
+// width for keyword input box and the auto-suggest drop-down
+$header-keyword-container-width: 660px;
+$header-keyword-input-width: 620px;
+
+// the "Find Data Now" button
+$find-data-font-size: 12px;
+
+$facet-li-padding: 0;

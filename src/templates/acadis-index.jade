@@ -1,0 +1,40 @@
+extends index-layout
+
+block project-css
+  link(rel='canonical',href='http://www.nsidc.org/acadis/search/')
+  link(href='css/acadis-search.css',rel='stylesheet',type='text/css')
+
+block footer
+  #footerNSIDC.clearGroup
+    p.SmallTextGray
+      <a href="http://nsidc.org/about/contact.html">Contact Us</a> | <a href="http://nsidc.org/privacy.html">Privacy Policy</a> | <a href="http://nsidc.org/about/use_copyright.html">Use &amp; Copyright</a> | <code>#{version}</code> | Caribou image courtesy of Andrew Slater, NSIDC | Map Images &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors
+    p.footerTitleTextNSIDC Advanced Cooperative Arctic Data &amp; Information Service
+    p.SmallTextGray
+      | A joint effort by<br>
+      | <a href="http://nsidc.org"><img src="images/nsidc-logo.png" width="30" height="30" alt="NSIDC logo" class="partner-logo">National Snow and Ice Data Center</a>, <a href="http://www2.ucar.edu/"><img src="images/ucar-logo.png" alt="UCAR logo" width="30" height="30" class="partner-logo">University Corporation for Atmospheric Research</a>, <a href="http://www.unidata.ucar.edu/"><img src="images/unidata-logo.png" alt="Unidata logo" width="30" height="30" class="partner-logo">UNIDATA</a>, and <a href="http://ncar.ucar.edu/"><img src="images/ncar-logo.png" alt="NCAR logo" width="30" height="30" class="partner-logo">National Center for Atmospheric Research</a>
+    #footerElement
+      p.SmallTextGray
+        | <em>Sponsored by the National Science Foundation</em><br />
+        | <a href="http://www.colorado.edu/" title="University of Colorado Boulder"></a><a href="http://www.nsf.gov/" title="University of Colorado Boulder"><img alt="University of Colorado Boulder" src="images/NSF_Logo-40.png"></a>
+  script(type='text/javascript', src='http://assets.zendesk.com/external/zenbox/v2.5/zenbox.js')
+  style(type='text/css', media='screen, projection')
+    @import url(//assets.zendesk.com/external/zenbox/v2.5/zenbox.css);
+  style(type='text/css', media='screen, projection')
+    #zenbox_tab {
+      border-radius: 5px;
+    }
+    #zenbox_tab #feedback_tab_text {
+      font-size: 1em;
+    }
+  script(type='text/javascript')
+    $(document).ready(function () {
+      if (typeof(Zenbox) !== "undefined") {
+        Zenbox.init({
+          dropboxID: "20123172",
+          url: "https://nsidc.zendesk.com",
+          tabID: "ASK US",
+          tabColor: "#1A4C79",
+          tabPosition: "Left"
+        });
+      }
+    });

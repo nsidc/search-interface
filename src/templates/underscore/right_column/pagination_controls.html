@@ -1,0 +1,27 @@
+<% if (currentPage === 1) { %>
+  <span><i class="icon-chevron-left disabled"></i></span>
+<% } else { %>
+  <span><a class="prev" title="Go to previous page"><i class="icon-chevron-left"></i></a></span>
+<% } %>
+
+<span><a class="page_selector" title="Go to page 1">1</a></span>
+
+<% if (showPreviousEllipsis) { %>
+  <span>...</span>
+<% } %>
+
+<% for (page = firstMiddlePage; page <= lastMiddlePage; page++) { %>
+  <span><a class="page_selector" title="Go to page <%= page %>"><%= page %></a></span>
+<% } %>
+
+<% if (showNextEllipsis) { %>
+  <span>...</span>
+<% } %>
+
+<span><a class="page_selector" title="Go to page <%= lastPage %>"><%= lastPage %></a></span>
+
+<% if (currentPage === lastPage) { %>
+  <span><i class="icon-chevron-right disabled"></i></span>
+<% } else { %>
+  <span><a class="next" title="Go to next page"><i class="icon-chevron-right"></i></a></span>
+<% } %>

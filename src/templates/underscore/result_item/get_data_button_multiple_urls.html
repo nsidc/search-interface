@@ -1,0 +1,14 @@
+<button type="button" class="btn access-data dropdown-toggle blue-shade" data-toggle="dropdown"><%= get_data_title %><span class="caret"></span></button>
+<div class="dropdown-menu pull-right get-data-menu" role="menu">
+  <div class="getdata-icon"><i class="icon-info-sign"></i></div>
+  <div class="getdata-toggle">
+  </div>
+  <table class="getdata-values">
+    <% _.each(links, function(link) { %>
+    <tr class="getdata-value" get-data-link="<%= link.href %>">
+      <td class="getdata-title"><%= link.title %></td>
+      <td class="getdata-description hidden"><%= link.description %></td>
+    </tr>
+    <% }); %>
+  </table>
+</div>

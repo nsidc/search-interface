@@ -1,0 +1,11 @@
+* Jasmine runner in Grunt - need to fix the require runner - submit pull request
+* Add cleanup methods to the backbone views and models
+* SearchTerms could stand some refactoring
+* CoffeeScript-up the test files
+* Clean up the OpenSearch handling
+  * Use the JSON data structures as inputs to pure functions
+  * Wrap the OpenSearchlight response to more directly JSON-ify it
+    - JSONResults should be way more lightweight - just a JSON representation of the data
+    - perhaps push that out into OSL?
+* improve management of src/contrib with something like Bower
+* minify src/contrib to further reduce the size of the app and number of HTTP requests that are made

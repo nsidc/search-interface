@@ -1,0 +1,71 @@
+define(
+  [
+    'views/HomePageView',
+    'views/NullView',
+    'lib/Mediator',
+    'lib/objectFactory'
+  ],
+  function (HomePageView, NullView, Mediator, objectFactory) {
+
+    describe('HomePageView', function () {
+      var homePageView, mediator;
+
+      objectFactory.register('LiveDataCentersView', {
+        Ctor: NullView
+      });
+
+      beforeEach(function () {
+        homePageView = new HomePageView({templateId: 'ACADIS'});
+        homePageView.render();
+
+      });
+
+      describe('mediated event handling', function () {
+
+        beforeEach(function () {
+          mediator = new Mediator();
+          homePageView.setMediator(mediator);
+        });
+
+        it('is bound to the app:home event', function () {
+          sinon.stub(homePageView, 'onAppHome');
+          homePageView.bindEvents();
+
+          mediator.trigger('app:home');
+          expect(homePageView.onAppHome).toHaveBeenCalled();
+        });
+
+        it('is hidden when a search is intiated', function () {
+          mediator.trigger('search:initiated');
+          expect(homePageView.$el).toHaveClass('hidden');
+        });
+
+        it('triggers a search when an example term is selected', function () {
+          mediator = new Mediator();
+          sinon.stub(mediator, 'trigger');
+          homePageView.setMediator(mediator);
+          var event = {
+            target: {
+              text: 'sea ice'
+            }
+          };
+
+          homePageView.onClickExampleTerm(event);
+
+          expect(mediator.trigger).toHaveBeenCalledWith('search:example');
+        });
+
+      });
+
+      it('is visible after the app:home event', function () {
+        homePageView.hide();
+        homePageView.onAppHome();
+        expect(homePageView.$el).not.toHaveClass('hidden');
+      });
+
+      it('displays some info about the ADE', function () {
+        expect(homePageView.$el.text()).toContain('Search currently includes');
+      });
+
+    });
+  });

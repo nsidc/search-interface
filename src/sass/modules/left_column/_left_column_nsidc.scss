@@ -1,0 +1,56 @@
+// rules for NSIDC-only selectors go here
+
+#facets {
+
+  .facet {
+    @include inline-block(none);
+
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+    width: 100%;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  h3 {
+    color: #444;
+    font-family: $default-font-family;
+    font-size: 1.1em;
+    font-weight: bold;
+    width: 100%;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  ul.with-scrolling {
+    max-height: 180px;
+    overflow-y: scroll;
+
+    li {
+      padding-right: 0;
+    }
+  }
+
+  input.facet-filter {
+    @include box-shadow($search-criteria-box-shadow);
+
+    border: $search-criteria-input-border;
+    left: 10px;
+    margin-bottom: 7px;
+    position: relative;
+    width: 140px;
+  }
+
+}
+
+.facet_clear_link {
+  cursor: pointer;
+  display: inline;
+  float: right;
+  font-size: .8em;
+  padding-top: 3px;
+}

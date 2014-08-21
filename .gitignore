@@ -1,0 +1,26 @@
+.project
+root.dir
+local_config.yaml
+.DS_Store
+.idea
+*.iml
+.floo
+.sublime-project
+
+/src/test/acadis-search.iml
+
+# /
+/build
+/tmp
+/node_modules
+/.grunt/
+/_SpecRunner.html
+/.sass-cache/
+/src/css
+/src/index*.html
+# /src/contrib/
+
+\#*\#
+\.\#*
+*~
+.rake_t_cache

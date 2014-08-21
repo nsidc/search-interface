@@ -1,0 +1,3 @@
+linters:
+  CapitalizationInSelector:
+    enabled: false

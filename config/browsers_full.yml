@@ -1,0 +1,19 @@
+:browsers: 
+- :os: Windows 7
+  :name: firefox
+  :version: "23"
+- :os: Windows 7
+  :name: chrome
+  :version: ""
+- :os: Windows XP
+  :name: internet_explorer
+  :version: "8"
+- :os: Windows 7
+  :name: internet_explorer
+  :version: "9"
+- :os: Windows 8
+  :name: internet_explorer
+  :version: "10"
+- :os: Mac 10.6
+  :name: safari
+  :version: "5"

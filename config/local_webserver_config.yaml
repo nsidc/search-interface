@@ -1,0 +1,176 @@
+webserver:
+  local:
+    port: 8081
+    mount_dirs:
+      # project root
+      - server_path: /
+        file_path: ./src/
+
+      # paths for requirejs that the optimizer handles for the deployment builds
+      - server_path: /scripts/conf/
+        file_path: ./src/conf/
+
+      - server_path: /scripts/appConfig.js
+        file_path: ./src/conf/appConfig.js
+
+      - server_path: /scripts/iocConfig.js
+        file_path: ./src/conf/iocConfig.js
+
+      - server_path: /scripts/templates/
+        file_path: ./src/templates/underscore
+
+      - server_path: /scripts/vendor/
+        file_path: ./src/vendor/
+
+      # mock search responses instead of hitting the actual services
+      - server_path: /api/dataset/2/OpenSearchDescription
+        file_path: ./src/test/sample_data/nsidc_osdd.xml
+
+      - server_path: /api/dataset/2/OpenSearch
+        file_path: ./src/test/sample_data/nsidc_opensearch_response.xml
+
+      - server_path: /api/dataset/2/Facets
+        file_path: ./src/test/sample_data/nsidc_facets_response.xml
+
+      ### paths for /data/search; the paths all need to be set here because of
+      ### the unusual index.html path, allowing us to run both ADE and NSIDC
+      ### search portals at once
+      - server_path: /data/search/
+        file_path: ./src/index-nsidc.html
+
+      - server_path: /data/search/contrib/
+        file_path: ./src/contrib/
+
+      - server_path: /data/search/css/
+        file_path: ./src/css/
+
+      - server_path: /data/search/images/
+        file_path: ./src/images/
+
+      - server_path: /data/search/sass/
+        file_path: ./src/sass/
+
+      - server_path: /data/search/scripts/
+        file_path: ./src/scripts/
+
+      - server_path: /data/search/scripts/conf/
+        file_path: ./src/conf/
+
+      - server_path: /data/search/scripts/appConfig.js
+        file_path: ./src/conf/appConfig.js
+
+      - server_path: /data/search/scripts/iocConfig.js
+        file_path: ./src/conf/iocConfig.js
+
+      - server_path: /data/search/scripts/templates/
+        file_path: ./src/templates/underscore
+
+      - server_path: /data/search/scripts/vendor/
+        file_path: ./src/vendor/
+
+      ### paths for /acadis/search; the paths all need to be set here because of
+      ### the unusual index.html path, allowing us to run both ADE and NSIDC
+      ### search portals at once
+      - server_path: /acadis/search/
+        file_path: ./src/index-acadis.html
+
+      - server_path: /acadis/search/contrib/
+        file_path: ./src/contrib/
+
+      - server_path: /acadis/search/css/
+        file_path: ./src/css/
+
+      - server_path: /acadis/search/images/
+        file_path: ./src/images/
+
+      - server_path: /acadis/search/sass/
+        file_path: ./src/sass/
+
+      - server_path: /acadis/search/scripts/
+        file_path: ./src/scripts/
+
+      - server_path: /acadis/search/scripts/conf/
+        file_path: ./src/conf/
+
+      - server_path: /acadis/search/scripts/appConfig.js
+        file_path: ./src/conf/appConfig.js
+
+      - server_path: /acadis/search/scripts/iocConfig.js
+        file_path: ./src/conf/iocConfig.js
+
+      - server_path: /acadis/search/scripts/templates/
+        file_path: ./src/templates/underscore
+
+      - server_path: /acadis/search/scripts/vendor/
+        file_path: ./src/vendor/
+
+    search_proxies:
+
+      - remote_host: localhost
+        port: 3000
+        path: /OpenSearchDescription
+        server_path: /api/dataset/2/OpenSearchDescription
+        content_type: 'application/opensearchdescription+xml'
+        enabled: true
+
+      - remote_host: localhost
+        port: 3000
+        path: /OpenSearch
+        server_path: /api/dataset/2/OpenSearch
+        content_type: 'application/atom+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: localhost
+        port: 3000
+        path: /Facets
+        server_path: /api/dataset/2/Facets
+        content_type: 'application/nsidc:facets+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: localhost
+        port: 3000
+        path: /suggest
+        server_path: /api/dataset/2/suggest
+        content_type: 'application/x-suggestions+json; charset=UTF-8'
+        enabled: true
+
+      - remote_host: localhost
+        port: 1580
+        path: /dateRange
+        server_path: /api/dataset/metadata/dateRange
+        content_type: 'application/json; charset=UTF-8'
+        enabled: true
+
+    remote_proxies:
+
+      - remote_host: brash.colorado.edu
+        port: 10680
+        path: /api/dataset/2/OpenSearchDescription
+        server_path: /api/dataset/2/OpenSearchDescription
+        content_type: 'application/opensearchdescription+xml'
+        enabled: true
+
+      - remote_host: brash.colorado.edu
+        port: 10680
+        path: /api/dataset/2/OpenSearch
+        server_path: /api/dataset/2/OpenSearch
+        content_type: 'application/atom+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: brash.colorado.edu
+        port: 10680
+        path: /api/dataset/2/Facets
+        server_path: /api/dataset/2/Facets
+        content_type: 'application/nsidc:facets+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: brash.colorado.edu
+        port: 10680
+        path: /api/dataset/2/suggest
+        server_path: /api/dataset/2/suggest
+        content_type: 'application/x-suggestions+json; charset=UTF-8'
+        enabled: true
+
+  ssi:
+    host: http://qa.nsidc.org
+    enabled: true

@@ -1,0 +1,10 @@
+extends index-layout
+
+block project-css
+  link(rel='canonical',href='http://www.nsidc.org/data/search/')
+  link(href='css/nsidc-search.css',rel='stylesheet',type='text/css')
+
+block footer
+  | <!--#include virtual="/ssi/nsidc_footer.ssi" -->
+  #footer-small-text
+    | #{title} v.#{version} | Map Images &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors

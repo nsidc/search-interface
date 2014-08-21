@@ -1,0 +1,51 @@
+// rules for selectors shared between the projects go here
+// different values for the different projects can be configured with variables
+
+$pagination-color: rgb(0, 102, 153);
+$pagination-color-disabled: #000;
+$pagination-color-hover: #83bce8;
+
+@mixin pagination-control($text-decoration) {
+  color: $pagination-color;
+  cursor: pointer;
+  text-decoration: $text-decoration;
+
+  &:hover {
+    color: $pagination-color-hover;
+  }
+}
+
+.results-footer {
+  border-top: $result-item-border;
+  float: left;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.pagination {
+  font-size: 16px;
+  margin: auto;
+  text-align: center;
+
+  .page_selector {
+    @include pagination-control(underline);
+
+    &.current-page {
+      color: $pagination-color-disabled;
+    }
+  }
+
+  i {
+    @include pagination-control(none);
+
+    &.disabled,
+    &.disabled:hover {
+      color: $pagination-color-disabled;
+    }
+  }
+
+  > span:not(:first-child) {
+    margin-left: 20px;
+  }
+
+}
