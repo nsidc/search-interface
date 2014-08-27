@@ -141,30 +141,60 @@ webserver:
         content_type: 'application/json; charset=UTF-8'
         enabled: true
 
-    remote_proxies:
+    integration_proxies:
 
-      - remote_host: brash.colorado.edu
+      - remote_host: integration.dss.apps.int.nsidc.org
         port: 10680
         path: /api/dataset/2/OpenSearchDescription
         server_path: /api/dataset/2/OpenSearchDescription
         content_type: 'application/opensearchdescription+xml'
         enabled: true
 
-      - remote_host: brash.colorado.edu
+      - remote_host: integration.dss.apps.int.nsidc.org
         port: 10680
         path: /api/dataset/2/OpenSearch
         server_path: /api/dataset/2/OpenSearch
         content_type: 'application/atom+xml; charset=UTF-8'
         enabled: true
 
-      - remote_host: brash.colorado.edu
+      - remote_host: integration.dss.apps.int.nsidc.org
         port: 10680
         path: /api/dataset/2/Facets
         server_path: /api/dataset/2/Facets
         content_type: 'application/nsidc:facets+xml; charset=UTF-8'
         enabled: true
 
-      - remote_host: brash.colorado.edu
+      - remote_host: integration.dss.apps.int.nsidc.org
+        port: 10680
+        path: /api/dataset/2/suggest
+        server_path: /api/dataset/2/suggest
+        content_type: 'application/x-suggestions+json; charset=UTF-8'
+        enabled: true
+
+    qa_proxies:
+
+      - remote_host: qa.dss.apps.int.nsidc.org
+        port: 10680
+        path: /api/dataset/2/OpenSearchDescription
+        server_path: /api/dataset/2/OpenSearchDescription
+        content_type: 'application/opensearchdescription+xml'
+        enabled: true
+
+      - remote_host: qa.dss.apps.int.nsidc.org
+        port: 10680
+        path: /api/dataset/2/OpenSearch
+        server_path: /api/dataset/2/OpenSearch
+        content_type: 'application/atom+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: qa.dss.apps.int.nsidc.org
+        port: 10680
+        path: /api/dataset/2/Facets
+        server_path: /api/dataset/2/Facets
+        content_type: 'application/nsidc:facets+xml; charset=UTF-8'
+        enabled: true
+
+      - remote_host: qa.dss.apps.int.nsidc.org
         port: 10680
         path: /api/dataset/2/suggest
         server_path: /api/dataset/2/suggest
