@@ -14,6 +14,7 @@ define(
         initialize: function () {
           this.mediatorBind('search:noResults', this.onNoResultsReturned, this);
           this.mediatorBind('search:initiated', this.onSearchInitiated, this);
+          this.mediatorBind('search:refinedSearch', this.onSearchInitiated, this);
           this.mediatorBind('search:displayPreviousResults', this.onDisplayPreviousResults, this);
           this.mediatorBind('app:home', this.onAppHome, this);
         },
