@@ -138,8 +138,10 @@ define([
       var numValues = 0;
 
       _.each(facets, function (facet) {
-        numValues += facet.values.length;
-      });
+        _.each(facet.values, function (value) {
+          numValues += parseInt(value.count, 10);
+        }, this);
+      }, this);
 
       return numValues;
     }

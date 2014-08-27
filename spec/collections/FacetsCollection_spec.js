@@ -120,6 +120,13 @@ define(['collections/FacetsCollection', 'lib/JSONFacets'],
             expect(fakeMediator.getCall(0).args[0]).toEqual('search:facetsReturned');
             expect(fakeMediator.getCall(1).args[0]).toEqual('search:refinedSearch');
           });
+
+          it('counts the facet values in the response', function () {
+            var json = new JSONFacets({facets: generateFakeFacets()});
+
+            expect(facetsCollection.countFacetValues(json.getFacets())).toBe(1475);
+          });
+
         });
       });
     });
