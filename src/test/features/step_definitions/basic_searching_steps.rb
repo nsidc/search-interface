@@ -56,3 +56,12 @@ end
 Then /^I should see text containing "(.*?)"$/ do |home_text|
   @search_page.home_page_text.include? home_text
 end
+
+When /I follow each link to a search faceted by data center/ do
+  @search_page.get_expected_data_center_counts
+  @search_page.search_expected_data_center_counts
+end
+
+Then /I should get the correct number of results for each data center/ do
+  @search_page.actual_data_center_counts.should == @search_page.expected_data_center_counts
+end

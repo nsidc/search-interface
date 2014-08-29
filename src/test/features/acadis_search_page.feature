@@ -33,3 +33,8 @@ Feature: Search Page Basics
     And I wait for the results to come back
     When I click the next page button
     Then the page number should be "2"
+
+  Scenario: Live Counts by Data Center on the Home Page
+    Given I open the search page expecting a home page
+    When I follow each link to a search faceted by data center
+    Then I should get the correct number of results for each data center
