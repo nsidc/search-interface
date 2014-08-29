@@ -109,7 +109,7 @@ define([],
             url: 'http://met.no'
           }, {
             shortName: 'NASA ECHO',
-            longName: 'NASA Earth Observing System (EOS) Clearing House',
+            longName: 'NASA Earth Observing System (EOS) Clearing House (ECHO)',
             url: 'https://earthdata.nasa.gov/echo'
           }, {
             shortName: 'ICES',
