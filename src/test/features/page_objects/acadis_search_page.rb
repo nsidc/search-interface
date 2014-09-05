@@ -22,7 +22,7 @@ class AcadisSearchPage
   end
 
   def wait_until_loading_is_complete
-    sleep 0.30
+    sleep 0.40
     @browser.div(:id => 'current-results').wait_until_present(@timeout)
   end
 
