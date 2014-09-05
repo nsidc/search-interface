@@ -22,7 +22,7 @@ class AcadisSearchPage
   end
 
   def wait_until_loading_is_complete
-    sleep 0.40
+    sleep 0.5
     @browser.div(:id => 'current-results').wait_until_present(@timeout)
   end
 
@@ -135,7 +135,7 @@ class AcadisSearchPage
 
   def reset_search
     @browser.button(:class => 'reset-search').click
-    sleep 0.25
+    sleep 0.5
     wait_until_home_page_is_visible
   end
 
