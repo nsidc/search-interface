@@ -121,14 +121,14 @@ class AcadisSearchPage
     @expected_data_center_counts.each do |center, count|
       li_id = "count-#{center.gsub(/[\s\.\/]/, '')}"
       @browser.element(:css => '#' + li_id + ' .count a').click
-      sleep 2
+      sleep 3
       wait_for_results
       @actual_data_center_counts[center] = total_results_count
 
       # extra pause time here; for some reason, results are rendered along with
       # the home page without the sleep command; cannot reproduce this
       # controlling the page manually
-      sleep 2.3
+      sleep 3
       reset_search
     end
   end
