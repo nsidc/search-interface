@@ -22,7 +22,7 @@ class AcadisSearchPage
   end
 
   def wait_until_loading_is_complete
-    sleep 0.5
+    sleep 0.25
     @browser.div(:id => 'current-results').wait_until_present(@timeout)
   end
 
@@ -128,14 +128,14 @@ class AcadisSearchPage
       # extra pause time here; for some reason, results are rendered along with
       # the home page without the sleep command; cannot reproduce this
       # controlling the page manually
-      sleep 3
+      sleep 2
       reset_search
     end
   end
 
   def reset_search
     @browser.button(:class => 'reset-search').click
-    sleep 0.5
+    sleep 0.25
     wait_until_home_page_is_visible
   end
 
