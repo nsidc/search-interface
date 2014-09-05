@@ -134,6 +134,7 @@ define(['lib/SearchTerms',
 
     bindEvents: function () {
       var parent = this;
+      this.mediatorBind('search:noResults', this.onSearchComplete, this);
       this.mediatorBind('search:complete', this.onSearchComplete, this);
       this.mediatorBind('search:cancel', this.onSearchCancel, this);
       this.mediatorBind('app:home', this.onAppHome, this);

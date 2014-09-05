@@ -378,6 +378,16 @@ requireMock.requireWithStubs(
           app.addCurrentUrlToNavigationHistory.restore();
         });
 
+        it('adds a url state when an empty set of results is received by the resultsCollection', function () {
+          sinon.stub(app, 'addCurrentUrlToNavigationHistory');
+
+          mediator.trigger('search:noResults');
+
+          expect(app.addCurrentUrlToNavigationHistory.callCount).toEqual(1);
+
+          app.addCurrentUrlToNavigationHistory.restore();
+        });
+
         it('uses the page number from the results collection', function () {
           sinon.stub(app, 'navigate');  // this is a Backbone.Router method
           sinon.stub(app.searchResults, 'getPageNumber').returns(7);
