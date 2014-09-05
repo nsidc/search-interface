@@ -128,7 +128,7 @@ class AcadisSearchPage
       # extra pause time here; for some reason, results are rendered along with
       # the home page without the sleep command; cannot reproduce this
       # controlling the page manually
-      sleep 2
+      sleep 2.3
       reset_search
     end
   end
