@@ -121,7 +121,7 @@ class AcadisSearchPage
     @expected_data_center_counts.each do |center, count|
       li_id = "count-#{center.gsub(/[\s\.\/]/, '')}"
       @browser.element(:css => '#' + li_id + ' .count a').click
-      sleep 1
+      sleep 2
       wait_for_results
       @actual_data_center_counts[center] = total_results_count
 
