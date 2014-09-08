@@ -121,6 +121,12 @@ define([
         this.mediatorTrigger('search:facetsReturned');
         this.mediatorTrigger('search:refinedSearch', model);
       }
+      else {
+        // Possible that data could come back with no facets.
+        // Instead of spinning the loading symbol forever, 
+        // go through normal search event workflow
+        this.mediatorTrigger('search:initiated', model);
+      }
     },
 
     onErrorResponse: function (errorXHR) {
