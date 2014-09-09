@@ -3,31 +3,30 @@ define(
    'vendor/requirejs/text!templates/result_item/nsidc_temporal_metadata.html'],
   function (acadisTemporalTemplate,
             nsidcTemporalTemplate) {
-
-    var template, TemporalMetadataView;
+    var TemporalMetadataView;
 
     // expose a constructor
     TemporalMetadataView = Backbone.View.extend({
 
-      initialize : function (options) {
-        this.options = options;
+      initialize: function (options) {
+        this.forceRender = options.forceRender;
+
+        if (options.spaced === true) {
+          this.template = _.template(acadisTemporalTemplate);
+        } else {
+          this.template = _.template(nsidcTemporalTemplate);
+        }
       },
 
-      render : function () {
+      render: function () {
+        var ranges = this.model.get('dateRanges');
 
-        var currentTemplate, range;
+        ranges = _.filter(ranges, function (range) {
+          return range.startDate && moment(range.startDate).isValid();
+        }, this);
 
-        if (this.options.spaced === true) {
-          currentTemplate = acadisTemporalTemplate;
-        } else {
-          currentTemplate = nsidcTemporalTemplate;
-        }
-
-        template = _.template(currentTemplate);
-
-        range = this.model.get('dateRanges');
-        if ((range && range.length > 0) || this.options.forceRender) {
-          this.$el.html(template({dateRanges: this.model.get('dateRanges')}));
+        if (ranges.length > 0 || this.forceRender) {
+          this.$el.html(this.template({dateRanges: ranges}));
         }
 
         return this;

@@ -54,7 +54,7 @@ define(
           }).render();
 
           new TemporalMetadataView(
-              {el: this.$el.find('.temporal-coverage'), model: this.model, forceRender: true}
+            {el: this.$el.find('.temporal-coverage'), model: this.model, forceRender: true}
           ).render();
 
           new ParametersView(

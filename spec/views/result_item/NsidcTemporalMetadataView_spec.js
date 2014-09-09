@@ -3,7 +3,8 @@ define(['views/result_item/NsidcTemporalMetadataView'], function (NsidcTemporalM
     describe('Rendering', function () {
       it('should display the words Temporal Coverage when given a temporal range', function () {
         var model, el, nsidcTemporalMetadataView;
-        model = new Backbone.Model({ dtstart: '2013-01-01', dtend: '2013-01-31' });
+        model = new Backbone.Model({dateRanges: [{ startDate: '2013-01-01', endDate: '2013-01-31' }]});
+
         el = document.createElement('div');
 
         nsidcTemporalMetadataView = new NsidcTemporalMetadataView({el: el, model: model, forceRender: true, spaced: false});
@@ -40,7 +41,7 @@ define(['views/result_item/NsidcTemporalMetadataView'], function (NsidcTemporalM
         expect($(el).find('span.dtend')).toHaveText('continuous');
       });
 
-      it('should display only the end date when start is empty', function () {
+      it('should not display any date when the start date is invalid', function () {
         var model, el, nsidcTemporalMetadataView;
         model = new Backbone.Model({dateRanges: [{ endDate: '2013-01-01' }]});
         el = document.createElement('div');
@@ -49,14 +50,14 @@ define(['views/result_item/NsidcTemporalMetadataView'], function (NsidcTemporalM
 
         nsidcTemporalMetadataView.render();
 
-        expect($(el).find('time.dtend')).toHaveText('2013-01-01');
         expect($(el).find('time.dtstart')).not.toExist();
+        expect($(el).find('time.dtend')).not.toExist();
       });
 
       it('nothing should be displayed when start and end dates are empty', function () {
         var model, el, nsidcTemporalMetadataView;
 
-        model = new Backbone.Model({dtstart: '', dtend: ''});
+        model = new Backbone.Model({dateRanges: [{startDate: '', endDate: ''}]});
         el = document.createElement('div');
 
         nsidcTemporalMetadataView = new NsidcTemporalMetadataView({el: el, model: model});
@@ -65,7 +66,6 @@ define(['views/result_item/NsidcTemporalMetadataView'], function (NsidcTemporalM
 
         expect($(el).find('time.dtstart')).not.toExist();
         expect($(el).find('time.dtend')).not.toExist();
-        expect($(el).find('span.dtend')).not.toExist('continuous');
       });
 
       it('should display the words Temporal Coverage without a temporal range', function () {
