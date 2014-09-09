@@ -127,6 +127,15 @@ define(['collections/FacetsCollection', 'lib/JSONFacets'],
             expect(facetsCollection.countFacetValues(json.getFacets())).toBe(1475);
           });
 
+          it('triggers a normal search after the first facet request from the url is complete with zero results', function () {
+            var facetFilters = { data_center: ['nsidc', 'cisl'] },
+                facets = [{id: 'dataCenters', name: 'Data Centers', values: []}],
+                json = new JSONFacets({facets: facets});
+
+            facetsCollection.onUrlParamsFacetsData(json, fakeSearchParamsModel, facetFilters);
+            expect(fakeMediator.callCount).toEqual(1);
+            expect(fakeMediator.getCall(0).args[0]).toEqual('search:initiated');
+          });
         });
       });
     });
