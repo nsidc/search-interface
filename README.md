@@ -260,3 +260,11 @@ Boulder, CO 80309-0449 USA
 
 Every file in this repository is covered by the GNU GPL Version 3; a copy of the
 license is included in the file COPYING.
+
+### Citation Information
+
+Andy Grauch, Brendan Billingsley, Chris Chalstrom, Danielle Harper, David Grant,
+Hannah Wilcox, Ian Truslove, Jonathan Kovarik, Kevin Beam, Luis Lopez, Matt
+Savoie, Miao Liu, Michael Brandt, Scott Lewis, Stuart Reed, Teri Hoyer (2013):
+Arctic Data Explorer Portal / NSIDC Search Portal. The National Snow and Ice
+Data Center. Software. http://ezid.cdlib.org/id/doi:10.7265/N55H7D75
