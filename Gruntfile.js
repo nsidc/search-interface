@@ -104,6 +104,7 @@ module.exports = function (grunt) {
       }
     },
 
+    /* jshint ignore:start */
     copy: {
       bower: {
         files: [
@@ -132,6 +133,7 @@ module.exports = function (grunt) {
         ]
       }
     },
+    /* jshint ignore:end */
 
     // after hooks are installed, they can still be ignored by passing the
     // option --no-verify
