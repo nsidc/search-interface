@@ -12,6 +12,7 @@ local_config.yaml
 # /
 /build
 /tmp
+/bower_components
 /node_modules
 /.grunt/
 /_SpecRunner.html

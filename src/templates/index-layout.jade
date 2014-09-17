@@ -5,50 +5,28 @@ html
     | <!--#include virtual="/ssi/styles.ssi" -->
     | <!--#include virtual="/ssi/secondary_styles.ssi" -->
     | <!--#include virtual="/ssi/scripts.ssi" -->
-    link(href='contrib/bootstrap/css/bootstrap.min.css',rel='stylesheet',type='text/css')
-    link(href='contrib/font-awesome/css/font-awesome.min.css',rel='stylesheet',type='text/css')
-    link(href='contrib/leaflet-0.7.2/leaflet.css',rel='stylesheet',type='text/css')
+    link(href='contrib/bootstrap/docs/assets/css/bootstrap.css',rel='stylesheet',type='text/css')
+    link(href='contrib/fontawesome/css/font-awesome.min.css',rel='stylesheet',type='text/css')
+    link(href='http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css',rel='stylesheet',type='text/css')
     link(href='contrib/bootstrap-datepicker/datepicker.css',rel='stylesheet',type='text/css')
-    link(href='contrib/tipsy/stylesheets/tipsy.css',rel='stylesheet',type='text/css')
+    link(href='contrib/tipsy/src/stylesheets/tipsy.css',rel='stylesheet',type='text/css')
     block project-css
 
-    // include a newer version of jQuery, this should just replace the older version
-    script(src="contrib/jquery/jquery-1.11.0.min.js")
-    script(src="contrib/openlayers-2.12/OpenLayers.js")
-    script(src="contrib/proj4js-1.1.0/proj4js-compressed.js")
-    script(src="contrib/underscore/underscore-min.js")
-    script(src="contrib/underscore/underscore.string.min.js")
-    script(src="contrib/backbone/backbone-min.js")
-    script(src="contrib/jquery-1.7.1/jquery-ui-message-1.5.37.min.js")
-    script(src="contrib/opensearchlight/OpenSearchlight.js")
-    script(src="contrib/momentjs/moment.min.js")
-    script(src="contrib/xregexp/xregexp-all-min.js")
-    script(src="contrib/bootstrap/js/bootstrap.min.js")
-    script(src="contrib/bootstrap-datepicker/bootstrap-datepicker.min.js")
-    script(src="contrib/leaflet-0.7.2/leaflet.js")
-    script(src="contrib/leaflet-dvf/leaflet-dvf.min.js")
-    script(src="contrib/typeahead/typeahead.bundle.min.js")
-    script(src="contrib/tipsy/javascripts/jquery.tipsy.js")
-    script(src="https://bitbucket.org/nsidc/ie-warn/raw/master/build/ie-warn-latest.min.js")
-
-    script(src="contrib/websocketjs/swfobject.js")
-    script(src="contrib/websocketjs/web_socket.js")
-    include /../contrib/websocketjs/webflash.htm
-
     script(type='text/javascript')
-      // extend underscore with underscore.string
-      _.mixin(_.str.exports());
-
       var nsidc = nsidc || {};
       WEB_SOCKET_SWF_LOCATION = "contrib/websocketjs/WebSocketMain.swf";
       nsidc.project = "#{project}";
       nsidc.environment = "#{environment}";
 
-    script(data-main="scripts/main",src='contrib/requirejs/requirejs-min.js')
   body
+    object(width='0',height='0')
+      embed(src='contrib/web-socket-js/WebSocketMain.swf',width='0',height='0')
+
     #wrapper
       | <!--#include virtual="/ssi/nsidc.ssi" -->
       #container.container
         #main-content
         block footer
       #view-template-script-container
+
+    script(data-main="scripts/main",src='contrib/requirejs/require.js')
