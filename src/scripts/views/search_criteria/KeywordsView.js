@@ -1,10 +1,9 @@
 define(
-  ['bloodhound',
-   'lib/SearchTerms',
+  ['lib/SearchTerms',
    'views/InputViewBase',
    'lib/mediator_mixin',
    'vendor/requirejs/text!templates/search_criteria/keywords.html'],
-  function (Bloodhound, SearchTerms, InputViewBase, mediatorMixin, keywordsTemplate) {
+  function (SearchTerms, InputViewBase, mediatorMixin, keywordsTemplate) {
     var KeywordsView;
 
     KeywordsView = InputViewBase.extend({

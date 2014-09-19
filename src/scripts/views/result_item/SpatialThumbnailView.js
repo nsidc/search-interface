@@ -1,4 +1,4 @@
-define(['leaflet'], function (L) {
+define([], function () {
   var SpatialThumbnailView, addLayer, calculateWeight,
       bboxSettings, mapSettings;
 

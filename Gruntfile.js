@@ -63,10 +63,6 @@ module.exports = function (grunt) {
 
       tmp: ['tmp/'],
 
-      bower: ['bower_components/'],
-
-      contrib: ['src/contrib/'],
-
       // requirejs optimizer copies in conf/, templates/, scripts/collections,
       // scripts/lib, scripts/models, and scripts/views, but that is all
       // contained in main.js anyway
@@ -236,22 +232,22 @@ module.exports = function (grunt) {
           vendor: [
             'src/contrib/underscore/underscore-min.js',
             'src/contrib/underscore/underscore.string.min.js',
-            'src/contrib/jquery/jquery.min.js',
-            'src/contrib/jquery/jquery.ui.message.min.js',
+            'src/contrib/jquery/jquery-1.11.0.min.js',
+            'src/contrib/jquery-1.7.1/jquery-ui-message-1.5.37.min.js',
             'src/contrib/backbone/backbone-min.js',
-            'src/contrib/bootstrap/bootstrap.min.js',
-            'src/contrib/bootstrap-datepicker/bootstrap-datepicker.js',
+            'src/contrib/bootstrap/js/bootstrap.min.js',
+            'src/contrib/bootstrap-datepicker/bootstrap-datepicker.min.js',
             'src/contrib/momentjs/moment.min.js',
-            'src/contrib/proj4/dist/proj4js.js',
-            'src/contrib/openlayers/OpenLayers.js',
+            'src/contrib/proj4js-1.1.0/proj4js-compressed.js',
+            'src/contrib/openlayers-2.12/OpenLayers.debug.js',
             'src/contrib/opensearchlight/OpenSearchlight.js',
             'src/contrib/xregexp/xregexp-all-min.js',
-            'src/contrib/tipsy/src/javascripts/jquery.tipsy.js',
-            'src/contrib/typeaheadjs/dist/typeahead.bundle.min.js',
-            'spec/require_mocking.js',
-            'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-            'node_modules/jasmine-sinon/lib/jasmine-sinon.js',
-            'node_modules/sinon/pkg/sinon-1.6.0.js'
+            'src/contrib/sinon/sinon-1.6.0.js',
+            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
+            'src/contrib/jasmine-jquery-1.4.2/jasmine-jquery-1.4.2.js',
+            'src/contrib/jasmine-sinon/jasmine-sinon.js',
+            'src/contrib/typeahead/typeahead.bundle.min.js',
+            'src/scripts/lib/require_mocking.js'
           ]
         }
       }
@@ -308,15 +304,6 @@ module.exports = function (grunt) {
       }
     },
 
-    shell: {
-      bower: {
-        command: 'bower install'
-      },
-      'compile-openlayers': {
-        command: 'cd bower_components/openlayers/build/; ./build.py'
-      }
-    },
-
     watch: {
       'build-acadis': {
         files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
@@ -357,7 +344,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -366,22 +352,16 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-scss-lint');
-  grunt.loadNpmTasks('grunt-shell');
 
   // build tasks for local development; note that both projects are built
   //
   // both build tasks allow NSIDC Search to be mounted at /data/search/ and
   // ADE to be mounted at /acadis/search/ on your localhost
   //
-  // build:acadis-dev allows ADE to be mounted at /
   // build:nsidc-dev allows NSIDC Search to be mounted at /
+  // build:acadis-dev allows ADE to be mounted at /
   grunt.registerTask('build:acadis-dev', ['clean:dev', 'jade:nsidc-dev', 'jade:acadis-dev', 'sass:dev']);
   grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
-
-  // dependency management
-  // install:dependencies will pull bower packages and copy dependencies to src/contrib/
-  grunt.registerTask('install:dependencies', ['clean:bower', 'clean:contrib', 'bower:install', 'shell:compile-openlayers', 'copy:bower']);
-  grunt.registerTask('bower:install', ['shell:bower']);
 
   // build tasks for deployment
   grunt.registerTask('build:acadis', ['clean:tmp', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);

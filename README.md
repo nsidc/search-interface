@@ -46,9 +46,6 @@ from `src/conf/`.
 
 ### Running the app locally
 
-Install app dependencies with `grunt install:bower` to pull down dependencies
-and copy necessary libraries into src/contrib.
-
 Run `grunt build:nsidc-dev` or `grunt build:acadis-dev` to generate the
 appropriate `src/index.html` file (as well as css files), then
 `./run_local_webserver` and open your browser to http://localhost:8081.
