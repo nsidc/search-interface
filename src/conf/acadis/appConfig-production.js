@@ -115,6 +115,14 @@ define([],
             shortName: 'ICES',
             longName: 'International Council for the Exploration of the Sea',
             url: 'http://ecosystemdata.ices.dk '
+          }, {
+            shortName: 'ScienceBase',
+            longName: 'U.S. Geological Survey ScienceBase',
+            url: 'https://www.sciencebase.gov/catalog/'
+          }, {
+            shortName: 'BCO-DMO',
+            longName: 'Biological and Chemical Oceanography Data Management Office',
+            url: 'http://bco-dmo.org'
           }
         ]
 
