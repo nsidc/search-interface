@@ -116,7 +116,7 @@ define([],
             longName: 'International Council for the Exploration of the Sea',
             url: 'http://ecosystemdata.ices.dk '
           }, {
-            shortName: 'ScienceBase',
+            shortName: 'USGS ScienceBase',
             longName: 'U.S. Geological Survey ScienceBase',
             url: 'https://www.sciencebase.gov/catalog/'
           }, {
