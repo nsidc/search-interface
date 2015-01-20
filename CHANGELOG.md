@@ -1,3 +1,14 @@
+## Unreleased
+
+- Project source converted to use
+  [vagrant-nsidc-plugin](https://bitbucket.org/nsidc/vagrant-nsidc-plugin) and
+  [puppet-nsidc-jenkins](https://bitbucket.org/nsidc/puppet-nsidc-jenkins/) for
+  CI setup. (VGTNSIDC-161)
+
+Changelog information for previous versions may be incomplete. See the
+[Production Change Tracker](https://nsidc.org/jira/issues/?jql=project%20%3D%20PCT%20AND%20text%20~%20%22search%22)
+for more information.
+
 ## 1.7.0
 - A reset link has been added next to the search button to reset the users search. (new for NSIDC, functions differently than ADE reset link)
 - Facet bookmarking works with special character facets.
