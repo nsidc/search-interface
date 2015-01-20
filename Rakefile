@@ -80,15 +80,17 @@ Cucumber::Rake::Task.new(:'run_browser_tests' => 'prepare')  do |t|
   t.cucumber_opts = "--tags @#{@product_name}"
 end
 
-
-def artifact_id
-  "#{@product_name}_search_#{@version_id}"
-end
-
+# in task :prepare
 def tarball_staging_dir
   "#{BUILD_DIR}/#{artifact_id}"
 end
 
+# in method tarball_staging_dir
+def artifact_id
+  "#{@product_name}_search_#{@version_id}"
+end
+
+# in task :prepare
 def generate_version_id
   version_string = JSON.parse( File.open("package.json") { |f| f.read } )["version"]
 
