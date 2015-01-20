@@ -12,12 +12,7 @@ mod "nsidc/nsidc_jenkins",
 mod 'nsidc/nginx',
   :git => 'git@bitbucket.org:nsidc/puppet-nginx.git'
 
+mod 'p0deje/firefox'
 mod 'puppetlabs/apt'
 mod 'puppetlabs/ruby'
-
 mod 'willdurand/nodejs'
-
-# Module for installing python and pip.
-# You may want to use this if using python's bumpversion
-# for doing your version bumping.
-# mod 'stankevich/python'

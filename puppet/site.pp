@@ -52,19 +52,23 @@ if $environment == 'ci' {
     target => "$node_path/grunt",
     require => Package['grunt-cli']
   }
+
+  # browser/ display stuff for running acceptance tests
+  class { 'firefox':
+    version => '27.0.1-0ubuntu1'
+  }
+  package { 'vnc4server': }
+  package { 'fluxbox': }
 }
 
 if $environment == 'integration' {
 
-  $application_root='/usr/share/nginx/portal/'
+  $hiera_project = hiera('project')
+
+  $application_root = "/opt/${hiera_project}"
 
   class { 'nginx' :
     gzip => 'off'
-  }
-
-  nginx::resource::vhost { 'localhost' :
-    www_root => '/usr/share/nginx/html',
-    ensure  =>  absent
   }
 
   nginx::resource::vhost { 'search' :
@@ -79,6 +83,12 @@ if $environment == 'integration' {
   nginx::resource::location { '/data/search' :
     location_alias => $application_root,
     vhost => 'search'
+  }
+
+  # remove default nginx config
+  nginx::resource::vhost { 'localhost' :
+    www_root => '/usr/share/nginx/html',
+    ensure  =>  absent
   }
 
   file { "/etc/nginx/conf.d/default.conf" :

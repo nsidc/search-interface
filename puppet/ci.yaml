@@ -23,6 +23,7 @@ nsidc_jenkins::plugins:
   mailer: {}
   instant-messaging: {}
   jabber: {}
+  xvnc: {}
 
 # Jenkins Jobs
 nsidc_jenkins::jobs:
@@ -71,7 +72,7 @@ nsidc_jenkins::jobs:
     command: |
       grunt --no-color jasmine
     workspace: /var/lib/jenkins/workspace
-    # trigger_job: "%{hiera('project')}_6_Deploy_to_Integration"
+    trigger_job: "%{hiera('project')}_6_Deploy_to_Integration"
 
   "%{hiera('project')}_6_Deploy_to_Integration":
     workspace: /var/lib/jenkins/workspace
@@ -83,7 +84,7 @@ nsidc_jenkins::jobs:
       git push origin refs/tags/%{hiera('project')}-integration
 
       rm -f .nsidc-project.yaml
-      VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
 
       export NSIDC_PLUGIN_LOG=debug
 
@@ -92,26 +93,37 @@ nsidc_jenkins::jobs:
       # cleanup and hijack (temporary hack needed)
       {
         rm -rf .vagrant-integration;
-        vagrant nsidc hijack --env=integration --domain=dev.int.nsidc.org --project=%{hiera('project')};
-        vagrant nsidc up --env=integration --provision --domain=dev.int.nsidc.org --project=%{hiera('project')};
+        vagrant nsidc hijack --env=integration --project=%{hiera('project')};
+        vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
       } || {
         # provision
-        vagrant nsidc up --env=integration --provision --domain=dev.int.nsidc.org --project=%{hiera('project')};
+        vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
       }
 
-      rm -f .nsidc-project.yaml
-      vagrant nsidc ssh --project=%{hiera('project')} --domain=dev.int.nsidc.org --env=integration -c "sudo mkdir -p /usr/share/nginx/; sudo rm -rf /usr/share/nginx/portal/; sudo cp -r /vagrant/tmp/ /usr/share/nginx/portal/"
-
-      index_html=/usr/share/nginx/portal/index.html
-
       # set the correct environment in index.html
+      index_html=/vagrant/tmp/index.html
       rm -f .nsidc-project.yaml
-      vagrant nsidc ssh --project=%{hiera('project')} --domain=dev.int.nsidc.org --env=integration -c "cat $index_html | grep nsidc.environment; sed -i \"s/nsidc.environment = \\\"vm\\\"/nsidc.environment = \\\"integration\\\"/g\" $index_html; cat $index_html | grep nsidc.environment"
+      vagrant nsidc ssh --project=%{hiera('project')} --env=integration -c "cat $index_html | grep nsidc.environment; sed -i \"s/nsidc.environment = \\\"vm\\\"/nsidc.environment = \\\"integration\\\"/g\" $index_html; cat $index_html | grep nsidc.environment"
+
+      # copy app to deployment directory
+      rm -f .nsidc-project.yaml
+      vagrant nsidc ssh --project=%{hiera('project')} --env=integration -c "sudo rm -rf /opt/%{hiera('project')}; sudo cp -r /vagrant/tmp/ /opt/%{hiera('project')}"
     workspace: /var/lib/jenkins/workspace
     trigger_job: "%{hiera('project')}_7_Run_Acceptance_Tests"
 
   "%{hiera('project')}_7_Run_Acceptance_Tests":
-    command:
+    parameters:
+      - type: choice
+        name: ENVIRONMENT
+        description: env to run acceptance tests against
+        choices:
+          - integration
+          - qa
+          - staging
+    wrappers:
+      - name: xvnc
+    command: |
+      bundle exec rake clean run_browser_tests URL=http://$ENVIRONMENT.nsidc.org/acadis/search
     workspace: /var/lib/jenkins/workspace
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
