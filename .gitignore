@@ -18,7 +18,9 @@ local_config.yaml
 /.sass-cache/
 /src/css
 /src/index*.html
-# /src/contrib/
+/.bundle/
+/vendor/
+/.Xauthority*
 
 \#*\#
 \.\#*
