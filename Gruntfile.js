@@ -300,6 +300,7 @@ module.exports = function (grunt) {
     scsslint: {
       all: runFiles.scsslint,
       options: {
+        bundleExec: true,
         config: 'config/scss-lint.yml'
       }
     },

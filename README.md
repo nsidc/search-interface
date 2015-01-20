@@ -2,6 +2,21 @@
 
 An Opensearch-based single page search interface
 
+### OPS Configuration Information
+
+    The portal is a javascript app being served via nginx
+    (http://wiki.nginx.org/Main)
+
+    nginx configuration files are located at /etc/nginx
+    nginx is running as a service, and can be stopped/started/etc using the
+    system "service" command, e.g., "service nginx restart"
+
+    The portal code is being served from /usr/shar/nginx/portal/, which is where
+    the artifact deploys when the VM is provisioned.
+
+    nginx writes logfiles by default to /var/log/nginx, all logs should be in
+    this folder.
+
 ### Prerequisites:
 
 * [RVM](https://rvm.io/rvm/install/)
