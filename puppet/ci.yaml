@@ -123,7 +123,15 @@ nsidc_jenkins::jobs:
     wrappers:
       - name: xvnc
     command: |
-      bundle exec rake clean run_browser_tests URL=http://$ENVIRONMENT.nsidc.org/acadis/search
+      project=%{hiera('project')}
+
+      if [ "$project" == "ade_search" ]; then
+        url_part=acadis
+      elif [ "$project" == "nsidc_search" ]; then
+        url_part=data
+      fi
+
+      bundle exec rake run_browser_tests URL=http://$ENVIRONMENT.nsidc.org/$url_part/search
     workspace: /var/lib/jenkins/workspace
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
