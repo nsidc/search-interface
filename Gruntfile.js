@@ -367,6 +367,8 @@ module.exports = function (grunt) {
   // build tasks for deployment
   grunt.registerTask('build:acadis', ['clean:tmp', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
   grunt.registerTask('build:nsidc', ['clean:tmp', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:ade_search', 'build:acadis');
+  grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
   grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
