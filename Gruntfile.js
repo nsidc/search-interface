@@ -308,14 +308,14 @@ module.exports = function (grunt) {
     // --url=URL - web page to test against, i.e.,
     //     http://integration.nsidc.org/data/search
     //
-    // --tag=PROJECT - the project name to use for cucumber tags, must be
-    //     'ade_search' or 'nsidc_search'
+    // --tags=TAGS - tags for the features to run, must be 'ade_search' or
+    //     'nsidc_search'
     shell: {
       cucumber: {
         command: [
           'URL=<%= grunt.option("url") %>',
           'bundle exec cucumber spec/cucumber/features',
-          '--tags @<%= grunt.option("tag") %>',
+          '--tags @<%= grunt.option("tags") %>',
           '--format pretty',
           '-r spec/cucumber/features/support',
           '-r spec/cucumber/features/step_definitions',

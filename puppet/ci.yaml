@@ -124,7 +124,7 @@ nsidc_jenkins::jobs:
         url_part=data
       fi
 
-      grunt test:acceptance --url=http://$ENVIRONMENT.nsidc.org/$url_part/search --tag=$project
+      grunt test:acceptance --url=http://$ENVIRONMENT.nsidc.org/$url_part/search --tags=$project
     workspace: /var/lib/jenkins/workspace
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
