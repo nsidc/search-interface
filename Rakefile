@@ -1,5 +1,3 @@
-require 'ci/reporter/rake/rspec'
-require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 require 'fileutils'
 require 'parallel'
@@ -7,7 +5,6 @@ require 'yaml'
 require 'json'
 
 BUILD_DIR = 'build'
-ENV['CI_REPORTS'] = ENV['CI_REPORTS'] || 'build/log/spec'
 @log_dir = "#{BUILD_DIR}/log"
 @cucumber_test_log_dir = "#{@log_dir}/features"
 @product_name = ENV['PRODUCT'] || 'acadis'
