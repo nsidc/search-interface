@@ -1,4 +1,4 @@
-@nsidc
+@nsidc_search
 Feature: Search Page Basics
 
   Background:

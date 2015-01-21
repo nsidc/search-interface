@@ -124,7 +124,7 @@ nsidc_jenkins::jobs:
         url_part=data
       fi
 
-      bundle exec rake run_browser_tests URL=http://$ENVIRONMENT.nsidc.org/$url_part/search
+      grunt test:acceptance --url=http://$ENVIRONMENT.nsidc.org/$url_part/search --tag=$project
     workspace: /var/lib/jenkins/workspace
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":

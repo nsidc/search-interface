@@ -305,6 +305,22 @@ module.exports = function (grunt) {
       }
     },
 
+    // --url=URL - web page to test against, i.e.,
+    //     http://integration.nsidc.org/data/search
+    //
+    // --tag=PROJECT - the project name to use for cucumber tags, must be
+    //     'ade_search' or 'nsidc_search'
+    shell: {
+      cucumber: {
+        command: [
+          'URL=<%= grunt.option("url") %>',
+          'JUNIT_REPORT_DIR=tmp/log/feature',
+          'bundle exec cucumber',
+          '--tags @<%= grunt.option("tag") %>'
+        ].join(' ')
+      }
+    },
+
     watch: {
       'build-acadis': {
         files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
@@ -353,6 +369,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-scss-lint');
+  grunt.loadNpmTasks('grunt-shell');
 
   // build tasks for local development; note that both projects are built
   //
@@ -373,6 +390,8 @@ module.exports = function (grunt) {
   grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
+
+  grunt.registerTask('test:acceptance', ['shell:cucumber']);
 
   grunt.registerTask('default', ['lint-test']);
 
