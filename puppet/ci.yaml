@@ -100,7 +100,7 @@ nsidc_jenkins::jobs:
       }
 
       # copy app to deployment directory
-      vagrant nsidc ssh --project=%{hiera('project')} --env=integration -c "sudo rm -rf /opt/%{hiera('project')}; sudo cp -r /vagrant/tmp/ /opt/%{hiera('project')}"
+      grunt --no-color deploy --project=%{hiera('project')} --environment=integration
     workspace: /var/lib/jenkins/workspace
     trigger_job: "%{hiera('project')}_7_Run_Acceptance_Tests"
 

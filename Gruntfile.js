@@ -57,6 +57,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     environment: grunt.option('environment') || 'development',
+    project: grunt.option('project'),
 
     clean: {
       dev: ['src/index*.html', 'src/css/'],
@@ -302,12 +303,12 @@ module.exports = function (grunt) {
       }
     },
 
-    // --url=URL - web page to test against, i.e.,
-    //     http://integration.nsidc.org/data/search
-    //
-    // --tags=TAGS - tags for the features to run, must be 'ade_search' or
-    //     'nsidc_search'
     shell: {
+      // --url=URL - web page to test against, i.e.,
+      //     http://integration.nsidc.org/data/search
+      //
+      // --tags=TAGS - tags for the features to run, must be 'ade_search' or
+      //     'nsidc_search'
       cucumber: {
         command: [
           'URL=<%= grunt.option("url") %>',
@@ -317,6 +318,18 @@ module.exports = function (grunt) {
           '-r spec/cucumber/features/support',
           '-r spec/cucumber/features/step_definitions',
           '-r spec/cucumber/features/page_objects',
+        ].join(' ')
+      },
+
+      // --project=PROJECT - project name, must be 'ade_search' or
+      //     'nsidc_search'; build/ is deployed to /opt/$PROJECT
+      //
+      // --environment=ENV - environment being deployed, needed for the 'vagrant
+      //     nsidc ssh' command
+      deploy: {
+        command: [
+          'vagrant nsidc ssh --project=<%= project %> --env=<%= environment %>',
+          '-c "sudo rm -rf /opt/<%= project %>; sudo cp -r /vagrant/build/ /opt/<%= project %>"'
         ].join(' ')
       }
     },
