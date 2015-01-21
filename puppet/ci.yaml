@@ -78,28 +78,21 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspace
     command: |
       # update 'integration' tag
-      git tag -d %{hiera('project')}-integration || true
-      git push origin :refs/tags/%{hiera('project')}-integration
-      git tag %{hiera('project')}-integration
-      git push origin refs/tags/%{hiera('project')}-integration
+      git tag --force %{hiera('project')}-integration
+      git push --force origin refs/tags/%{hiera('project')}-integration
 
+      # set up environment to use correct vagrant-nsidc config
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
-
       export NSIDC_PLUGIN_LOG=debug
 
+      # compile jade and sass, minify js into build/
       grunt --no-color --environment=integration build:%{hiera('project')}
 
-      # cleanup and hijack (temporary hack needed)
-      {
-        rm -rf .vagrant-integration;
-        vagrant nsidc hijack --env=integration --project=%{hiera('project')};
-        vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
-      } || {
-        # provision
-        vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
-      }
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=integration --project=%{hiera('project')} || true
+      vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
 
-      # copy app to deployment directory
+      # deploy app from /vagrant to /opt/%{hiera('project')}
       grunt --no-color deploy --project=%{hiera('project')} --environment=integration
     workspace: /var/lib/jenkins/workspace
     trigger_job: "%{hiera('project')}_7_Run_Acceptance_Tests"
