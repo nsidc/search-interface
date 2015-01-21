@@ -1,19 +1,14 @@
 require 'cucumber/rake/task'
 require 'fileutils'
 
-BUILD_DIR = 'build'
-@log_dir = "#{BUILD_DIR}/log"
-@cucumber_test_log_dir = "#{@log_dir}/features"
-@product_name = ENV['PRODUCT'] || 'acadis'
+Cucumber::Rake::Task.new(:'run_browser_tests')  do |t|
+  cucumber_test_log_dir = File.join('tmp', 'log', 'feature')
 
-desc 'Setting up prerequisites for a build'
-task :prepare do
-  FileUtils.mkdir_p @cucumber_test_log_dir
-end
+  FileUtils.mkdir_p(cucumber_test_log_dir)
 
-desc 'Run acceptance tests with a local browser'
-Cucumber::Rake::Task.new(:'run_browser_tests' => 'prepare')  do |t|
-  ENV['SELENIUM_REPORT_FILENAME'] = ENV['SELENIUM_REPORT_FILENAME'] || "#{@cucumber_test_log_dir}/standalone"
-  ENV['JUNIT_REPORT_DIR'] = ENV['JUNIT_REPORT_DIR'] || @cucumber_test_log_dir
-  t.cucumber_opts = "--tags @#{@product_name}"
+  ENV['JUNIT_REPORT_DIR']         ||= cucumber_test_log_dir
+  ENV['SELENIUM_REPORT_FILENAME'] ||= File.join(cucumber_test_log_dir, 'standalone')
+
+  product_name = ENV['PRODUCT'] || 'acadis'
+  t.cucumber_opts = "--tags @#{product_name}"
 end
