@@ -12,14 +12,6 @@ if $environment == 'ci' {
     require         => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
   }
 
-  # Nokogiri dependencies
-  package {"libxml2-dev":
-    ensure => present
-  }
-  package {"libxslt-dev":
-    ensure => present
-  }
-
   # install npm, grunt
   include nodejs
 
