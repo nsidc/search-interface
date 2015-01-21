@@ -9,7 +9,7 @@ module.exports = function (grunt) {
   urlPath = {
     ade_search: '/acadis/search',
     nsidc_search: '/data/search'
-  },
+  };
 
   requirejsConf = {
     appDir: 'src/',
