@@ -88,7 +88,7 @@ nsidc_jenkins::jobs:
 
       export NSIDC_PLUGIN_LOG=debug
 
-      grunt --no-color build:%{hiera('project')}
+      grunt --no-color --environment=integration build:%{hiera('project')}
 
       # cleanup and hijack (temporary hack needed)
       {
@@ -99,11 +99,6 @@ nsidc_jenkins::jobs:
         # provision
         vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
       }
-
-      # set the correct environment in index.html
-      index_html=/vagrant/tmp/index.html
-      rm -f .nsidc-project.yaml
-      vagrant nsidc ssh --project=%{hiera('project')} --env=integration -c "cat $index_html | grep nsidc.environment; sed -i \"s/nsidc.environment = \\\"vm\\\"/nsidc.environment = \\\"integration\\\"/g\" $index_html; cat $index_html | grep nsidc.environment"
 
       # copy app to deployment directory
       rm -f .nsidc-project.yaml
