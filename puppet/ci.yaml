@@ -120,9 +120,9 @@ nsidc_jenkins::jobs:
     command: |
       project=%{hiera('project')}
 
-      if [ "$project" == "ade_search" ]; then
+      if [ "$project" = "ade_search" ]; then
         url_part=acadis
-      elif [ "$project" == "nsidc_search" ]; then
+      elif [ "$project" = "nsidc_search" ]; then
         url_part=data
       fi
 
