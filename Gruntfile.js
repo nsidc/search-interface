@@ -8,7 +8,7 @@ module.exports = function (grunt) {
   requirejsConf = {
     appDir: 'src/',
     baseUrl: 'scripts/',
-    dir: 'tmp/',
+    dir: 'build/',
     findNestedDependencies: true,
     generateSourceMaps: true,
     inlineText: true,
@@ -61,12 +61,12 @@ module.exports = function (grunt) {
     clean: {
       dev: ['src/index*.html', 'src/css/'],
 
-      tmp: ['tmp/'],
+      build: ['build/'],
 
       // requirejs optimizer copies in conf/, templates/, scripts/collections,
       // scripts/lib, scripts/models, and scripts/views, but that is all
       // contained in main.js anyway
-      'post-build': ['tmp/conf/', 'tmp/templates/', 'tmp/scripts/*', '!tmp/scripts/main.*']
+      'post-build': ['build/conf/', 'build/templates/', 'build/scripts/*', '!build/scripts/main.*']
     },
 
     connect: {
@@ -185,7 +185,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'tmp/index.html': ['src/templates/acadis-index.jade']
+          'build/index.html': ['src/templates/acadis-index.jade']
         }
       },
       nsidc: {
@@ -198,7 +198,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'tmp/index.html': ['src/templates/nsidc-index.jade']
+          'build/index.html': ['src/templates/nsidc-index.jade']
         }
       }
     },
@@ -208,9 +208,6 @@ module.exports = function (grunt) {
         src: [],
         options: {
           helpers: ['spec/specHelper.js'],
-          junit: {
-            path: 'tmp/log/spec/'
-          },
           keepRunner: true,
           specs: runFiles.specs,
           template: require('grunt-template-jasmine-requirejs'),
@@ -274,7 +271,7 @@ module.exports = function (grunt) {
     //
     // sass/ must have the same parent directory as css/ for sourcemaps to work;
     // when building for deployment, the requirejs optimizer first copies
-    // src/sass/ to tmp/sass
+    // src/sass/ to build/sass
     sass: {
       'dev': {
         files: {
@@ -285,13 +282,13 @@ module.exports = function (grunt) {
       },
       acadis: {
         files: {
-          'tmp/css/acadis-search.css': 'tmp/sass/acadis_main.scss'
+          'build/css/acadis-search.css': 'build/sass/acadis_main.scss'
         },
         options: sassConf
       },
       nsidc: {
         files: {
-          'tmp/css/nsidc-search.css': 'tmp/sass/nsidc_main.scss'
+          'build/css/nsidc-search.css': 'build/sass/nsidc_main.scss'
         },
         options: sassConf
       }
@@ -385,8 +382,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:acadis', ['clean:tmp', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
-  grunt.registerTask('build:nsidc', ['clean:tmp', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
+  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
   grunt.registerTask('build:ade_search', 'build:acadis');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
