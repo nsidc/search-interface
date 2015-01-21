@@ -59,6 +59,11 @@ if $environment == 'ci' {
   }
   package { 'vnc4server': }
   package { 'fluxbox': }
+  exec { 'vnc password':
+    command => '/bin/echo -e "password\npassword" | /usr/bin/vncpasswd',
+    require => [ Package['vnc4server'], Package['fluxbox'] ],
+    returns => [ 0, 1 ]
+  }
 }
 
 if $environment == 'integration' {
