@@ -98,26 +98,9 @@ nsidc_jenkins::jobs:
     trigger_job: "%{hiera('project')}_7_Run_Acceptance_Tests"
 
   "%{hiera('project')}_7_Run_Acceptance_Tests":
-    parameters:
-      - type: choice
-        name: ENVIRONMENT
-        description: env to run acceptance tests against
-        choices:
-          - integration
-          - qa
-          - staging
     wrappers:
       - name: xvnc
-    command: |
-      project=%{hiera('project')}
-
-      if [ "$project" = "ade_search" ]; then
-        url_part=acadis
-      elif [ "$project" = "nsidc_search" ]; then
-        url_part=data
-      fi
-
-      grunt test:acceptance --url=http://$ENVIRONMENT.nsidc.org/$url_part/search --tags=$project
+    command: grunt test:acceptance --environment=integration --project=%{hiera('project')}
     workspace: /var/lib/jenkins/workspace
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":

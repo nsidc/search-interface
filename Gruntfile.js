@@ -1,9 +1,15 @@
 module.exports = function (grunt) {
 
-  var requirejsConf,
+  var urlPath,
+      requirejsConf,
       runFiles,
       sassConf,
       watchFiles;
+
+  urlPath = {
+    ade_search: '/acadis/search',
+    nsidc_search: '/data/search'
+  },
 
   requirejsConf = {
     appDir: 'src/',
@@ -58,6 +64,7 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     environment: grunt.option('environment') || 'development',
     project: grunt.option('project'),
+    urlPath: urlPath[grunt.option('project')],
 
     clean: {
       dev: ['src/index*.html', 'src/css/'],
@@ -304,16 +311,14 @@ module.exports = function (grunt) {
     },
 
     shell: {
-      // --url=URL - web page to test against, i.e.,
-      //     http://integration.nsidc.org/data/search
+      // --environment - one of 'integration', 'qa', 'staging'
       //
-      // --tags=TAGS - tags for the features to run, must be 'ade_search' or
-      //     'nsidc_search'
+      // --project - 'ade_search' or 'nsidc_search'
       cucumber: {
         command: [
-          'URL=<%= grunt.option("url") %>',
+          'URL=http://<%= environment %>.nsidc.org/<%= urlPath %>',
           'bundle exec cucumber spec/cucumber/features',
-          '--tags @<%= grunt.option("tags") %>',
+          '--tags @<%= project %>',
           '--format pretty',
           '-r spec/cucumber/features/support',
           '-r spec/cucumber/features/step_definitions',
