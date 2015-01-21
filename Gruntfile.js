@@ -314,9 +314,12 @@ module.exports = function (grunt) {
       cucumber: {
         command: [
           'URL=<%= grunt.option("url") %>',
-          'JUNIT_REPORT_DIR=tmp/log/feature',
-          'bundle exec cucumber',
-          '--tags @<%= grunt.option("tag") %>'
+          'bundle exec cucumber spec/cucumber/features',
+          '--tags @<%= grunt.option("tag") %>',
+          '--format pretty',
+          '-r spec/cucumber/features/support',
+          '-r spec/cucumber/features/step_definitions',
+          '-r spec/cucumber/features/page_objects',
         ].join(' ')
       }
     },
