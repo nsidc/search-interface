@@ -1,38 +1,22 @@
-# Rakefile for arctic-data-explorer
-#
-# 2012-02-17
-# National Snow & Ice Data Center, University of Colorado, Boulder
-# Copyright (C) 2012 University of Colorado.
-
-require "rubygems"
-require "bundler/setup"
 require "ci/reporter/rake/rspec"
 require "rspec/core/rake_task"
 require 'cucumber/rake/task'
-require "rake/clean"
 require "fileutils"
 require 'parallel'
 require 'yaml'
 require 'json'
 
 BUILD_DIR = "build"
-
 ENV['CI_REPORTS'] = ENV['CI_REPORTS'] || 'build/log/spec'
-
 @log_dir = "#{BUILD_DIR}/log"
-@spec_test_log_dir = "#{@log_dir}/spec"
 @cucumber_test_log_dir = "#{@log_dir}/features"
 @product_name = ENV['PRODUCT'] || "acadis"
-
-CLOBBER.include(BUILD_DIR)
-CLEAN.include(@log_dir)
 
 desc "Setting up prerequisites for a build"
 task :prepare do
   @version_id = generate_version_id
 
   FileUtils.mkdir_p tarball_staging_dir, :mode => 0775
-  FileUtils.mkdir_p @spec_test_log_dir
   FileUtils.mkdir_p @cucumber_test_log_dir
 end
 
