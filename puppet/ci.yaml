@@ -158,13 +158,6 @@ nsidc_jenkins::jobs:
     command: |
       ENV=qa
       grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
-    trigger_job: "%{hiera('project')}_A07_QA_Run_Acceptance_Tests"
-
-  "%{hiera('project')}_B05_QA_Run_Acceptance_Tests":
-    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
-    wrappers:
-      - name: xvnc
-    command: grunt test:acceptance --environment=qa --project=%{hiera('project')}
 
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
