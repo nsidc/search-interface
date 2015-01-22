@@ -78,8 +78,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspace
     command: |
       # update 'integration' tag
-      git tag --force %{hiera('project')}-integration
-      git push --force origin refs/tags/%{hiera('project')}-integration
+      grunt updateTag --environment=integration --project=%{hiera('project')}
 
       # set up environment to use correct vagrant-nsidc config
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml

@@ -84,11 +84,12 @@ module.exports = function (grunt) {
             'tasks',
             'test:acceptance',
             'test:unit',
+            'updateTag'
           ],
           groups: {
-            'Build for Deployment': ['build:ade_search', 'build:nsidc_search'],
             'Build for Development': ['build:acadis-dev', 'build:nsidc-dev'],
-            'Miscellaneous': ['default', 'deploy', 'githooks', 'tasks'],
+            'Deployment': ['build:ade_search', 'build:nsidc_search', 'deploy', 'updateTag'],
+            'Miscellaneous': ['default', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
           },
@@ -102,7 +103,8 @@ module.exports = function (grunt) {
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
             'test:acceptance': 'Run Cucumber features. [--environment --project]',
-            'test:unit': 'Run jasmine specs headlessly through PhantomJS.'
+            'test:unit': 'Run jasmine specs headlessly through PhantomJS.',
+            'updateTag': 'Update the git tag to indicate which commit is deployed. [--environment --project]'
           }
         }
       }
@@ -378,6 +380,13 @@ module.exports = function (grunt) {
           'vagrant nsidc ssh --project=<%= project %> --env=<%= environment %>',
           '-c "sudo rm -rf /opt/<%= project %>; sudo cp -r /vagrant/build/ /opt/<%= project %>"'
         ].join(' ')
+      },
+
+      updateTag: {
+        command: [
+          'git tag --force <%= project %>-<%= environment %>',
+          'git push --force origin refs/tags/<%= project %>-<%= environment %>'
+        ].join(' && ')
       }
     },
 
@@ -457,6 +466,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
+  grunt.registerTask('updateTag', 'shell:updateTag');
 
   grunt.registerTask('default', ['lint-test']);
 
