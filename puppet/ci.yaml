@@ -99,7 +99,7 @@ nsidc_jenkins::jobs:
       grunt deploy --environment=$ENV --project=%{hiera('project')}
     trigger_job: "%{hiera('project')}_A07_Integration Run_Acceptance_Tests"
 
-  "%{hiera('project')}_A07_Integration Run_Acceptance_Tests":
+  "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     wrappers:
       - name: xvnc
