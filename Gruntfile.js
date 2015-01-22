@@ -95,13 +95,13 @@ module.exports = function (grunt) {
           descriptions: {
             'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS for ADE.',
             'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS for NSIDC Search.',
-            'build:ade_search': 'Compile Jade and Sass, minify JavaScript for ADE.',
-            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript for NSIDC Search.',
+            'build:ade_search': 'Compile Jade and Sass, minify JavaScript for ADE. [--environment]',
+            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript for NSIDC Search. [--environment]',
             'default': 'Run syntax checkers and unit tests.',
-            'deploy': 'Copy build/ to /opt/$project on a VM [--project --environment]',
+            'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
-            'test:acceptance': 'Run Cucumber features.',
+            'test:acceptance': 'Run Cucumber features. [--environment --project]',
             'test:unit': 'Run jasmine specs headlessly through PhantomJS.'
           }
         }
