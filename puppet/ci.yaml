@@ -93,7 +93,7 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=integration --provision --project=%{hiera('project')};
 
       # deploy app from /vagrant to /opt/%{hiera('project')}
-      grunt --no-color shell:deploy --project=%{hiera('project')} --environment=integration
+      grunt --no-color deploy --project=%{hiera('project')} --environment=integration
     workspace: /var/lib/jenkins/workspace
     trigger_job: "%{hiera('project')}_7_Run_Acceptance_Tests"
 

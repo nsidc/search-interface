@@ -76,6 +76,7 @@ module.exports = function (grunt) {
             'build:nsidc-dev',
             'build:nsidc_search',
             'default',
+            'deploy',
             'githooks',
             'jshint',
             'scsslint',
@@ -87,7 +88,7 @@ module.exports = function (grunt) {
           groups: {
             'Build for Deployment (builds into build/)': ['build:ade_search', 'build:nsidc_search'],
             'Build for Development (builds into src/)': ['build:acadis-dev', 'build:nsidc-dev'],
-            'Miscellaneous': ['default', 'githooks', 'tasks'],
+            'Miscellaneous': ['default', 'deploy', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
           },
@@ -97,6 +98,7 @@ module.exports = function (grunt) {
             'build:ade_search': 'Compile Jade and Sass, minify JavaScript for ADE.',
             'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript for NSIDC Search.',
             'default': 'Run syntax checkers and unit tests.',
+            'deploy': 'Copy build/ to /opt/$project on a VM [--project --environment]',
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
             'test:acceptance': 'Run Cucumber features.',
@@ -454,6 +456,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test:unit', 'jasmine');
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
+  grunt.registerTask('deploy', 'shell:deploy');
 
   grunt.registerTask('default', ['lint-test']);
 
