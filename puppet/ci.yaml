@@ -30,7 +30,7 @@ nsidc_jenkins::jobs:
   "%{hiera('project')}_A01_Integration_Checkout_Project":
     description: clone the project into workspaces/%{hiera('project')}/integration
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    gitrepo: %{hiera('gitrepo')}
+    gitrepo: "%{hiera('gitrepo')}"
     command: |
       git checkout migrate-to-vagrant-nsidc-plugin
       git pull origin migrate-to-vagrant-nsidc-plugin
