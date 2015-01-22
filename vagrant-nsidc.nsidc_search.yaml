@@ -1,4 +1,5 @@
 project: nsidc_search
+gitrepo: git@bitbucket.org:nsidc/search-interface.git
 
 vsphere:
   template: trusty64-nsidc
