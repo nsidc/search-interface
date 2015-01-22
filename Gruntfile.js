@@ -114,7 +114,7 @@ module.exports = function (grunt) {
       // requirejs optimizer copies in conf/, templates/, scripts/collections,
       // scripts/lib, scripts/models, and scripts/views, but that is all
       // contained in main.js anyway
-      'post-build': ['build/conf/', 'build/templates/', 'build/scripts/*', '!build/scripts/main.*']
+      'post-build': ['build/conf/', 'build/templates/', 'build/scripts/*', 'build/build.txt', '!build/scripts/main.*']
     },
 
     connect: {
