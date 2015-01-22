@@ -81,9 +81,6 @@ nsidc_jenkins::jobs:
     command: |
       ENV=integration
 
-      # update deployment tag
-      grunt updateTag --environment=$ENV --project=%{hiera('project')}
-
       # set up environment to use correct vagrant-nsidc config
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
       export NSIDC_PLUGIN_LOG=debug
@@ -97,6 +94,9 @@ nsidc_jenkins::jobs:
 
       # deploy app from /vagrant/build to /opt/%{hiera('project')}
       grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
     trigger_job: "%{hiera('project')}_A07_Integration Run_Acceptance_Tests"
 
   "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
