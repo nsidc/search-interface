@@ -149,9 +149,9 @@ nsidc_jenkins::jobs:
 
       # update deployment tag
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
-    trigger_job: "%{hiera('project')}_B04_QA Run_Acceptance_Tests"
+    trigger_job: "%{hiera('project')}_B04_QA_Run_Acceptance_Tests"
 
-  "%{hiera('project')}_B04_QA Run_Acceptance_Tests":
+  "%{hiera('project')}_B04_QA_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
     wrappers:
       - name: xvnc
