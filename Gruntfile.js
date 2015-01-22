@@ -86,17 +86,17 @@ module.exports = function (grunt) {
             'test:unit',
           ],
           groups: {
-            'Build for Deployment (builds into build/)': ['build:ade_search', 'build:nsidc_search'],
-            'Build for Development (builds into src/)': ['build:acadis-dev', 'build:nsidc-dev'],
+            'Build for Deployment': ['build:ade_search', 'build:nsidc_search'],
+            'Build for Development': ['build:acadis-dev', 'build:nsidc-dev'],
             'Miscellaneous': ['default', 'deploy', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
           },
           descriptions: {
-            'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS for ADE.',
-            'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS for NSIDC Search.',
-            'build:ade_search': 'Compile Jade and Sass, minify JavaScript for ADE. [--environment]',
-            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript for NSIDC Search. [--environment]',
+            'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
+            'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS into src/ for NSIDC Search.',
+            'build:ade_search': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
+            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
             'default': 'Run syntax checkers and unit tests.',
             'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
