@@ -66,6 +66,46 @@ module.exports = function (grunt) {
     project: grunt.option('project'),
     urlPath: urlPath[grunt.option('project')],
 
+    availabletasks: {
+      tasks: {
+        options: {
+          filter: 'include',
+          tasks: [
+            'build:acadis-dev',
+            'build:ade_search',
+            'build:nsidc-dev',
+            'build:nsidc_search',
+            'default',
+            'githooks',
+            'jshint',
+            'scsslint',
+            'serve-tests',
+            'tasks',
+            'test:acceptance',
+            'test:unit',
+          ],
+          groups: {
+            'Build for Deployment (builds into build/)': ['build:ade_search', 'build:nsidc_search'],
+            'Build for Development (builds into src/)': ['build:acadis-dev', 'build:nsidc-dev'],
+            'Miscellaneous': ['default', 'githooks', 'tasks'],
+            'Syntax': ['scsslint', 'jshint'],
+            'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
+          },
+          descriptions: {
+            'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS for ADE.',
+            'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS for NSIDC Search.',
+            'build:ade_search': 'Compile Jade and Sass, minify JavaScript for ADE.',
+            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript for NSIDC Search.',
+            'default': 'Run syntax checkers and unit tests.',
+            'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
+            'tasks': 'List available Grunt tasks & targets.',
+            'test:acceptance': 'Run Cucumber features.',
+            'test:unit': 'Run jasmine specs headlessly through PhantomJS.'
+          }
+        }
+      }
+    },
+
     clean: {
       dev: ['src/index*.html', 'src/css/'],
 
@@ -376,6 +416,7 @@ module.exports = function (grunt) {
 
   });
 
+  grunt.loadNpmTasks('grunt-available-tasks');
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
@@ -409,7 +450,10 @@ module.exports = function (grunt) {
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
 
-  grunt.registerTask('test:acceptance', ['shell:cucumber']);
+  grunt.registerTask('test:acceptance', 'shell:cucumber');
+  grunt.registerTask('test:unit', 'jasmine');
+
+  grunt.registerTask('tasks', 'availabletasks:tasks');
 
   grunt.registerTask('default', ['lint-test']);
 
