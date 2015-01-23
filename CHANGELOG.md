@@ -1,5 +1,7 @@
+## 1.7.2 (2015-01-23)
+- test change for grunt-release
+
 ### 1.7.1 - 2015-01-23
-## Unreleased
 
 - Project source converted to use
   [vagrant-nsidc-plugin](https://bitbucket.org/nsidc/vagrant-nsidc-plugin) and
