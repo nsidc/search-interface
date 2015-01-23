@@ -37,7 +37,7 @@ nsidc_jenkins::jobs:
         default: master
     gitrepo: "%{hiera('gitrepo')}"
     command: |
-      git checkout $refs
+      git checkout $ref
     trigger_job: "%{hiera('project')}_A02_Integration_Configure_System"
 
   "%{hiera('project')}_A02_Integration_Configure_System":
