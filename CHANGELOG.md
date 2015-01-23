@@ -1,3 +1,4 @@
+### 1.7.1 - 2015-01-23
 ## Unreleased
 
 - Project source converted to use
