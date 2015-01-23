@@ -79,6 +79,7 @@ module.exports = function (grunt) {
             'deploy',
             'githooks',
             'jshint',
+            'release',
             'scsslint',
             'serve-tests',
             'tasks',
@@ -88,7 +89,7 @@ module.exports = function (grunt) {
           ],
           groups: {
             'Build for Development': ['build:acadis-dev', 'build:nsidc-dev'],
-            'Deployment': ['build:ade_search', 'build:nsidc_search', 'deploy', 'updateTag'],
+            'Deployment/Release': ['build:ade_search', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
             'Miscellaneous': ['default', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
@@ -100,6 +101,7 @@ module.exports = function (grunt) {
             'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
             'default': 'Run syntax checkers and unit tests.',
             'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
+            'release': 'Bump version, update CHANGELOG.md, git tag, git push.',
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
             'test:acceptance': 'Run Cucumber features. [--environment --project]',
@@ -309,6 +311,16 @@ module.exports = function (grunt) {
       }
     },
 
+    release: {
+      options: {
+        changelog: true,
+        changelogText: '## <%= version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n\n',
+        npm: false,
+        npmtag: false,
+        tagName: 'v<%= version %>'
+      }
+    },
+
     requirejs: {
       acadis: {
         options: requirejsConf
@@ -438,6 +450,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
+  grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-scss-lint');
   grunt.loadNpmTasks('grunt-shell');
 

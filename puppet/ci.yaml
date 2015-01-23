@@ -258,6 +258,25 @@ nsidc_jenkins::jobs:
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
 
 
+  "%{hiera('project')}_E01_Release_Bump_Version":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/release
+    parameters:
+      - type: string
+        name: branch
+        description: git branch to checkout and tag
+        default: master
+      - type: choice
+        name: version_part
+        choices:
+        - patch
+        - minor
+        - major
+    gitrepo: "%{hiera('gitrepo')}"
+    command: |
+      git checkout refs/heads/$branch
+
+      npm install
+      grunt release:$version_part
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
     description: |
       Clean up non-production VMs that are not needed while the project is not
