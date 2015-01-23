@@ -1,9 +1,3 @@
-## 2.0.0 (2015-01-23)
-
-## 1.8.0 (2015-01-23)
-
-## 1.7.1 (2015-01-23)
-
 - Project source converted to use
   [vagrant-nsidc-plugin](https://bitbucket.org/nsidc/vagrant-nsidc-plugin) and
   [puppet-nsidc-jenkins](https://bitbucket.org/nsidc/puppet-nsidc-jenkins/) for
