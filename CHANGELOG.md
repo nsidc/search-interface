@@ -1,3 +1,5 @@
+## 1.8.0 (2015-01-23)
+
 ## 1.7.1 (2015-01-23)
 
 - Project source converted to use
