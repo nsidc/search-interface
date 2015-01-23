@@ -1,7 +1,7 @@
 {
   "name": "search-portal",
   "description": "NSIDC search portal interface",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "devDependencies": {
     "connect-ssi": "git+https://bitbucket.org/nsidc/connect-ssi.git",
     "grunt": "0.4.5",
