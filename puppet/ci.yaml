@@ -56,6 +56,7 @@ nsidc_jenkins::jobs:
       # Jenkins API to trigger the next job with curl. Just make sure the name
       # of the job in the curl command is correct:
       curl localhost:8080/job/%{hiera('project')}_A03_Integration_Install_Dependencies/build
+    trigger_job: "%{hiera('project')}_A03_Integration_Install_Dependencies"
 
   "%{hiera('project')}_A03_Integration_Install_Dependencies":
     description: >
