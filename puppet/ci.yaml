@@ -159,6 +159,104 @@ nsidc_jenkins::jobs:
       ENV=qa
       grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
 
+  "%{hiera('project')}_C01_Staging_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/staging
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    parameters:
+      - type: string
+        name: tag
+        description: git tag to deploy to staging
+        default: v1.0.0
+    gitrepo: "%{hiera('gitrepo')}"
+    command: git checkout refs/tags/$tag
+    trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
+
+  "%{hiera('project')}_C02_Staging_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment, and run acceptance tests afterward.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_C03_Staging_Provision"
+
+  "%{hiera('project')}_C03_Staging_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    command: |
+      ENV=staging
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+    trigger_job: "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests"
+
+  "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    wrappers:
+      - name: xvnc
+    command: |
+      ENV=staging
+      grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
+
+
+  "%{hiera('project')}_D01_Blue_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/blue
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    parameters:
+      - type: string
+        name: tag
+        description: git tag to deploy to blue
+        default: staging
+    gitrepo: "%{hiera('gitrepo')}"
+    command: git checkout refs/tags/$tag
+    trigger_job: "%{hiera('project')}_D02_Blue_Install_Dependencies"
+
+  "%{hiera('project')}_D02_Blue_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_D03_Blue_Provision"
+
+  "%{hiera('project')}_D03_Blue_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    command: |
+      ENV=blue
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
     description: |
