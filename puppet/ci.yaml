@@ -32,12 +32,12 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     parameters:
       - type: string
-        name: branch
-        description: git branch to checkout
-        default: master
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: refs/heads/master
     gitrepo: "%{hiera('gitrepo')}"
     command: |
-      git checkout refs/heads/$branch
+      git checkout $refs
     trigger_job: "%{hiera('project')}_A02_Integration_Configure_System"
 
   "%{hiera('project')}_A02_Integration_Configure_System":
