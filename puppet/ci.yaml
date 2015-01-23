@@ -259,6 +259,12 @@ nsidc_jenkins::jobs:
 
 
   "%{hiera('project')}_E01_Release_Bump_Version":
+    description: |
+      - update version in package.json
+      - add header for new version with current date to CHANGELOG.md
+      - commit changes
+      - create tag for new version
+      - push changes and tag
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/release
     parameters:
       - type: string
@@ -274,9 +280,10 @@ nsidc_jenkins::jobs:
     gitrepo: "%{hiera('gitrepo')}"
     command: |
       git checkout refs/heads/$branch
-
       npm install
       grunt release:$version_part
+
+
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
     description: |
       Clean up non-production VMs that are not needed while the project is not
