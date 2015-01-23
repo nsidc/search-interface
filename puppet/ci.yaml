@@ -34,7 +34,7 @@ nsidc_jenkins::jobs:
       - type: string
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
-        default: refs/heads/master
+        default: master
     gitrepo: "%{hiera('gitrepo')}"
     command: |
       git checkout $refs
@@ -283,7 +283,7 @@ nsidc_jenkins::jobs:
         - major
     gitrepo: "%{hiera('gitrepo')}"
     command: |
-      git checkout refs/heads/$branch
+      git checkout $branch
       npm install
       grunt release:$version_part
 
