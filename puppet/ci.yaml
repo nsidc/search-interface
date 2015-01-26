@@ -275,7 +275,7 @@ nsidc_jenkins::jobs:
       - type: string
         name: tag
         description: git tag to deploy to blue
-        default: staging
+        default: "%{hiera('project')}-staging"
     git:
       repo: "%{hiera('gitrepo')}"
       wipe_workspace: true
