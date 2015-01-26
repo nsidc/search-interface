@@ -39,6 +39,9 @@ nsidc_jenkins::jobs:
     command: |
       git checkout $ref
     trigger_job: "%{hiera('project')}_A02_Integration_Configure_System"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A02_Integration_Configure_System":
     description: Use puppet to install system dependencies, like nginx and Bundler
@@ -57,6 +60,9 @@ nsidc_jenkins::jobs:
       # of the job in the curl command is correct:
       curl localhost:8080/job/%{hiera('project')}_A03_Integration_Install_Dependencies/build
     trigger_job: "%{hiera('project')}_A03_Integration_Install_Dependencies"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A03_Integration_Install_Dependencies":
     description: >
@@ -67,6 +73,9 @@ nsidc_jenkins::jobs:
       bundle install --path vendor/bundle
       npm install
     trigger_job: "%{hiera('project')}_A04_Integration_Check_Syntax"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A04_Integration_Check_Syntax":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
@@ -74,12 +83,18 @@ nsidc_jenkins::jobs:
       grunt scsslint
       grunt jshint
     trigger_job: "%{hiera('project')}_A05_Integration_Run_Unit_Tests"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A05_Integration_Run_Unit_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     command: |
       grunt test:unit
     trigger_job: "%{hiera('project')}_A06_Integration_Provision"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A06_Integration_Provision":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
@@ -103,10 +118,15 @@ nsidc_jenkins::jobs:
       # update deployment tag
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
     trigger_job: "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     wrappers:
+      - name: ansicolor
+        colorMapName: xterm
       - name: xvnc
     command: grunt test:acceptance --environment=integration --project=%{hiera('project')}
 
@@ -122,6 +142,9 @@ nsidc_jenkins::jobs:
     gitrepo: "%{hiera('gitrepo')}"
     command: git checkout $ref
     trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_B02_QA_Install_Dependencies":
     description: >
@@ -132,6 +155,9 @@ nsidc_jenkins::jobs:
       bundle install --path vendor/bundle
       npm install
     trigger_job: "%{hiera('project')}_B03_QA_Provision"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_B03_QA_Provision":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
@@ -155,10 +181,15 @@ nsidc_jenkins::jobs:
       # update deployment tag
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
     trigger_job: "%{hiera('project')}_B04_QA_Run_Acceptance_Tests"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_B04_QA_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
     wrappers:
+      - name: ansicolor
+        colorMapName: xterm
       - name: xvnc
     command: |
       ENV=qa
@@ -175,6 +206,9 @@ nsidc_jenkins::jobs:
     gitrepo: "%{hiera('gitrepo')}"
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_C02_Staging_Install_Dependencies":
     description: >
@@ -185,6 +219,9 @@ nsidc_jenkins::jobs:
       bundle install --path vendor/bundle
       npm install
     trigger_job: "%{hiera('project')}_C03_Staging_Provision"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_C03_Staging_Provision":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
@@ -208,6 +245,9 @@ nsidc_jenkins::jobs:
       # update deployment tag
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
     trigger_job: "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
@@ -216,6 +256,9 @@ nsidc_jenkins::jobs:
     command: |
       ENV=staging
       grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
 
   "%{hiera('project')}_D01_Blue_Checkout_Project":
@@ -229,6 +272,9 @@ nsidc_jenkins::jobs:
     gitrepo: "%{hiera('gitrepo')}"
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_D02_Blue_Install_Dependencies"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_D02_Blue_Install_Dependencies":
     description: >
@@ -239,6 +285,9 @@ nsidc_jenkins::jobs:
       bundle install --path vendor/bundle
       npm install
     trigger_job: "%{hiera('project')}_D03_Blue_Provision"
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
   "%{hiera('project')}_D03_Blue_Provision":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
@@ -261,6 +310,9 @@ nsidc_jenkins::jobs:
 
       # update deployment tag
       grunt updateTag --environment=$ENV --project=%{hiera('project')}
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
 
   "%{hiera('project')}_E01_Release_Bump_Version":
@@ -287,6 +339,9 @@ nsidc_jenkins::jobs:
       git checkout $branch
       npm install
       grunt release:$version_part
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
 
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
@@ -326,3 +381,6 @@ nsidc_jenkins::jobs:
       if $staging; then
         hijack_and_destroy staging
       fi
+    wrappers:
+      - name: ansicolor
+        colorMapName: xterm
