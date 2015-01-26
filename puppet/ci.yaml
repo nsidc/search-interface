@@ -26,6 +26,24 @@ nsidc_jenkins::plugins:
   xvnc: {}
   ansicolor: {}
 
+provision_cmd: |
+  # set up environment to use correct vagrant-nsidc config
+  export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+  export NSIDC_PLUGIN_LOG=debug
+
+  # compile jade and sass, minify js into build/
+  grunt build:%{hiera('project')} --environment=$ENV
+
+  # provision, including rsyncing build/ to /vagrant
+  vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+  vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+  # deploy app from /vagrant/build to /opt/%{hiera('project')}
+  grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+  # update deployment tag
+  grunt updateTag --environment=$ENV --project=%{hiera('project')}
+
 # Jenkins Jobs
 nsidc_jenkins::jobs:
   "%{hiera('project')}_A01_Integration_Checkout_Project":
@@ -88,23 +106,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     command: |
       ENV=integration
-
-      # set up environment to use correct vagrant-nsidc config
-      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
-      export NSIDC_PLUGIN_LOG=debug
-
-      # compile jade and sass, minify js into build/
-      grunt build:%{hiera('project')} --environment=$ENV
-
-      # provision, including rsyncing build/ to /vagrant
-      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
-      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
-
-      # deploy app from /vagrant/build to /opt/%{hiera('project')}
-      grunt deploy --environment=$ENV --project=%{hiera('project')}
-
-      # update deployment tag
-      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+      %{hiera('provision_cmd')}
     trigger_job: "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests"
 
   "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
@@ -142,22 +144,7 @@ nsidc_jenkins::jobs:
     command: |
       ENV=qa
 
-      # set up environment to use correct vagrant-nsidc config
-      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
-      export NSIDC_PLUGIN_LOG=debug
-
-      # compile jade and sass, minify js into build/
-      grunt build:%{hiera('project')} --environment=$ENV
-
-      # provision, including rsyncing build/ to /vagrant
-      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
-      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
-
-      # deploy app from /vagrant/build to /opt/%{hiera('project')}
-      grunt deploy --environment=$ENV --project=%{hiera('project')}
-
-      # update deployment tag
-      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+      %{hiera('provision_cmd')}
     trigger_job: "%{hiera('project')}_B04_QA_Run_Acceptance_Tests"
 
   "%{hiera('project')}_B04_QA_Run_Acceptance_Tests":
@@ -195,23 +182,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
     command: |
       ENV=staging
-
-      # set up environment to use correct vagrant-nsidc config
-      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
-      export NSIDC_PLUGIN_LOG=debug
-
-      # compile jade and sass, minify js into build/
-      grunt build:%{hiera('project')} --environment=$ENV
-
-      # provision, including rsyncing build/ to /vagrant
-      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
-      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
-
-      # deploy app from /vagrant/build to /opt/%{hiera('project')}
-      grunt deploy --environment=$ENV --project=%{hiera('project')}
-
-      # update deployment tag
-      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+      %{hiera('provision_cmd')}
     trigger_job: "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests"
 
   "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests":
@@ -251,24 +222,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
     command: |
       ENV=blue
-
-      # set up environment to use correct vagrant-nsidc config
-      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
-      export NSIDC_PLUGIN_LOG=debug
-
-      # compile jade and sass, minify js into build/
-      grunt build:%{hiera('project')} --environment=$ENV
-
-      # provision, including rsyncing build/ to /vagrant
-      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
-      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
-
-      # deploy app from /vagrant/build to /opt/%{hiera('project')}
-      grunt deploy --environment=$ENV --project=%{hiera('project')}
-
-      # update deployment tag
-      grunt updateTag --environment=$ENV --project=%{hiera('project')}
-
+      %{hiera('provision_cmd')}
 
   "%{hiera('project')}_E01_Release_Bump_Version":
     description: |
