@@ -16,3 +16,21 @@ puppet:
     manifest: ./puppet/site.pp
   librarian:
     puppetfile: ./puppet/Puppetfile
+
+provision: |
+  # set up environment to use correct vagrant-nsidc config
+  export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+  export NSIDC_PLUGIN_LOG=debug
+
+  # compile jade and sass, minify js into build/
+  grunt build:%{hiera('project')} --environment=$ENV
+
+  # provision, including rsyncing build/ to /vagrant
+  vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+  vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+  # deploy app from /vagrant/build to /opt/%{hiera('project')}
+  grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+  # update deployment tag
+  grunt updateTag --environment=$ENV --project=%{hiera('project')}
