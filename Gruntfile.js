@@ -65,6 +65,7 @@ module.exports = function (grunt) {
     environment: grunt.option('environment') || 'development',
     project: grunt.option('project'),
     urlPath: urlPath[grunt.option('project')],
+    url: grunt.option('url') || 'http://<%= environment %>.nsidc.org/<%= urlPath %>',
 
     availabletasks: {
       tasks: {
@@ -372,7 +373,7 @@ module.exports = function (grunt) {
       // --project - 'ade_search' or 'nsidc_search'
       cucumber: {
         command: [
-          'URL=http://<%= environment %>.nsidc.org/<%= urlPath %>',
+          'URL=<%= url %>',
           'bundle exec cucumber spec/cucumber/features',
           '--tags @<%= project %>',
           '--format pretty',
