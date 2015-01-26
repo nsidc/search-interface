@@ -35,7 +35,9 @@ nsidc_jenkins::jobs:
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
         default: master
-    gitrepo: "%{hiera('gitrepo')}"
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
     command: |
       git checkout $ref
     trigger_job: "%{hiera('project')}_A02_Integration_Configure_System"
@@ -139,7 +141,9 @@ nsidc_jenkins::jobs:
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
         default: master
-    gitrepo: "%{hiera('gitrepo')}"
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
     command: git checkout $ref
     trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
     wrappers:
@@ -203,7 +207,9 @@ nsidc_jenkins::jobs:
         name: tag
         description: git tag to deploy to staging
         default: v1.0.0
-    gitrepo: "%{hiera('gitrepo')}"
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
     wrappers:
@@ -269,7 +275,9 @@ nsidc_jenkins::jobs:
         name: tag
         description: git tag to deploy to blue
         default: staging
-    gitrepo: "%{hiera('gitrepo')}"
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_D02_Blue_Install_Dependencies"
     wrappers:
@@ -334,7 +342,9 @@ nsidc_jenkins::jobs:
         - patch
         - minor
         - major
-    gitrepo: "%{hiera('gitrepo')}"
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
     command: |
       git checkout $branch
       npm install
