@@ -11,6 +11,23 @@ Development on this project uses
 4. Push to the branch (`git push -u origin my-new-feature`)
 5. [Create a new Pull Request](https://bitbucket.org/nsidc/set-search-services/pull-request/new)
 
+## vagrant-nsidc
+
+Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
+`project` name for the plugin to use. This repository really has two projects,
+`ade_search` and `nsidc_search`, configured in `vagrant-nsidc.ade_search.yaml`
+and `vagrant-nsidc.nsidc_search.yaml`.
+
+To use the correct config file, set the appropriate environment variable:
+
+```shell
+export VAGRANT_NSIDC_YAML=vagrant-nsidc.ade_search.yaml
+```
+
+If switching which project you are working on, take care that you are using the
+correct config file, and that the temp file `.nsidc-project.yaml` references the
+right project.
+
 ## Grunt
 
 Run `grunt tasks` to get a list and descriptions of the most important grunt
