@@ -316,9 +316,8 @@ nsidc_jenkins::jobs:
         default: true
 
     command: |
-      function hijack_and_destroy()
-      {
-        (vagrant nsidc hijack --env=$1 --project=%{hiera('project')} && vagrant nsidc destroy --env=$1 --project=%{hiera('project')}) || true
+      hijack_and_destroy () {
+        vagrant nsidc hijack --env=$1 --project=%{hiera('project')} && vagrant nsidc destroy --env=$1 --project=%{hiera('project')} || true
       }
 
       if $integration; then
