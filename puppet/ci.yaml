@@ -123,7 +123,6 @@ nsidc_jenkins::jobs:
         default: master
     git:
       repo: "%{hiera('gitrepo')}"
-      poll_scm: false
     command: git checkout $ref
     trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
 
@@ -177,7 +176,6 @@ nsidc_jenkins::jobs:
         default: v1.0.0
     git:
       repo: "%{hiera('gitrepo')}"
-      poll_scm: false
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
 
@@ -233,7 +231,6 @@ nsidc_jenkins::jobs:
         default: "%{hiera('project')}-staging"
     git:
       repo: "%{hiera('gitrepo')}"
-      poll_scm: false
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('project')}_D02_Blue_Install_Dependencies"
 
@@ -291,7 +288,6 @@ nsidc_jenkins::jobs:
         - major
     git:
       repo: "%{hiera('gitrepo')}"
-      poll_scm: false
     command: |
       git checkout $branch
       npm install
