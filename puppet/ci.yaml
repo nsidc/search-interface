@@ -368,7 +368,10 @@ nsidc_jenkins::jobs:
       project=%{hiera('project')}
 
       hijack_in_workspace () {
-        cd /var/lib/jenkins/workspaces/$project/$1
+        workspace=/var/lib/jenkins/workspaces/$project/$1
+
+        mkdir -p $workspace
+        cd $workspace
         vagrant nsidc hijack --env=$1 --project=$project
       }
 
