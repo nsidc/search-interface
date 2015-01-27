@@ -7,7 +7,7 @@ mod "nsidc/nsidc_nfs",
 # Module for creating NSIDC Jenkins servers
 mod "nsidc/nsidc_jenkins",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git",
-  :ref => 'master'
+  :ref => 'latest'
 
 mod 'nsidc/nginx',
   :git => 'git@bitbucket.org:nsidc/puppet-nginx.git'
