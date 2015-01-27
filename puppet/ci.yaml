@@ -1,5 +1,4 @@
 # Puppet CI Resources
-
 classes:
   - nsidc_jenkins
   - nsidc_nfs
@@ -109,6 +108,7 @@ nsidc_jenkins::jobs:
 
   "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    wrappers:
       - name: xvnc
     command: grunt test:acceptance --environment=integration --project=%{hiera('project')}
 
@@ -161,6 +161,7 @@ nsidc_jenkins::jobs:
 
   "%{hiera('project')}_B04_QA_Run_Acceptance_Tests":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
+    wrappers:
       - name: xvnc
     command: |
       ENV=qa
