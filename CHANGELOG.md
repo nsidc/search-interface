@@ -1,3 +1,5 @@
+## 1.7.2 (2015-02-11)
+
 - Add grunt task 'tagLatest'/ci configuration to add 'latest' tag on version bump
 
 ## 1.7.1 (2015-02-11)
