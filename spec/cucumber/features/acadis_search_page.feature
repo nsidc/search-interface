@@ -1,4 +1,4 @@
-@acadis
+@ade_search
 Feature: Search Page Basics
 
   Scenario: Starting the application

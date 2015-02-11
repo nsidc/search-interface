@@ -7,8 +7,6 @@ local_config.yaml
 .floo
 .sublime-project
 
-/src/test/acadis-search.iml
-
 # /
 /build
 /tmp
@@ -18,9 +16,27 @@ local_config.yaml
 /.sass-cache/
 /src/css
 /src/index*.html
-# /src/contrib/
+/.bundle/
+/vendor/
+/.Xauthority*
 
 \#*\#
 \.\#*
 *~
 .rake_t_cache
+
+# begin vagrant-nsidc
+#
+# the following entries were added by the vagrant-nsidc plugin when you ran
+# `vagrant nsidc init`
+
+.vagrant*/
+
+.nsidc-project.yaml
+
+/puppet/.librarian/
+/puppet/.tmp/
+/puppet/Puppetfile.lock
+/puppet/modules/
+
+# end vagrant-nsidc

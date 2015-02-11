@@ -1,14 +1,20 @@
 module.exports = function (grunt) {
 
-  var requirejsConf,
+  var urlPath,
+      requirejsConf,
       runFiles,
       sassConf,
       watchFiles;
 
+  urlPath = {
+    ade_search: '/acadis/search',
+    nsidc_search: '/data/search'
+  };
+
   requirejsConf = {
     appDir: 'src/',
     baseUrl: 'scripts/',
-    dir: 'tmp/',
+    dir: 'build/',
     findNestedDependencies: true,
     generateSourceMaps: true,
     inlineText: true,
@@ -57,16 +63,65 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     environment: grunt.option('environment') || 'development',
+    project: grunt.option('project'),
+    urlPath: urlPath[grunt.option('project')],
+    url: grunt.option('url') || 'http://<%= environment %>.nsidc.org/<%= urlPath %>',
+
+    availabletasks: {
+      tasks: {
+        options: {
+          filter: 'include',
+          tasks: [
+            'build:acadis-dev',
+            'build:ade_search',
+            'build:nsidc-dev',
+            'build:nsidc_search',
+            'default',
+            'deploy',
+            'githooks',
+            'jshint',
+            'release',
+            'scsslint',
+            'serve-tests',
+            'tasks',
+            'test:acceptance',
+            'test:unit',
+            'updateTag'
+          ],
+          groups: {
+            'Build for Development': ['build:acadis-dev', 'build:nsidc-dev'],
+            'Deployment/Release': ['build:ade_search', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
+            'Miscellaneous': ['default', 'githooks', 'tasks'],
+            'Syntax': ['scsslint', 'jshint'],
+            'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
+          },
+          descriptions: {
+            'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
+            'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS into src/ for NSIDC Search.',
+            'build:ade_search': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
+            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
+            'default': 'Run syntax checkers and unit tests.',
+            'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
+            'release': 'Bump version, update CHANGELOG.md, git tag, git push.',
+            'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
+            'tasks': 'List available Grunt tasks & targets.',
+            'test:acceptance': 'Run Cucumber features. [--environment --project]',
+            'test:unit': 'Run jasmine specs headlessly through PhantomJS.',
+            'updateTag': 'Update the git tag to indicate which commit is deployed. [--environment --project]'
+          }
+        }
+      }
+    },
 
     clean: {
       dev: ['src/index*.html', 'src/css/'],
 
-      tmp: ['tmp/'],
+      build: ['build/'],
 
       // requirejs optimizer copies in conf/, templates/, scripts/collections,
       // scripts/lib, scripts/models, and scripts/views, but that is all
       // contained in main.js anyway
-      'post-build': ['tmp/conf/', 'tmp/templates/', 'tmp/scripts/*', '!tmp/scripts/main.*']
+      'post-build': ['build/conf/', 'build/templates/', 'build/scripts/*', 'build/build.txt', '!build/scripts/main.*']
     },
 
     connect: {
@@ -185,7 +240,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'tmp/index.html': ['src/templates/acadis-index.jade']
+          'build/index.html': ['src/templates/acadis-index.jade']
         }
       },
       nsidc: {
@@ -198,7 +253,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'tmp/index.html': ['src/templates/nsidc-index.jade']
+          'build/index.html': ['src/templates/nsidc-index.jade']
         }
       }
     },
@@ -208,9 +263,6 @@ module.exports = function (grunt) {
         src: [],
         options: {
           helpers: ['spec/specHelper.js'],
-          junit: {
-            path: 'tmp/log/spec/'
-          },
           keepRunner: true,
           specs: runFiles.specs,
           template: require('grunt-template-jasmine-requirejs'),
@@ -260,6 +312,16 @@ module.exports = function (grunt) {
       }
     },
 
+    release: {
+      options: {
+        changelog: true,
+        changelogText: '## <%= version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n\n',
+        npm: false,
+        npmtag: false,
+        tagName: 'v<%= version %>'
+      }
+    },
+
     requirejs: {
       acadis: {
         options: requirejsConf
@@ -274,7 +336,7 @@ module.exports = function (grunt) {
     //
     // sass/ must have the same parent directory as css/ for sourcemaps to work;
     // when building for deployment, the requirejs optimizer first copies
-    // src/sass/ to tmp/sass
+    // src/sass/ to build/sass
     sass: {
       'dev': {
         files: {
@@ -285,13 +347,13 @@ module.exports = function (grunt) {
       },
       acadis: {
         files: {
-          'tmp/css/acadis-search.css': 'tmp/sass/acadis_main.scss'
+          'build/css/acadis-search.css': 'build/sass/acadis_main.scss'
         },
         options: sassConf
       },
       nsidc: {
         files: {
-          'tmp/css/nsidc-search.css': 'tmp/sass/nsidc_main.scss'
+          'build/css/nsidc-search.css': 'build/sass/nsidc_main.scss'
         },
         options: sassConf
       }
@@ -300,7 +362,44 @@ module.exports = function (grunt) {
     scsslint: {
       all: runFiles.scsslint,
       options: {
+        bundleExec: true,
         config: 'config/scss-lint.yml'
+      }
+    },
+
+    shell: {
+      // --environment - one of 'integration', 'qa', 'staging'
+      //
+      // --project - 'ade_search' or 'nsidc_search'
+      cucumber: {
+        command: [
+          'URL=<%= url %>',
+          'bundle exec cucumber spec/cucumber/features',
+          '--tags @<%= project %>',
+          '--format pretty',
+          '-r spec/cucumber/features/support',
+          '-r spec/cucumber/features/step_definitions',
+          '-r spec/cucumber/features/page_objects',
+        ].join(' ')
+      },
+
+      // --project=PROJECT - project name, must be 'ade_search' or
+      //     'nsidc_search'; build/ is deployed to /opt/$PROJECT
+      //
+      // --environment=ENV - environment being deployed, needed for the 'vagrant
+      //     nsidc ssh' command
+      deploy: {
+        command: [
+          'vagrant nsidc ssh --project=<%= project %> --env=<%= environment %>',
+          '-c "sudo rm -rf /opt/<%= project %>; sudo cp -r /vagrant/build/ /opt/<%= project %>"'
+        ].join(' ')
+      },
+
+      updateTag: {
+        command: [
+          'git tag --force <%= project %>-<%= environment %>',
+          'git push --force origin refs/tags/<%= project %>-<%= environment %>'
+        ].join(' && ')
       }
     },
 
@@ -341,6 +440,7 @@ module.exports = function (grunt) {
 
   });
 
+  grunt.loadNpmTasks('grunt-available-tasks');
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
@@ -351,7 +451,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
+  grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-scss-lint');
+  grunt.loadNpmTasks('grunt-shell');
 
   // build tasks for local development; note that both projects are built
   //
@@ -364,12 +466,21 @@ module.exports = function (grunt) {
   grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:acadis', ['clean:tmp', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
-  grunt.registerTask('build:nsidc', ['clean:tmp', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
+  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:ade_search', 'build:acadis');
+  grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
   grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
+
+  grunt.registerTask('test:acceptance', 'shell:cucumber');
+  grunt.registerTask('test:unit', 'jasmine');
+
+  grunt.registerTask('tasks', 'availabletasks:tasks');
+  grunt.registerTask('deploy', 'shell:deploy');
+  grunt.registerTask('updateTag', 'shell:updateTag');
 
   grunt.registerTask('default', ['lint-test']);
 

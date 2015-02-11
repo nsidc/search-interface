@@ -1,1 +1,0 @@
-default: --format junit --out=<%= ENV['JUNIT_REPORT_DIR'] %> --format html --out=<%= ENV['SELENIUM_REPORT_FILENAME'] %>.html --format pretty -r src/test/features/support -r src/test/features/step_definitions -r src/test/features/page_objects src/test/features

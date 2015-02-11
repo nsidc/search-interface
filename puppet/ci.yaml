@@ -1,0 +1,334 @@
+# Puppet CI Resources
+classes:
+  - nsidc_jenkins
+  - nsidc_nfs
+  - nsidc_os_repo
+  
+# NFS Mounts
+nsidc_nfs::sharemounts:
+  /share/sw/packages:
+    project: sw
+    share: packages
+
+# Jenkins Plugins
+nsidc_jenkins::plugins:
+  git: {}
+  git-client: {}
+  git-parameter: {}
+  scm-api: {}
+  credentials: {}
+  ssh-credentials: {}
+  greenballs: {}
+  jobConfigHistory: {}
+  mailer: {}
+  instant-messaging: {}
+  jabber: {}
+  xvnc: {}
+  ansicolor: {}
+
+# Jenkins Jobs
+nsidc_jenkins::jobs:
+  "%{hiera('project')}_A01_Integration_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/integration
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    parameters:
+      - type: string
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: master
+    git:
+      repo: "%{hiera('gitrepo')}"
+      poll_scm: true
+    command: |
+      git checkout $ref
+    trigger_job: "%{hiera('project')}_A02_Integration_Configure_System"
+
+  "%{hiera('project')}_A02_Integration_Configure_System":
+    description: Use puppet to install system dependencies, like nginx and Bundler
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    command: |
+      cd puppet
+      librarian-puppet clean
+      librarian-puppet update
+      cd -
+      sudo puppet apply --environment=ci --debug --verbose --modulepath=./puppet/modules --hiera_config=./puppet/hiera.%{hiera('project')}.yaml ./puppet/site.pp
+
+      # Because running `puppet apply` modifies the config.xml for each job
+      # defined in ci.yaml, Jenkins has trouble triggering the next job through
+      # normal methods (ie, using the trigger_job param), but we can use the
+      # Jenkins API to trigger the next job with curl. Just make sure the name
+      # of the job in the curl command is correct:
+      curl localhost:8080/job/%{hiera('project')}_A03_Integration_Install_Dependencies/build
+    trigger_job: "%{hiera('project')}_A03_Integration_Install_Dependencies"
+
+  "%{hiera('project')}_A03_Integration_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment, and run acceptance tests afterward.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_A04_Integration_Check_Syntax"
+
+  "%{hiera('project')}_A04_Integration_Check_Syntax":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    command: |
+      grunt scsslint
+      grunt jshint
+    trigger_job: "%{hiera('project')}_A05_Integration_Run_Unit_Tests"
+
+  "%{hiera('project')}_A05_Integration_Run_Unit_Tests":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    command: |
+      grunt test:unit
+    trigger_job: "%{hiera('project')}_A06_Integration_Provision"
+
+  "%{hiera('project')}_A06_Integration_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    command: |
+      ENV=integration
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+    trigger_job: "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests"
+
+  "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    wrappers:
+      - name: xvnc
+    command: grunt test:acceptance --environment=integration --project=%{hiera('project')}
+
+
+  "%{hiera('project')}_B01_QA_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/qa
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
+    parameters:
+      - type: string
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: master
+    git:
+      repo: "%{hiera('gitrepo')}"
+    command: git checkout $ref
+    trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
+
+  "%{hiera('project')}_B02_QA_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment, and run acceptance tests afterward.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_B03_QA_Provision"
+
+  "%{hiera('project')}_B03_QA_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
+    command: |
+      ENV=qa
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+    trigger_job: "%{hiera('project')}_B04_QA_Run_Acceptance_Tests"
+
+  "%{hiera('project')}_B04_QA_Run_Acceptance_Tests":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
+    wrappers:
+      - name: xvnc
+    command: |
+      ENV=qa
+      grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
+
+  "%{hiera('project')}_C01_Staging_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/staging
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    parameters:
+      - type: string
+        name: tag
+        description: git tag to deploy to staging
+        default: v1.0.0
+    git:
+      repo: "%{hiera('gitrepo')}"
+    command: git checkout refs/tags/$tag
+    trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
+
+  "%{hiera('project')}_C02_Staging_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment, and run acceptance tests afterward.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_C03_Staging_Provision"
+
+  "%{hiera('project')}_C03_Staging_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    command: |
+      ENV=staging
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+    trigger_job: "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests"
+
+  "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
+    wrappers:
+      - name: xvnc
+    command: |
+      ENV=staging
+      grunt test:acceptance --environment=$ENV --project=%{hiera('project')}
+
+
+  "%{hiera('project')}_D01_Blue_Checkout_Project":
+    description: clone the project into workspaces/%{hiera('project')}/blue
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    parameters:
+      - type: string
+        name: tag
+        description: git tag to deploy to blue
+        default: "%{hiera('project')}-staging"
+    git:
+      repo: "%{hiera('gitrepo')}"
+    command: git checkout refs/tags/$tag
+    trigger_job: "%{hiera('project')}_D02_Blue_Install_Dependencies"
+
+  "%{hiera('project')}_D02_Blue_Install_Dependencies":
+    description: >
+      Install Node packages and gems into the workspace to build the project
+      before deployment.
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    command: |
+      bundle install --path vendor/bundle
+      npm install
+    trigger_job: "%{hiera('project')}_D03_Blue_Provision"
+
+  "%{hiera('project')}_D03_Blue_Provision":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    command: |
+      ENV=blue
+
+      # set up environment to use correct vagrant-nsidc config
+      export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
+      export NSIDC_PLUGIN_LOG=debug
+
+      # compile jade and sass, minify js into build/
+      grunt build:%{hiera('project')} --environment=$ENV
+
+      # provision, including rsyncing build/ to /vagrant
+      vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
+      vagrant nsidc up --env=$ENV --provision --project=%{hiera('project')};
+
+      # deploy app from /vagrant/build to /opt/%{hiera('project')}
+      grunt deploy --environment=$ENV --project=%{hiera('project')}
+
+      # update deployment tag
+      grunt updateTag --environment=$ENV --project=%{hiera('project')}
+
+
+  "%{hiera('project')}_E01_Release_Bump_Version":
+    description: |
+      - update version in package.json
+      - add header for new version with current date to CHANGELOG.md
+      - commit changes
+      - create tag for new version
+      - push changes and tag
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/release
+    parameters:
+      - type: string
+        name: branch
+        description: git branch to checkout and tag
+        default: master
+      - type: choice
+        name: version_part
+        choices:
+        - patch
+        - minor
+        - major
+    git:
+      repo: "%{hiera('gitrepo')}"
+    command: |
+      git checkout $branch
+      npm install
+      grunt release:$version_part
+
+
+  "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
+    description: |
+      Clean up non-production VMs that are not needed while the project is not
+      in development.
+    parameters:
+      - type: boolean
+        name: integration
+        description: destroy the machine deployed to integration
+        default: true
+
+      - type: boolean
+        name: qa
+        description: destroy the machine deployed to qa
+        default: true
+
+      - type: boolean
+        name: staging
+        description: destroy the machine deployed to staging
+        default: true
+
+    command: |
+      hijack_and_destroy () {
+        vagrant nsidc hijack --env=$1 --project=%{hiera('project')} && vagrant nsidc destroy --env=$1 --project=%{hiera('project')} || true
+      }
+
+      if $integration; then
+        hijack_and_destroy integration
+      fi
+
+      if $qa; then
+        hijack_and_destroy qa
+      fi
+
+      if $staging; then
+        hijack_and_destroy staging
+      fi

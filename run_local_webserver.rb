@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'webrick'
 require 'open-uri'
 require 'yaml'

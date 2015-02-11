@@ -1,0 +1,18 @@
+project: nsidc_search
+gitrepo: git@bitbucket.org:nsidc/search-interface.git
+
+vsphere:
+  template: trusty64-nsidc
+
+virtualbox:
+  box: trusty64-nsidc
+  box_url: http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/vagrant/boxes/trusty64-nsidc.box
+
+puppet:
+  enabled: true
+  execution_dir: /vagrant
+  apply:
+    options: --debug --verbose --modulepath=./puppet/modules --hiera_config=./puppet/hiera.nsidc_search.yaml
+    manifest: ./puppet/site.pp
+  librarian:
+    puppetfile: ./puppet/Puppetfile
