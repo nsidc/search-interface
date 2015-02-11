@@ -175,7 +175,7 @@ nsidc_jenkins::jobs:
       - type: string
         name: tag
         description: git tag to deploy to staging
-        default: v1.0.0
+        default: latest 
     git:
       repo: "%{hiera('gitrepo')}"
     command: git checkout refs/tags/$tag
