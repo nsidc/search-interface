@@ -195,6 +195,37 @@ module.exports = function (grunt) {
       }
     },
 
+    // These are used to add latest tag when version bumping.
+    gittag: {
+      addLatest: {
+        options: {
+          tag: 'latest',
+          message: 'Adding latest tag.'
+        }
+      },
+      deleteLatest: {
+        options: {
+          tag: 'latest',
+          remove: true
+        }
+      }
+    },
+
+    gitpush: {
+      pushLatest: {
+          options: {
+            tags: true,
+            force: true
+          }
+      }
+    },
+
+    gitfetch: {
+      fetchTags: {
+        all: true
+      }
+    },
+
     // 'jade:acadis' and 'jade:nsidc' used when the portal is built for
     // deployment; use '-dev' for local development
     jade: {
@@ -453,7 +484,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-scss-lint');
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-git');
 
   // build tasks for local development; note that both projects are built
   //
@@ -481,7 +512,7 @@ module.exports = function (grunt) {
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
   grunt.registerTask('updateTag', 'shell:updateTag');
-
+  grunt.registerTask('tagLatest', ['gitfetch:fetchTags', 'gittag:deleteLatest', 'gitpush:pushLatest', 'gittag:addLatest', 'gitpush:pushLatest']);
   grunt.registerTask('default', ['lint-test']);
 
 };

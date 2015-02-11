@@ -294,7 +294,7 @@ nsidc_jenkins::jobs:
       git checkout $branch
       npm install
       grunt release:$version_part
-
+      grunt tagLatest
 
   "%{hiera('project')}_Destroy_Non_Production_Deployed_VMs":
     description: |
