@@ -195,6 +195,23 @@ module.exports = function (grunt) {
       }
     },
 
+    // These are used to add latest tag when version bumping.
+
+    gittag: {
+            addLatest: {
+                options: {
+                    tag: 'latest',
+                    message: 'Adding latest tag.'
+                }
+            },
+            deleteLatest: {
+                options: {
+                    tag: 'latest',
+                    remove: true
+                }
+            }
+    },
+
     // 'jade:acadis' and 'jade:nsidc' used when the portal is built for
     // deployment; use '-dev' for local development
     jade: {
@@ -321,6 +338,9 @@ module.exports = function (grunt) {
         tagName: 'v<%= version %>'
       }
     },
+
+
+
 
     requirejs: {
       acadis: {
@@ -481,7 +501,7 @@ module.exports = function (grunt) {
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
   grunt.registerTask('updateTag', 'shell:updateTag');
-
+  grunt.registerTask('tagLatest', 'gittag:deleteLatest', 'gittag:addLatest');
   grunt.registerTask('default', ['lint-test']);
 
 };

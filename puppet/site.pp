@@ -57,7 +57,7 @@ if $environment == 'ci' {
   
   exec { 'set_vnc_password':
     path => '/usr/bin/',
-    command => 'sudo -i -u jenkins /usr/bin/expect -c "spawn vncpasswd; expect \"Password:\"; send -- \"default\r\"; expect \"Verify:\"; send -- \"default\r\r\";exit;"' 
+    command => 'sudo -i -u jenkins tr -dc A-Z < /dev/urandom | head -c 8 | /usr/bin/expect -c "set passwd [read stdin]; spawn sudo -i -u jenkins vncpasswd; expect \"Password:\"; send -- \"\$passwd\r\"; expect \"Verify:\"; send -- \"\$passwd\r\r\";exit;"'
 }
 
   package { 'fluxbox': }
