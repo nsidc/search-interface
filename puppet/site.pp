@@ -49,7 +49,17 @@ if $environment == 'ci' {
   class { 'firefox':
     version => '27.0.1-0ubuntu1'
   }
-  package { 'vnc4server': }
+  
+  package { 'vnc4server': } ->
+  
+  package { 'expect': } ->
+  
+  exec { 'set_vnc_password':
+    path => '/usr/bin/',
+    command => '/bin/bash -c "export PASSWD=`/usr/bin/tr -cd \'[:alnum:]\' < /dev/urandom | /usr/bin/fold -w50 | /usr/bin/head -n1`;\
+    /usr/bin/expect -c \"spawn sudo -i -u jenkins vncpasswd; expect \\\"Password:\\\"; send -- \\\"$::env(PASSWD)\r\\\"; expect \\\"Verify:\\\"; send -- \\\"$::env(PASSWD)\r\\\";\""'
+}
+
   package { 'fluxbox': }
 }
 
