@@ -196,20 +196,19 @@ module.exports = function (grunt) {
     },
 
     // These are used to add latest tag when version bumping.
-
     gittag: {
-            addLatest: {
-                options: {
-                    tag: 'latest',
-                    message: 'Adding latest tag.'
-                }
-            },
-            deleteLatest: {
-                options: {
-                    tag: 'latest',
-                    remove: true
-                }
-            }
+      addLatest: {
+        options: {
+          tag: 'latest',
+          message: 'Adding latest tag.'
+        }
+      },
+      deleteLatest: {
+        options: {
+          tag: 'latest',
+          remove: true
+        }
+      }
     },
 
     gitpush: {
