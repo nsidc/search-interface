@@ -354,9 +354,6 @@ module.exports = function (grunt) {
       }
     },
 
-
-
-
     requirejs: {
       acadis: {
         options: requirejsConf
