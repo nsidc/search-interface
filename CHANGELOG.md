@@ -1,3 +1,5 @@
+- Added rsync excludes to Vagrantfile to prevent librarian puppet includes from crashing provision. 
+
 ## 1.7.2 (2015-02-11)
 
 - Add grunt task 'tagLatest'/ci configuration to add 'latest' tag on version bump
