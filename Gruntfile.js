@@ -484,6 +484,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-scss-lint');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-git');
 
   // build tasks for local development; note that both projects are built
