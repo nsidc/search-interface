@@ -116,6 +116,8 @@ define(['lib/utility_functions',
           bboxTable;
 
       if (boundingBoxes && boundingBoxes.length > 0) {
+        // Only want to list at most 6 bounding boxes
+        boundingBoxes = boundingBoxes.slice(0, 6);
         _.each(boundingBoxes, function (box) {
           _.each(box, function (coordinate, property) {
             box[property] = UtilityFunctions.round(coordinate, 2);

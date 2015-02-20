@@ -1,3 +1,9 @@
+## Unreleased
+
+Bugfixes:
+
+  - Limit list of bounding boxes shown when hovering over maps to 6.
+
 ## 1.7.3 (2015-02-11)
 
 - Added rsync excludes to Vagrantfile to prevent librarian puppet includes from crashing provision. 
