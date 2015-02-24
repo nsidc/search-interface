@@ -24,6 +24,12 @@
   word-wrap: break-word;
 }
 
+// This will prevent extra padding in the spatial
+// coverage div
+.result-item .spatial-coverage {
+  word-wrap: normal;
+}
+
 .results-text {
   padding-bottom: 7px;
   width: 100%;
