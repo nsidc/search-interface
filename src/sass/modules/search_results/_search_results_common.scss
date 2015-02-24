@@ -22,12 +22,12 @@
   padding-right: 0;
   position: relative;
   word-wrap: break-word;
-}
 
-// This will prevent extra padding in the spatial
-// coverage div
-.result-item .spatial-coverage {
-  word-wrap: normal;
+  // This will prevent extra padding in the spatial
+  // coverage div
+  .spatial-coverage {
+    word-wrap: normal;
+  }
 }
 
 .results-text {
