@@ -31,6 +31,7 @@ define([
     return acadisQA;
 
   case 'ACADIS|staging':
+  case 'ACADIS|blue':
   case 'ACADIS|production':
     return acadisProd;
 
@@ -43,6 +44,7 @@ define([
     return nsidcQA;
 
   case 'NSIDC|staging':
+  case 'NSIDC|blue':
   case 'NSIDC|production':
     return nsidcProd;
 
