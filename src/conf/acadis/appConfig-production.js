@@ -124,12 +124,12 @@ define([],
             longName: 'Biological and Chemical Oceanography Data Management Office',
             url: 'http://bco-dmo.org'
           }, {
-            shortName: 'GEU',
-            longName: 'Polar Data Catalog',
+            shortName: 'PDC',
+            longName: 'Polar Data Catalogue',
             url: 'https://www.polardata.ca/'
           }, {
-            shortName: 'TDAR',
-            longName: 'Digital Archaeological Record',
+            shortName: 'tDAR',
+            longName: 'The Digital Archaeological Record',
             url: 'http://www.tdar.org'
           }
         ]
