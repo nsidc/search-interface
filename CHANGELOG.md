@@ -1,3 +1,5 @@
+## 1.7.4 (2015-02-26)
+
 ## Unreleased
 
 Features:
