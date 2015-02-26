@@ -1,7 +1,13 @@
 ## Unreleased
 
+Features:
+
+  - Add Polar Data Catalogue repository.
+  - Add Digital Archaeological Record repository.
+
 Bugfixes:
 
+  - Fix padding of map coordinates and word-wrap summary for long strings.
   - Limit list of bounding boxes shown when hovering over maps to 6.
 
 ## 1.7.3 (2015-02-11)
