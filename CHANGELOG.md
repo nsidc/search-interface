@@ -1,3 +1,7 @@
+Bugfixes:
+
+  - Fix rendering of NASA logo for NASA Datasets (PSS-195)
+
 ## 1.7.6 (2015-03-04)
 
 ## 1.7.5 (2015-02-26)
@@ -18,7 +22,7 @@ Bugfixes:
 
 ## 1.7.3 (2015-02-11)
 
-- Added rsync excludes to Vagrantfile to prevent librarian puppet includes from crashing provision. 
+- Added rsync excludes to Vagrantfile to prevent librarian puppet includes from crashing provision.
 
 ## 1.7.2 (2015-02-11)
 

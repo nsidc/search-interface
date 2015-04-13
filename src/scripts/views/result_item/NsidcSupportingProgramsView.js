@@ -20,7 +20,7 @@ define(
             'AGDC': [/^AGDC/],
             'FGDC': [/^FGDC/],
             'ELOKA': [/^ELOKA/],
-            'NASA_DAAC': [/^NASA DAAC/],
+            'NASA_DAAC': [/^NASA NSIDC DAAC/],
             'ACADIS': [/^ACADIS/],
 
             'USADCC': [/^USADCC/, /^NSIDC_ARCSS/],
