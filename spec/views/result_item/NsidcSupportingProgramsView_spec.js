@@ -4,7 +4,7 @@ define(['views/result_item/NsidcSupportingProgramsView'], function (NsidcSupport
       var model, el, nsidcSupportingProgramsView;
 
       it('should display a logo for each known supporting program', function () {
-        model = new Backbone.Model({ supportingPrograms: ['NOAA @ NSIDC', 'NASA DAAC']});
+        model = new Backbone.Model({ supportingPrograms: ['NOAA @ NSIDC', 'NASA NSIDC DAAC']});
         el = document.createElement('div');
 
         nsidcSupportingProgramsView = new NsidcSupportingProgramsView({el: el, model: model}).render();
