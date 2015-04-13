@@ -1,3 +1,5 @@
+## 1.7.7 (2015-04-13)
+
 Bugfixes:
 
   - Fix rendering of NASA logo for NASA Datasets (PSS-195)
