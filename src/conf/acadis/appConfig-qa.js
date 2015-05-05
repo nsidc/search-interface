@@ -127,6 +127,10 @@ define([],
             shortName: 'PDC',
             longName: 'Polar Data Catalogue',
             url: 'https://www.polardata.ca/'
+          }, {
+            shortName: 'tDAR',
+            longName: 'The Digital Archaeological Record',
+            url: 'http://www.tdar.org'
           }
         ]
 
