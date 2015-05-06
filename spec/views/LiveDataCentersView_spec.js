@@ -66,7 +66,7 @@ requireMock.requireWithStubs(
         el = view.$el.find('#count-ACADISGateway');
 
         expect(el.text()).toContain('(ACADIS Gateway)');
-        expect(el.text()).toContain('103 datasets');
+        expect(el.text()).toContain('103');
       });
 
       it('renders data center with 0 counts and a "temporarily unavailable" message if not included in facet response', function () {

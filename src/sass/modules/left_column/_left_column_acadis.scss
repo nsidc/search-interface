@@ -1,20 +1,24 @@
-#acadis-logo {
-  margin: 0;
+#left-column {
 
-  &-results {
-    margin-top: 50px;
-    width: 198px;
+  #acadis-logo {
+    margin: 0;
+
+    &-results {
+      margin-top: 50px;
+      width: 198px;
+    }
   }
-}
 
-#identifier {
-  background: url(img('acadis-logo.png')) center center no-repeat;
-  background-size: 200px;
-  display: block;
-  height: 100px;
-  text-indent: $indent-disappear;
-}
+  #identifier {
+    background: url(img('acadis-logo.png')) center center no-repeat;
+    background-size: 200px;
+    display: block;
+    height: 100px;
+    text-indent: $indent-disappear;
+  }
 
-#facets .facet {
-  margin-bottom: 17px;
+  #facets .facet {
+    margin-bottom: 17px;
+  }
+
 }

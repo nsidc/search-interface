@@ -26,7 +26,7 @@ define([
   LiveDataCentersView = Backbone.View.extend({
 
     events: {
-      'click li .count a': 'searchByCounts'
+      'click tr .count a': 'searchByCounts'
     },
 
     initialize: function (options) {
@@ -62,7 +62,7 @@ define([
     // find the span containing the number of records for the given datacenter
     getCountElement: function (datacenter) {
       var id = 'count-' + datacenter.shortName.replace(idRegex, ''),
-          countSelector = '#' + id + ' > .count',
+          countSelector = '#' + id + ' .count',
           countElement = this.$el.find(countSelector);
 
       return countElement;
@@ -83,15 +83,16 @@ define([
       }
     },
 
-    // click on the 'X records' link should search and filter by that associated
-    // data center so that the X records are the results
+    // click on the 'X'' link under 'Number of Datasets in ADE' should search
+    // and filter by that associated data center so that the X records are the
+    // results
     searchByCounts: function (event) {
-      var fullDatacenterName, li;
+      var fullDatacenterName, tr;
 
-      li = $(event.target).closest('li');
+      tr = $(event.target).closest('tr');
 
       // get the 'full name' matching the format the facet model expects
-      fullDatacenterName = li.find('.longName').text() + ' | ' + li.find('.shortName').text();
+      fullDatacenterName = tr.find('.longName').text() + ' | ' + tr.find('.shortName').text();
 
       this.mediatorTrigger('model:toggleFacet', 'facet_data_center', fullDatacenterName);
       this.mediatorTrigger('search:initiated', this.model);
