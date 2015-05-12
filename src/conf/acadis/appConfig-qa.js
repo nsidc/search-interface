@@ -129,7 +129,7 @@ define([],
             url: 'https://www.polardata.ca/'
           }, {
             shortName: 'tDAR',
-            longName: 'The Digital Archaeological Record',
+            longName: 'tDAR: The Digital Archaeological Record',
             url: 'http://www.tdar.org'
           }
         ]
