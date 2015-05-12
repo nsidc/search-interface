@@ -64,7 +64,7 @@ define(
       });
 
       it('displays some info about the ADE', function () {
-        expect(homePageView.$el.text()).toContain('Search currently includes');
+        expect(homePageView.$el.text()).toContain('We will be adding new repositories');
       });
 
     });
