@@ -17,6 +17,6 @@ mod "nsidc/nsidc_os_repo",
   :ref  => "latest"
 
 mod 'p0deje/firefox'
-mod 'puppetlabs/apt'
+mod 'puppetlabs/apt', "1.8.0"
 mod 'puppetlabs/ruby'
 mod 'willdurand/nodejs'
