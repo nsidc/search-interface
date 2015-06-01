@@ -345,8 +345,6 @@ module.exports = function (grunt) {
 
     release: {
       options: {
-        changelog: true,
-        changelogText: '## <%= version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n\n',
         npm: false,
         npmtag: false,
         tagName: 'v<%= version %>'

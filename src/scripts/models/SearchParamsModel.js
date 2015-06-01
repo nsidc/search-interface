@@ -283,23 +283,7 @@ define([
       this.unset('startDate');
       this.unset('endDate');
       this.unset('sortKeys');
-
-      this.setParamsFromDefaultsIfNotSet();
-    },
-
-    reset: function (options) {
-      this.setPageNumber('1', options);
-      this.setItemsPerPage(defaultItemsPerPage, options);
-      this.unset('keyword', options);
-      this.unset('author', options);
-      this.unset('parameter', options);
-      this.unset('sensor', options);
-      this.unset('title', options);
-      this.unset('facetFilters', options);
-      this.unset('startDate', options);
-      this.unset('endDate', options);
-      this.unset('sortKeys', options);
-      this.unset('geoBoundingBox', options);
+      this.resetSpatialCoverage();
 
       this.setParamsFromDefaultsIfNotSet();
     },

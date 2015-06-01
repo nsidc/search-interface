@@ -1,3 +1,11 @@
+## 1.7.12
+
+Bugfixes:
+
+  - Fix spatial coverage parameter failing to reset when the 'Reset' link is
+    clicked in the ADE, causing incorrect dataset counts to be displayed on the
+    home page. (https://www.pivotaltracker.com/story/show/89554538)
+
 ## 1.7.11 (2015-05-12)
 
 ## 1.7.10 (2015-05-12)
