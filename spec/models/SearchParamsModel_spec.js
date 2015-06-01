@@ -275,6 +275,7 @@ define([
         expect(model.get('title')).toBe(defaultParams.osTitle);
         expect(model.get('startDate')).toBe(defaultParams.osDtStart);
         expect(model.get('endDate')).toBe(defaultParams.osDtEnd);
+        expect(model.get('geoBoundingBox')).toBe(defaultParams.osGeoBbox);
       });
 
     });

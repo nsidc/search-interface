@@ -283,6 +283,7 @@ define([
       this.unset('startDate');
       this.unset('endDate');
       this.unset('sortKeys');
+      this.resetSpatialCoverage();
 
       this.setParamsFromDefaultsIfNotSet();
     },
