@@ -337,7 +337,7 @@ define([
       });
 
       it('resets all search parameters to their initial state', function () {
-        model.reset();
+        model.resetCriteria();
 
         expect(model.get('pageNumber')).toEqual(1);
         expect(model.get('keyword')).toBe('');
