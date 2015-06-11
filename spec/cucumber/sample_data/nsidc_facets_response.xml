@@ -12,7 +12,7 @@
   <os:totalResults>2</os:totalResults>
   <os:query role="request" nsidc:source="ADE" count="25" startIndex="1" nsidc:facets="true" geo:box="-180.0,45.0,180.0,90.0"/>
   <nsidc:facet name="facet_data_center">
-    <nsidc:facet_value name="UCAR/NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility" hits="1622"/>
+    <nsidc:facet_value name="UCAR NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility" hits="1622"/>
     <nsidc:facet_value name="National Snow and Ice Data Center" hits="528"/>
     <nsidc:facet_value name="Advanced Cooperative Arctic Data and Information Service" hits="495"/>
     <nsidc:facet_value name="NOAA National Oceanographic Data Center" hits="56"/>

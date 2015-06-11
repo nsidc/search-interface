@@ -92,12 +92,12 @@ define([],
             longName: 'National Snow and Ice Data Center',
             url: 'http://nsidc.org'
           }, {
-            shortName: 'UCAR/NCAR EOL',
-            longName: 'UCAR/NCAR - Earth Observing Laboratory',
+            shortName: 'UCAR NCAR EOL',
+            longName: 'UCAR NCAR - Earth Observing Laboratory',
             url: 'http://data.eol.ucar.edu/codiac'
           }, {
-            shortName: 'UCAR/NCAR RDA',
-            longName: 'UCAR/NCAR Research Data Archive',
+            shortName: 'UCAR NCAR RDA',
+            longName: 'UCAR NCAR Research Data Archive',
             url: 'http://rda.ucar.edu'
           }, {
             shortName: 'NOAA NODC',

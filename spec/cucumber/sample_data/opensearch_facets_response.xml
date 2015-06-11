@@ -17,7 +17,7 @@
   <os:query role="request" searchTerms=""/>
   <nsidc:facets>
     <facet name="faceted_data_center">
-      <value name="UCAR/NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility">1620</value>
+      <value name="UCAR NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility">1620</value>
       <value name="National Snow and Ice Data Center">911</value>
       <value name="Advanced Cooperative Arctic Data and Information Service">495</value>
       <value name="NOAA National Oceanographic Data Center">62</value>
