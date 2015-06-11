@@ -1,3 +1,12 @@
+## 1.7.13
+
+Bugfixes:
+
+  - Change the displayed names for the EOL and RDA data centers on the ADE home
+    page from "UCAR/NCAR" to "UCAR NCAR". This matches a change made in the Solr
+    backend related to queries not working because the "/" character could not
+    be escaped properly.
+
 ## 1.7.12
 
 Bugfixes:
