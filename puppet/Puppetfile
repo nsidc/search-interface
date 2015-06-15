@@ -16,6 +16,7 @@ mod "nsidc/nsidc_os_repo",
   :git  => "git@bitbucket.org:/nsidc/puppet-nsidc-os-repo.git",
   :ref  => "latest"
 
+mod 'puppetlabs/concat', "1.2.3"
 mod 'p0deje/firefox'
 mod 'puppetlabs/apt', "1.8.0"
 mod 'puppetlabs/ruby'
