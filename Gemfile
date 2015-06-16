@@ -3,7 +3,6 @@ source 'http://rubygems.org'
 # Acceptance testing with Firefox
 gem 'cucumber'
 gem 'json', '~> 1.7.4'
-gem 'nsidc-config_injector_client'
 gem 'rspec', '~> 2.11.0'
 gem 'selenium-webdriver'
 gem 'watir-webdriver'
