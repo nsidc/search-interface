@@ -1,5 +1,4 @@
 source 'http://rubygems.org'
-source 'http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/ruby/nsidc/'
 
 # Acceptance testing with Firefox
 gem 'cucumber'

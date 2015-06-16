@@ -19,7 +19,6 @@ An Opensearch-based single page search interface
 
 ### Prerequisites:
 
-* [RVM](https://rvm.io/rvm/install/)
 * [Node](http://nodejs.org/) (includes [npm](https://www.npmjs.org/))
 * [Grunt](http://gruntjs.org) - `sudo npm install -g grunt-cli`
 * Install the ruby gems - `bundle install`
@@ -31,7 +30,7 @@ The search portal requires some external services to be active. The local
 webserver can be configured to use public URLs from the internet or URLs under
 `localhost` to access services running locally (see more under "External
 services"). To have the full stack of NSIDC applications running locally, you
-will need to have these projects up and running on your machine:
+will need to have these projects running/availalble on your infrastructure.
 
 * [Dataset Search Services](https://bitbucket.org/nsidc/dataset-search-services/)
 * [Dataset Catalog Services](https://bitbucket.org/nsidc/dataset-catalog-services/)

@@ -1,6 +1,5 @@
 GEM
   remote: http://rubygems.org/
-  remote: http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/ruby/nsidc/
   specs:
     builder (3.2.2)
     childprocess (0.5.1)
