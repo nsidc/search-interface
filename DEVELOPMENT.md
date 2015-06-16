@@ -11,7 +11,11 @@ Development on this project uses
 4. Push to the branch (`git push -u origin my-new-feature`)
 5. [Create a new Pull Request](https://bitbucket.org/nsidc/set-search-services/pull-request/new)
 
-## vagrant-nsidc
+## NSIDC Continuous Integration
+
+NSIDC's project CI utilizes internal configuration found in the *.yaml, Vagrantfile
+and /puppet/*.   If you are utilizing this project external to NSIDC
+you can safely ignore those files and the remainder of this section.
 
 Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
 `project` name for the plugin to use. This repository really has two projects,
@@ -27,6 +31,9 @@ export VAGRANT_NSIDC_YAML=vagrant-nsidc.ade_search.yaml
 If switching which project you are working on, take care that you are using the
 correct config file, and that the temp file `.nsidc-project.yaml` references the
 right project.
+
+Once that is setup, machines can be provisied as expected using the vagrant-nsidc
+plugin.
 
 ## Grunt
 
