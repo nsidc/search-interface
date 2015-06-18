@@ -6,45 +6,46 @@ html
     | <!--#include virtual="/ssi/secondary_styles.ssi" -->
     | <!--#include virtual="/ssi/scripts.ssi" -->
     link(href='contrib/bootstrap/css/bootstrap.min.css',rel='stylesheet',type='text/css')
-    link(href='contrib/font-awesome/css/font-awesome.min.css',rel='stylesheet',type='text/css')
-    link(href='contrib/leaflet-0.7.2/leaflet.css',rel='stylesheet',type='text/css')
-    link(href='contrib/bootstrap-datepicker/datepicker.css',rel='stylesheet',type='text/css')
-    link(href='contrib/tipsy/stylesheets/tipsy.css',rel='stylesheet',type='text/css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css',rel='stylesheet',type='text/css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css',rel='stylesheet',type='text/css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css',rel='stylesheet',type='text/css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/jquery.tipsy/1.0.2/jquery.tipsy.css',rel='stylesheet',type='text/css')
     block project-css
 
-    // include a newer version of jQuery, this should just replace the older version
-    script(src="contrib/jquery/jquery-1.11.0.min.js")
-    script(src="contrib/openlayers-2.12/OpenLayers.js")
-    script(src="contrib/proj4js-1.1.0/proj4js-compressed.js")
-    script(src="contrib/underscore/underscore-min.js")
-    script(src="contrib/underscore/underscore.string.min.js")
-    script(src="contrib/backbone/backbone-min.js")
-    script(src="contrib/jquery-1.7.1/jquery-ui-message-1.5.37.min.js")
-    script(src="contrib/opensearchlight/OpenSearchlight.js")
-    script(src="contrib/momentjs/moment.min.js")
-    script(src="contrib/xregexp/xregexp-all-min.js")
-    script(src="contrib/bootstrap/js/bootstrap.min.js")
-    script(src="contrib/bootstrap-datepicker/bootstrap-datepicker.min.js")
-    script(src="contrib/leaflet-0.7.2/leaflet.js")
-    script(src="contrib/leaflet-dvf/leaflet-dvf.min.js")
-    script(src="contrib/typeahead/typeahead.bundle.min.js")
-    script(src="contrib/tipsy/javascripts/jquery.tipsy.js")
-    script(src="https://bitbucket.org/nsidc/ie-warn/raw/master/build/ie-warn-latest.min.js")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.min.js')
+    script(src='contrib/proj4js-1.1.0/proj4js-compressed.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
+    script(src='contrib/jquery-1.7.1/jquery-ui-message-1.5.37.min.js')
+    script(src='contrib/opensearchlight/OpenSearchlight.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js')
+    script(src='contrib/bootstrap/js/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-dvf/0.2/leaflet-dvf.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js')
+    script(src='contrib/tipsy/javascripts/jquery.tipsy.js')
+    script(src='https://bitbucket.org/nsidc/ie-warn/raw/master/build/ie-warn-latest.min.js')
 
-    script(src="contrib/websocketjs/swfobject.js")
-    script(src="contrib/websocketjs/web_socket.js")
-    include /../contrib/websocketjs/webflash.htm
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js')
+
+    object(width='0', height='0')
+      embed(src='https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/WebSocketMain.swf', width='0', height='0')
 
     script(type='text/javascript')
       // extend underscore with underscore.string
       _.mixin(_.str.exports());
 
       var nsidc = nsidc || {};
-      WEB_SOCKET_SWF_LOCATION = "contrib/websocketjs/WebSocketMain.swf";
+      WEB_SOCKET_SWF_LOCATION = "https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/WebSocketMain.swf";
       nsidc.project = "#{project}";
       nsidc.environment = "#{environment}";
 
-    script(data-main="scripts/main",src='contrib/requirejs/requirejs-min.js')
+    script(data-main="scripts/main",src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js')
   body
     #wrapper
       | <!--#include virtual="/ssi/nsidc.ssi" -->
