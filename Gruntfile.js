@@ -325,7 +325,7 @@ module.exports = function (grunt) {
             'http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.debug.js',
             'src/contrib/opensearchlight/OpenSearchlight.min.js',
             'http://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
-            'src/contrib/sinon/sinon-1.6.0.js',
+            'http://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
             'src/contrib/tipsy/javascripts/jquery.tipsy.js',
             'src/contrib/jasmine-jquery-1.4.2/jasmine-jquery-1.4.2.js',
             'src/contrib/jasmine-sinon/jasmine-sinon.js',
