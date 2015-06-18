@@ -1,19 +1,18 @@
-## 1.7.13
+- Updated documentation and dependencies.
+- Load external libs from a CDN where possible.
+- Remove obsolete test-setup code.
 
-Bugfixes:
-
-  - Change the displayed names for the EOL and RDA data centers on the ADE home
-    page from "UCAR/NCAR" to "UCAR NCAR". This matches a change made in the Solr
-    backend related to queries not working because the "/" character could not
-    be escaped properly.
-
-## 1.7.12
+## 1.7.12 (2015-06-15)
 
 Bugfixes:
 
   - Fix spatial coverage parameter failing to reset when the 'Reset' link is
     clicked in the ADE, causing incorrect dataset counts to be displayed on the
     home page. (https://www.pivotaltracker.com/story/show/89554538)
+  - Change the displayed names for the EOL and RDA data centers on the ADE home
+    page from "UCAR/NCAR" to "UCAR NCAR". This matches a change made in the Solr
+    backend related to queries not working because the "/" character could not
+    be escaped properly.
 
 ## 1.7.11 (2015-05-12)
 
