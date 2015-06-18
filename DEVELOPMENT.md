@@ -248,3 +248,12 @@ In "Select jQuery plugins" select the following:
 Replace the `src/contrib/bootstrap/` directory with the contents of the
 downloaded zip file. Be sure to update this list of components after each new
 download.
+
+## Releases/Changelog
+
+The version in `package.json` is updated automatically with the `grunt
+release:$part` task (where `$part` is `patch`, `minor`, or `major`). This task
+creates a git tag for the new version, and adds 2 new header lines to
+`CHANGELOG.md`, indicating the version number and the date it was
+released. Therefore, new changes should be documented at the top of CHANGELOG.md
+without a version header, since it will be added automatically later.
