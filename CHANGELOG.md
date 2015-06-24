@@ -1,6 +1,7 @@
 - Updated documentation and dependencies.
 - Load external libs from a CDN where possible.
 - Remove obsolete test-setup code.
+- Upgrade ruby version from 1.9.3 to 2.2.2
 
 ## 1.7.12 (2015-06-15)
 
