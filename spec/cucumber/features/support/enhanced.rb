@@ -1,7 +1,7 @@
-Before do |scenario|
+Before do |_scenario|
   @browser = Watir::Browser.new :firefox
 end
 
-After do |scenario|
+After do |_scenario|
   @browser.close
 end

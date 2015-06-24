@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'rubocop'
+
 # Acceptance testing with Firefox
 gem 'cucumber', '~> 1.3'
 gem 'json', '~> 1.7'
