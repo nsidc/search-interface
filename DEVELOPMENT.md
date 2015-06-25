@@ -200,6 +200,15 @@ and allowed global variables.
 * [JSHint in Emacs with flycheck](https://github.com/flycheck/flycheck)
 * [plugins to run JSHint in various editors and IDEs](http://www.jshint.com/install/#plugins)
 
+## RuboCop
+
+The acceptance tests use the official
+[Ruby implementation of Cucumber](https://github.com/cucumber/cucumber-ruby),
+and we use the tool [RuboCop](https://github.com/bbatsov/rubocop) to lint the
+Ruby code contained within this project. After installing the gems listed in
+`Gemfile` with `bundle install`, RuboCop can be run with `bundle exec
+rubocop`. Settings can be found in `.rubocop.yml`.
+
 ## Git Hooks
 
 Our build server attempts to build the project with every revision, and it

@@ -4,7 +4,7 @@ class SearchResultItem
   end
 
   def title
-    @result_element.element(:class => 'dataset-title').text
+    @result_element.element(class: 'dataset-title').text
   end
 
   def start_date
@@ -29,7 +29,11 @@ class SearchResultItem
 
   def data_center_name
     data_center_element = @result_element.p(:class, 'datacenter')
-    data_center_name = data_center_element.span(:class, 'datacenter-name') unless data_center_element.nil?
+
+    unless data_center_element.nil?
+      data_center_name = data_center_element.span(:class, 'datacenter-name')
+    end
+
     return data_center_name.text unless data_center_name.nil?
   end
 

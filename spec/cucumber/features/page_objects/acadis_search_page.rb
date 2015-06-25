@@ -1,13 +1,12 @@
-require "watir-webdriver"
+require 'watir-webdriver'
 
 class AcadisSearchPage
-
   attr_reader :expected_data_center_counts, :actual_data_center_counts
 
-  def initialize(url, browser=nil)
+  def initialize(url, browser = nil)
     @timeout = 120
     @url = url
-    @browser = browser or Watir::Browser.new
+    @browser = browser || Watir::Browser.new
     @browser.goto @url
     @results_history = []
 
@@ -18,16 +17,16 @@ class AcadisSearchPage
   end
 
   def wait_until_home_page_is_visible
-    @browser.div(:id => 'home-page').wait_until_present(@timeout)
+    @browser.div(id: 'home-page').wait_until_present(@timeout)
   end
 
   def wait_until_loading_is_complete
     sleep 0.25
-    @browser.div(:id => 'current-results').wait_until_present(@timeout)
+    @browser.div(id: 'current-results').wait_until_present(@timeout)
   end
 
   def add_results_to_history
-    @results_history.push AcadisSearchResultsPage.new(@browser)
+    @results_history.push(AcadisSearchResultsPage.new(@browser))
   end
 
   def search_for(term)
@@ -94,33 +93,27 @@ class AcadisSearchPage
     @results_history.last
   end
 
-  def self.finalize(browser)
-    proc do
-      @browser.close()
-    end
-  end
-
   def home_page_text
-    @browser.div(:id => 'home-page').text
+    @browser.div(id: 'home-page').text
   end
 
-  def get_expected_data_center_counts
-    @browser.elements(:css => 'ul.live-data-centers li').each do |center|
+  def expected_data_center_counts
+    @browser.elements(css: 'ul.live-data-centers li').each do |center|
       # ignore this data center if it's down
-      next if center.span(:class => 'count').text == '- temporarily unavailable'
+      next if center.span(class: 'count').text == '- temporarily unavailable'
 
       # store the expected result by data center short name and the dataset
       # count given on the home page
-      shortName = center.span(:class => 'shortName').text
-      expected_results = center.element(:css => '.count a').text.sub(' datasets', '').to_i
-      @expected_data_center_counts[shortName] = expected_results
+      short_name = center.span(class: 'shortName').text
+      expected_results = center.element(css: '.count a').text.sub(' datasets', '').to_i
+      @expected_data_center_counts[short_name] = expected_results
     end
   end
 
   def search_expected_data_center_counts
-    @expected_data_center_counts.each do |center, count|
-      li_id = "count-#{center.gsub(/[\s\.\/]/, '')}"
-      @browser.element(:css => '#' + li_id + ' .count a').click
+    @expected_data_center_counts.each do |center, _count|
+      li_id = "count-#{center.gsub(%r{[\s\./]}, '')}"
+      @browser.element(css: '#' + li_id + ' .count a').click
       sleep 3
       wait_for_results
       @actual_data_center_counts[center] = total_results_count
@@ -134,9 +127,8 @@ class AcadisSearchPage
   end
 
   def reset_search
-    @browser.button(:class => 'reset-search').click
+    @browser.button(class: 'reset-search').click
     sleep 0.25
     wait_until_home_page_is_visible
   end
-
 end

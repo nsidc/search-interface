@@ -1,0 +1,14 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Include:
+  - ./Gemfile
+  Exclude:
+  - ./node_modules/**/*
+  - ./vendor/bundle/**/*
+
+Metrics/LineLength:
+  Max: 100
+
+Style/Documentation:
+  Enabled: false
