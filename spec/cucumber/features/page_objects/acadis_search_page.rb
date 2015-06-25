@@ -97,7 +97,7 @@ class AcadisSearchPage
     @browser.div(id: 'home-page').text
   end
 
-  def expected_data_center_counts
+  def update_expected_data_center_counts
     @browser.elements(css: 'ul.live-data-centers li').each do |center|
       # ignore this data center if it's down
       next if center.span(class: 'count').text == '- temporarily unavailable'
