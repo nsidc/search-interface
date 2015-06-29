@@ -1,3 +1,5 @@
+## 1.7.13 (2015-06-29)
+
 - Updated documentation and dependencies.
 - Load external libs from a CDN where possible.
 - Remove obsolete test-setup code.
