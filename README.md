@@ -32,14 +32,14 @@ webserver can be configured to use public URLs from the internet or URLs under
 services"). To have the full stack of NSIDC applications running locally, you
 will need to have these projects running/availalble on your infrastructure.
 
-* [Dataset Search Services](https://bitbucket.org/nsidc/dataset-search-services/)
+* [Dataset Search Services](https://github.com/nsidc/dataset-search-services/)
 * [Dataset Catalog Services](https://bitbucket.org/nsidc/dataset-catalog-services/)
-* [NSIDC Solr](https://bitbucket.org/nsidc/nsidc-solr/)
+* [NSIDC Solr](https://github.com/nsidc/search-solr)
 
 ### Development notes
 
 See
-[`DEVELOPMENT.md`](https://bitbucket.org/nsidc/search-interface/src/master/DEVELOPMENT.md?at=master).
+[`DEVELOPMENT.md`](https://github.com/nsidc/search-interface/blob/master/DEVELOPMENT.md).
 
 ### How to contact NSIDC
 

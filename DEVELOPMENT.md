@@ -9,7 +9,7 @@ Development on this project uses
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
 4. Push to the branch (`git push -u origin my-new-feature`)
-5. [Create a new Pull Request](https://bitbucket.org/nsidc/set-search-services/pull-request/new)
+5. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
 
 ## NSIDC Continuous Integration
 
