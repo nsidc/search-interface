@@ -1,3 +1,7 @@
+- Update link on ACADIS logo to point to
+  [nsidc.org/acadis](https://nsidc.org/acadis/), rather than to
+  [aoncadis.org](https://www.aoncadis.org/home.htm)
+
 ## 1.7.13 (2015-06-29)
 
 - Updated documentation and dependencies.
