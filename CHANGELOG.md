@@ -1,3 +1,8 @@
+New Features
+
+- Add new expected data center to ADE home page, "Rolling Deck to Repository
+  (R2R)"
+
 ## 1.8.0 (2015-06-30)
 
 New Features
