@@ -131,6 +131,10 @@ define([],
             shortName: 'tDAR',
             longName: 'tDAR: The Digital Archaeological Record',
             url: 'http://www.tdar.org'
+          }, {
+            shortName: 'R2R',
+            longName: 'Rolling Deck to Repository',
+            url: 'http://rvdata.us/about/technical'
           }
         ]
 
