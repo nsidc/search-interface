@@ -426,6 +426,10 @@ module.exports = function (grunt) {
         ].join(' ')
       },
 
+      link_proj4js: {
+        command: 'ln -s contrib/proj4js/defs build/defs'
+      },
+
       updateTag: {
         command: [
           'git tag --force <%= project %>-<%= environment %>',
@@ -498,8 +502,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
-  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'shell:link_proj4js', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
+  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
   grunt.registerTask('build:ade_search', 'build:acadis');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
