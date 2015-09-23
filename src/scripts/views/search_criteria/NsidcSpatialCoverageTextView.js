@@ -1,13 +1,13 @@
 // SpatialCoverageTextView - Backbone view to display the spatial coverage in a human readable (string) form
-define(['vendor/requirejs/text!templates/search_criteria/text.html', 'lib/mediator_mixin'],
+define(['vendor/requirejs/text!templates/search_criteria/nsidc_text.html', 'lib/mediator_mixin'],
        function (textTemplate, mediatorMixin) {
 
-  var template, SpatialCoverageTextView;
+  var template, NsidcSpatialCoverageTextView;
 
   template = _.template(textTemplate);
 
   // expose a constructor
-  SpatialCoverageTextView = Backbone.View.extend({
+  NsidcSpatialCoverageTextView = Backbone.View.extend({
 
     events: {
       'change #spatial-options' : 'updateModelFromInputVal'
@@ -51,8 +51,8 @@ define(['vendor/requirejs/text!templates/search_criteria/text.html', 'lib/mediat
     }
   });
 
-  _.extend(SpatialCoverageTextView.prototype, mediatorMixin);
+  _.extend(NsidcSpatialCoverageTextView.prototype, mediatorMixin);
 
-  return SpatialCoverageTextView;
+  return NsidcSpatialCoverageTextView;
 
 });

@@ -11,12 +11,12 @@ requireMock.requireWithStubs(
   [
     'models/GeoBoundingBox',
     'views/search_criteria/SpatialCoverageView',
-    'views/search_criteria/SpatialCoverageTextView',
+    'views/search_criteria/NsidcSpatialCoverageTextView',
     'lib/objectFactory'
   ],
   function (GeoBoundingBox,
             SpatialCoverageView,
-            SpatialCoverageTextView,
+            NsidcSpatialCoverageTextView,
             objectFactory) {
 
     describe('Spatial Coverage View', function () {
@@ -25,7 +25,7 @@ requireMock.requireWithStubs(
       describe('rendering', function () {
         beforeEach(function () {
           objectFactory.register('SpatialCoverageTextView', {
-            Ctor: SpatialCoverageTextView,
+            Ctor: NsidcSpatialCoverageTextView,
             configOptions: { preset: { presetText: 'Click to define Lat/Lon' } }
           });
 
@@ -37,7 +37,7 @@ requireMock.requireWithStubs(
           spatialCoverageView.render();
         });
 
-        it('renders a SpatialCoverageTextView', function () {
+        it('renders a NsidcSpatialCoverageTextView', function () {
           expect(spatialCoverageView.$el.find('#spatial-options')).toBe('input');
         });
 

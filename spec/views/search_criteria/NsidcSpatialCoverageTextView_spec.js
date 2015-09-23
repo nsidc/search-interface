@@ -1,8 +1,8 @@
-define(['views/search_criteria/SpatialCoverageTextView',
+define(['views/search_criteria/NsidcSpatialCoverageTextView',
        'models/GeoBoundingBox', 'models/SearchParamsModel'],
-       function (SpatialCoverageTextView, GeoBoundingBox) {
+       function (NsidcSpatialCoverageTextView, GeoBoundingBox) {
 
-  describe('Spatial Coverage Text View ', function () {
+  describe('NSIDC Spatial Coverage Text View ', function () {
 
     var element, geoBoundingBox, view;
 
@@ -10,7 +10,7 @@ define(['views/search_criteria/SpatialCoverageTextView',
       element = document.createElement('div');
       geoBoundingBox = new GeoBoundingBox([-180, 45, 180, 90]);
       geoBoundingBox.set('south', 40);
-      view = new SpatialCoverageTextView({ el: element, model: geoBoundingBox });
+      view = new NsidcSpatialCoverageTextView({ el: element, model: geoBoundingBox });
     });
 
     describe('rendering', function () {

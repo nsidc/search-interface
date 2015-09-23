@@ -3,18 +3,20 @@ define(
   'lib/objectFactory',
   'models/GeoBoundingBox',
   'views/InputViewBase',
-  'vendor/requirejs/text!templates/search_criteria/container.html'],
+  'vendor/requirejs/text!templates/search_criteria/container.html',
+  'lib/utility_functions'],
   function (mediatorMixin,
             objectFactory,
             GeoBoundingBox,
             InputViewBase,
-            containerTemplate) {
+            containerTemplate,
+            UtilityFunctions) {
     var SearchCriteriaView,
       templates,
       geoBoundingBoxModel;
 
     templates = {
-      container: _.template(containerTemplate),
+      container: _.template(containerTemplate)
     };
 
     SearchCriteriaView = InputViewBase.extend({
@@ -76,14 +78,22 @@ define(
       },
 
       getGeoBbox: function () {
-        var geoBoundingBoxIdentifier;
+        var geoBoundingBoxIdentifier, coords;
 
-        geoBoundingBoxIdentifier = this.getInputField('spatial-options');
-
-        if (geoBoundingBoxIdentifier === undefined) {
-          geoBoundingBoxIdentifier = '';
+        coords = {
+          north: this.getInputField('spatial-options-north'),
+          south: this.getInputField('spatial-options-south'),
+          east: this.getInputField('spatial-options-east'),
+          west: this.getInputField('spatial-options-west')
         }
-        this.updateBboxModelFromIdentifier(geoBoundingBoxIdentifier);
+
+        if (coords.north) {
+          geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);
+        } else {
+          geoBoundingBoxIdentifier = this.getInputField('spatial-options');
+        }
+
+        this.updateBboxModelFromIdentifier(geoBoundingBoxIdentifier || '');
 
         return geoBoundingBoxIdentifier;
       },

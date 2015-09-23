@@ -11,6 +11,31 @@
   width: 107px;
 }
 
+#spatial-search-box {
+  input {
+    float: left;
+    margin: 0;
+    padding: 0 10px;
+
+    &#spatial-options-north,
+    &#spatial-options-south {
+        width: 40px;
+    }
+
+    &#spatial-options-east,
+    &#spatial-options-west {
+        width: 45px;
+    }
+  }
+
+  label {
+    float: left;
+    padding: 4px 5px 0 0;
+    margin-left: 8px;
+    margin-right: 1px;
+  }
+}
+
 .geospatialInputFieldsNsew #northInput {
   clear: right;
 }
@@ -31,4 +56,10 @@
   margin-left: 20px;
   margin-right: 58px;
   margin-top: 10px;
+}
+
+#globe-button {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  margin-left: 10px;
 }

@@ -15,7 +15,7 @@ requireMock.requireWithStubs(
   },
   ['views/search_criteria/SearchCriteriaView',
    'views/search_criteria/SpatialCoverageView',
-   'views/search_criteria/SpatialCoverageTextView',
+   'views/search_criteria/NsidcSpatialCoverageTextView',
    'views/search_criteria/TemporalCoverageView',
    'views/search_criteria/KeywordsView',
    'collections/SearchResultsCollection',
@@ -24,7 +24,7 @@ requireMock.requireWithStubs(
    'vendor/requirejs/text!templates/search_criteria/keywords.html'],
   function (SearchCriteriaView,
             SpatialCoverageView,
-            SpatialCoverageTextView,
+            NsidcSpatialCoverageTextView,
             TemporalCoverageView,
             KeywordsView,
             SearchResultsCollection,
@@ -53,7 +53,7 @@ requireMock.requireWithStubs(
         sinon.stub(debug, 'warn');
 
         objectFactory.register('SpatialCoverageTextView', {
-          Ctor: SpatialCoverageTextView, configOptions: { preset: { presetText: 'Click to define Lat/Lon' } }
+          Ctor: NsidcSpatialCoverageTextView, configOptions: { preset: { presetText: 'Click to define Lat/Lon' } }
         });
 
         stubGeoBoundingBox = '1,2,3,4';

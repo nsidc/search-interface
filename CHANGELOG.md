@@ -2,6 +2,9 @@ New Features
 
 - Add new expected data center to ADE home page, "Data Observation Network for
   Earth (Data ONE)"
+- The Arctic Data Explorer has separate inputs for North, South, East, and West
+  coordinates, rather than one input box; this change makes it clear that
+  attempting a spatial search for something like "Alaska" will not work.
 
 Bugfixes
 
