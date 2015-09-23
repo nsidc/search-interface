@@ -313,23 +313,23 @@ module.exports = function (grunt) {
             }
           },
           vendor: [
-            'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
             'src/contrib/bootstrap/js/bootstrap.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js',
             'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.debug.js',
             'src/contrib/opensearchlight/OpenSearchlight.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
             'src/contrib/tipsy/javascripts/jquery.tipsy.js',
             'src/contrib/jasmine-jquery/jasmine-jquery-1.4.2.js',
             'src/contrib/jasmine-sinon/jasmine-sinon.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js',
             'src/scripts/lib/require_mocking.js'
           ]
         }
