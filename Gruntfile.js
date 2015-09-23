@@ -321,8 +321,8 @@ module.exports = function (grunt) {
             'src/contrib/bootstrap/js/bootstrap.min.js',
             'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js',
             'http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.min.js',
-            'http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.debug.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.debug.js',
             'src/contrib/opensearchlight/OpenSearchlight.min.js',
             'http://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
             'http://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
@@ -426,6 +426,10 @@ module.exports = function (grunt) {
         ].join(' ')
       },
 
+      link_proj4js: {
+        command: 'ln -s contrib/proj4js/defs build/defs'
+      },
+
       updateTag: {
         command: [
           'git tag --force <%= project %>-<%= environment %>',
@@ -498,8 +502,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
-  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
+  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'shell:link_proj4js', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
+  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
   grunt.registerTask('build:ade_search', 'build:acadis');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 

@@ -1,3 +1,14 @@
+New Features
+
+- Add new expected data center to ADE home page, "Data Observation Network for
+  Earth (Data ONE)"
+
+Bugfixes
+
+- Fix display of coordinates of the selected bounding box over HTTPS.
+- Update dependency OpenLayers; this fixes the display string in lower righthand
+  corner of map showing the coordinates of the cursor.
+
 ## 1.9.0 (2015-07-01)
 
 New Features
