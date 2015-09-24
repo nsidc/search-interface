@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nsidc/search-interface.svg)](https://travis-ci.org/nsidc/search-interface)
+
 # ACADIS ADE Portal / NSIDC Search Portal
 
 An Opensearch-based single page search interface

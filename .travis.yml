@@ -1,0 +1,5 @@
+language: node_js
+before_script:
+  - npm install -g grunt-cli
+  - bundle install --path=vendor/bundle # for scss-lint
+script: grunt lint-test
