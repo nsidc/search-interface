@@ -247,20 +247,13 @@
   }
 }
 
-#spatial-options {
-  float: left;
-  margin: 0;
-  padding: 0 10px;
-  width: $header-spatial-options-width;
-}
-
 #spatial-container {
   clear: both;
   float: left;
   margin: $header-spatial-container-margin;
   width: $header-spatial-container-width;
 
-  label {
+  > label {
     display: none;
   }
 }

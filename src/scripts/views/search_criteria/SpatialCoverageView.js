@@ -44,7 +44,9 @@ define(['views/search_criteria/SpatialCoverageCompassView',
       toggleCompassView: function () {
         this.compassView.toggleVisibility();
         var compassInput = document.getElementById('spatial-options');
-        compassInput.focus();
+        if (compassInput) {
+          compassInput.focus();
+        }
       }
     });
 
