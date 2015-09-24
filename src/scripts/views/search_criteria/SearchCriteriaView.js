@@ -85,7 +85,7 @@ define(
           south: this.getInputField('spatial-options-south'),
           east: this.getInputField('spatial-options-east'),
           west: this.getInputField('spatial-options-west')
-        }
+        };
 
         if (coords.north) {
           geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);

@@ -32,7 +32,7 @@ define(['views/search_criteria/AcadisSpatialCoverageTextView',
           south: '40.0',
           east: '180.0',
           west: '-180.0'
-        }, function (value, key, list) {
+        }, function (value, key) {
           var element = view.$el.find('#spatial-options-' + key);
           expect(element).not.toBeDisabled();
           expect(element.val()).toBe(value);

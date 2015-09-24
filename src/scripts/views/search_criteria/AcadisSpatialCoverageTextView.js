@@ -44,7 +44,7 @@ define(['vendor/requirejs/text!templates/search_criteria/acadis_text.html',
           south: defaults[1],
           east: defaults[2],
           west: defaults[0]
-        }
+        };
       } else {
         coords = UtilityFunctions.nsewObjFromIdentifier(text);
       }
