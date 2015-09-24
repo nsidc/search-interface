@@ -135,10 +135,6 @@ define([],
             shortName: 'R2R',
             longName: 'Rolling Deck to Repository',
             url: 'http://rvdata.us/about/technical'
-          }, {
-            shortName: 'Data ONE',
-            longName: 'Data Observation Network for Earth',
-            url: 'https://www.dataone.org'
           }
         ]
 
