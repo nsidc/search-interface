@@ -136,9 +136,9 @@ define([],
             longName: 'Rolling Deck to Repository',
             url: 'http://rvdata.us/about/technical'
           }, {
-            shortName: 'Data ONE',
-            longName: 'Data Observation Network for Earth',
-            url: 'https://www.dataone.org'
+            shortName: 'NOAA WDS Paleo',
+            longName: 'NOAA’s National Centers for Environmental Information, World Data Service for Paleoclimatology',
+            url: 'https://www.ncdc.noaa.gov/data-access/paleoclimatology-data'
           }
         ]
 
