@@ -135,6 +135,10 @@ define([],
             shortName: 'R2R',
             longName: 'Rolling Deck to Repository',
             url: 'http://rvdata.us/about/technical'
+          }, {
+            shortName: 'NOAA WDS Paleo',
+            longName: 'NOAA’s National Centers for Environmental Information, World Data Service for Paleoclimatology',
+            url: 'https://www.ncdc.noaa.gov/data-access/paleoclimatology-data'
           }
         ]
 
