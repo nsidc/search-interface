@@ -77,6 +77,9 @@ from `src/conf/`.
 
 ## Running the app locally
 
+Make sure grunt is installed by running `npm install -g grunt-cli` (with root
+access).
+
 Run `grunt build:nsidc-dev` or `grunt build:acadis-dev` to generate the
 appropriate `src/index.html` file (as well as css files), then
 `./run_local_webserver.rb` and open your browser to http://localhost:8081.

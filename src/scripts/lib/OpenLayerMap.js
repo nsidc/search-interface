@@ -992,6 +992,7 @@ define(['lib/mediator_mixin',
       maxExtent: SpatialSelectionUtilities.MAP_SETTINGS[newSrid].extent,
       maxResolution: mapMaxResolution,
       tileSize: new OpenLayers.Size(mapWidth, mapHeight),
+      size: new OpenLayers.Size(mapWidth, mapHeight),
       numZoomLevels: SpatialSelectionUtilities.MAP_SETTINGS[newSrid].numZoomLevels,
       controls: [] // Disable default controls
     };

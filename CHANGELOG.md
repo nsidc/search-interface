@@ -1,3 +1,10 @@
+## Unreleased
+
+Bug fixes
+
+- Update dependency OpenLayers; this fixes the display string in the lower righthand
+  corner of the map showing the coordinates of the cursor.  (NSIDC Search)
+
 ## 1.10.0 (2015-09-25)
 
 New Features
@@ -12,7 +19,7 @@ Bugfixes
 
 - Fix display of coordinates of the selected bounding box over HTTPS.
 - Update dependency OpenLayers; this fixes the display string in lower righthand
-  corner of map showing the coordinates of the cursor.
+  corner of map showing the coordinates of the cursor.  (ACADIS)
 
 ## 1.9.0 (2015-07-01)
 
