@@ -1,7 +1,5 @@
 ## 1.10.1 (2015-10-28)
 
-## Unreleased
-
 Bug fixes
 
 - Update dependency OpenLayers; this fixes the display string in the lower righthand
