@@ -1,3 +1,5 @@
+## 1.10.1 (2015-10-28)
+
 ## Unreleased
 
 Bug fixes
