@@ -1,5 +1,5 @@
 define(['vendor/requirejs/text!templates/left_column/logo_nsidc.html',
-       'vendor/requirejs/text!templates/left_column/logo_acadis.html',
+       'vendor/requirejs/text!templates/left_column/logo_nsidc.html',
        'lib/mediator_mixin'],
        function (nsidcLogoTemplate,
                  acadisLogoTemplate,
