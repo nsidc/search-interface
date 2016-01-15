@@ -1,8 +1,6 @@
 define(['vendor/requirejs/text!templates/left_column/logo_nsidc.html',
-       'vendor/requirejs/text!templates/left_column/logo_acadis.html',
        'lib/mediator_mixin'],
-       function (nsidcLogoTemplate,
-                 acadisLogoTemplate,
+       function (logoTemplate,
                  mediatorMixin) {
   var LogoView;
 
@@ -13,17 +11,12 @@ define(['vendor/requirejs/text!templates/left_column/logo_nsidc.html',
     },
 
     render: function () {
-      var currentTemplate;
-
-      if (this.options.templateId === 'NSIDC') {
-        currentTemplate = nsidcLogoTemplate;
-      } else if (this.options.templateId === 'ACADIS') {
-        currentTemplate = acadisLogoTemplate;
-      } else {
+      if (! (this.options.templateId === 'NSIDC' ||
+          this.options.templateId === 'ACADIS')) {
         throw new Error('Invalid template ID');
       }
 
-      this.$el.html(_.template(currentTemplate));
+      this.$el.html(_.template(logoTemplate));
 
       return this;
     },

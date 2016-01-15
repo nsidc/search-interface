@@ -1,3 +1,9 @@
+## Unreleased
+
+Changes
+
+- Removed ACADIS logo and text from the landing page and search results page.
+
 ## 1.10.1 (2015-10-28)
 
 Bug fixes
