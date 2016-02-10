@@ -139,6 +139,10 @@ define([],
             shortName: 'NOAA WDS Paleo',
             longName: 'NOAA’s National Centers for Environmental Information, World Data Service for Paleoclimatology',
             url: 'https://www.ncdc.noaa.gov/data-access/paleoclimatology-data'
+          }, {
+            shortName: 'GTN-P',
+            longName: 'Global Terrestrial Network for Permafrost',
+            url: 'http://gtnpdatabase.org/'
           }
         ]
 
