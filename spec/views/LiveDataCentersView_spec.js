@@ -26,9 +26,9 @@ requireMock.requireWithStubs(
               shortName: 'NSIDC',
               longName: 'National Snow and Ice Data Center'
             }, {
-              url: 'http://aoncadis.org',
-              shortName: 'ACADIS Gateway',
-              longName: 'Advanced Cooperative Arctic Data and Information Service'
+              url: 'https://arcticdata.io/',
+              shortName: 'NSF ADC',
+              longName: 'NSF Arctic Data Center'
             }, {
               url: 'http://met.no',
               shortName: 'Met.no',
@@ -48,8 +48,8 @@ requireMock.requireWithStubs(
             },
             {
               count: '103',
-              longName: 'Advanced Cooperative Arctic Data and Information Service',
-              shortName: 'ACADIS Gateway'
+              longName: 'NSF Arctic Data Center',
+              shortName: 'NSF ADC'
             }
           ]
         };
@@ -63,9 +63,9 @@ requireMock.requireWithStubs(
 
         view.onDatacentersReturned(fakeDatacenterFacet);
 
-        el = view.$el.find('#count-ACADISGateway');
+        el = view.$el.find('#count-NSFADC');
 
-        expect(el.text()).toContain('(ACADIS Gateway)');
+        expect(el.text()).toContain('(NSF ADC)');
         expect(el.text()).toContain('103');
       });
 

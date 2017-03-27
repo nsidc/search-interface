@@ -14,7 +14,7 @@
   <nsidc:facet name="facet_data_center">
     <nsidc:facet_value name="UCAR NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility" hits="1622"/>
     <nsidc:facet_value name="National Snow and Ice Data Center" hits="528"/>
-    <nsidc:facet_value name="Advanced Cooperative Arctic Data and Information Service" hits="495"/>
+    <nsidc:facet_value name="NSF Arctic Data Center" hits="495"/>
     <nsidc:facet_value name="NOAA National Oceanographic Data Center" hits="56"/>
     <nsidc:facet_value name="Norwegian Meteorological Institute" hits="51"/>
   </nsidc:facet>

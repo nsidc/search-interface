@@ -84,9 +84,9 @@ define([],
         //
         expectedDataCenters: [
           {
-            shortName: 'ACADIS Gateway',
-            longName: 'Advanced Cooperative Arctic Data and Information Service',
-            url: 'http://aoncadis.org'
+            shortName: 'NSF ADC',
+            longName: 'NSF Arctic Data Center',
+            url: 'https://arcticdata.io/'
           }, {
             shortName: 'NSIDC',
             longName: 'National Snow and Ice Data Center',
