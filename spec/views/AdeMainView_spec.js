@@ -17,7 +17,7 @@ requireMock.requireWithStubs(
     'views/MainHeaderView',
     'views/left_column/LeftColumnView',
     'views/right_column/RightColumnView',
-    'views/AcadisMainView',
+    'views/AdeMainView',
     'views/HomePageView',
     'views/LoadingResultsView',
     'views/SearchErrorView',
@@ -28,15 +28,15 @@ requireMock.requireWithStubs(
             MainHeaderView,
             LeftColumnView,
             RightColumnView,
-            AcadisMainView,
+            AdeMainView,
             HomePageView,
             LoadingResultsView,
             SearchErrorView,
             Mediator) {
 
-    describe('Acadis Main View', function () {
+    describe('Ade Main View', function () {
 
-      var el, params, acadisMainView, testConfig;
+      var el, params, adeMainView, testConfig;
 
       beforeEach(function () {
         el = document.createElement('div');
@@ -49,9 +49,9 @@ requireMock.requireWithStubs(
 
         testConfig = {
           'MainHeaderView': {Ctor: MainHeaderView, defaultOptions: {templateId: '#nsidc_search-MainHeaderView-panel' } },
-          'HomePageView' : {Ctor: HomePageView, defaultOptions: {templateId: 'ACADIS'} },
-          'LeftColumnView' : {Ctor: LeftColumnView, defaultOptions: {templateId: 'ACADIS'} },
-          'LoadingResultsView' : {Ctor: LoadingResultsView, defaultOptions: {templateId: 'ACADIS'} },
+          'HomePageView' : {Ctor: HomePageView, defaultOptions: {templateId: 'ADE'} },
+          'LeftColumnView' : {Ctor: LeftColumnView, defaultOptions: {templateId: 'ADE'} },
+          'LoadingResultsView' : {Ctor: LoadingResultsView, defaultOptions: {templateId: 'ADE'} },
         };
         objectFactory.setConfig(testConfig);
 
@@ -70,9 +70,9 @@ requireMock.requireWithStubs(
 
       it('Should create the correct child elements', function () {
         // arrange
-        acadisMainView = new AcadisMainView(params);
+        adeMainView = new AdeMainView(params);
         // act
-        acadisMainView.render();
+        adeMainView.render();
         // assert
         expect($(el).find('#content').length).toEqual(1);
       });
@@ -80,25 +80,25 @@ requireMock.requireWithStubs(
       describe('search:resetClear', function () {
         var mediator;
         beforeEach(function () {
-          acadisMainView = new AcadisMainView(params);
+          adeMainView = new AdeMainView(params);
           mediator = new Mediator();
-          acadisMainView.setMediator(mediator);
-          acadisMainView.render();
+          adeMainView.setMediator(mediator);
+          adeMainView.render();
           mediator.trigger('search:resetClear');
         });
 
         it('should add a reset message', function () {
-          expect(acadisMainView.$el.find('#content-explanation-message').length).toEqual(1);
+          expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
         });
 
         it('should remove the reset message on a new search', function () {
           mediator.trigger('search:initiated');
-          expect(acadisMainView.$el.find('#content-explanation-message').length).toEqual(0);
+          expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(0);
         });
 
         it('should replace the current message if one already exists', function () {
           mediator.trigger('search:resetClear');
-          expect(acadisMainView.$el.find('#content-explanation-message').length).toEqual(1);
+          expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
         });
       });
 
@@ -113,8 +113,8 @@ requireMock.requireWithStubs(
         _.each(viewsInstantiated, function (viewCtor, viewCtorName) {
 
           it('Should instantiate the ' + viewCtorName + ' view', function () {
-            acadisMainView = new AcadisMainView(params);
-            acadisMainView.render();
+            adeMainView = new AdeMainView(params);
+            adeMainView.render();
             expect(viewCtor.callCount).toBeGreaterThan(0);
           });
         });

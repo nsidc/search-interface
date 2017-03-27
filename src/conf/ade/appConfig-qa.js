@@ -18,7 +18,7 @@ define([],
     },
 
     config = {
-      description: 'Config for ACADIS ADE',
+      description: 'Config for ADE',
       openSearch: {
         defaultParameters: openSearchOptions
       },

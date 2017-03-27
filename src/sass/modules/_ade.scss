@@ -4,26 +4,26 @@
 // the order in which modules are imported should not matter; if it does, the
 // code probably isn't actually modular
 
-@import 'global/global_acadis';
+@import 'global/global_ade';
 @import 'global/global_common';
 
-@import 'header/header_acadis';
+@import 'header/header_ade';
 @import 'header/header_common';
 
-@import 'vendor_overrides/vendor_overrides_acadis';
+@import 'vendor_overrides/vendor_overrides_ade';
 @import 'vendor_overrides/vendor_overrides_common';
 
-@import 'left_column/left_column_acadis';
+@import 'left_column/left_column_ade';
 @import 'left_column/left_column_common';
 
-@import 'search_results/search_results_acadis';
+@import 'search_results/search_results_ade';
 @import 'search_results/search_results_common';
 
-@import 'search_results_header/search_results_header_acadis';
+@import 'search_results_header/search_results_header_ade';
 @import 'search_results_header/search_results_header_common';
 
-@import 'search_results_footer/search_results_footer_acadis';
+@import 'search_results_footer/search_results_footer_ade';
 @import 'search_results_footer/search_results_footer_common';
 
-@import 'home/home_acadis';
+@import 'home/home_ade';
 @import 'home/home_common';

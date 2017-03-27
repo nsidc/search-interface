@@ -3,13 +3,13 @@ Before do
 end
 
 Given(/^I open the search page not expecting a home page$/) do
-  @search_page = AcadisSearchPage.new(@url, @browser)
+  @search_page = AdeSearchPage.new(@url, @browser)
   @search_page.wait_until_loading_is_complete
   @search_page.add_results_to_history
 end
 
 Given(/^I open the search page expecting a home page$/) do
-  @search_page = AcadisSearchPage.new(@url, @browser)
+  @search_page = AdeSearchPage.new(@url, @browser)
   @search_page.wait_until_home_page_is_visible
 end
 

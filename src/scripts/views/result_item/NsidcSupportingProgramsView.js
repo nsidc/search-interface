@@ -21,7 +21,7 @@ define(
             'FGDC': [/^FGDC/],
             'ELOKA': [/^ELOKA/],
             'NASA_DAAC': [/^NASA NSIDC DAAC/],
-            'ACADIS': [/^ACADIS/],
+            'ADC': [/^ADC/],
 
             'USADCC': [/^USADCC/, /^NSIDC_ARCSS/],
             'NSIDC_ARC': [/^NSIDC_ROCS/, /^NSIDC ARC/]

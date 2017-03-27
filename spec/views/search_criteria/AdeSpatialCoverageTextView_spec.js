@@ -1,8 +1,8 @@
-define(['views/search_criteria/AcadisSpatialCoverageTextView',
+define(['views/search_criteria/AdeSpatialCoverageTextView',
        'models/GeoBoundingBox', 'models/SearchParamsModel'],
-       function (AcadisSpatialCoverageTextView, GeoBoundingBox) {
+       function (AdeSpatialCoverageTextView, GeoBoundingBox) {
 
-  describe('ACADIS Spatial Coverage Text View ', function () {
+  describe('ADE Spatial Coverage Text View ', function () {
 
     var element, geoBoundingBox, view;
 
@@ -10,7 +10,7 @@ define(['views/search_criteria/AcadisSpatialCoverageTextView',
       element = document.createElement('div');
       geoBoundingBox = new GeoBoundingBox([-180, 45, 180, 90]);
       geoBoundingBox.set('south', 40);
-      view = new AcadisSpatialCoverageTextView({ el: element, model: geoBoundingBox });
+      view = new AdeSpatialCoverageTextView({ el: element, model: geoBoundingBox });
     });
 
     describe('rendering', function () {

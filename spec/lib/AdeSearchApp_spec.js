@@ -3,16 +3,16 @@ var createFakeView = function () { return sinon.createStubInstance(Backbone.View
 requireMock.requireWithStubs(
   {
     'views/result_item/ResultItemView': sinon.stub().returns(createFakeView()),
-    'views/AcadisMainView': sinon.stub().returns(createFakeView()),
+    'views/AdeMainView': sinon.stub().returns(createFakeView()),
     'views/MainHeaderView': sinon.stub().returns(createFakeView())
   },
   [
     'models/SearchParamsModel',
     'collections/SearchResultsCollection',
     'collections/FacetsCollection',
-    'views/AcadisMainView',
+    'views/AdeMainView',
     'views/MainHeaderView',
-    'lib/AcadisSearchApp',
+    'lib/AdeSearchApp',
     'lib/criteriaAppender',
     'lib/objectFactory',
     'lib/Mediator',
@@ -22,9 +22,9 @@ requireMock.requireWithStubs(
             SearchParamsModel,
             SearchResultsCollection,
             FacetsCollection,
-            AcadisMainView,
+            AdeMainView,
             MainHeaderView,
-            AcadisSearchApp,
+            AdeSearchApp,
             criteriaAppender,
             objectFactory,
             Mediator,
@@ -36,15 +36,15 @@ requireMock.requireWithStubs(
       expect(ViewStub.returnValue.render).toHaveBeenCalledOnce();
     };
 
-    describe('Acadis Search App', function () {
+    describe('Ade Search App', function () {
       var createMinimalSearchApp,
         createMinimalNSIDCSearchApp,
-        createMinimalAcadisSearchApp,
+        createMinimalAdeSearchApp,
         defaultConfig;
 
       beforeEach(function () {
-        AcadisMainView.returnValue.render.reset();
-        AcadisMainView.reset();
+        AdeMainView.returnValue.render.reset();
+        AdeMainView.reset();
       });
 
       defaultConfig = {
@@ -121,7 +121,7 @@ requireMock.requireWithStubs(
         appConfig = {
           features: {
             homePage: true,
-            itemsPerPage: appID === 'ACADIS' ? [10, 25, 50, 100] : [25, 50, 100, 250, 500],
+            itemsPerPage: appID === 'ADE' ? [10, 25, 50, 100] : [25, 50, 100, 250, 500],
             facets: true
           },
           openSearch: {
@@ -131,13 +131,13 @@ requireMock.requireWithStubs(
             }
           }
         };
-        app = new AcadisSearchApp(params, appConfig);
+        app = new AdeSearchApp(params, appConfig);
 
         return app;
       };
 
-      createMinimalAcadisSearchApp = function () {
-        return  createMinimalSearchApp('ACADIS');
+      createMinimalAdeSearchApp = function () {
+        return  createMinimalSearchApp('ADE');
       };
 
       createMinimalNSIDCSearchApp = function () {
@@ -196,25 +196,25 @@ requireMock.requireWithStubs(
       describe('startup sequence', function () {
 
         it('Should correctly set up the application', function () {
-          var acadisSearchApp = createMinimalAcadisSearchApp();
-          expect(acadisSearchApp.getSearchResultsCollection()).toBeDefined();
+          var adeSearchApp = createMinimalAdeSearchApp();
+          expect(adeSearchApp.getSearchResultsCollection()).toBeDefined();
         });
 
-        it('should create and render an AcadisMainView', function () {
-          createMinimalAcadisSearchApp();
-          ensureViewWasRendered(AcadisMainView);
+        it('should create and render an AdeMainView', function () {
+          createMinimalAdeSearchApp();
+          ensureViewWasRendered(AdeMainView);
         });
 
       });
 
 
-      describe('ACADIS custom URL routing', function () {
+      describe('ADE custom URL routing', function () {
 
         var app, searchParamsSpy, triggerSpy;
 
         beforeEach(function () {
           // Set up minimal search app and spy on the searchParamsModel's setCriteria
-          app = createMinimalAcadisSearchApp();
+          app = createMinimalAdeSearchApp();
           searchParamsSpy = sinon.spy(app.getSearchParamsModel(), 'setCriteria');
           triggerSpy = sinon.spy(app, 'mediatorTrigger');
         });
@@ -344,7 +344,7 @@ requireMock.requireWithStubs(
           // this relationship isn't enforced by code anywhere, this test provides
           // some kind of insurance.
 
-          var app = createMinimalAcadisSearchApp(),
+          var app = createMinimalAdeSearchApp(),
               searchResultsCollection = app.getSearchResultsCollection();
 
           _.each(app.routeHandlerProperties, function (regex, propName) {
@@ -364,7 +364,7 @@ requireMock.requireWithStubs(
 
         beforeEach(function () {
           mediator = new Mediator();
-          app = createMinimalAcadisSearchApp();
+          app = createMinimalAdeSearchApp();
           app.setMediator(mediator);
         });
 
@@ -452,7 +452,7 @@ requireMock.requireWithStubs(
 
         beforeEach(function () {
           mediator = new Mediator();
-          app = createMinimalAcadisSearchApp();
+          app = createMinimalAdeSearchApp();
           app.setMediator(mediator);
         });
 

@@ -52,7 +52,7 @@ requireMock.requireWithStubs(
             }
           }
         });
-        objectFactory.register('LogoView', {Ctor: LogoView, configOptions: { preset: {templateId: 'ACADIS' } } });
+        objectFactory.register('LogoView', {Ctor: LogoView, configOptions: { preset: {templateId: 'ADE' } } });
         objectFactory.register('FacetsCollection', FacetsCollection);
         objectFactory.register('FacetsView', FacetsView);
       });

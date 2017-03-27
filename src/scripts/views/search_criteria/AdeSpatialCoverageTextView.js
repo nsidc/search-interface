@@ -1,10 +1,10 @@
 // SpatialCoverageTextView - Backbone view to display the spatial coverage in
 // four inputs that can easily be edited by the user
-define(['vendor/requirejs/text!templates/search_criteria/acadis_text.html',
+define(['vendor/requirejs/text!templates/search_criteria/ade_text.html',
         'lib/mediator_mixin',
         'lib/utility_functions'],
        function (template, mediatorMixin, UtilityFunctions) {
-  var AcadisSpatialCoverageTextView = Backbone.View.extend({
+  var AdeSpatialCoverageTextView = Backbone.View.extend({
     template: _.template(template),
 
     events: {
@@ -72,7 +72,7 @@ define(['vendor/requirejs/text!templates/search_criteria/acadis_text.html',
     }
   });
 
-  _.extend(AcadisSpatialCoverageTextView.prototype, mediatorMixin);
+  _.extend(AdeSpatialCoverageTextView.prototype, mediatorMixin);
 
-  return AcadisSpatialCoverageTextView;
+  return AdeSpatialCoverageTextView;
 });

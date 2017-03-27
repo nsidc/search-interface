@@ -5,11 +5,11 @@ define(
   ],
   function (LogoView, objectFactory) {
 
-    describe('logoView works for acadis', function () {
+    describe('logoView works for ade', function () {
       var logoView;
 
       beforeEach(function () {
-        objectFactory.register('LogoView', {Ctor: LogoView, configOptions: {preset: {templateId: 'ACADIS' }} });
+        objectFactory.register('LogoView', {Ctor: LogoView, configOptions: {preset: {templateId: 'ADE' }} });
         logoView = objectFactory.createInstance('LogoView');
         logoView.render();
       });

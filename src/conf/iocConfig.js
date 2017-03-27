@@ -1,18 +1,18 @@
 // runtime config loading so requirejs configuration is not dynamically changed
 // in main.js
 define([
-  'conf/acadis/iocConfig',
+  'conf/ade/iocConfig',
   'conf/nsidc/iocConfig'
 ], function (
-  acadisIocConf,
+  adeIocConf,
   nsidcIocConf
 ) {
 
   // nsidc is a global defined in index.html
   switch (nsidc.project) {
 
-  case 'ACADIS':
-    return acadisIocConf;
+  case 'ADE':
+    return adeIocConf;
 
   case 'NSIDC':
     return nsidcIocConf;
