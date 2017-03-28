@@ -1,9 +1,9 @@
 define(['vendor/requirejs/text!templates/home_page_nsidc.html',
-       'vendor/requirejs/text!templates/home_page_acadis.html',
+       'vendor/requirejs/text!templates/home_page_ade.html',
        'lib/objectFactory',
        'lib/mediator_mixin'],
        function (nsidcHomeTemplate,
-                 acadisHomeTemplate,
+                 adeHomeTemplate,
                  objectFactory,
                  mediatorMixin) {
   var HomePageView;
@@ -32,8 +32,8 @@ define(['vendor/requirejs/text!templates/home_page_nsidc.html',
 
       if (this.options.templateId === 'NSIDC') {
         currentTemplate = nsidcHomeTemplate;
-      } else if (this.options.templateId === 'ACADIS') {
-        currentTemplate = acadisHomeTemplate;
+      } else if (this.options.templateId === 'ADE') {
+        currentTemplate = adeHomeTemplate;
       } else {
         throw new Error('Invalid template ID');
       }

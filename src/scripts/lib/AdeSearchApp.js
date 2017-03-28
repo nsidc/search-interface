@@ -1,14 +1,14 @@
 define(['lib/SearchTerms',
        'lib/criteriaAppender',
        'lib/mediator_mixin',
-       'views/AcadisMainView',
+       'views/AdeMainView',
        'lib/objectFactory'],
        function (SearchTerms,
                  criteriaAppender,
                  mediatorMixin,
-                 AcadisMainView,
+                 AdeMainView,
                  objectFactory) {
-  var AcadisSearchApp, properties, compileRegex, displayHomePageOnCancel,
+  var AdeSearchApp, properties, compileRegex, displayHomePageOnCancel,
       isHomePageEnabled, isItemsPerPageEnabled, config, ws, message, loc,
       setupWebSockets;
 
@@ -72,7 +72,7 @@ define(['lib/SearchTerms',
     }
   };
 
-  AcadisSearchApp = Backbone.Router.extend({
+  AdeSearchApp = Backbone.Router.extend({
 
     initialize: function (params, appConfig) {
       config = appConfig;
@@ -110,7 +110,7 @@ define(['lib/SearchTerms',
       }
 
       if (params.el === 'undefined') {
-        throw new Error('el is a required parameter of the AcadisSearchApp');
+        throw new Error('el is a required parameter of the AdeSearchApp');
       }
 
       displayHomePageOnCancel = true;
@@ -119,7 +119,7 @@ define(['lib/SearchTerms',
       this.bindEvents();
 
       // Create an initial view and update the page
-      this.acadisMainView = new AcadisMainView({
+      this.adeMainView = new AdeMainView({
         el: jQuery(params.el),
         searchResultsCollection: this.searchResults,
         facetsCollection: this.facets,
@@ -207,7 +207,7 @@ define(['lib/SearchTerms',
     },
 
     getMainView : function () {
-      return this.acadisMainView;
+      return this.adeMainView;
     },
 
     onSearchCancel : function () {
@@ -249,7 +249,7 @@ define(['lib/SearchTerms',
   });
 
   // Mix in the mediator behaviour
-  _.extend(AcadisSearchApp.prototype, mediatorMixin);
+  _.extend(AdeSearchApp.prototype, mediatorMixin);
 
-  return AcadisSearchApp;
+  return AdeSearchApp;
 });

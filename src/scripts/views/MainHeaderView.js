@@ -1,10 +1,10 @@
 define(['lib/objectFactory',
        'vendor/requirejs/text!templates/main_header_nsidc.html',
-       'vendor/requirejs/text!templates/main_header_acadis.html',
+       'vendor/requirejs/text!templates/main_header_ade.html',
        'lib/mediator_mixin'],
        function (objectFactory,
                  nsidcHeaderTemplate,
-                 acadisHeaderTemplate,
+                 adeHeaderTemplate,
                  mediatorMixin) {
 
   var MainHeaderView = Backbone.View.extend({
@@ -22,8 +22,8 @@ define(['lib/objectFactory',
       var currentTemplate;
       if (this.options.templateId === 'NSIDC') {
         currentTemplate = nsidcHeaderTemplate;
-      } else if (this.options.templateId === 'ACADIS') {
-        currentTemplate = acadisHeaderTemplate;
+      } else if (this.options.templateId === 'ADE') {
+        currentTemplate = adeHeaderTemplate;
       } else {
         throw new Error('Invalid template ID');
       }

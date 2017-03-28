@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/acadis_main_view.html',
+define(['vendor/requirejs/text!templates/ade_main_view.html',
         'vendor/requirejs/text!templates/content_explanation_message.html',
         'views/AlertMessageView',
         'views/NoResultsView',
@@ -15,7 +15,7 @@ define(['vendor/requirejs/text!templates/acadis_main_view.html',
                 objectFactory,
                 mediatorMixin) {
 
-  var AcadisMainView, templates, addEnvironmentToTitle;
+  var AdeMainView, templates, addEnvironmentToTitle;
 
   templates = {
     mainLayout : _.template(mainViewTemplate),
@@ -37,7 +37,7 @@ define(['vendor/requirejs/text!templates/acadis_main_view.html',
     }
   };
 
-  AcadisMainView = Backbone.View.extend({
+  AdeMainView = Backbone.View.extend({
 
     initialize : function (options) {
       this.options = options;
@@ -121,7 +121,7 @@ define(['vendor/requirejs/text!templates/acadis_main_view.html',
   });
 
   // Mix in the mediator behaviour
-  _.extend(AcadisMainView.prototype, mediatorMixin);
+  _.extend(AdeMainView.prototype, mediatorMixin);
 
-  return AcadisMainView;
+  return AdeMainView;
 });

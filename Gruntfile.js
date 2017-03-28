@@ -72,7 +72,7 @@ module.exports = function (grunt) {
         options: {
           filter: 'include',
           tasks: [
-            'build:acadis-dev',
+            'build:ade-dev',
             'build:ade_search',
             'build:nsidc-dev',
             'build:nsidc_search',
@@ -89,14 +89,14 @@ module.exports = function (grunt) {
             'updateTag'
           ],
           groups: {
-            'Build for Development': ['build:acadis-dev', 'build:nsidc-dev'],
+            'Build for Development': ['build:ade-dev', 'build:nsidc-dev'],
             'Deployment/Release': ['build:ade_search', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
             'Miscellaneous': ['default', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
           },
           descriptions: {
-            'build:acadis-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
+            'build:ade-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
             'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS into src/ for NSIDC Search.',
             'build:ade_search': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
             'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
@@ -226,25 +226,25 @@ module.exports = function (grunt) {
       }
     },
 
-    // 'jade:acadis' and 'jade:nsidc' used when the portal is built for
+    // 'jade:ade' and 'jade:nsidc' used when the portal is built for
     // deployment; use '-dev' for local development
     jade: {
       options: {
         basedir: 'src',
         pretty: true
       },
-      'acadis-dev': {
+      'ade-dev': {
         options: {
           data: {
             environment: '<%= environment %>',
-            project: 'ACADIS',
+            project: 'ADE',
             title: 'Arctic Data Explorer',
             version: '<%= pkg.version %>'
           }
         },
         files: {
-          'src/index-acadis.html': ['src/templates/acadis-index.jade'],
-          'src/index.html': ['src/templates/acadis-index.jade']
+          'src/index-ade.html': ['src/templates/ade-index.jade'],
+          'src/index.html': ['src/templates/ade-index.jade']
         }
       },
       'nsidc-dev': {
@@ -261,17 +261,17 @@ module.exports = function (grunt) {
           'src/index.html': ['src/templates/nsidc-index.jade']
         }
       },
-      acadis: {
+      ade: {
         options: {
           data: {
             environment: '<%= environment %>',
-            project: 'ACADIS',
+            project: 'ADE',
             title: 'Arctic Data Explorer',
             version: '<%= pkg.version %>'
           }
         },
         files: {
-          'build/index.html': ['src/templates/acadis-index.jade']
+          'build/index.html': ['src/templates/ade-index.jade']
         }
       },
       nsidc: {
@@ -354,7 +354,7 @@ module.exports = function (grunt) {
     },
 
     requirejs: {
-      acadis: {
+      ade: {
         options: requirejsConf
       },
       nsidc: {
@@ -362,7 +362,7 @@ module.exports = function (grunt) {
       }
     },
 
-    // 'sass:acadis' and 'sass:nsidc' used when the portal is built for
+    // 'sass:ade' and 'sass:nsidc' used when the portal is built for
     // deployment; use 'sass:dev' for local development
     //
     // sass/ must have the same parent directory as css/ for sourcemaps to work;
@@ -371,14 +371,14 @@ module.exports = function (grunt) {
     sass: {
       'dev': {
         files: {
-          'src/css/acadis-search.css': 'src/sass/acadis_main.scss',
+          'src/css/ade-search.css': 'src/sass/ade_main.scss',
           'src/css/nsidc-search.css': 'src/sass/nsidc_main.scss'
         },
         options: sassConf
       },
-      acadis: {
+      ade: {
         files: {
-          'build/css/acadis-search.css': 'build/sass/acadis_main.scss'
+          'build/css/ade-search.css': 'build/sass/ade_main.scss'
         },
         options: sassConf
       },
@@ -439,9 +439,9 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      'build-acadis': {
+      'build-ade': {
         files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
-        tasks: ['build:acadis-dev']
+        tasks: ['build:ade-dev']
       },
       'build-nsidc': {
         files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
@@ -497,14 +497,14 @@ module.exports = function (grunt) {
   // ADE to be mounted at /acadis/search/ on your localhost
   //
   // build:nsidc-dev allows NSIDC Search to be mounted at /
-  // build:acadis-dev allows ADE to be mounted at /
-  grunt.registerTask('build:acadis-dev', ['clean:dev', 'jade:nsidc-dev', 'jade:acadis-dev', 'sass:dev']);
-  grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:acadis-dev', 'jade:nsidc-dev', 'sass:dev']);
+  // build:ade-dev allows ADE to be mounted at /
+  grunt.registerTask('build:ade-dev', ['clean:dev', 'jade:nsidc-dev', 'jade:ade-dev', 'sass:dev']);
+  grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:ade-dev', 'jade:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:acadis', ['clean:build', 'requirejs:acadis', 'shell:link_proj4js', 'jade:acadis', 'sass:acadis', 'clean:post-build']);
+  grunt.registerTask('build:ade', ['clean:build', 'requirejs:ade', 'shell:link_proj4js', 'jade:ade', 'sass:ade', 'clean:post-build']);
   grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
-  grunt.registerTask('build:ade_search', 'build:acadis');
+  grunt.registerTask('build:ade_search', 'build:ade');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
   grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);

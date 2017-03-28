@@ -12,7 +12,7 @@ define(['vendor/requirejs/text!templates/left_column/logo_nsidc.html',
 
     render: function () {
       if (! (this.options.templateId === 'NSIDC' ||
-          this.options.templateId === 'ACADIS')) {
+          this.options.templateId === 'ADE')) {
         throw new Error('Invalid template ID');
       }
 

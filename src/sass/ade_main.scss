@@ -1,11 +1,11 @@
 // get the project configuration
-@import 'config_acadis';
+@import 'config_ade';
 
 // get the common junk
 @import 'junk/common';
 
 // get the non-junk modules
-@import 'modules/acadis';
+@import 'modules/ade';
 
 // get the rest of the junk
-@import 'junk/acadis';
+@import 'junk/ade';

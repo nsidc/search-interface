@@ -26,9 +26,9 @@ requireMock.requireWithStubs(
           SearchCriteriaView.reset();
         });
 
-        describe('rendering the ACADIS view', function () {
+        describe('rendering the ADE view', function () {
           beforeEach(function () {
-            mainHeader = new MainHeaderView({templateId: 'ACADIS'}).render();
+            mainHeader = new MainHeaderView({templateId: 'ADE'}).render();
           });
 
           it('should create a correctly structured element as provided', function () {

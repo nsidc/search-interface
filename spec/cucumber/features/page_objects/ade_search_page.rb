@@ -1,6 +1,6 @@
 require 'watir-webdriver'
 
-class AcadisSearchPage
+class AdeSearchPage
   attr_reader :expected_data_center_counts, :actual_data_center_counts
 
   def initialize(url, browser = nil)
@@ -26,7 +26,7 @@ class AcadisSearchPage
   end
 
   def add_results_to_history
-    @results_history.push(AcadisSearchResultsPage.new(@browser))
+    @results_history.push(AdeSearchResultsPage.new(@browser))
   end
 
   def search_for(term)
@@ -82,7 +82,7 @@ class AcadisSearchPage
   def click_next_page_button
     @browser.a(:class, 'next').click
     wait_until_loading_is_complete
-    @results_history.push AcadisSearchResultsPage.new(@browser)
+    @results_history.push AdeSearchResultsPage.new(@browser)
   end
 
   def current_page_number

@@ -16,7 +16,7 @@ define(['views/result_item/SummaryView',
         'views/search_criteria/SearchCriteriaView',
         'views/search_criteria/TemporalCoverageView',
         'views/search_criteria/SpatialCoverageView',
-        'views/search_criteria/AcadisSpatialCoverageTextView',
+        'views/search_criteria/AdeSpatialCoverageTextView',
         'views/search_criteria/KeywordsView',
         'models/SearchParamsModel',
         'lib/OpenSearchProvider',
@@ -42,7 +42,7 @@ define(['views/result_item/SummaryView',
       SearchCriteriaView,
       TemporalCoverageView,
       SpatialCoverageView,
-      AcadisSpatialCoverageTextView,
+      AdeSpatialCoverageTextView,
       KeywordsView,
       SearchParamsModel,
       OpenSearchProvider,
@@ -77,7 +77,7 @@ define(['views/result_item/SummaryView',
         Ctor: MainHeaderView,
         configOptions: {
           preset: {
-            templateId: 'ACADIS',
+            templateId: 'ADE',
             map: {view : 'EASE_GRID_NORTH'},
             features: {
               homePage: homePageEnabled,
@@ -99,14 +99,14 @@ define(['views/result_item/SummaryView',
           }
         }
       },
-      'SpatialCoverageTextView': AcadisSpatialCoverageTextView,
+      'SpatialCoverageTextView': AdeSpatialCoverageTextView,
 
       'HomePageView': {
         Ctor: HomePageView,
         configOptions: {
           preset: {
             homePageDataCenters: homePageDataCenters,
-            templateId: 'ACADIS'
+            templateId: 'ADE'
           }
         }
       },
@@ -137,7 +137,7 @@ define(['views/result_item/SummaryView',
         Ctor: ResultsPerPageView,
         configOptions: {preset: {features: {resultsPerPage: itemsPerPage } } }
       },
-      'LogoView': {Ctor: LogoView, configOptions: {preset: {templateId: 'ACADIS' } } },
+      'LogoView': {Ctor: LogoView, configOptions: {preset: {templateId: 'ADE' } } },
       'FacetsView': { Ctor: FacetsView, configOptions: {preset: {itemsPerFacet: itemsPerFacet } } },
       'SearchParamsModel': {
         Ctor: SearchParamsModel,

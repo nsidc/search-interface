@@ -16,7 +16,7 @@ define(['lib/utility_functions', 'lib/SearchTerms'], function (utilityFunctions,
   };
 
   // Params:
-  // * routerProperties - the options object from AcadisSearchApp.  Its property
+  // * routerProperties - the options object from AdeSearchApp.  Its property
   // names should be regular expression strings, and its values should be
   // the names of properties in the searchResults object (each property needs a
   // getXXX accessor)

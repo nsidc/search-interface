@@ -50,12 +50,12 @@ that are useful:
 * `grunt watch:lint-test` will automatically run JSHint, scss-lint, and the
   Jasmine test suite whenever a JavaScript or Sass file is changed
 * `grunt watch:build-$PROJECT` automatically runs `grunt build:$PROJECT-dev`
-  whenever a Sass or Jade file is changed (`PROJECT` must be `acadis` or
+  whenever a Sass or Jade file is changed (`PROJECT` must be `ade` or
   `nsidc`)
 
 ## Build
 
-`grunt build:nsidc` and `grunt build:acadis` will create a `build/` directory
+`grunt build:nsidc` and `grunt build:ade` will create a `build/` directory
 containing HTML and CSS files generated from Jade and Sass files, as well as a
 minified JavaScript file created by the
 [RequireJS Optimizer](http://requirejs.org/docs/optimization.html). Other files,
@@ -63,7 +63,7 @@ such as external JavaScript libs and image files, are also copied to `build/` so
 that it contains everything needed to run the interface in a browser. This
 directory can then be compressed and used for deployment.
 
-`grunt build:nsidc-dev` and `grunt build:acadis-dev` skip the RequireJS
+`grunt build:nsidc-dev` and `grunt build:ade-dev` skip the RequireJS
 optimizer step, and do not create a `build/` directory. Instead, the generated
 HTML and CSS are kept within `src/`.
 
@@ -80,7 +80,7 @@ from `src/conf/`.
 Make sure grunt is installed by running `npm install -g grunt-cli` (with root
 access).
 
-Run `grunt build:nsidc-dev` or `grunt build:acadis-dev` to generate the
+Run `grunt build:nsidc-dev` or `grunt build:ade-dev` to generate the
 appropriate `src/index.html` file (as well as css files), then
 `./run_local_webserver.rb` and open your browser to http://localhost:8081.
 
@@ -156,7 +156,7 @@ grunt test:acceptance --url=http://localhost:8081 --project=ade_search
         * `junk/`
             * old, monolithic CSS files converted to Sass syntax still needing
               cleanup (break into smaller parts, put those parts in `modules/`)
-* `grunt sass:dev` generates `src/css/acadis-search.css` and
+* `grunt sass:dev` generates `src/css/ade-search.css` and
   `src/css/nsidc-search.css`, combining the project-specifc scss and the common
   files into one
 * `grunt sass:$PROJECT` generates `tmp/css/$PROJECT-search.css`; this is used by

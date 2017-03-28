@@ -10,11 +10,11 @@ require([
   // bootstrap the object factory
   objectFactory.setConfig(iocConfig);
 
-  require(['lib/AcadisSearchApp'], function (AcadisSearchApp) {
+  require(['lib/AdeSearchApp'], function (AdeSearchApp) {
     // Start up the app...
     var appOptions = {
       el: $('#main-content')
     };
-    new AcadisSearchApp(appOptions, appConfig);
+    new AdeSearchApp(appOptions, appConfig);
   });
 });

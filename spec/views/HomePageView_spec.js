@@ -15,7 +15,7 @@ define(
       });
 
       beforeEach(function () {
-        homePageView = new HomePageView({templateId: 'ACADIS'});
+        homePageView = new HomePageView({templateId: 'ADE'});
         homePageView.render();
 
       });

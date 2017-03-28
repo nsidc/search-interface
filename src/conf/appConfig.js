@@ -5,16 +5,16 @@
 // runtime config loading so requirejs configuration is not dynamically changed
 // in main.js
 define([
-  'conf/acadis/appConfig-integration',
-  'conf/acadis/appConfig-qa',
-  'conf/acadis/appConfig-production',
+  'conf/ade/appConfig-integration',
+  'conf/ade/appConfig-qa',
+  'conf/ade/appConfig-production',
   'conf/nsidc/appConfig-integration',
   'conf/nsidc/appConfig-qa',
   'conf/nsidc/appConfig-production'
 ], function (
-  acadisInt,
-  acadisQA,
-  acadisProd,
+  adeInt,
+  adeQA,
+  adeProd,
   nsidcInt,
   nsidcQA,
   nsidcProd
@@ -23,17 +23,17 @@ define([
   // nsidc is a global defined in index.html
   switch (nsidc.project + '|' + nsidc.environment) {
 
-  case 'ACADIS|development':
-  case 'ACADIS|integration':
-    return acadisInt;
+  case 'ADE|development':
+  case 'ADE|integration':
+    return adeInt;
 
-  case 'ACADIS|qa':
-    return acadisQA;
+  case 'ADE|qa':
+    return adeQA;
 
-  case 'ACADIS|staging':
-  case 'ACADIS|blue':
-  case 'ACADIS|production':
-    return acadisProd;
+  case 'ADE|staging':
+  case 'ADE|blue':
+  case 'ADE|production':
+    return adeProd;
 
 
   case 'NSIDC|development':

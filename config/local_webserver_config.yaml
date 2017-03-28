@@ -72,7 +72,7 @@ webserver:
       ### the unusual index.html path, allowing us to run both ADE and NSIDC
       ### search portals at once
       - server_path: /acadis/search/
-        file_path: ./src/index-acadis.html
+        file_path: ./src/index-ade.html
 
       - server_path: /acadis/search/contrib/
         file_path: ./src/contrib/

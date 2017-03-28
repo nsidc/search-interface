@@ -1,7 +1,7 @@
 define(
-  ['vendor/requirejs/text!templates/result_item/acadis_temporal_metadata.html',
+  ['vendor/requirejs/text!templates/result_item/ade_temporal_metadata.html',
    'vendor/requirejs/text!templates/result_item/nsidc_temporal_metadata.html'],
-  function (acadisTemporalTemplate,
+  function (adeTemporalTemplate,
             nsidcTemporalTemplate) {
     var TemporalMetadataView;
 
@@ -12,7 +12,7 @@ define(
         this.forceRender = options.forceRender;
 
         if (options.spaced === true) {
-          this.template = _.template(acadisTemporalTemplate);
+          this.template = _.template(adeTemporalTemplate);
         } else {
           this.template = _.template(nsidcTemporalTemplate);
         }

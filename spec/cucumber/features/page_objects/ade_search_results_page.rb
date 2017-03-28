@@ -1,4 +1,4 @@
-class AcadisSearchResultsPage
+class AdeSearchResultsPage
   attr_reader :total_num_results, :results_on_page,
               :current_page_number, :titles, :num_dataset_titles
 
