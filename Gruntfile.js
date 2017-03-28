@@ -339,7 +339,8 @@ module.exports = function (grunt) {
     jshint: {
       all: runFiles.jshint,
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+	reporterOutput: ''
       }
     },
 
