@@ -1,8 +1,7 @@
+- Update name for "ACADIS Gateway" to "NSF Arctic Data Center".
+- Change code to refer to "ADE" instead of "ACADIS".
+
 ## 1.10.3 (2016-02-11)
-
-## 1.10.3 (2016-02-10)
-
-Changes
 
 - Add "Global Terrestrial Network for Permafrost (GTN-P)" expected data center to ADE home page.
 
