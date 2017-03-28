@@ -15,4 +15,4 @@ mod 'nsidc/nginx',
 mod 'puppetlabs/concat', "1.2.3"
 mod 'p0deje/firefox'
 mod 'puppetlabs/apt', "1.8.0"
-mod 'willdurand/nodejs'
+mod 'willdurand/nodejs', '1.8.6'
