@@ -55,15 +55,18 @@ if $environment == 'ci' {
   class { 'firefox':
     version => '27.0.1-0ubuntu1'
   }
-  
-  package { 'vnc4server': } ->
-  
+
+  package { 'vnc4server':
+    require => User['vagrant']
+    } ->
+
   package { 'expect': } ->
-  
-  
+
+  # if this does not work, run vncpasswd on the CI vm, entering whatever
+  # password you like
   exec { 'set_vnc_password':
     path => '/usr/bin/',
-    command => 'sudo -i -u jenkins tr -dc A-Z < /dev/urandom | head -c 8 | /usr/bin/expect -c "set passwd [read stdin]; spawn sudo -i -u jenkins vncpasswd; expect \"Password:\"; send -- \"\$passwd\r\"; expect \"Verify:\"; send -- \"\$passwd\r\r\";exit;"'
+    command => 'sudo -i -u vagrant tr -dc A-Z < /dev/urandom | head -c 8 | /usr/bin/expect -c "set passwd [read stdin]; spawn sudo -i -u vagrant vncpasswd; expect \"Password:\"; send -- \"\$passwd\r\"; expect \"Verify:\"; send -- \"\$passwd\r\r\";exit;"'
 }
 
   package { 'fluxbox': }
