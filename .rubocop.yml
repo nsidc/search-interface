@@ -5,7 +5,7 @@ AllCops:
   - ./Gemfile
   Exclude:
   - ./node_modules/**/*
-  - ./vendor/bundle/**/*
+  - ./vendor/**/*
 
 Metrics/LineLength:
   Max: 100
