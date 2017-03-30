@@ -5,5 +5,4 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 9080
   config.vm.network "forwarded_port", guest: 443, host: 9443
   config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ["puppet/modules/*", "puppet/.tmp/*"]
-  config.vm.provision :nsidc_puppet
 end
