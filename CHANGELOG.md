@@ -1,3 +1,5 @@
+## 1.11.0 (2017-04-05)
+
 - Update name for "ACADIS Gateway" to "NSF Arctic Data Center".
 - Change code to refer to "ADE" instead of "ACADIS".
 
