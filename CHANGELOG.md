@@ -1,3 +1,5 @@
+- Remove NSIDC wrapper (header, footer, "ASK US" button) from ade search for integration with NSIDC Labs page.
+
 ## 1.11.0 (2017-04-05)
 
 - Update name for "ACADIS Gateway" to "NSF Arctic Data Center".
