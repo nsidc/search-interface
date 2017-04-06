@@ -1,3 +1,6 @@
+.loading-results-ajax {
+  @include opacity(.7);
+}
 
 a:hover,
 .dataset-title a:hover {
