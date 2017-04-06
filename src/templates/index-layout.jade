@@ -49,9 +49,4 @@ html
 
     script(data-main="scripts/main",src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js')
   body
-    #wrapper
-      | <!--#include virtual="/ssi/nsidc.ssi" -->
-      #container.container
-        #main-content
-        block footer
-      #view-template-script-container
+    block body
