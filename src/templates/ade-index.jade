@@ -1,36 +1,10 @@
 extends index-layout
 
+block body
+    #container.container
+      #main-content
+    #view-template-script-container
+
 block project-css
   link(rel='canonical',href='http://www.nsidc.org/acadis/search/')
   link(href='css/ade-search.css',rel='stylesheet',type='text/css')
-
-block footer
-  #footerNSIDC.clearGroup
-    p.SmallTextGray
-      <a href="http://nsidc.org/about/contact.html">Contact Us</a> | <a href="http://nsidc.org/privacy.html">Privacy Policy</a> | <a href="http://nsidc.org/about/use_copyright.html">Use &amp; Copyright</a> | <code>#{version}</code> | Caribou image courtesy of Andrew Slater, NSIDC | Fox image courtesy of Pixabay | Map Images &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors
-    #footerElement
-      p.SmallTextGray
-        | <em>Sponsored by the National Science Foundation</em><br />
-        | <a href="http://www.colorado.edu/" title="University of Colorado Boulder"></a><a href="http://www.nsf.gov/" title="University of Colorado Boulder"><img alt="University of Colorado Boulder" src="images/NSF_Logo-40.png"></a>
-  script(type='text/javascript', src='http://assets.zendesk.com/external/zenbox/v2.5/zenbox.js')
-  style(type='text/css', media='screen, projection')
-    @import url(//assets.zendesk.com/external/zenbox/v2.5/zenbox.css);
-  style(type='text/css', media='screen, projection')
-    #zenbox_tab {
-      border-radius: 5px;
-    }
-    #zenbox_tab #feedback_tab_text {
-      font-size: 1em;
-    }
-  script(type='text/javascript')
-    $(document).ready(function () {
-      if (typeof(Zenbox) !== "undefined") {
-        Zenbox.init({
-          dropboxID: "20123172",
-          url: "https://nsidc.zendesk.com",
-          tabID: "ASK US",
-          tabColor: "#1A4C79",
-          tabPosition: "Left"
-        });
-      }
-    });

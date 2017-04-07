@@ -36,7 +36,7 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js')
 
     object(width='0', height='0')
-      embed(src='https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/WebSocketMain.swf', width='0', height='0')
+      embed(src='https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/WebSocketMain.swf', width='0', height='0', style="position:absolute")
 
     script(type='text/javascript')
       // extend underscore with underscore.string
@@ -49,9 +49,4 @@ html
 
     script(data-main="scripts/main",src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js')
   body
-    #wrapper
-      | <!--#include virtual="/ssi/nsidc.ssi" -->
-      #container.container
-        #main-content
-        block footer
-      #view-template-script-container
+    block body
