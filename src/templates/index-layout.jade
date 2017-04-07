@@ -2,9 +2,9 @@ doctype
 html
   head
     title #{title}
-    | <!--#include virtual="/ssi/styles.ssi" -->
-    | <!--#include virtual="/ssi/secondary_styles.ssi" -->
-    | <!--#include virtual="/ssi/scripts.ssi" -->
+
+    block nsidc-ssi
+
     link(href='contrib/bootstrap/css/bootstrap.min.css',rel='stylesheet',type='text/css')
     link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css',rel='stylesheet',type='text/css')
     link(href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css',rel='stylesheet',type='text/css')
