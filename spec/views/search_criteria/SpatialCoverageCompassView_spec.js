@@ -31,16 +31,20 @@ define(['models/GeoBoundingBox',
       sinon.stub(view, 'updateMapFromModel');
       view.render();
 
-      this.addMatchers({
-        toBeDisplayed: function () {
-          var notText = this.isNot ? ' not' : '',
-            errorMessageElement = this.actual;
+      jasmine.addMatchers({
+        toBeDisplayed: function (util, customEqualityTesters) {
+          return {
+            compare: function(actual, expected) {
+              var notText = this.isNot ? ' not' : '',
+                errorMessageElement = actual,
+                passed = errorMessageElement.css('display') !== 'none';
 
-          this.message = function () {
-            return 'Expected ' + errorMessageElement.html() + notText + ' to be displayed';
+              return {
+                pass: passed,
+                message: 'Expected ' + errorMessageElement.html() + notText + ' to be displayed' 
+              };
+            }
           };
-
-          return errorMessageElement.css('display') !== 'none';
         }
       });
     });

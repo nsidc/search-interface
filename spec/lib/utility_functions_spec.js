@@ -127,18 +127,19 @@ define(['lib/utility_functions'], function (UtilityFunctions) {
 
       beforeEach(function () {
 
-        this.addMatchers({
-          toBeValidFloat: function () {
-            var notText = this.isNot ? ' not' : '',
-            number = this.actual;
+        jasmine.addMatchers({
+          toBeValidFloat: function (util, customEqualityTesters) {
+            return {
+              compare: function(actual, expected) {
+                var passed = UtilityFunctions.isFloat(actual);
 
-            this.message = function () {
-              return 'Expected ' + number + notText + ' to be a valid float';
+                return {
+                  pass: passed,
+                  message: 'Expected ' + actual + (passed ? '': ' not') + ' to equal ' + expected
+                };
+              }
             };
-
-            return UtilityFunctions.isFloat(number);
           }
-
         });
 
       });

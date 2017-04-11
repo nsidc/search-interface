@@ -190,16 +190,20 @@ define(['models/GeoBoundingBox'],
     describe('valid bounding boxes', function () {
 
       beforeEach(function () {
-        this.addMatchers({
-          toBeValidBoundingBox: function () {
-            var notText = this.isNot ? ' not' : '',
-            boundingBox = this.actual;
 
-            this.message = function () {
-              return 'Expected ' + boundingBox.toOpenSearchString() + notText + ' to be a valid bounding box';
+        jasmine.addMatchers({
+          toBeValidBoundingBox: function (util, customEqualityTesters) {
+            return {
+              compare: function(actual, expected) {
+                var notText = this.isNot ? ' not' : ''
+                var passed = GeoBoundingBox.prototype.isValid(actual);
+
+                return {
+                  pass: passed,
+                  message: 'Expected ' + actual.toOpenSearchString() + notText + ' to be a valid bounding box'
+                };
+              }
             };
-
-            return GeoBoundingBox.prototype.isValid(boundingBox);
           }
         });
       });
@@ -254,21 +258,25 @@ define(['models/GeoBoundingBox'],
 
     describe('Valid corner point box inputs', function () {
       beforeEach(function () {
-        this.addMatchers({
-          toBeValidCornerPointsBox: function () {
-            var notText = this.isNot ? ' not' : '',
-              cornerPointsBox = this.actual;
 
-            this.message = function () {
-              return 'Expected ' + this.inputToString() + notText + ' to be a valid bounding box';
+        jasmine.addMatchers({
+          toBeValidCornerPointsBox: function (util, customEqualityTesters) {
+            return {
+              compare: function(actual, expected) {
+                var notText = this.isNot ? ' not' : '';
+                var passed = GeoBoundingBox.prototype.isValidCornerPoints(actual);
+
+                this.inputToString = function () {
+                  return 'upper left lat: ' + actual.upperLeftLat + ', upper left lon: ' + actual.upperLeftLon +
+                    ', lower right lat: ' + actual.lowerRightLat + ', lower right lon: ' + actual.lowerRightLon;
+                };
+
+                return {
+                  pass: passed,
+                  message: 'Expected ' + this.inputToString() + notText + ' to be a valid bounding box'
+                };
+              }
             };
-
-            this.inputToString = function () {
-              return 'upper left lat: ' + cornerPointsBox.upperLeftLat + ', upper left lon: ' + cornerPointsBox.upperLeftLon +
-                ', lower right lat: ' + cornerPointsBox.lowerRightLat + ', lower right lon: ' + cornerPointsBox.lowerRightLon;
-            };
-
-            return GeoBoundingBox.prototype.isValidCornerPoints(cornerPointsBox);
           }
         });
       });

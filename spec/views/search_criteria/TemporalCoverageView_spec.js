@@ -71,16 +71,21 @@ define(['collections/SearchResultsCollection',
 
     describe('view actions', function () {
       beforeEach(function () {
-        this.addMatchers({
-          toBeDisplayed: function () {
-            var notText = this.isNot ? ' not' : '',
-                errorMessageElement = this.actual;
 
-            this.message = function () {
-              return 'Expected ' + errorMessageElement.html() + notText + ' to be displayed';
+        jasmine.addMatchers({
+          toBeDisplayed: function (util, customEqualityTesters) {
+            return {
+              compare: function(actual, expected) {
+              var notText = this.isNot ? ' not' : '',
+                  errorMessageElement = actual,
+                  passed = errorMessageElement.css('display') !== 'none'
+
+                return {
+                  pass: passed,
+                  message: 'Expected ' + errorMessageElement.html() + notText + ' to be displayed'
+                };
+              }
             };
-
-            return errorMessageElement.css('display') !== 'none';
           }
         });
       });
