@@ -73,12 +73,12 @@ define(['collections/SearchResultsCollection',
       beforeEach(function () {
 
         jasmine.addMatchers({
-          toBeDisplayed: function (util, customEqualityTesters) {
+          toBeDisplayed: function () {
             return {
-              compare: function(actual, expected) {
+              compare: function(actual) {
               var notText = this.isNot ? ' not' : '',
                   errorMessageElement = actual,
-                  passed = errorMessageElement.css('display') !== 'none'
+                  passed = errorMessageElement.css('display') !== 'none';
 
                 return {
                   pass: passed,

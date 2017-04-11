@@ -32,9 +32,9 @@ define(['models/GeoBoundingBox',
       view.render();
 
       jasmine.addMatchers({
-        toBeDisplayed: function (util, customEqualityTesters) {
+        toBeDisplayed: function () {
           return {
-            compare: function(actual, expected) {
+            compare: function(actual) {
               var notText = this.isNot ? ' not' : '',
                 errorMessageElement = actual,
                 passed = errorMessageElement.css('display') !== 'none';

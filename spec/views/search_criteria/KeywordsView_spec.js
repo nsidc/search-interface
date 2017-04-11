@@ -70,7 +70,7 @@ define([
         beforeEach(function () {
 
           jasmine.addMatchers({
-            toBePutInModelAs: function (util, customEqualityTesters) {
+            toBePutInModelAs: function () {
               return {
                 compare: function(actual, expected) {
                   var notText = this.isNot ? ' not' : '',

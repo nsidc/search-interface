@@ -128,7 +128,7 @@ define(['lib/utility_functions'], function (UtilityFunctions) {
       beforeEach(function () {
 
         jasmine.addMatchers({
-          toBeValidFloat: function (util, customEqualityTesters) {
+          toBeValidFloat: function () {
             return {
               compare: function(actual, expected) {
                 var passed = UtilityFunctions.isFloat(actual);
@@ -141,7 +141,6 @@ define(['lib/utility_functions'], function (UtilityFunctions) {
             };
           }
         });
-
       });
 
       it('accepts valid numbers', function () {

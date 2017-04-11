@@ -192,10 +192,10 @@ define(['models/GeoBoundingBox'],
       beforeEach(function () {
 
         jasmine.addMatchers({
-          toBeValidBoundingBox: function (util, customEqualityTesters) {
+          toBeValidBoundingBox: function () {
             return {
-              compare: function(actual, expected) {
-                var notText = this.isNot ? ' not' : ''
+              compare: function(actual) {
+                var notText = this.isNot ? ' not' : '';
                 var passed = GeoBoundingBox.prototype.isValid(actual);
 
                 return {
@@ -260,9 +260,9 @@ define(['models/GeoBoundingBox'],
       beforeEach(function () {
 
         jasmine.addMatchers({
-          toBeValidCornerPointsBox: function (util, customEqualityTesters) {
+          toBeValidCornerPointsBox: function () {
             return {
-              compare: function(actual, expected) {
+              compare: function(actual) {
                 var notText = this.isNot ? ' not' : '';
                 var passed = GeoBoundingBox.prototype.isValidCornerPoints(actual);
 
