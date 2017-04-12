@@ -72,7 +72,7 @@ nsidc_jenkins::jobs:
       bundle exec rubocop
       grunt scsslint
       grunt jshint
-    trigger_job: "%{hiera('job_integration_unit_tests')}"
+    trigger_job: "%{hiera('job_integration_provision')}"
 
   "%{hiera('job_integration_unit_tests')}":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
