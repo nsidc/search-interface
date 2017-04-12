@@ -177,7 +177,13 @@ grunt test:acceptance --url=http://localhost:8081 --project=ade_search
 Run the unit tests in [PhantomJS](http://phantomjs.org/) with `grunt
 jasmine`. Test code is located in `spec/`, written in
 [Jasmine 1.3](http://jasmine.github.io/1.3/introduction.html) along with
-[Sinon](http://sinonjs.org/).
+[Sinon](http://sinonjs.org/). 
+
+Note that running these tests locally may result in failure. If so, try running
+the unit tests in a browser (discussed below).  Make sure unit tests pass in the
+browser and in Travis CI before merging any code with master. Running headless
+unit tests have failed for local development starting after v1.11.0. Jasmine
+will probably need to be upgraded to v2.x before they work again.
 
 It can helpful for debugging purposes to run the unit tests in a browser. To do
 so, follow these steps:
