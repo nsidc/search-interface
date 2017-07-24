@@ -1,14 +1,28 @@
-#head-text {
+#head-info {
+  position: absolute;
+  display: inline-block;
+  font-family: Verdana, Geneva, sans-serif;
+  margin-left: 5px;
+}
+
+#head-title {
   @include text-shadow(3px 3px 5px rgba(0, 0, 0, .3));
   color: rgb(45, 77, 186);
   cursor: pointer;
-  float: left;
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 26px;
+  font-size: 23px;
   line-height: 1.2em;
-  margin: 10px 95px 6px 15px;
+  margin: auto;
   text-decoration: none;
-  width: 107px;
+}
+
+#labs-image {
+  height: 4em;
+}
+
+#feedback-link {
+  font-size: 0.85em;
+  position: absolute;
+  margin: auto;
 }
 
 #spatial-search-box {
