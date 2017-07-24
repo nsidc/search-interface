@@ -28,7 +28,7 @@ define([],
         crazyEggMetrics: true,
 
         // websockets
-        wsService: '/api/notification',
+        wsService: '//nsidc.org/api/notification',
         wsHostApp: 'ADE',
 
         // results header
