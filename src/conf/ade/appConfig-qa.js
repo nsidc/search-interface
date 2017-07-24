@@ -2,7 +2,7 @@ define([],
   function () {
 
     var openSearchOptions = {
-      osdd: '/api/dataset/2/OpenSearchDescription',
+      osdd: '//qa.nsidc.org/api/dataset/2/OpenSearchDescription',
       osSource: 'ADE',
       osStartIndex: 0,
       osItemsPerPage: 25,
@@ -28,7 +28,7 @@ define([],
         crazyEggMetrics: false,
 
         // websockets
-        wsService: '/api/notification',
+        wsService: '//qa.nsidc.org/api/notification',
         wsHostApp: 'ADE',
 
         // results header
