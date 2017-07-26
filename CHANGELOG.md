@@ -1,3 +1,5 @@
+## 1.12.0 (2017-07-26)
+
 - Remove NSIDC wrapper (header, footer, "ASK US" button) from ade search for
   integration with NSIDC Labs page.
 - Remove attempts to establish websocket connection to
