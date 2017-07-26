@@ -19,8 +19,8 @@ you can safely ignore those files and the remainder of this section.
 
 Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
 `project` name for the plugin to use. This repository really has two projects,
-`ade_search` and `nsidc_search`, configured in `vagrant-nsidc.ade_search.yaml`
-and `vagrant-nsidc.nsidc_search.yaml`.
+`arctic-data-explorer` (formerly ade_search) and `nsidc_search`, configured in
+`vagrant-nsidc.ade_search.yaml` and `vagrant-nsidc.nsidc_search.yaml`.
 
 To use the correct config file, set the appropriate environment variable:
 
@@ -121,10 +121,10 @@ to ssh with X windowing enabled. Instead of connecting with `vagrant ssh`, use
 `ssh -X vagrant@127.0.0.1 -p 2222`.
 
 ```shell
-grunt test:acceptance --project=ade_search --environment=integration
+grunt test:acceptance --project=arctic-data-explorer --environment=integration
 ```
 
-`project` can be `ade_search` or `nsidc_search`
+`project` can be `arctic-data-explorer` or `nsidc_search`
 
 `environment` can be `integration`, `qa`, or `staging`.
 
@@ -133,7 +133,7 @@ against a different URL (like when running the tests locally), specify with a
 `--url` flag (`project` must still be specified):
 
 ```shell
-grunt test:acceptance --url=http://localhost:8081 --project=ade_search
+grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 ```
 
 ## CSS / Sass
