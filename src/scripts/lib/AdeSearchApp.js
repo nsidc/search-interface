@@ -9,7 +9,7 @@ define(['lib/SearchTerms',
                  AdeMainView,
                  objectFactory) {
   var AdeSearchApp, properties, compileRegex, displayHomePageOnCancel,
-      isHomePageEnabled, isItemsPerPageEnabled, config, ws, message, loc;
+      isHomePageEnabled, isItemsPerPageEnabled, config;
 
   // Property names are a regular expression string,
   //
@@ -113,7 +113,6 @@ define(['lib/SearchTerms',
     },
 
     bindEvents: function () {
-      var parent = this;
       this.mediatorBind('search:noResults', this.onSearchComplete, this);
       this.mediatorBind('search:complete', this.onSearchComplete, this);
       this.mediatorBind('search:cancel', this.onSearchCancel, this);
