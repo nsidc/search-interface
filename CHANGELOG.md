@@ -1,4 +1,10 @@
-- Remove NSIDC wrapper (header, footer, "ASK US" button) from ade search for integration with NSIDC Labs page.
+- Remove NSIDC wrapper (header, footer, "ASK US" button) from ade search for
+  integration with NSIDC Labs page.
+- Remove attempts to establish websocket connection to
+  nsidc.org/api/notification. This service was decommissioned.
+- Added NSIDC labs logo and feedback link to ADE search interface.
+- Change project name of the ADE search interface from ade_search to
+  arctic-data-explorer
 
 ## 1.11.0 (2017-04-05)
 
