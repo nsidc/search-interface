@@ -11,7 +11,7 @@ define(['lib/objectFactory',
 
     events: {
       'click #globe-logo': 'onClickLogo',
-      'click #head-text': 'onClickLogo'
+      'click #head-title': 'onClickLogo'
     },
 
     initialize: function (options) {
