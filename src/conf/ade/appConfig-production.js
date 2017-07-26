@@ -27,10 +27,6 @@ define([],
         // metrics
         crazyEggMetrics: true,
 
-        // websockets
-        wsService: '//nsidc.org/api/notification',
-        wsHostApp: 'ADE',
-
         // results header
         itemsPerPage: [10, 25, 50, 100],
 

@@ -31,10 +31,6 @@ define([],
         // metrics
         crazyEggMetrics: false,
 
-        // websockets
-        wsService: '/api/notification',
-        wsHostApp: 'NSIDC',
-
         // results header
         itemsPerPage: [25, 50, 100, 250, 500],
 

@@ -9,8 +9,7 @@ define(['lib/SearchTerms',
                  AdeMainView,
                  objectFactory) {
   var AdeSearchApp, properties, compileRegex, displayHomePageOnCancel,
-      isHomePageEnabled, isItemsPerPageEnabled, config, ws, message, loc,
-      setupWebSockets;
+      isHomePageEnabled, isItemsPerPageEnabled, config, ws, message, loc;
 
   // Property names are a regular expression string,
   //
@@ -55,30 +54,11 @@ define(['lib/SearchTerms',
     return config.features && config.features.itemsPerPage;
   };
 
-  setupWebSockets = function () {
-    var defaultURL = 'ws://integration.nsidc.org/api/notification';
-
-    try {
-      loc = window.location;
-      if (WebSocket && typeof(WebSocket) === 'function') {
-        ws = new WebSocket('ws://' + loc.host + config.features.wsService || defaultURL);
-      } else {
-        ws = {};
-        console.log('Native WebSocket technology not supported and Flash is not installed');
-      }
-    } catch (e) {
-      ws = {};
-      console.log('Your browser does not support neither native nor flash Web sockets');
-    }
-  };
-
   AdeSearchApp = Backbone.Router.extend({
 
     initialize: function (params, appConfig) {
       config = appConfig;
       this.config = appConfig;
-
-      setupWebSockets();
 
       this.routeHandlerProperties = properties;
 
@@ -138,19 +118,6 @@ define(['lib/SearchTerms',
       this.mediatorBind('search:complete', this.onSearchComplete, this);
       this.mediatorBind('search:cancel', this.onSearchCancel, this);
       this.mediatorBind('app:home', this.onAppHome, this);
-      ws.onopen = function () {
-        console.log('Notification channel open');
-      };
-      ws.onmessage = function (e) {
-        console.log('message', e.data);
-        message = parent.validateMessage(e.data);
-        if (message !== undefined) {
-          parent.mediatorTrigger('app:alert', message);
-        }
-      };
-      ws.onclose = function () {
-        console.log('close');
-      };
     },
 
     // put together a a query from the URL parameters.
