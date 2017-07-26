@@ -1,6 +1,7 @@
 #head-info {
   font-family: Verdana, Geneva, sans-serif;
   margin-left: 5px;
+  padding-top: 5px;
   position: absolute;
 }
 
@@ -8,14 +9,16 @@
   @include text-shadow(3px 3px 5px rgba(0, 0, 0, .3));
   color: rgb(45, 77, 186);
   cursor: pointer;
+  float: right;
   font-size: 23px;
   line-height: 1.2em;
   margin: auto;
+  padding-left: 2px;
   text-decoration: none;
 }
 
 #labs-image {
-  height: 4em;
+  height: 5.4em;
 }
 
 #feedback-link {
