@@ -313,7 +313,6 @@ module.exports = function (grunt) {
             }
           },
           vendor: [
-            'node_modules/jquery/dist/jquery.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js',
