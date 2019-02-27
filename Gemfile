@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rubocop'
 
 # Acceptance testing with Firefox
+gem 'bundler', '>= 2.0'
 gem 'cucumber', '~> 1.3'
 gem 'json', '~> 2.0'
 gem 'rspec', '~> 2.11'
