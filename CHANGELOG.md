@@ -1,3 +1,5 @@
+## 1.12.1 (2019-02-27)
+
 ## 1.12.1 (2019-02-26)
 
 - PSS-431: Remove Get Data button from NSIDC Search, in preparation for
