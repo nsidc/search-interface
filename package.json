@@ -20,6 +20,7 @@
     "grunt-git": "~0.3.0",
     "grunt-scss-lint": "0.1.11",
     "grunt-shell": "^1.1.1",
-    "grunt-template-jasmine-requirejs": "git://github.com/iantruslove/grunt-template-jasmine-requirejs.git"
+    "grunt-template-jasmine-requirejs": "git://github.com/iantruslove/grunt-template-jasmine-requirejs.git",
+    "jquery": "1.11.0"
   }
 }
