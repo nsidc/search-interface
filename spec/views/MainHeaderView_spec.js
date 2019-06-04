@@ -33,7 +33,7 @@ requireMock.requireWithStubs(
 
           it('should create a correctly structured element as provided', function () {
             expect(mainHeader.$el.is('div')).toBeTruthy();
-            expect(mainHeader.$el.find('#head-text').length).toBe(1);
+            expect(mainHeader.$el.find('#head-title').length).toBe(1);
           });
 
           it('should create a Search Criteria subview', function () {

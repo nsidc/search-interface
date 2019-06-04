@@ -5,7 +5,6 @@ requireMock.requireWithStubs(
     'views/result_item/DatacenterView': sinon.stub().returns(createFakeView()),
     'views/result_item/NsidcTemporalMetadataView': sinon.stub().returns(createFakeView()),
     'views/result_item/SpatialMetadataView': sinon.stub().returns(createFakeView()),
-    'views/result_item/GetDataButtonView': sinon.stub().returns(createFakeView()),
     'views/result_item/SummaryView': sinon.stub().returns(createFakeView()),
     'views/result_item/AuthorView': sinon.stub().returns(createFakeView())
   },
@@ -14,7 +13,6 @@ requireMock.requireWithStubs(
     'lib/objectFactory',
     'views/result_item/NsidcTemporalMetadataView',
     'views/result_item/SpatialMetadataView',
-    'views/result_item/GetDataButtonView',
     'views/result_item/AuthorView',
     'views/result_item/SummaryView',
     'views/result_item/DatacenterView'
@@ -23,7 +21,6 @@ requireMock.requireWithStubs(
             objectFactory,
             TemporalMetadataView,
             SpatialMetadataView,
-            GetDataButtonView,
             AuthorView,
             SummaryView,
             DatacenterView) {
@@ -40,14 +37,9 @@ requireMock.requireWithStubs(
 
       beforeEach(function () {
 
-        objectFactory.setConfig({
-          'GetDataButtonView': GetDataButtonView
-        });
-
         _([ DatacenterView,
             TemporalMetadataView,
             SpatialMetadataView,
-            GetDataButtonView,
             SummaryView,
             AuthorView
         ]).each(function (ViewStub) {

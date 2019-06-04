@@ -4,7 +4,6 @@ requireMock.requireWithStubs(
 {
   'views/result_item/NsidcTemporalMetadataView': sinon.stub().returns(createFakeView()),
   'views/result_item/SpatialMetadataView': sinon.stub().returns(createFakeView()),
-  'views/result_item/GetDataButtonView': sinon.stub().returns(createFakeView()),
   'views/result_item/NsidcSummaryView': sinon.stub().returns(createFakeView()),
   'views/result_item/NsidcParametersView': sinon.stub().returns(createFakeView()),
   'views/result_item/NsidcDataFormatView': sinon.stub().returns(createFakeView()),
@@ -15,7 +14,6 @@ requireMock.requireWithStubs(
   'lib/objectFactory',
   'views/result_item/NsidcTemporalMetadataView',
   'views/result_item/SpatialMetadataView',
-  'views/result_item/GetDataButtonView',
   'views/result_item/NsidcSummaryView',
   'views/result_item/NsidcParametersView',
   'views/result_item/NsidcDataFormatView',
@@ -25,12 +23,11 @@ function (NsidcResultItemView,
           objectFactory,
           NsidcTemporalMetadataView,
           NsidcSpatialMetadataView,
-          GetDataButtonView,
           NsidcSummaryView,
           NsidcParametersView,
           NsidcDataFormatView,
           NsidcSupportingPrograms) {
-  describe('Result Item View', function () {
+  describe('NSIDC Result Item View', function () {
     // alias for the namespaced constructor
     var ensureViewWasRendered;
 
@@ -41,13 +38,8 @@ function (NsidcResultItemView,
 
     beforeEach(function () {
 
-      objectFactory.setConfig({
-        'GetDataButtonView': GetDataButtonView
-      });
-
       _([ NsidcTemporalMetadataView,
         NsidcSpatialMetadataView,
-        GetDataButtonView,
         NsidcSummaryView,
         NsidcParametersView,
         NsidcDataFormatView,
@@ -105,7 +97,6 @@ function (NsidcResultItemView,
           NsidcParametersView,
           NsidcDataFormatView,
           NsidcSupportingPrograms,
-          GetDataButtonView
         ],
             ensureViewWasRendered
         );

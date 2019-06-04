@@ -35,10 +35,6 @@ define(
                                   url: this.model.get('catalogUrl'),
                                   authoritativeId: this.model.get('authoritativeId')}));
 
-          objectFactory.createInstance(
-             'GetDataButtonView', {el: this.$el.find('.get-data'), model: this.model}
-          ).render();
-
           new SupportingProgramsView(
               {el: this.$el.find('.supporting-programs'), model: this.model}
           ).render();

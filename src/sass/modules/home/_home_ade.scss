@@ -6,7 +6,7 @@ $header-title-bottom-margin: 15px;
 #home-main,
 #home-right {
   display: table-cell;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   vertical-align: top;
 }
 
@@ -45,14 +45,10 @@ $header-title-bottom-margin: 15px;
     width: 91%;
   }
 
-  #home-footer,
-  table {
-    text-align: left;
-  }
-
   table {
     margin-bottom: 20px;
     margin-top: 0;
+    text-align: left;
 
     td.count_cell {
       text-align: right;

@@ -35,3 +35,19 @@
 #content {
   background-color: #fff;
 }
+
+// Taken from nsidc_secondary.css
+// which used to get included by
+// an ssi before moving to labs.
+body table {
+  border-collapse: collapse;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 12px;
+}
+
+body table td,
+body table th {
+  border: 1px solid #ccc;
+  padding: 5px;
+}

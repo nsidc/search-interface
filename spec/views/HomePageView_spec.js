@@ -63,9 +63,5 @@ define(
         expect(homePageView.$el).not.toHaveClass('hidden');
       });
 
-      it('displays some info about the ADE', function () {
-        expect(homePageView.$el.text()).toContain('We will be adding new repositories');
-      });
-
     });
   });

@@ -73,7 +73,7 @@ module.exports = function (grunt) {
           filter: 'include',
           tasks: [
             'build:ade-dev',
-            'build:ade_search',
+            'build:arctic-data-explorer',
             'build:nsidc-dev',
             'build:nsidc_search',
             'default',
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
           ],
           groups: {
             'Build for Development': ['build:ade-dev', 'build:nsidc-dev'],
-            'Deployment/Release': ['build:ade_search', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
+            'Deployment/Release': ['build:arctic-data-explorer', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
             'Miscellaneous': ['default', 'githooks', 'tasks'],
             'Syntax': ['scsslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
@@ -98,7 +98,7 @@ module.exports = function (grunt) {
           descriptions: {
             'build:ade-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
             'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS into src/ for NSIDC Search.',
-            'build:ade_search': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
+            'build:arctic-data-explorer': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
             'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
             'default': 'Run syntax checkers and unit tests.',
             'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
@@ -402,7 +402,7 @@ module.exports = function (grunt) {
     shell: {
       // --environment - one of 'integration', 'qa', 'staging'
       //
-      // --project - 'ade_search' or 'nsidc_search'
+      // --project - 'arctic-data-explorer' or 'nsidc_search'
       cucumber: {
         command: [
           'URL=<%= url %>',
@@ -415,7 +415,7 @@ module.exports = function (grunt) {
         ].join(' ')
       },
 
-      // --project=PROJECT - project name, must be 'ade_search' or
+      // --project=PROJECT - project name, must be 'arctic-data-explorer' or
       //     'nsidc_search'; build/ is deployed to /opt/$PROJECT
       //
       // --environment=ENV - environment being deployed, needed for the 'vagrant
@@ -505,7 +505,7 @@ module.exports = function (grunt) {
   // build tasks for deployment
   grunt.registerTask('build:ade', ['clean:build', 'requirejs:ade', 'shell:link_proj4js', 'jade:ade', 'sass:ade', 'clean:post-build']);
   grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
-  grunt.registerTask('build:ade_search', 'build:ade');
+  grunt.registerTask('build:arctic-data-explorer', 'build:ade');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
   grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
