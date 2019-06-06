@@ -23,7 +23,7 @@ if $environment == 'ci' {
     require => Package['ruby-switch']
   } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler',
+    command => 'sudo gem install bundler -v 1.17.1',
     path => '/usr/bin'
   }
 
