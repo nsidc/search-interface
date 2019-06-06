@@ -1,7 +1,7 @@
 project: nsidc_search
 gitrepo: git@github.com:nsidc/search-interface.git
 
-puppet:
-  enabled: true
-  apply:
-    hiera_config_path: ./puppet/hiera.nsidc_search.yaml
+vsphere:
+  template:
+    default: xenial64-nsidc-puppet4
+    ci: xenial64-docker-puppet4-jenkins1

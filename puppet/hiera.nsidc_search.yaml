@@ -1,10 +1,13 @@
 # Puppet Hiera Data
-:yaml:
-  :datadir: .
-:hierarchy:
-  - "puppet/%{environment}"
-  - puppet/hiera.nsidc_search
-  - scm_creds
-  - vagrant-nsidc.nsidc_search
+version: 5
 
-classes: []
+defaults:
+  datadir: .
+  data_hash: yaml_data
+
+hierarchy:
+  - name: Other YAML hierarchy levels
+    paths:
+      - "/vagrant/puppet/%{environment}.yaml"
+      - /vagrant/puppet/common.yaml
+      - /vagrant/vagrant-nsidc.nsidc_search.yaml

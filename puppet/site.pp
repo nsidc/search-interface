@@ -1,5 +1,5 @@
 # Load modules and classes
-hiera_include('classes')
+lookup('classes', {merge => unique}).include
 
 if $environment == 'ci' {
   # Ensure the brightbox apt repository gets added before installing ruby
@@ -33,17 +33,17 @@ if $environment == 'ci' {
 
   $node_path = '/usr/local/node/node-default/bin'
 
-  file { '/usr/local/bin/node':
-    ensure => 'link',
-    target => "$node_path/node",
-    require => Class['nodejs']
-  }
+  # file { '/usr/local/bin/node':
+  #   ensure => 'link',
+  #   target => "$node_path/node",
+  #   require => Class['nodejs']
+  # }
 
-  file { '/usr/local/bin/npm':
-    ensure => 'link',
-    target => "$node_path/npm",
-    require => Class['nodejs']
-  }
+  # file { '/usr/local/bin/npm':
+  #   ensure => 'link',
+  #   target => "$node_path/npm",
+  #   require => Class['nodejs']
+  # }
 
   file { '/usr/local/bin/grunt':
     ensure => 'link',
@@ -67,7 +67,7 @@ if $environment == 'ci' {
   exec { 'set_vnc_password':
     path => '/usr/bin/',
     command => 'sudo -i -u vagrant tr -dc A-Z < /dev/urandom | head -c 8 | /usr/bin/expect -c "set passwd [read stdin]; spawn sudo -i -u vagrant vncpasswd; expect \"Password:\"; send -- \"\$passwd\r\"; expect \"Verify:\"; send -- \"\$passwd\r\r\";exit;"'
-}
+  }
 
   package { 'fluxbox': }
 }
@@ -103,9 +103,9 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     ensure  =>  absent
   }
 
-  file { "/etc/nginx/conf.d/default.conf" :
-    ensure  => absent
-  }
+  # file { "/etc/nginx/conf.d/default.conf" :
+  #   ensure  => absent
+  # }
 
 }
 

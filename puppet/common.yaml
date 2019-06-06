@@ -1,0 +1,5 @@
+lookup_options:
+  '^.*':
+    merge: deep
+
+classes: []
