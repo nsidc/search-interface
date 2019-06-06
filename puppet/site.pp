@@ -6,15 +6,24 @@ if $environment == 'ci' {
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
 
-  package { 'ruby2.2':
+  package { 'ruby-switch':
+    ensure => present,
+  }
+
+  package { 'ruby2.5':
     ensure => present,
     require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
   } ->
-  package { 'ruby2.2-dev':
+  package { 'ruby2.5-dev':
     ensure => present
   } ->
+  exec { 'switch-ruby':
+    command => 'ruby-switch --set ruby2.5',
+    path => ['/usr/bin'],
+    require => Package['ruby-switch']
+  } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler -v 1.10.3',
+    command => 'sudo gem install bundler',
     path => '/usr/bin'
   }
 
