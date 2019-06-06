@@ -41,22 +41,11 @@ if $environment == 'ci' {
   # PATH, so create symlinks in /usr/local/bin
 
   $node_path = '/usr/local/node/node-default/bin'
-
-  # file { '/usr/local/bin/node':
-  #   ensure => 'link',
-  #   target => "$node_path/node",
-  #   require => Class['nodejs']
-  # }
-
-  # file { '/usr/local/bin/npm':
-  #   ensure => 'link',
-  #   target => "$node_path/npm",
-  #   require => Class['nodejs']
-  # }
+  $grunt_path = '/usr/local/lib/node_modules/grunt-cli/bin'
 
   file { '/usr/local/bin/grunt':
     ensure => 'link',
-    target => "$node_path/grunt",
+    target => "$grunt_path/grunt",
     require => Package['grunt-cli']
   }
 
