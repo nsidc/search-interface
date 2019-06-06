@@ -19,9 +19,9 @@ Vagrant.configure(2) do |config|
     puppet.working_directory = '/vagrant'
     puppet.manifests_path = './puppet'
     puppet.manifest_file = 'site.pp'
-    puppet.options = '--verbose --detailed-exitcodes --modulepath ./puppet/modules'
+    puppet.options = '--detailed-exitcodes --modulepath ./puppet/modules'
     puppet.environment = VagrantPlugins::NSIDC::Plugin.environment
     puppet.environment_path = './puppet/environments'
-    puppet.hiera_config_path = './puppet/hiera.nsidc_search.yaml'
+    puppet.hiera_config_path = './puppet/hiera.yaml'
   end
 end
