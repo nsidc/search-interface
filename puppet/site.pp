@@ -100,11 +100,6 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     www_root => '/usr/share/nginx/html',
     ensure  =>  absent
   }
-
-  # file { "/etc/nginx/conf.d/default.conf" :
-  #   ensure  => absent
-  # }
-
 }
 
 package { "emacs": }
