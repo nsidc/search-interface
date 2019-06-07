@@ -1,4 +1,4 @@
-project: nsidc_search
+project: arctic-data-explorer
 gitrepo: git@github.com:nsidc/search-interface.git
 
 vsphere:

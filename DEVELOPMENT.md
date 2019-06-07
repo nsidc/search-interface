@@ -20,12 +20,12 @@ you can safely ignore those files and the remainder of this section.
 Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
 `project` name for the plugin to use. This repository really has two projects,
 `arctic-data-explorer` (formerly ade_search) and `nsidc_search`, configured in
-`vagrant-nsidc.ade_search.yaml` and `vagrant-nsidc.nsidc_search.yaml`.
+`vagrant-nsidc.arctic-data-explorer.yaml` and `vagrant-nsidc.nsidc_search.yaml`.
 
 To use the correct config file, set the appropriate environment variable:
 
 ```shell
-export VAGRANT_NSIDC_YAML=vagrant-nsidc.ade_search.yaml
+export VAGRANT_NSIDC_YAML=vagrant-nsidc.arctic-data-explorer.yaml
 ```
 
 If switching which project you are working on, take care that you are using the

@@ -14,6 +14,8 @@ nsidc_jenkins::plugins:
   xvnc:
     version: 1.21
 
+nsidc_jenkins::use_vagrant: true
+
 job_integration_checkout: "%{hiera('project')}_A01_Integration_Checkout_Project"
 job_integration_install_deps: "%{hiera('project')}_A02_Integration_Install_Dependencies"
 job_integration_syntax: "%{hiera('project')}_A03_Integration_Check_Syntax"

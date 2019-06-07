@@ -1,20 +1,29 @@
 # Load modules and classes
-hiera_include('classes')
+lookup('classes', {merge => unique}).include
 
 if $environment == 'ci' {
   # Ensure the brightbox apt repository gets added before installing ruby
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
 
-  package { 'ruby2.2':
+  package { 'ruby-switch':
+    ensure => present,
+  }
+
+  package { 'ruby2.5':
     ensure => present,
     require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
   } ->
-  package { 'ruby2.2-dev':
+  package { 'ruby2.5-dev':
     ensure => present
   } ->
+  exec { 'switch-ruby':
+    command => 'ruby-switch --set ruby2.5',
+    path => ['/usr/bin'],
+    require => Package['ruby-switch']
+  } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler -v 1.10.3',
+    command => 'sudo gem install bundler -v 1.17.1',
     path => '/usr/bin'
   }
 
@@ -32,22 +41,11 @@ if $environment == 'ci' {
   # PATH, so create symlinks in /usr/local/bin
 
   $node_path = '/usr/local/node/node-default/bin'
-
-  file { '/usr/local/bin/node':
-    ensure => 'link',
-    target => "$node_path/node",
-    require => Class['nodejs']
-  }
-
-  file { '/usr/local/bin/npm':
-    ensure => 'link',
-    target => "$node_path/npm",
-    require => Class['nodejs']
-  }
+  $grunt_path = '/usr/local/lib/node_modules/grunt-cli/bin'
 
   file { '/usr/local/bin/grunt':
     ensure => 'link',
-    target => "$node_path/grunt",
+    target => "$grunt_path/grunt",
     require => Package['grunt-cli']
   }
 
@@ -67,7 +65,7 @@ if $environment == 'ci' {
   exec { 'set_vnc_password':
     path => '/usr/bin/',
     command => 'sudo -i -u vagrant tr -dc A-Z < /dev/urandom | head -c 8 | /usr/bin/expect -c "set passwd [read stdin]; spawn sudo -i -u vagrant vncpasswd; expect \"Password:\"; send -- \"\$passwd\r\"; expect \"Verify:\"; send -- \"\$passwd\r\r\";exit;"'
-}
+  }
 
   package { 'fluxbox': }
 }
@@ -102,11 +100,6 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     www_root => '/usr/share/nginx/html',
     ensure  =>  absent
   }
-
-  file { "/etc/nginx/conf.d/default.conf" :
-    ensure  => absent
-  }
-
 }
 
 package { "emacs": }
