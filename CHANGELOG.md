@@ -1,3 +1,5 @@
+## 1.13.0 (2019-06-10)
+
 ## Unreleased
 
 - Vagrant and Puppet updates
