@@ -138,7 +138,7 @@ module.exports = function (grunt) {
           middleware: function (connect, options) {
             var virtualSsi = require('connect-ssi');
             return [
-              require('grunt-connect-proxy/lib/utils').proxyRequest,
+              require('grunt-connect-proxy3/lib/utils').proxyRequest,
               virtualSsi('http://qa.nsidc.org'),
               connect.static(options.base)
             ];
@@ -477,7 +477,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-available-tasks');
-  grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-connect-proxy3');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jade');

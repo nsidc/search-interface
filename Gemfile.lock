@@ -58,10 +58,10 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     ruby-progressbar (1.10.1)
     rubyzip (1.2.3)
-    sass (3.3.14)
-    scss-lint (0.24.1)
+    sass (3.4.25)
+    scss-lint (0.38.0)
       rainbow (~> 2.0)
-      sass (~> 3.3.0)
+      sass (~> 3.4.1)
     selenium-webdriver (2.53.4)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
@@ -81,9 +81,9 @@ DEPENDENCIES
   rspec (~> 2.11)
   rubocop
   sass (~> 3.3)
-  scss-lint (~> 0.24.1)
+  scss-lint
   selenium-webdriver (~> 2.40)
   watir-webdriver (~> 0.6.8)
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
