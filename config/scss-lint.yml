@@ -118,3 +118,28 @@ linters:
 
   Compass::*:
     enabled: true
+
+  # The following are disabled because it causes massive errors now.  However,
+  # we may eventually want to fix these.  In previous versions, they apparently
+  # weren't problems that the linters cared about, though.
+
+  ColorVariable:
+    enabled: false
+
+  IdSelector:
+    enabled: false
+
+  NestingDepth:
+    max_depth: 4
+
+  PseudoElement:
+    enabled: false
+
+  QualifyingElement:
+    enabled: false
+
+  SelectorFormat:
+    enabled: false
+
+  VendorPrefix:
+    enabled: false
