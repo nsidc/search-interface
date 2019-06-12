@@ -148,8 +148,7 @@ module.exports = function (grunt) {
         proxies: [
           {
             context: '/api/dataset/2/',
-            host: 'liquid.colorado.edu',
-            port: '10680'
+            host: 'http://qa.nsidc.org'
           }
         ]
       }
