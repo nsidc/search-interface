@@ -97,6 +97,7 @@
     "moment": true,
     "nsidc": true,
     "requireMock": true,
-    "sinon": true
+    "sinon": true,
+    "requirejs": true
   }
 }

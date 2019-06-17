@@ -504,7 +504,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build:arctic-data-explorer', 'build:ade');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
-  grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
+  grunt.registerTask('lint-test', ['scsslint', 'jshint', 'karma']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
 
@@ -519,5 +519,5 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['lint-test']);
 
 
-  grunt.registerTask('jasmine-server', ['jasmine:all:build', "connect::keepalive"]);
+  grunt.registerTask('jasmine-server', ['jasmine:all:build', 'connect::keepalive']);
 };
