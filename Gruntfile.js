@@ -204,7 +204,7 @@ module.exports = function (grunt) {
     githooks: {
       all: {
         'pre-commit': 'scsslint jshint',
-        'pre-push': 'jasmine'
+        'pre-push': 'karma'
       }
     },
 
@@ -466,7 +466,7 @@ module.exports = function (grunt) {
       },
       specs: {
         files: watchFiles.specs,
-        tasks: ['jasmine']
+        tasks: ['karma']
       }
     }
   });
@@ -509,8 +509,7 @@ module.exports = function (grunt) {
   grunt.registerTask('server', 'connect:site');
 
   grunt.registerTask('test:acceptance', 'shell:cucumber');
-  grunt.registerTask('test:unit', ['jasmine']);
-  grunt.registerTask('test:unit2', ['karma']);
+  grunt.registerTask('test:unit', ['karma']);
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
