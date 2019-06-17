@@ -31,6 +31,5 @@ requirejs.config({
   }
 });
 
-require(['backbone', 'sinon'], function(backbone, sinon) {
-  console.log(backbone, sinon);
+require(['backbone'], function() {
 });

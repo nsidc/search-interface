@@ -328,7 +328,7 @@ module.exports = function (grunt) {
           ],
           exclude: [],
           preprocessors: {},
-          reporters: ['progress'],
+          reporters: ['spec'],
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],
