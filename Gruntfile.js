@@ -12,9 +12,8 @@ module.exports = function (grunt) {
   };
 
   requirejsConf = {
-    appDir: 'src/',
-    baseUrl: 'scripts/',
-    dir: 'build/',
+    appDir: '/base/src/',
+    dir: '/base/build/',
     findNestedDependencies: true,
     generateSourceMaps: true,
     inlineText: true,
@@ -25,15 +24,33 @@ module.exports = function (grunt) {
       conf: '../conf/',
       appConfig: '../conf/appConfig',
       iocConfig: '../conf/iocConfig',
-      templates: '../templates/underscore',
-      vendor: '../vendor'
+      templates: 'templates/underscore',
+      vendor: '../vendor',
+
+      backbone: '../contrib/backbone',
+      bootstrap: '../contrib/bootstrap/js',
+      jasmine_jquery: '../contrib/jasmine-jquery',
+      jasmine_sinon: '../contrib/jasmine-sinon',
+      jquery: '../contrib/jquery',
+      jquery_tipsy: '../contrib/tipsy/javascripts',
+      moment: '../contrib/moment',
+      openlayers: '../contrib/openlayers',
+      opensearchlight: '../contrib/opensearchlight',
+      require_mocking: 'src/scripts/lib',
+      sinon: '../contrib/sinon',
+      typeahead: '../contrib/typeahead',
+      underscore: '../contrib/underscore',
+      xregexp: '../contrib/xregexp'
     },
     preserveLicenseComments: false,
     shim: {
       'vendor/debug': {
         exports: 'debug'
       }
-    }
+    },
+    files: [
+      {pattern: 'spec/test-main.js', included: true}
+    ]
   };
 
   // files that tasks run on
@@ -132,7 +149,7 @@ module.exports = function (grunt) {
       },
       site: {
         options: {
-          base: 'src',
+          base: '/base/src/',
           hostname: '',
           keepalive: true,
           middleware: function (connect, options) {
@@ -288,58 +305,42 @@ module.exports = function (grunt) {
       }
     },
 
-    jasmine: {
-      all: {
-        src: [],
-        options: {
-          helpers: ['spec/specHelper.js'],
-          keepRunner: true,
-          specs: runFiles.specs,
-          template: require('grunt-template-jasmine-requirejs'),
-          templateOptions: {
-            requireConfig: {
-              baseUrl: 'src/scripts/',
-              paths: {
-                conf: '../conf/nsidc',
-                templates: '../templates/underscore',
-                vendor: '../vendor'
-              },
-              shim: {
-                'vendor/debug': {
-                  exports: 'debug'
-                }
-              }
-            }
-          },
-          vendor: [
-            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
-            'src/contrib/bootstrap/js/bootstrap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.debug.js',
-            'src/contrib/opensearchlight/OpenSearchlight.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
-            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
-            'src/contrib/jasmine-jquery/jasmine-jquery-1.4.2.js',
-            'src/contrib/jasmine-sinon/jasmine-sinon.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js',
-            'src/scripts/lib/require_mocking.js'
-          ]
-        }
-      }
-    },
-
     jshint: {
       all: runFiles.jshint,
       options: {
         jshintrc: '.jshintrc',
 	reporterOutput: ''
+      }
+    },
+
+    karma: {
+      unit: {
+        options: {
+          basePath: '',
+          frameworks: ['jasmine', 'requirejs'],
+          files: [
+            'src/contrib/jquery/jquery.min.js',
+            'src/contrib/underscore/underscore-min.js',
+            'src/contrib/backbone/backbone-min.js',
+            {pattern: 'src/contrib/**/*.js', included: false},
+            {pattern: 'src/contrib/**/*.map', included: false},
+            {pattern: 'spec/collections/*_spec.js', included: false},
+            {pattern: 'src/scripts/**/*.js', included: false},
+            {pattern: 'src/vendor/debug.js', included: false},
+            {pattern: 'src/**/*.html', included: false},
+            {pattern: 'spec/test-main.js', included: true},
+          ],
+          exclude: [],
+          preprocessors: {},
+          reporters: ['progress'],
+          port: 9876,
+          colors: true,
+          browsers: ['Chrome'],
+          captureTiemout: 600000,
+          singleRun: true,
+          autoWatch: true,
+          clearContext: false
+        }
       }
     },
 
@@ -472,7 +473,6 @@ module.exports = function (grunt) {
         tasks: ['jasmine']
       }
     }
-
   });
 
   grunt.loadNpmTasks('grunt-available-tasks');
@@ -490,6 +490,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-scss-lint');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-karma');
 
   // build tasks for local development; note that both projects are built
   //
@@ -512,7 +513,8 @@ module.exports = function (grunt) {
   grunt.registerTask('server', 'connect:site');
 
   grunt.registerTask('test:acceptance', 'shell:cucumber');
-  grunt.registerTask('test:unit', 'jasmine');
+  grunt.registerTask('test:unit', ['jasmine']);
+  grunt.registerTask('test:unit2', ['karma']);
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
@@ -520,4 +522,6 @@ module.exports = function (grunt) {
   grunt.registerTask('tagLatest', ['gitfetch:fetchTags', 'gittag:deleteLatest', 'gitpush:pushLatest', 'gittag:addLatest', 'gitpush:pushLatest']);
   grunt.registerTask('default', ['lint-test']);
 
+
+  grunt.registerTask('jasmine-server', ['jasmine:all:build', "connect::keepalive"]);
 };
