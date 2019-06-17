@@ -12,19 +12,16 @@ requirejs.config({
   paths: {
     vendor: '../vendor',
 
-    backbone: '../contrib/backbone',
     bootstrap: '../contrib/bootstrap/js',
     jasmine_jquery: '../contrib/jasmine-jquery',
     jasmine_sinon: '../contrib/jasmine-sinon',
-    jquery: '../contrib/jquery',
     jquery_tipsy: '../contrib/tipsy/javascripts',
     moment: '../contrib/moment',
     openlayers: '../contrib/openlayers',
     opensearchlight: '../contrib/opensearchlight',
     require_mocking: 'src/scripts/lib',
-    sinon: '../contrib/sinon',
+    sinon: '../contrib/sinon/sinon.min',
     typeahead: '../contrib/typeahead',
-    underscore: '../contrib/underscore',
     xregexp: '../contrib/xregexp'
   },
   shim: {
@@ -32,4 +29,8 @@ requirejs.config({
       exports: 'debug'
     }
   }
+});
+
+require(['backbone', 'sinon'], function(backbone, sinon) {
+  console.log(backbone, sinon);
 });

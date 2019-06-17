@@ -27,19 +27,16 @@ module.exports = function (grunt) {
       templates: 'templates/underscore',
       vendor: '../vendor',
 
-      backbone: '../contrib/backbone',
       bootstrap: '../contrib/bootstrap/js',
       jasmine_jquery: '../contrib/jasmine-jquery',
       jasmine_sinon: '../contrib/jasmine-sinon',
-      jquery: '../contrib/jquery',
       jquery_tipsy: '../contrib/tipsy/javascripts',
       moment: '../contrib/moment',
       openlayers: '../contrib/openlayers',
       opensearchlight: '../contrib/opensearchlight',
       require_mocking: 'src/scripts/lib',
-      sinon: '../contrib/sinon',
+      sinon: '../contrib/sinon/sinon.min',
       typeahead: '../contrib/typeahead',
-      underscore: '../contrib/underscore',
       xregexp: '../contrib/xregexp'
     },
     preserveLicenseComments: false,
@@ -64,9 +61,9 @@ module.exports = function (grunt) {
     bundleExec: true,
     compass: true,
     precision: 2,
-    sourcemap: true,
+    // sourcemap: true,
     style: '<%= environment === "development" ? "expanded" : "compressed" %>',
-    lineNumbers: '<%= environment === "development" %>'
+    // lineNumbers: '<%= environment === "development" %>'
   };
 
   // files that should trigger their tasks when changed while `grunt watch` is
@@ -317,17 +314,16 @@ module.exports = function (grunt) {
       unit: {
         options: {
           basePath: '',
-          frameworks: ['jasmine', 'requirejs'],
+          frameworks: ['jasmine', 'requirejs', 'sinon'],
           files: [
             'src/contrib/jquery/jquery.min.js',
             'src/contrib/underscore/underscore-min.js',
-            'src/contrib/backbone/backbone-min.js',
+            'src/contrib/backbone/backbone.js',
             {pattern: 'src/contrib/**/*.js', included: false},
             {pattern: 'src/contrib/**/*.map', included: false},
             {pattern: 'spec/collections/*_spec.js', included: false},
             {pattern: 'src/scripts/**/*.js', included: false},
             {pattern: 'src/vendor/debug.js', included: false},
-            {pattern: 'src/**/*.html', included: false},
             {pattern: 'spec/test-main.js', included: true},
           ],
           exclude: [],
@@ -335,7 +331,7 @@ module.exports = function (grunt) {
           reporters: ['progress'],
           port: 9876,
           colors: true,
-          browsers: ['Chrome'],
+          browsers: ['ChromeHeadless'],
           captureTiemout: 600000,
           singleRun: true,
           autoWatch: true,
