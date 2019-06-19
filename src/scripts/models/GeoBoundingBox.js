@@ -39,7 +39,6 @@ define(['lib/mediator_mixin', 'lib/utility_functions'], function (mediatorMixin,
   GeoBoundingBox = Backbone.Model.extend({
 
     initialize: function (cornerLocs) {
-
       if (cornerLocs === undefined) {
         this.set({
           north: 90,

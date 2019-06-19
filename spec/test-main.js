@@ -17,10 +17,9 @@ requirejs.config({
     jasmine_sinon: '../contrib/jasmine-sinon',
     jquery_tipsy: '../contrib/tipsy/javascripts',
     moment: '../contrib/moment',
-    openlayers: '../contrib/openlayers',
+    openlayers: '../contrib/openlayers/js/ol',
     opensearchlight: '../contrib/opensearchlight',
     require_mocking: 'src/scripts/lib',
-    sinon: '../contrib/sinon/sinon.min',
     typeahead: '../contrib/typeahead',
     xregexp: '../contrib/xregexp'
   },
@@ -28,7 +27,7 @@ requirejs.config({
     'vendor/debug': {
       exports: 'debug'
     }
-  }
+  },
 });
 
 require(['backbone'], function() {
