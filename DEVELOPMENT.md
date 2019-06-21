@@ -174,6 +174,9 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 
 ## Unit tests
 
+***NOTE: Look for the keyword TODO: SKIPPED, to see some tests that are being
+skipped for now because they are failing intermittently.  Need to investigate.***
+
 Run the unit tests in [PhantomJS](http://phantomjs.org/) with `grunt
 jasmine`. Test code is located in `spec/`, written in
 [Jasmine 1.3](http://jasmine.github.io/1.3/introduction.html) along with
