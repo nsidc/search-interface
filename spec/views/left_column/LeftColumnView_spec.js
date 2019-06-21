@@ -1,16 +1,10 @@
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel()),
-    'views/left_column/FacetsView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
     'views/left_column/LeftColumnView',
-    'views/left_column/FacetsView',
     'views/left_column/LogoView',
-    'models/SearchParamsModel',
     'collections/SearchResultsCollection',
     'collections/FacetsCollection',
     'lib/Mediator',
@@ -19,9 +13,7 @@ requireMock.requireWithStubs(
   ],
   function (//require,
             LeftColumnView,
-            FacetsView,
             LogoView,
-            SearchParamsModel,
             SearchResultsCollection,
             FacetsCollection,
             Mediator,
@@ -29,6 +21,8 @@ requireMock.requireWithStubs(
             debug) {
 
     var fakeFacetsCollection = new FacetsCollection();
+    var SearchParamsModel = sinon.stub().returns(createFakeModel());
+    var FacetsView = sinon.stub().returns(createFakeView());
 
     describe('Left Column View', function () {
 
@@ -41,7 +35,7 @@ requireMock.requireWithStubs(
           FacetsView.firstCall.returnValue.render.reset();
         }
 
-        FacetsView.reset();
+        FacetsView.resetHistory();
 
         objectFactory.register('LeftColumnView', {
           Ctor: LeftColumnView,

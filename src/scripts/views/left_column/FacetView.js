@@ -2,10 +2,10 @@ define(
   [
     'lib/mediator_mixin',
     'views/left_column/ClearFacetLinkView',
-    'vendor/requirejs/text!templates/li-divider.html',
-    'vendor/requirejs/text!templates/left_column/facet-filter-input.html',
-    'vendor/requirejs/text!templates/left_column/facet-header.html',
-    'vendor/requirejs/text!templates/left_column/facet-value.html'
+    'text!templates/li-divider.html',
+    'text!templates/left_column/facet-filter-input.html',
+    'text!templates/left_column/facet-header.html',
+    'text!templates/left_column/facet-value.html'
   ],
   function (
     mediatorMixin,

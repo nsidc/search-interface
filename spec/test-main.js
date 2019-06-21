@@ -1,4 +1,6 @@
 var tests = [];
+var XRegExp;
+
 for (var file in window.__karma__.files) {
   if (/_spec\.js$/.test(file)) {
     tests.push(file);
@@ -18,10 +20,14 @@ requirejs.config({
     jquery_tipsy: '../contrib/tipsy/javascripts',
     moment: '../contrib/moment',
     openlayers: '../contrib/openlayers/js/ol',
-    opensearchlight: '../contrib/opensearchlight',
+    opensearchlight: '../contrib/opensearchlight/OpenSearchlight.min',
     require_mocking: 'src/scripts/lib',
+    text: '../vendor/requirejs/text',
+    templates: '../templates/underscore',
     typeahead: '../contrib/typeahead',
-    xregexp: '../contrib/xregexp'
+    xregexp: '../contrib/xregexp/xregexp-all.min',
+    css: '../css',
+    bogus: '../contrib/bogus/bogus'
   },
   shim: {
     'vendor/debug': {
@@ -30,5 +36,6 @@ requirejs.config({
   },
 });
 
-require(['backbone'], function() {
+require(['backbone', 'xregexp'], function(backbone, xregexp) {
+  XRegExp = xregexp;
 });

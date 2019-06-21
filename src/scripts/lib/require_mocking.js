@@ -19,10 +19,11 @@
     contextId = Math.floor(Math.random() * 1000000);
     context =  require.config({
       context: contextId,
-      baseUrl: 'src/scripts/',
+      baseUrl: '/base/src/scripts/',
       paths: {
         conf: '../conf/nsidc',
         templates: '../templates/underscore/',
+        text: '../vendor/requirejs/text',
         vendor: '../vendor'
       },
       map: {

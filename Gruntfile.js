@@ -33,10 +33,10 @@ module.exports = function (grunt) {
       jquery_tipsy: '../contrib/tipsy/javascripts',
       moment: '../contrib/moment',
       openlayers: '../contrib/openlayers/js/ol',
-      opensearchlight: '../contrib/opensearchlight',
+      opensearchlight: '../contrib/OpenSearchlight.min',
       require_mocking: 'src/scripts/lib',
       typeahead: '../contrib/typeahead',
-      xregexp: '../contrib/xregexp'
+      text: '../vendor/requirejs/text',
     },
     preserveLicenseComments: false,
     shim: {
@@ -309,6 +309,12 @@ module.exports = function (grunt) {
       }
     },
 
+    // NOTE: The following contrib libraries had to have an id inserted into their
+    // js files so that requirejs wouldn't throw a fit about "anonymous" defines
+    // not being matched
+    //   - backbone
+    //   - xregexp
+    //   - jquery
     karma: {
       unit: {
         options: {
@@ -317,27 +323,37 @@ module.exports = function (grunt) {
           files: [
             'src/contrib/openlayers/js/OpenLayers.js',
             'src/contrib/jquery/jquery.min.js',
+            'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
             'src/contrib/underscore/underscore-min.js',
             'src/contrib/backbone/backbone.js',
-            'src/scripts/lib/require_mocking.js',
+            'src/contrib/xregexp/xregexp-all.min.js',
+            'src/contrib/opensearchlight/OpenSearchlight.min.js',
+            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
             'node_modules/jasmine-sinon/lib/*',
             {pattern: 'src/contrib/**/*.js', included: false},
             {pattern: 'src/contrib/**/*.map', included: false},
-            {pattern: 'spec/models/*_spec.js', included: false},
+            {pattern: 'spec/views/left_column/*_spec.js', included: false},
+            {pattern: 'src/scripts/models/*.js', included: false},
             {pattern: 'src/scripts/**/*.js', included: false},
             {pattern: 'src/vendor/debug.js', included: false},
+            {pattern: 'src/vendor/requirejs/text.js', included: false},
+            {pattern: 'src/templates/**/*.html', included: false},
+            {pattern: 'src/css/*.css', included: false},
             {pattern: 'spec/test-main.js', included: true},
           ],
-          exclude: [],
-          preprocessors: {},
+          exclude: [
+            'spec/lib/AdeSearchApp_spec.js',
+            'spec/views/AdeMainView_spec.js'
+          ],
           reporters: ['spec'],
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],
-          captureTiemout: 600000,
+          captureTiemout: 60000,
           singleRun: true,
           autoWatch: true,
-          clearContext: false
+          clearContext: false,
+          // logLevel: 'DEBUG'
         }
       }
     },
@@ -370,8 +386,8 @@ module.exports = function (grunt) {
     sass: {
       'dev': {
         files: {
-          'src/css/ade-search.css': 'src/sass/ade_main.scss',
-          'src/css/nsidc-search.css': 'src/sass/nsidc_main.scss'
+          'src/css/ade-search.css': './src/sass/ade_main.scss',
+          'src/css/nsidc-search.css': './src/sass/nsidc_main.scss'
         },
         options: sassConf
       },
@@ -511,7 +527,7 @@ module.exports = function (grunt) {
   grunt.registerTask('server', 'connect:site');
 
   grunt.registerTask('test:acceptance', 'shell:cucumber');
-  grunt.registerTask('test:unit', ['karma']);
+  grunt.registerTask('test:unit', ['sass:dev', 'karma']);
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
