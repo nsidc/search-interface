@@ -15,7 +15,7 @@ define(
   ) {
 
     describe('Facets View', function () {
-      var FacetView
+      var FacetView;
       var facetsView;
       var fakeFacetsCollection,
         fakeParamsModel;

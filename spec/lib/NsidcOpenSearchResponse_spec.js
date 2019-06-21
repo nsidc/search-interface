@@ -124,7 +124,8 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts brokered data links', function () {
-        var results, fakeFeed, fakeFeedEntryContents, externalDataUrl = {title: 'Get External Data', href: 'http://data.eol.ucar.edu/codiac/dss/id=106.arcss054/'};
+        var results, fakeFeed, fakeFeedEntryContents,
+          externalDataUrl = {title: 'Get External Data', href: 'http://data.eol.ucar.edu/codiac/dss/id=106.arcss054/'};
 
         fakeFeedEntryContents = [
           '   <id>' + fakeUrl + '</id>',
