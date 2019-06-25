@@ -1,19 +1,8 @@
 define(
   ['lib/objectFactory',
-  'views/result_item/SpatialMetadataView',
-  'views/result_item/NsidcTemporalMetadataView',
-  'views/result_item/NsidcParametersView',
-  'views/result_item/NsidcDataFormatView',
-  'views/result_item/NsidcSummaryView',
-  'views/result_item/NsidcSupportingProgramsView',
-  'vendor/requirejs/text!templates/result_item/nsidc_result_item.html'],
+  'text!templates/result_item/nsidc_result_item.html'
+  ],
   function (objectFactory,
-            SpatialMetadataView,
-            TemporalMetadataView,
-            ParametersView,
-            DataFormatView,
-            SummaryView,
-            SupportingProgramsView,
             resultItemTemplate) {
 
     var template, NsidcResultItemView;
@@ -35,11 +24,11 @@ define(
                                   url: this.model.get('catalogUrl'),
                                   authoritativeId: this.model.get('authoritativeId')}));
 
-          new SupportingProgramsView(
+          objectFactory.createInstance('SupportingProgramsView',
               {el: this.$el.find('.supporting-programs'), model: this.model}
           ).render();
 
-          new SpatialMetadataView({
+          objectFactory.createInstance('SpatialMetadataView', {
             el: this.$el.find('.spatial-coverage')[0],
             model: this.model,
             mapThumbnail: this.options.mapThumbnail,
@@ -49,19 +38,19 @@ define(
             mapPixelSize: this.options.mapPixelSize
           }).render();
 
-          new TemporalMetadataView(
+          objectFactory.createInstance('TemporalMetadataView',
             {el: this.$el.find('.temporal-coverage'), model: this.model, forceRender: true}
           ).render();
 
-          new ParametersView(
+          objectFactory.createInstance('ParametersView',
               {el: this.$el.find('.parameters'), model: this.model}
           ).render();
 
-          new DataFormatView(
+          objectFactory.createInstance('DataFormatView',
             {el: this.$el.find('.data-formats'), model: this.model}
           ).render();
 
-          new SummaryView(
+          objectFactory.createInstance('SummaryView',
               {el: this.$el.find('.summary'), model: this.model}
           ).render();
         }

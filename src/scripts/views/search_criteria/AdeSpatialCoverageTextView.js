@@ -1,6 +1,6 @@
 // SpatialCoverageTextView - Backbone view to display the spatial coverage in
 // four inputs that can easily be edited by the user
-define(['vendor/requirejs/text!templates/search_criteria/ade_text.html',
+define(['text!templates/search_criteria/ade_text.html',
         'lib/mediator_mixin',
         'lib/utility_functions'],
        function (template, mediatorMixin, UtilityFunctions) {

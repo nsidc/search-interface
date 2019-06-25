@@ -1,9 +1,9 @@
 define(
   [
     'lib/mediator_mixin',
-    'vendor/requirejs/text!templates/li-divider.html',
-    'vendor/requirejs/text!templates/right_column/results_header/dropdown_option.html',
-    'vendor/requirejs/text!templates/right_column/results_header/dropdown_view.html'
+    'text!templates/li-divider.html',
+    'text!templates/right_column/results_header/dropdown_option.html',
+    'text!templates/right_column/results_header/dropdown_view.html'
   ],
   function (
     mediatorMixin,

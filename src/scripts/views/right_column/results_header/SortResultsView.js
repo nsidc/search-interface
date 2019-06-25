@@ -1,7 +1,7 @@
 define(
   [
     'views/right_column/results_header/DropdownView',
-    'vendor/requirejs/text!templates/right_column/results_header/sort_results_label.html',
+    'text!templates/right_column/results_header/sort_results_label.html',
   ], function (
     DropdownView,
     label

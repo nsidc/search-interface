@@ -1,7 +1,7 @@
 define(['models/GeoBoundingBox',
        'lib/mediator_mixin',
        'lib/OpenLayerMap',
-       'vendor/requirejs/text!templates/search_criteria/compass.html',
+       'text!templates/search_criteria/compass.html',
        'lib/spatial_selection_map/SpatialSelectionUtilities'],
        function (GeoBoundingBox, mediatorMixin, OpenLayerMap, compassTemplate, SpatialSelectionUtilities) {
 

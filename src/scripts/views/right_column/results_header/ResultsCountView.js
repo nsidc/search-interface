@@ -1,7 +1,7 @@
 define(
   [
     'lib/mediator_mixin',
-    'vendor/requirejs/text!templates/right_column/results_header/total_results_count.html'
+    'text!templates/right_column/results_header/total_results_count.html'
   ],
   function (
     mediatorMixin,

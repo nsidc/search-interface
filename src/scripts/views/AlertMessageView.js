@@ -1,5 +1,5 @@
 define(['lib/mediator_mixin',
-       'vendor/requirejs/text!templates/alert_message_view.html'
+       'text!templates/alert_message_view.html'
        ],
        function (mediatorMixin,
                  messageTemplate) {

@@ -1,8 +1,6 @@
-define(['views/search_criteria/SpatialCoverageCompassView',
-        'lib/objectFactory',
-        'vendor/requirejs/text!templates/search_criteria/spatial_search.html'],
-  function (SpatialCoverageCompassView,
-            objectFactory,
+define(['lib/objectFactory',
+        'text!templates/search_criteria/spatial_search.html'],
+  function (objectFactory,
             spatialTemplate) {
     var template, SpatialCoverageView;
 
@@ -28,7 +26,7 @@ define(['views/search_criteria/SpatialCoverageCompassView',
             model: this.model
           });
 
-          this.compassView = new SpatialCoverageCompassView({
+          this.compassView = objectFactory.createInstance('SpatialCoverageCompassView', {
             el: this.$el.find('#compass-container'),
             model: this.model,
             map: this.options.map,

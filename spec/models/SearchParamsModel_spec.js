@@ -215,7 +215,7 @@ define([
         facetFilters: filters
       };
 
-      // TODO: SKIPPED fails intermittently for some reason, may need to investigate.
+      // TODO: SKIPPED because of intermittent failures when running, need to investigate.
       xit('changes multiple search criteria', function () {
         model.setCriteria(criteria);
 

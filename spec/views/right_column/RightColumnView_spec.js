@@ -1,81 +1,43 @@
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel()),
-    'views/right_column/SearchResultsView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_footer/ResultsFooterView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_header/ResultsHeaderView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_header/ResultsCountView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_header/ResultsPerPageView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_footer/PaginationControlsView': sinon.stub().returns(createFakeView()),
-    'views/right_column/results_header/SortResultsView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
-    'views/right_column/SearchResultsView',
-    'views/right_column/results_footer/ResultsFooterView',
-    'views/right_column/results_header/ResultsHeaderView',
     'views/right_column/RightColumnView',
-    'views/right_column/results_header/ResultsCountView',
-    'views/right_column/results_header/ResultsPerPageView',
-    'views/right_column/results_footer/PaginationControlsView',
-    'views/right_column/results_header/SortResultsView',
-    'models/SearchParamsModel',
     'lib/Mediator',
     'lib/objectFactory',
     'vendor/debug'
   ],
   function (
-            SearchResultsView,
-            ResultsFooterView,
-            ResultsHeaderView,
             RightColumnView,
-            ResultsCountView,
-            ResultsPerPageView,
-            PaginationControlsView,
-            SortResultsView,
-            SearchParamsModel,
             Mediator,
             objectFactory,
             debug) {
 
     describe('Right Column View', function () {
-      beforeEach(function () {
-        var views;
+      var stubList = ['ResultsCountView', 'ResultsPerPageView', 'SearchResultsView',
+        'ResultsFooterView', 'PaginationControlsView', 'SortResultsView', 'ResultsHeaderView'];
+      var stubViews = {};
+      var stubViewInstances = {};
+      var SearchParamsModel = sinon.stub().returns(createFakeModel());
 
+      beforeAll(function () {
+        _.each(stubList, function (stubName) {
+          var fakeView = createFakeView();
+          stubViews[stubName] = sinon.stub().returns(fakeView);
+          stubViewInstances[stubName] = fakeView;
+          objectFactory.register(stubName, {Ctor: stubViews[stubName]});
+        });
+      });
+
+      beforeEach(function () {
         // No need to actually emit any debugger messages
         sinon.stub(debug, 'warn');
 
-        // reset mock counts (if they exist)
-        views = [ResultsCountView, ResultsPerPageView, SearchResultsView, ResultsFooterView, PaginationControlsView, SortResultsView];
-
-        _.each(views, function (view) {
-          if (view.firstCall) {
-            view.firstCall.returnValue.render.reset();
-          }
-          view.reset();
-        }, this);
-
-        objectFactory.register('PaginationControlsView',
-          {
-            Ctor: PaginationControlsView
-          }
-        );
-
-        objectFactory.register('ResultsPerPageView',
-          {
-            Ctor: PaginationControlsView,
-            configOptions: { preset: { features: {resultsPerPage: 10 } } }
-          }
-        );
-
-        objectFactory.register('ResultsHeaderView',
-          {
-            Ctor: ResultsHeaderView
-          }
-        );
-
+        _.each(stubList, function (stubName) {
+          stubViews[stubName].resetHistory();
+          stubViewInstances[stubName].render.resetHistory();
+        });
       });
 
       afterEach(function () {
@@ -94,10 +56,10 @@ requireMock.requireWithStubs(
 
         rightColumnView.render();
 
-        expect(SearchResultsView).toHaveBeenCalledOnce();
+        expect(stubViews.SearchResultsView).toHaveBeenCalledOnce();
 
-        expect(ResultsFooterView).toHaveBeenCalledOnce();
-        expect(ResultsFooterView.firstCall.returnValue.render).toHaveBeenCalledOnce();
+        expect(stubViews.ResultsFooterView).toHaveBeenCalledOnce();
+        expect(stubViewInstances.ResultsFooterView.render).toHaveBeenCalledOnce();
       });
 
       it('should create a correctly structured element as provided', function () {

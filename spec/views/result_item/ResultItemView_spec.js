@@ -1,58 +1,54 @@
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 
-requireMock.requireWithStubs(
-  {
-    'views/result_item/DatacenterView': sinon.stub().returns(createFakeView()),
-    'views/result_item/NsidcTemporalMetadataView': sinon.stub().returns(createFakeView()),
-    'views/result_item/SpatialMetadataView': sinon.stub().returns(createFakeView()),
-    'views/result_item/SummaryView': sinon.stub().returns(createFakeView()),
-    'views/result_item/AuthorView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
     'views/result_item/ResultItemView',
-    'lib/objectFactory',
-    'views/result_item/NsidcTemporalMetadataView',
-    'views/result_item/SpatialMetadataView',
-    'views/result_item/AuthorView',
-    'views/result_item/SummaryView',
-    'views/result_item/DatacenterView'
+    'lib/objectFactory'
   ],
   function (ResultItemView,
-            objectFactory,
-            TemporalMetadataView,
-            SpatialMetadataView,
-            AuthorView,
-            SummaryView,
-            DatacenterView) {
+            objectFactory) {
 
     describe('Result Item View', function () {
 
       // alias for the namespaced constructor
       var ensureViewWasRendered;
 
-      ensureViewWasRendered = function (ViewStub) {
-        expect(ViewStub).toHaveBeenCalledOnce();
-        expect(ViewStub.returnValue.render).toHaveBeenCalledOnce();
+      var stubList = ['DatacenterView',
+        'TemporalMetadataView',
+        'SpatialMetadataView',
+        'SummaryView',
+        'AuthorView'
+      ];
+      var stubViews = {};
+      var stubViewInstances = {};
+
+      ensureViewWasRendered = function (stubName) {
+        expect(stubViews[stubName]).toHaveBeenCalledOnce();
+        expect(stubViewInstances[stubName].render).toHaveBeenCalledOnce();
       };
 
-      beforeEach(function () {
-
-        _([ DatacenterView,
-            TemporalMetadataView,
-            SpatialMetadataView,
-            SummaryView,
-            AuthorView
-        ]).each(function (ViewStub) {
-          ViewStub.returnValue.render.reset();
-          ViewStub.reset();
+      beforeAll(function () {
+        _.each(stubList, function (stubName) {
+          var fakeView = createFakeView();
+          stubViews[stubName] = sinon.stub().returns(fakeView);
+          stubViewInstances[stubName] = fakeView;
+          objectFactory.register(stubName, {Ctor: stubViews[stubName]});
         });
       });
+
+      beforeEach(function () {
+        _.each(stubList, function (stubName) {
+          stubViews[stubName].resetHistory();
+          stubViewInstances[stubName].render.resetHistory();
+        });
+      });
+
 
       describe('initialization', function () {
         it('creates a correctly structured element if one is not provided', function () {
           var view = new ResultItemView();
 
-          expect(view.$el).toBe('div');
+          expect(view.$el.is('div')).toBeTruthy();
           expect(view.$el).toHaveClass('result-item');
         });
       });
@@ -85,7 +81,7 @@ requireMock.requireWithStubs(
           feedResultView.render();
 
           expect($(element).find('.dataset-title').eq(0).html()).toContain('Some Cold Data');
-          expect($(element).find('.dataset-title').children()[0]).toBe('a');
+          expect($($(element).find('.dataset-title').children()[0]).is('a')).toBeTruthy();
         });
 
         it('displays the data set\'s title with \'(No Link Available)\' when url is not provided for a single search result', function () {
@@ -104,14 +100,7 @@ requireMock.requireWithStubs(
 
           resultItemView.render();
 
-          _.each([ DatacenterView,
-                  TemporalMetadataView,
-                  SpatialMetadataView,
-                  AuthorView,
-                  SummaryView
-                ],
-                ensureViewWasRendered
-                );
+          _.each(stubList, ensureViewWasRendered);
         });
       });
     });

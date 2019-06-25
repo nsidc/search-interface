@@ -27,7 +27,7 @@ requirejs.config({
     typeahead: '../contrib/typeahead',
     xregexp: '../contrib/xregexp/xregexp-all.min',
     css: '../css',
-    bogus: '../contrib/bogus/bogus'
+    // 'underscore.string': '../contrib/underscore/underscore.string'
   },
   shim: {
     'vendor/debug': {
@@ -36,6 +36,6 @@ requirejs.config({
   },
 });
 
-require(['backbone', 'xregexp'], function(backbone, xregexp) {
+require(['backbone', 'xregexp', 'bootstrap-datepicker'], function(backbone, xregexp, bsdp) {
   XRegExp = xregexp;
 });

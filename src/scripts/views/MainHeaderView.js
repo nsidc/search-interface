@@ -1,6 +1,6 @@
 define(['lib/objectFactory',
-       'vendor/requirejs/text!templates/main_header_nsidc.html',
-       'vendor/requirejs/text!templates/main_header_ade.html',
+       'text!templates/main_header_nsidc.html',
+       'text!templates/main_header_ade.html',
        'lib/mediator_mixin'],
        function (objectFactory,
                  nsidcHeaderTemplate,

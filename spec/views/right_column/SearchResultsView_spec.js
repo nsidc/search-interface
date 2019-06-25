@@ -1,25 +1,24 @@
-var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
+var createFakeView = function() { return sinon.createStubInstance(Backbone.View) };
 
-requireMock.requireWithStubs(
-  {
-    'views/result_item/ResultItemView': sinon.stub().returns(createFakeView())
-  },
-  [
+define([
     'views/right_column/SearchResultsView',
-    'views/result_item/ResultItemView',
     'lib/objectFactory'
   ],
-  function (SearchResultsView, ResultItemView, objectFactory) {
+  function (SearchResultsView, objectFactory) {
 
     describe('Search Results View', function () {
+      var fakeView = createFakeView();
+      var ResultItemView = sinon.stub().returns(fakeView);
 
-      beforeEach(function () {
-        ResultItemView.returnValue.render.reset();
-        ResultItemView.reset();
-
+      beforeAll(function () {
         objectFactory.setConfig({
           'ResultItemView': ResultItemView
         });
+      });
+
+      beforeEach(function () {
+        ResultItemView.resetHistory();
+        fakeView.render.resetHistory();
       });
 
       // TODO: 2012-03-08:<mhs> Pull out repeated code in a before each for the stubs </mhs>
@@ -47,7 +46,7 @@ requireMock.requireWithStubs(
         });
 
         // assert
-        expect(ResultItemView.returnValue.render.callCount).toEqual(2);
+        expect(fakeView.render.callCount).toEqual(2);
       });
 
       it('should pass models to the subview constructors', function () {

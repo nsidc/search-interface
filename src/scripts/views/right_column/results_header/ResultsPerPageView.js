@@ -1,7 +1,7 @@
 define(
   [
     'views/right_column/results_header/DropdownView',
-    'vendor/requirejs/text!templates/right_column/results_header/results_per_page_label.html',
+    'text!templates/right_column/results_header/results_per_page_label.html',
   ], function (
     DropdownView,
     label

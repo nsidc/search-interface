@@ -1,6 +1,6 @@
 define(
   ['views/result_item/DetailsView',
-   'vendor/requirejs/text!templates/result_item/details_section.html'],
+   'text!templates/result_item/details_section.html'],
   function (DetailsView, detailsSectionTemplate) {
     var DetailsSectionView;
 

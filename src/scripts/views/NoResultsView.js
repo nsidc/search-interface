@@ -1,6 +1,6 @@
 define(
     [
-      'vendor/requirejs/text!templates/no_results.html',
+      'text!templates/no_results.html',
       'lib/mediator_mixin'
     ],
     function (noResultsTemplate, mediatorMixin) {

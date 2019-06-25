@@ -1,5 +1,5 @@
 define(
-  ['vendor/requirejs/text!templates/result_item/nsidc_data_format.html'],
+  ['text!templates/result_item/nsidc_data_format.html'],
   function (dataFormatTemplate) {
 
     var DataFormatView,

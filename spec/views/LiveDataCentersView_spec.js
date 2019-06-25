@@ -1,17 +1,14 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
+define(
   [
-    'models/SearchParamsModel',
     'views/LiveDataCentersView'
   ],
   function (
-    SearchParamsModel,
     LiveDataCentersView
   ) {
+
+    var SearchParamsModel = sinon.stub().returns(createFakeModel());
 
     describe('LiveDataCentersView', function () {
       var view, fakeDatacenterFacet;

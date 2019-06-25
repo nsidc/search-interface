@@ -1,17 +1,12 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
+define(
   [
     'views/right_column/results_header/SortResultsView',
-    'models/SearchParamsModel',
     'collections/SearchResultsCollection'
   ],
   function (
     SortResultsView,
-    SearchParamsModel,
     SearchResultsCollection
   ) {
 
@@ -20,6 +15,8 @@ requireMock.requireWithStubs(
           view;
 
       beforeEach(function () {
+        var SearchParamsModel = sinon.stub().returns(createFakeModel());
+
         var resultsCollection = new SearchResultsCollection(),
             searchParamsModel = new SearchParamsModel();
 

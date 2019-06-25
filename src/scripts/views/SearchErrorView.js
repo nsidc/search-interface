@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/search_error_view.html',
+define(['text!templates/search_error_view.html',
   'lib/mediator_mixin'],
   function (searchErrorTemplate, mediatorMixin) {
 

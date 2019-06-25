@@ -1,5 +1,5 @@
-define(['vendor/requirejs/text!templates/ade_main_view.html',
-        'vendor/requirejs/text!templates/content_explanation_message.html',
+define(['text!templates/ade_main_view.html',
+        'text!templates/content_explanation_message.html',
         'views/AlertMessageView',
         'views/NoResultsView',
         'views/right_column/RightColumnView',

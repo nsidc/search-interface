@@ -1,15 +1,11 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
+define(
   [
     'views/right_column/results_header/ResultsPerPageView',
-    'models/SearchParamsModel',
     'collections/SearchResultsCollection'
   ],
-  function (ResultsPerPageView, SearchParamsModel, SearchResultsCollection) {
+  function (ResultsPerPageView, SearchResultsCollection) {
 
     describe('the results per page dropdown', function () {
       var features,
@@ -18,6 +14,8 @@ requireMock.requireWithStubs(
       features = { resultsPerPage: [10, 25, 37] };
 
       beforeEach(function () {
+        var SearchParamsModel = sinon.stub().returns(createFakeModel());
+
         var resultsCollection = new SearchResultsCollection(),
             searchParamsModel = new SearchParamsModel();
 

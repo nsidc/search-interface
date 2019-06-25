@@ -1,36 +1,27 @@
-/* global requireMock */
+var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
+var createFakeCollection = function () { return sinon.createStubInstance(Backbone.Collection); };
 
-var createFakeView = function () {
-  return sinon.createStubInstance(Backbone.View);
-};
-
-var createFakeCollection = function () {
-  return sinon.createStubInstance(Backbone.Collection);
-};
-
-requireMock.requireWithStubs(
-  {
-    'views/search_criteria/SpatialCoverageCompassView': sinon.stub().returns(createFakeView()),
-    'collections/SearchResultsCollection': sinon.stub().returns(createFakeCollection())
-  },
+define(
   ['views/search_criteria/SearchCriteriaView',
    'views/search_criteria/SpatialCoverageView',
    'views/search_criteria/NsidcSpatialCoverageTextView',
    'views/search_criteria/TemporalCoverageView',
    'views/search_criteria/KeywordsView',
-   'collections/SearchResultsCollection',
    'lib/Mediator',
    'lib/objectFactory',
-   'vendor/requirejs/text!templates/search_criteria/keywords.html'],
+   'text!templates/search_criteria/keywords.html'],
   function (SearchCriteriaView,
             SpatialCoverageView,
             NsidcSpatialCoverageTextView,
             TemporalCoverageView,
             KeywordsView,
-            SearchResultsCollection,
             Mediator,
             objectFactory,
             keywordsTemplate) {
+
+    var SpatialCoverageCompassView = sinon.stub().returns(createFakeView());
+    var SearchResultsCollection = sinon.stub().returns(createFakeCollection());
+
     objectFactory.setConfig({
       'TemporalCoverageView': TemporalCoverageView,
       'SpatialCoverageView': SpatialCoverageView,
@@ -41,7 +32,8 @@ requireMock.requireWithStubs(
             keywordsTemplate: keywordsTemplate
           }
         }
-      }
+      },
+      'SpatialCoverageCompassView': { Ctor: SpatialCoverageCompassView }
     });
 
     describe('Search Criteria View', function () {
@@ -74,10 +66,10 @@ requireMock.requireWithStubs(
 
       afterEach(function () {
         debug.warn.restore();
-        resultsCollection.getKeyword.reset();
-        resultsCollection.getStartDate.reset();
-        resultsCollection.getEndDate.reset();
-        resultsCollection.getOsGeoBbox.reset();
+        resultsCollection.getKeyword.resetHistory();
+        resultsCollection.getStartDate.resetHistory();
+        resultsCollection.getEndDate.resetHistory();
+        resultsCollection.getOsGeoBbox.resetHistory();
       });
 
       describe('rendering', function () {
@@ -95,11 +87,11 @@ requireMock.requireWithStubs(
         });
 
         it('renders a SpatialCoverageView', function () {
-          expect(searchCriteriaView.$el.find('#spatial-search-box')).toBe('div');
+          expect(searchCriteriaView.$el.find('#spatial-search-box').is('div')).toBeTruthy();
         });
 
         it('renders a TemporalCoverageView', function () {
-          expect(searchCriteriaView.$el.find('#temporal-box')).toBe('div');
+          expect(searchCriteriaView.$el.find('#temporal-box').is('div')).toBeTruthy();
         });
       });
 
@@ -260,6 +252,11 @@ requireMock.requireWithStubs(
       });
 
       describe('invalid dates', function () {
+        beforeEach(function () {
+          searchCriteriaView = new SearchCriteriaView({model: searchParameters, searchResultsCollection: resultsCollection});
+          searchCriteriaView.render();
+        });
+
         it('does not put the start and end date in the search parameters when Find Data button is pressed with invalid range', function () {
           searchCriteriaView.setInputField('start-date', '2012-04-21');
           searchCriteriaView.setInputField('end-date', '2012-04-20');

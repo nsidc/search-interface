@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/result_item/result_keywords.html'], function (resultKeywordsTemplate) {
+define(['text!templates/result_item/result_keywords.html'], function (resultKeywordsTemplate) {
 
   var ResultKeywordsView, templates;
 

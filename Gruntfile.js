@@ -319,7 +319,7 @@ module.exports = function (grunt) {
       unit: {
         options: {
           basePath: '',
-          frameworks: ['jasmine', 'requirejs', 'sinon'],
+          frameworks: ['jasmine', 'requirejs', 'sinon', 'moment-2.9.0'],
           files: [
             'src/contrib/openlayers/js/OpenLayers.js',
             'src/contrib/jquery/jquery.min.js',
@@ -329,12 +329,15 @@ module.exports = function (grunt) {
             'src/contrib/xregexp/xregexp-all.min.js',
             'src/contrib/opensearchlight/OpenSearchlight.min.js',
             'src/contrib/tipsy/javascripts/jquery.tipsy.js',
+            'src/contrib/sprintf/sprintf.min.js',
             'src/scripts/lib/require_mocking.js',
             'node_modules/jasmine-sinon/lib/*',
+            'src/contrib/bootstrap/js/bootstrap.js',
+            'src/contrib/bootstrap/js/bootstrap-datepicker.min.js',
             {pattern: 'src/contrib/**/*.js', included: false},
             {pattern: 'src/contrib/**/*.map', included: false},
             {pattern: 'spec/**/*_spec.js', included: false},
-            //{pattern: 'spec/views/left_column/*_spec.js', included: false},
+            // {pattern: 'spec/views/search_criteria/**/*_spec.js', included: false},
             {pattern: 'src/scripts/models/*.js', included: false},
             {pattern: 'src/scripts/**/*.js', included: false},
             {pattern: 'src/vendor/debug.js', included: false},
@@ -345,13 +348,10 @@ module.exports = function (grunt) {
           ],
           exclude: [
             'spec/lib/AdeSearchApp_spec.js',
-            'spec/views/AdeMainView_spec.js',
-            'spec/views/*_spec.js',
-            'spec/views/result_item/*_spec.js',
-            'spec/views/right_column/**/*_spec.js',
-            'spec/views/search_criteria/*_spec.js'
+            // 'spec/views/AdeMainView_spec.js',
           ],
-          reporters: ['spec'],
+          plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
+          // reporters: ['spec'],
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],

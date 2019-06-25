@@ -1,5 +1,5 @@
 define(
-  ['vendor/requirejs/text!templates/result_item/nsidc_parameters.html'],
+  ['text!templates/result_item/nsidc_parameters.html'],
   function (parametersTemplate) {
 
     var ParameterView,

@@ -2,18 +2,12 @@ var createFakeModel = function () {
   return sinon.createStubInstance(Backbone.Model);
 };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
-  [
+define([
     'views/right_column/results_header/DropdownView',
-    'models/SearchParamsModel',
     'lib/Mediator'
   ],
   function (
     DropdownView,
-    SearchParamsModel,
     Mediator
   ) {
 
@@ -26,6 +20,8 @@ requireMock.requireWithStubs(
         var searchParamsModel;
 
         mediator = sinon.stub(new Mediator());
+
+        var SearchParamsModel = sinon.stub().returns(createFakeModel());
 
         searchParamsModel = new SearchParamsModel();
 
