@@ -1,5 +1,3 @@
-/* global requireMock */
-
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 

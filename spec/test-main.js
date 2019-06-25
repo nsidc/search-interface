@@ -36,6 +36,6 @@ requirejs.config({
   },
 });
 
-require(['backbone', 'xregexp', 'bootstrap-datepicker'], function(backbone, xregexp, bsdp) {
+require(['backbone', 'xregexp', 'bootstrap-datepicker'], function(backbone, xregexp) {
   XRegExp = xregexp;
 });

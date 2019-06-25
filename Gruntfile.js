@@ -348,7 +348,7 @@ module.exports = function (grunt) {
           ],
           exclude: [
             'spec/lib/AdeSearchApp_spec.js',
-            // 'spec/views/AdeMainView_spec.js',
+            'spec/views/AdeMainView_spec.js',
           ],
           plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
           // reporters: ['spec'],

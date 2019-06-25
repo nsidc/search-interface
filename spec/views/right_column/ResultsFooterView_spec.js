@@ -1,4 +1,4 @@
-var createFakeView = function () {return sinon.createStubInstance(Backbone.View)};
+var createFakeView = function () {return sinon.createStubInstance(Backbone.View);};
 
 define(
   ['views/right_column/results_footer/ResultsFooterView', 'lib/objectFactory'],
