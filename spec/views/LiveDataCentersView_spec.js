@@ -2,10 +2,13 @@ var createFakeModel = function () { return sinon.createStubInstance(Backbone.Mod
 
 define(
   [
-    'views/LiveDataCentersView'
+
+    'views/LiveDataCentersView',
+    'lib/Mediator'
   ],
   function (
-    LiveDataCentersView
+    LiveDataCentersView,
+    Mediator
   ) {
 
     var SearchParamsModel = sinon.stub().returns(createFakeModel());
@@ -14,6 +17,8 @@ define(
       var view, fakeDatacenterFacet;
 
       beforeEach(function () {
+        var mediatorStub = sinon.stub(new Mediator());
+
         view = new LiveDataCentersView({
           dynamicDatacenterCounts: true,
           model: new SearchParamsModel(),
@@ -33,6 +38,8 @@ define(
             }
           ]
         });
+
+        view.setMediator(mediatorStub);
 
         fakeDatacenterFacet = {
           id: 'facet_data_center',
