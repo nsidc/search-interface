@@ -12,14 +12,15 @@ html
     link(href='https://cdnjs.cloudflare.com/ajax/libs/jquery.tipsy/1.0.2/jquery.tipsy.css',rel='stylesheet',type='text/css')
     block project-css
 
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js')
 
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js')
 
     script(src='contrib/proj4js/proj4js-1.1.0-compressed.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js')
+
+    //-script(src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
+    script(src='contrib/backbone/backbone.js')  //- Local because of issues with requirejs/anonymous "define" when testing
     script(src='contrib/jquery-ui-message/jquery-ui-message-1.5.37.min.js')
     script(src='contrib/opensearchlight/OpenSearchlight.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js')

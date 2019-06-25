@@ -14,20 +14,8 @@ requirejs.config({
   paths: {
     vendor: '../vendor',
 
-    bootstrap: '../contrib/bootstrap/js',
-    jasmine_jquery: '../contrib/jasmine-jquery',
-    jasmine_sinon: '../contrib/jasmine-sinon',
-    jquery_tipsy: '../contrib/tipsy/javascripts',
-    moment: '../contrib/moment',
-    openlayers: '../contrib/openlayers/js/ol',
-    opensearchlight: '../contrib/opensearchlight/OpenSearchlight.min',
-    require_mocking: 'src/scripts/lib',
     text: '../vendor/requirejs/text',
     templates: '../templates/underscore',
-    typeahead: '../contrib/typeahead',
-    xregexp: '../contrib/xregexp/xregexp-all.min',
-    css: '../css',
-    // 'underscore.string': '../contrib/underscore/underscore.string'
   },
   shim: {
     'vendor/debug': {
@@ -36,6 +24,6 @@ requirejs.config({
   },
 });
 
-require(['backbone', 'xregexp', 'bootstrap-datepicker'], function(backbone, xregexp) {
+require(['xregexp', 'backbone', 'bootstrap-datepicker'], function(xregexp) {
   XRegExp = xregexp;
 });

@@ -27,15 +27,15 @@ module.exports = function (grunt) {
       templates: 'templates/underscore',
       vendor: '../vendor',
 
-      bootstrap: '../contrib/bootstrap/js',
-      jasmine_jquery: '../contrib/jasmine-jquery',
-      jasmine_sinon: '../contrib/jasmine-sinon',
-      jquery_tipsy: '../contrib/tipsy/javascripts',
-      moment: '../contrib/moment',
-      openlayers: '../contrib/openlayers/js/ol',
-      opensearchlight: '../contrib/OpenSearchlight.min',
-      require_mocking: 'src/scripts/lib',
-      typeahead: '../contrib/typeahead',
+      // bootstrap: '../contrib/bootstrap/js',
+      // jasmine_jquery: '../contrib/jasmine-jquery',
+      // jasmine_sinon: '../contrib/jasmine-sinon',
+      // jquery_tipsy: '../contrib/tipsy/javascripts',
+      // moment: '../contrib/moment',
+      // openlayers: '../contrib/openlayers/js/ol',
+      // opensearchlight: '../contrib/OpenSearchlight.min',
+      // require_mocking: 'src/scripts/lib',
+      // typeahead: '../contrib/typeahead',
       text: '../vendor/requirejs/text',
     },
     preserveLicenseComments: false,
@@ -321,13 +321,20 @@ module.exports = function (grunt) {
           basePath: '',
           frameworks: ['jasmine', 'requirejs', 'sinon', 'moment-2.9.0'],
           files: [
-            // REMOVE THESE?
+            // REMOVE THESE contrib versions?
             // 'src/contrib/openlayers/js/OpenLayers.js',
             'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js',
-            'src/contrib/jquery/jquery.min.js',
+
+            // 'src/contrib/jquery/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+
             'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
-            'src/contrib/underscore/underscore-min.js',
-            'src/contrib/backbone/backbone.js',
+
+            // 'src/contrib/underscore/underscore-min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js',
+
+            'src/contrib/backbone/backbone.js',  // need local copy to avoid anonymous define?
+
             'src/contrib/xregexp/xregexp-all.min.js',
             'src/contrib/opensearchlight/OpenSearchlight.min.js',
             'src/contrib/tipsy/javascripts/jquery.tipsy.js',
@@ -350,7 +357,7 @@ module.exports = function (grunt) {
           exclude: [
             'spec/lib/AdeSearchApp_spec.js',
             'spec/views/AdeMainView_spec.js',
-            'contrib/openlayers-xyz/**/*'
+            'contrib/*-xyz/**/*'
           ],
           plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
           // reporters: ['spec'],
