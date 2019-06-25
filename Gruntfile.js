@@ -321,7 +321,9 @@ module.exports = function (grunt) {
           basePath: '',
           frameworks: ['jasmine', 'requirejs', 'sinon', 'moment-2.9.0'],
           files: [
-            'src/contrib/openlayers/js/OpenLayers.js',
+            // REMOVE THESE?
+            // 'src/contrib/openlayers/js/OpenLayers.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js',
             'src/contrib/jquery/jquery.min.js',
             'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
             'src/contrib/underscore/underscore-min.js',
@@ -337,18 +339,18 @@ module.exports = function (grunt) {
             {pattern: 'src/contrib/**/*.js', included: false},
             {pattern: 'src/contrib/**/*.map', included: false},
             {pattern: 'spec/**/*_spec.js', included: false},
-            // {pattern: 'spec/views/search_criteria/**/*_spec.js', included: false},
             {pattern: 'src/scripts/models/*.js', included: false},
             {pattern: 'src/scripts/**/*.js', included: false},
             {pattern: 'src/vendor/debug.js', included: false},
             {pattern: 'src/vendor/requirejs/text.js', included: false},
             {pattern: 'src/templates/**/*.html', included: false},
             {pattern: 'src/css/*.css', included: false},
-            {pattern: 'spec/test-main.js', included: true},
+            {pattern: 'spec/test-main.js', included: true}
           ],
           exclude: [
             'spec/lib/AdeSearchApp_spec.js',
             'spec/views/AdeMainView_spec.js',
+            'contrib/openlayers-xyz/**/*'
           ],
           plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
           // reporters: ['spec'],
