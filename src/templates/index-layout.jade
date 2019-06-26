@@ -13,24 +13,25 @@ html
     block project-css
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-
     script(src='https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js')
-
-    script(src='contrib/proj4js/proj4js-1.1.0-compressed.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js')
 
-    //-script(src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
-    script(src='contrib/backbone/backbone.js')  //- Local because of issues with requirejs/anonymous "define" when testing
-    script(src='contrib/jquery-ui-message/jquery-ui-message-1.5.37.min.js')
+    //- Local because of issues with requirejs/anonymous "define" when testing
+    script(src='contrib/backbone/backbone-1.4.0.js')
+    script(src='contrib/xregexp/xregexp-all-3.2.0.min.js')
+    script(src='src/contrib/sprintf/sprintf.min.js')
+    script(src='contrib/bootstrap/js/bootstrap-dropdown-3.2.0.min.js')
+    script(src='contrib/bootstrap/js/bootstrap-datepicker-1.9.0.min.js')
+
+    //- Local because online versions don't work with the current code
+    script(src='contrib/tipsy/javascripts/jquery.tipsy.js')
+
+    //script(src='contrib/jquery-ui-message/jquery-ui-message-1.5.37.min.js')
     script(src='contrib/opensearchlight/OpenSearchlight.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js')
-    script(src='contrib/bootstrap/js/bootstrap.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-dvf/0.2/leaflet-dvf.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js')
-    script(src='contrib/tipsy/javascripts/jquery.tipsy.js')
     script(src='https://bitbucket.org/nsidc/ie-warn/raw/master/build/ie-warn-latest.min.js')
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js')
@@ -48,6 +49,6 @@ html
       nsidc.project = "#{project}";
       nsidc.environment = "#{environment}";
 
-    script(data-main="scripts/main",src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js')
+    script(data-main="scripts/main",src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js')
   body
     block body

@@ -321,30 +321,7 @@ module.exports = function (grunt) {
           basePath: '',
           frameworks: ['jasmine', 'requirejs', 'sinon', 'moment-2.9.0'],
           files: [
-            // REMOVE THESE contrib versions?
-            // 'src/contrib/openlayers/js/OpenLayers.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js',
-
-            // 'src/contrib/jquery/jquery.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
-
-            'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
-
-            // 'src/contrib/underscore/underscore-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js',
-
-            'src/contrib/backbone/backbone.js',  // need local copy to avoid anonymous define?
-
-            'src/contrib/xregexp/xregexp-all.min.js',
-            'src/contrib/opensearchlight/OpenSearchlight.min.js',
-            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
-            'src/contrib/sprintf/sprintf.min.js',
-            'src/scripts/lib/require_mocking.js',
-            'node_modules/jasmine-sinon/lib/*',
-            'src/contrib/bootstrap/js/bootstrap.js',
-            'src/contrib/bootstrap/js/bootstrap-datepicker.min.js',
-            {pattern: 'src/contrib/**/*.js', included: false},
-            {pattern: 'src/contrib/**/*.map', included: false},
+            // local scripts
             {pattern: 'spec/**/*_spec.js', included: false},
             {pattern: 'src/scripts/models/*.js', included: false},
             {pattern: 'src/scripts/**/*.js', included: false},
@@ -352,12 +329,36 @@ module.exports = function (grunt) {
             {pattern: 'src/vendor/requirejs/text.js', included: false},
             {pattern: 'src/templates/**/*.html', included: false},
             {pattern: 'src/css/*.css', included: false},
+
+            // Libraries
+            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js',
+
+            // local copy of the following due to requirejs "anonymous define" errors
+            'src/contrib/backbone/backbone-1.4.0.js',
+            'src/contrib/xregexp/xregexp-all-3.2.0.min.js',
+            'src/contrib/sprintf/sprintf.min.js',
+            'src/contrib/bootstrap/js/bootstrap-dropdown-3.2.0.min.js',
+            'src/contrib/bootstrap/js/bootstrap-datepicker-1.9.0.min.js',
+
+            // library with no CDN version
+            'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
+
+            // local library
+            'src/contrib/opensearchlight/OpenSearchlight.min.js',
+
+            // Using a local tipsy because the one on CDN seems to be different and doesn't work right,
+            // would need some test refactoring to work.
+            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
+
+            'node_modules/jasmine-sinon/lib/*',
+
             {pattern: 'spec/test-main.js', included: true}
           ],
           exclude: [
             'spec/lib/AdeSearchApp_spec.js',
-            'spec/views/AdeMainView_spec.js',
-            'contrib/*-xyz/**/*'
+            'spec/views/AdeMainView_spec.js'
           ],
           plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
           // reporters: ['spec'],
