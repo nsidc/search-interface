@@ -2,16 +2,12 @@ define(['text!templates/ade_main_view.html',
         'text!templates/content_explanation_message.html',
         'views/AlertMessageView',
         'views/NoResultsView',
-        'views/right_column/RightColumnView',
-        'views/SearchErrorView',
         'lib/objectFactory',
         'lib/mediator_mixin'],
       function (mainViewTemplate,
                 explanationMessage,
                 AlertMessageView,
                 NoResultsView,
-                RightColumnView,
-                SearchErrorView,
                 objectFactory,
                 mediatorMixin) {
 
@@ -105,14 +101,14 @@ define(['text!templates/ade_main_view.html',
         el: this.$el.find('#alert_placeholder')
       }).render();
 
-      new RightColumnView({
+      objectFactory.createInstance('RightColumnView', {
         el: this.$el.find('#right-column'),
         collection : this.collection,
         searchParamsModel: this.options.searchParamsModel,
         searchResultsCollection: this.options.searchResultsCollection
       }).render();
 
-      new SearchErrorView({
+      objectFactory.createInstance('SearchErrorView', {
         el: this.$el.find('#search-error')[0]
       }).render();
 

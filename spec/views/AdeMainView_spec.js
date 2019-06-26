@@ -1,38 +1,25 @@
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel()),
-    'views/MainHeaderView': sinon.stub().returns(createFakeView()),
-    'views/left_column/LeftColumnView': sinon.stub().returns(createFakeView()),
-    'views/right_column/RightColumnView': sinon.stub().returns(createFakeView()),
-    'views/HomePageView': sinon.stub().returns(createFakeView()),
-    'views/LoadingResultsView': sinon.stub().returns(createFakeView()),
-    'views/SearchErrorView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
-    'models/SearchParamsModel',
     'lib/objectFactory',
-    'views/MainHeaderView',
-    'views/left_column/LeftColumnView',
-    'views/right_column/RightColumnView',
     'views/AdeMainView',
-    'views/HomePageView',
-    'views/LoadingResultsView',
-    'views/SearchErrorView',
-    'lib/Mediator'
+    'lib/Mediator',
+    'vendor/debug',
   ],
-  function (SearchParamsModel,
-            objectFactory,
-            MainHeaderView,
-            LeftColumnView,
-            RightColumnView,
+  function (objectFactory,
             AdeMainView,
-            HomePageView,
-            LoadingResultsView,
-            SearchErrorView,
-            Mediator) {
+            Mediator,
+            debug) {
+
+    var SearchParamsModel = sinon.stub().returns(createFakeModel()),
+      MainHeaderView = sinon.stub().returns(createFakeView()),
+      LeftColumnView = sinon.stub().returns(createFakeView()),
+      RightColumnView = sinon.stub().returns(createFakeView()),
+      HomePageView = sinon.stub().returns(createFakeView()),
+      LoadingResultsView = sinon.stub().returns(createFakeView()),
+      SearchErrorView = sinon.stub().returns(createFakeView());
 
     describe('Ade Main View', function () {
 
@@ -51,13 +38,15 @@ requireMock.requireWithStubs(
           'MainHeaderView': {Ctor: MainHeaderView, defaultOptions: {templateId: '#nsidc_search-MainHeaderView-panel' } },
           'HomePageView' : {Ctor: HomePageView, defaultOptions: {templateId: 'ADE'} },
           'LeftColumnView' : {Ctor: LeftColumnView, defaultOptions: {templateId: 'ADE'} },
+          'RightColumnView' : {Ctor: RightColumnView, defaultOptions: {templateId: 'ADE'} },
           'LoadingResultsView' : {Ctor: LoadingResultsView, defaultOptions: {templateId: 'ADE'} },
+          'SearchErrorView': {Ctor: SearchErrorView, defaultOptions: {templateId: 'ADE'} }
         };
         objectFactory.setConfig(testConfig);
 
         _([ RightColumnView, MainHeaderView, LeftColumnView
           ]).each(function (ViewCtor) {
-            ViewCtor.reset();
+            ViewCtor.resetHistory();
           });
 
           // No need to actually emit any debugger messages

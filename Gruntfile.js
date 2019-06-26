@@ -11,44 +11,6 @@ module.exports = function (grunt) {
     nsidc_search: '/data/search'
   };
 
-  requirejsConf = {
-    appDir: '/base/src/',
-    dir: '/base/build/',
-    findNestedDependencies: true,
-    generateSourceMaps: true,
-    inlineText: true,
-    name: 'main',
-    optimize: 'uglify2',
-    optimizeCss: 'none',
-    paths: {
-      conf: '../conf/',
-      appConfig: '../conf/appConfig',
-      iocConfig: '../conf/iocConfig',
-      templates: 'templates/underscore',
-      vendor: '../vendor',
-
-      // bootstrap: '../contrib/bootstrap/js',
-      // jasmine_jquery: '../contrib/jasmine-jquery',
-      // jasmine_sinon: '../contrib/jasmine-sinon',
-      // jquery_tipsy: '../contrib/tipsy/javascripts',
-      // moment: '../contrib/moment',
-      // openlayers: '../contrib/openlayers/js/ol',
-      // opensearchlight: '../contrib/OpenSearchlight.min',
-      // require_mocking: 'src/scripts/lib',
-      // typeahead: '../contrib/typeahead',
-      text: '../vendor/requirejs/text',
-    },
-    preserveLicenseComments: false,
-    shim: {
-      'vendor/debug': {
-        exports: 'debug'
-      }
-    },
-    files: [
-      {pattern: 'spec/test-main.js', included: true}
-    ]
-  };
-
   // files that tasks run on
   runFiles = {
     jshint: ['Gruntfile.js', 'src/scripts/**/*.js', 'spec/**/*.js', 'src/conf/**/*.js'],
@@ -315,6 +277,8 @@ module.exports = function (grunt) {
     //   - backbone
     //   - xregexp
     //   - jquery
+    //   - bootstrap-dropdown
+    //   - bootstrap-datepicker
     karma: {
       unit: {
         options: {
@@ -357,11 +321,9 @@ module.exports = function (grunt) {
             {pattern: 'spec/test-main.js', included: true}
           ],
           exclude: [
-            'spec/lib/AdeSearchApp_spec.js',
-            'spec/views/AdeMainView_spec.js'
           ],
           plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
-          // reporters: ['spec'],
+          // reporters: ['spec'],  // Use this if you want it to spit out a detailed list of all the tests
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],

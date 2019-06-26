@@ -1,3 +1,18 @@
+requirejs.config({
+  paths: {
+    vendor: '../vendor',
+
+    sprintf: '../contrib/sprintf/sprintf.min',
+    text: '../vendor/requirejs/text',
+    templates: '../templates/underscore',
+  },
+  shim: {
+    'vendor/debug': {
+      exports: 'debug'
+    }
+  },
+});
+
 require([
   'appConfig',
   'iocConfig',
