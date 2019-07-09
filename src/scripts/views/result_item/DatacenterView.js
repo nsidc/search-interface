@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/result_item/datacenter.html'], function (datacenterTemplate) {
+define(['text!templates/result_item/datacenter.html'], function (datacenterTemplate) {
 
   var DatacenterView, templates;
 

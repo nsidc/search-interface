@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/result_item/author.html'], function (authorTemplate) {
+define(['text!templates/result_item/author.html'], function (authorTemplate) {
 
   var AuthorView, templates;
 

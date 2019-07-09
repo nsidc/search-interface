@@ -12,14 +12,14 @@ define(['views/result_item/DetailsSectionView'], function (DetailsSectionView) {
     it('creates a correctly structured element', function () {
       sectionView = new DetailsSectionView({ sectionTemplate: template, sectionData: data });
 
-      expect(sectionView.$el).toBe('div');
+      expect(sectionView.$el.is('div')).toBeTruthy();
       expect(sectionView.$el).toHaveClass('section');
     });
 
     it('should render the section template with the section data', function () {
       sectionView = new DetailsSectionView({ el: element, sectionTemplate: template, sectionData: data }).render();
 
-      expect(sectionView.$el.find('.temp')).toBe('span');
+      expect(sectionView.$el.find('.temp').is('span')).toBeTruthy();
       expect(sectionView.$el.find('.temp')).toHaveText(data);
     });
 

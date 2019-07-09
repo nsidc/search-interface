@@ -25,8 +25,14 @@ module.exports = function (grunt) {
       conf: '../conf/',
       appConfig: '../conf/appConfig',
       iocConfig: '../conf/iocConfig',
+
+      vendor: '../vendor',
+
+      text: '../vendor/requirejs/text',
       templates: '../templates/underscore',
-      vendor: '../vendor'
+
+      sprintf: '../contrib/sprintf/sprintf.min',
+
     },
     preserveLicenseComments: false,
     shim: {
@@ -47,9 +53,7 @@ module.exports = function (grunt) {
     bundleExec: true,
     compass: true,
     precision: 2,
-    sourcemap: true,
-    style: '<%= environment === "development" ? "expanded" : "compressed" %>',
-    lineNumbers: '<%= environment === "development" %>'
+    style: '<%= environment === "development" ? "expanded" : "compressed" %>'
   };
 
   // files that should trigger their tasks when changed while `grunt watch` is
@@ -132,13 +136,13 @@ module.exports = function (grunt) {
       },
       site: {
         options: {
-          base: 'src',
+          base: '/base/src/',
           hostname: '',
           keepalive: true,
           middleware: function (connect, options) {
             var virtualSsi = require('connect-ssi');
             return [
-              require('grunt-connect-proxy/lib/utils').proxyRequest,
+              require('grunt-connect-proxy3/lib/utils').proxyRequest,
               virtualSsi('http://qa.nsidc.org'),
               connect.static(options.base)
             ];
@@ -148,8 +152,7 @@ module.exports = function (grunt) {
         proxies: [
           {
             context: '/api/dataset/2/',
-            host: 'liquid.colorado.edu',
-            port: '10680'
+            host: 'http://qa.nsidc.org'
           }
         ]
       }
@@ -191,7 +194,7 @@ module.exports = function (grunt) {
     githooks: {
       all: {
         'pre-commit': 'scsslint jshint',
-        'pre-push': 'jasmine'
+        'pre-push': 'karma'
       }
     },
 
@@ -289,58 +292,76 @@ module.exports = function (grunt) {
       }
     },
 
-    jasmine: {
-      all: {
-        src: [],
-        options: {
-          helpers: ['spec/specHelper.js'],
-          keepRunner: true,
-          specs: runFiles.specs,
-          template: require('grunt-template-jasmine-requirejs'),
-          templateOptions: {
-            requireConfig: {
-              baseUrl: 'src/scripts/',
-              paths: {
-                conf: '../conf/nsidc',
-                templates: '../templates/underscore',
-                vendor: '../vendor'
-              },
-              shim: {
-                'vendor/debug': {
-                  exports: 'debug'
-                }
-              }
-            }
-          },
-          vendor: [
-            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',
-            'src/contrib/bootstrap/js/bootstrap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.debug.js',
-            'src/contrib/opensearchlight/OpenSearchlight.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/xregexp/2.0.0/xregexp-all-min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min.js',
-            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
-            'src/contrib/jasmine-jquery/jasmine-jquery-1.4.2.js',
-            'src/contrib/jasmine-sinon/jasmine-sinon.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js',
-            'src/scripts/lib/require_mocking.js'
-          ]
-        }
-      }
-    },
-
     jshint: {
       all: runFiles.jshint,
       options: {
         jshintrc: '.jshintrc',
 	reporterOutput: ''
+      }
+    },
+
+    // NOTE: The following contrib libraries had to have an id inserted into their
+    // js files so that requirejs wouldn't throw a fit about "anonymous" defines
+    // not being matched
+    //   - backbone
+    //   - xregexp
+    //   - jquery
+    //   - bootstrap-dropdown
+    //   - bootstrap-datepicker
+    karma: {
+      unit: {
+        options: {
+          basePath: '',
+          frameworks: ['jasmine', 'requirejs', 'sinon', 'moment-2.9.0'],
+          files: [
+            // local scripts
+            {pattern: 'spec/**/*_spec.js', included: false},
+            {pattern: 'src/scripts/models/*.js', included: false},
+            {pattern: 'src/scripts/**/*.js', included: false},
+            {pattern: 'src/vendor/debug.js', included: false},
+            {pattern: 'src/vendor/requirejs/text.js', included: false},
+            {pattern: 'src/templates/**/*.html', included: false},
+            {pattern: 'src/css/*.css', included: false},
+
+            // Libraries
+            'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/lib/OpenLayers.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js',
+
+            // local copy of the following due to requirejs "anonymous define" errors
+            'src/contrib/backbone/backbone-1.4.0.js',
+            'src/contrib/xregexp/xregexp-all-3.2.0.min.js',
+            'src/contrib/sprintf/sprintf.min.js',
+            'src/contrib/bootstrap/js/bootstrap-dropdown-3.2.0.min.js',
+            'src/contrib/bootstrap/js/bootstrap-datepicker-1.9.0.min.js',
+
+            // library with no CDN version
+            'src/contrib/jasmine-jquery/jasmine-jquery-2.1.1.js',
+
+            // local library
+            'src/contrib/opensearchlight/OpenSearchlight.min.js',
+
+            // Using a local tipsy because the one on CDN seems to be different and doesn't work right,
+            // would need some test refactoring to work.
+            'src/contrib/tipsy/javascripts/jquery.tipsy.js',
+
+            'node_modules/jasmine-sinon/lib/*',
+
+            {pattern: 'spec/test-main.js', included: true}
+          ],
+          exclude: [
+          ],
+          plugins: ['karma-jasmine', 'karma-requirejs', 'karma-sinon', 'karma-spec-reporter', 'karma-chrome-launcher', 'karma-moment'],
+          // reporters: ['spec'],  // Use this if you want it to spit out a detailed list of all the tests
+          port: 9876,
+          colors: true,
+          browsers: ['ChromeHeadless'],
+          captureTiemout: 60000,
+          singleRun: true,
+          autoWatch: true,
+          clearContext: false,
+          // logLevel: 'DEBUG'
+        }
       }
     },
 
@@ -372,8 +393,8 @@ module.exports = function (grunt) {
     sass: {
       'dev': {
         files: {
-          'src/css/ade-search.css': 'src/sass/ade_main.scss',
-          'src/css/nsidc-search.css': 'src/sass/nsidc_main.scss'
+          'src/css/ade-search.css': './src/sass/ade_main.scss',
+          'src/css/nsidc-search.css': './src/sass/nsidc_main.scss'
         },
         options: sassConf
       },
@@ -470,14 +491,13 @@ module.exports = function (grunt) {
       },
       specs: {
         files: watchFiles.specs,
-        tasks: ['jasmine']
+        tasks: ['karma']
       }
     }
-
   });
 
   grunt.loadNpmTasks('grunt-available-tasks');
-  grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-connect-proxy3');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jade');
@@ -491,6 +511,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-scss-lint');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-karma');
 
   // build tasks for local development; note that both projects are built
   //
@@ -508,12 +529,12 @@ module.exports = function (grunt) {
   grunt.registerTask('build:arctic-data-explorer', 'build:ade');
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
-  grunt.registerTask('lint-test', ['scsslint', 'jshint', 'jasmine']);
+  grunt.registerTask('lint-test', ['scsslint', 'jshint', 'karma']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
 
   grunt.registerTask('test:acceptance', 'shell:cucumber');
-  grunt.registerTask('test:unit', 'jasmine');
+  grunt.registerTask('test:unit', ['sass:dev', 'karma']);
 
   grunt.registerTask('tasks', 'availabletasks:tasks');
   grunt.registerTask('deploy', 'shell:deploy');
@@ -521,4 +542,6 @@ module.exports = function (grunt) {
   grunt.registerTask('tagLatest', ['gitfetch:fetchTags', 'gittag:deleteLatest', 'gitpush:pushLatest', 'gittag:addLatest', 'gitpush:pushLatest']);
   grunt.registerTask('default', ['lint-test']);
 
+
+  grunt.registerTask('jasmine-server', ['jasmine:all:build', 'connect::keepalive']);
 };

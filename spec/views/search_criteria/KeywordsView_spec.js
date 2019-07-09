@@ -1,6 +1,6 @@
 define([
   'views/search_criteria/KeywordsView',
-  'vendor/requirejs/text!templates/search_criteria/keywords.html'
+  'text!templates/search_criteria/keywords.html'
 ],
   function (KeywordsView, keywordsTemplate) {
 
@@ -69,23 +69,26 @@ define([
 
         beforeEach(function () {
 
-          this.addMatchers({
-            toBePutInModelAs: function (expected) {
-              var notText = this.isNot ? ' not' : '',
-                  searchString = this.actual,
-                  searchTermArray;
+          jasmine.addMatchers({
+            toBePutInModelAs: function () {
+              return {
+                compare: function(actual, expected) {
+                  var notText = this.isNot ? ' not' : '',
+                    searchString = actual,
+                    searchTermArray;
 
-              keywordsView.setInputField('keyword', searchString);
-              searchTermArray = keywordsView.getSearchTermArrayFromInput();
+                  keywordsView.setInputField('keyword', searchString);
+                  searchTermArray = keywordsView.getSearchTermArrayFromInput();
 
-              this.message = function () {
-                return 'Expected [' + searchTermArray + ']' + notText + ' to be [' + expected + ']';
+                  this.message = function () {
+                    return 'Expected [' + searchTermArray + ']' + notText + ' to be [' + expected + ']';
+                  };
+
+                  return {pass: searchTermArray.join() === expected.join()};
+                }
               };
-
-              return searchTermArray.join() === expected.join();
             }
           });
-
         });
 
         // TODO [IT, 2013-06-03]: Many of the following tests aren't really unit tests - they go about three deep into other classes.

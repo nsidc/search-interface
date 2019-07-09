@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/right_column/pagination_controls.html',
+define(['text!templates/right_column/pagination_controls.html',
        'lib/mediator_mixin'],
        function (paginationControlsTemplate,
                  mediatorMixin) {

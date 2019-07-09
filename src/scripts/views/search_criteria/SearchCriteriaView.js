@@ -3,7 +3,7 @@ define(
   'lib/objectFactory',
   'models/GeoBoundingBox',
   'views/InputViewBase',
-  'vendor/requirejs/text!templates/search_criteria/container.html',
+  'text!templates/search_criteria/container.html',
   'lib/utility_functions'],
   function (mediatorMixin,
             objectFactory,

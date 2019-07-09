@@ -1,7 +1,7 @@
 define([
-  'vendor/requirejs/text!templates/live_data_center.html',
-  'vendor/requirejs/text!templates/data_center_unavailable.html',
-  'vendor/requirejs/text!templates/data_center_count.html',
+  'text!templates/live_data_center.html',
+  'text!templates/data_center_unavailable.html',
+  'text!templates/data_center_count.html',
   'lib/mediator_mixin'
 ],
        function (

@@ -3,7 +3,7 @@ define(
    'views/right_column/results_footer/ResultsFooterView',
    'lib/mediator_mixin',
    'lib/objectFactory',
-   'vendor/requirejs/text!templates/right_column/right_column.html'],
+   'text!templates/right_column/right_column.html'],
   function (SearchResultsView,
             ResultsFooterView,
             mediatorMixin,
@@ -40,12 +40,12 @@ define(
           searchResultsCollection: this.options.searchResultsCollection
         }).render();
 
-        new SearchResultsView({
+        objectFactory.createInstance('SearchResultsView',{
           el : this.$el.find('#results')[0],
           collection : this.options.searchResultsCollection
         });
 
-        new ResultsFooterView({
+        objectFactory.createInstance('ResultsFooterView',{
           el: this.$el.find('.results-footer'),
           searchParamsModel: this.options.searchParamsModel,
           searchResultsCollection: this.options.searchResultsCollection

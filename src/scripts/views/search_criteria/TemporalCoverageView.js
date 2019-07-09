@@ -1,5 +1,5 @@
 define(['views/InputViewBase',
-        'vendor/requirejs/text!templates/search_criteria/temporal_search.html',
+        'text!templates/search_criteria/temporal_search.html',
         'lib/mediator_mixin'],
         function (InputViewBase,
                   temporalTemplate,
@@ -197,6 +197,8 @@ define(['views/InputViewBase',
 
     // convert date format to YYYY-MM-DD, fill in full date if just year or year
     // and month is given
+    // TODO: May need to update this to manually fix "bad" dates rather than throwing
+    // it to "moment", as this functionality is deprecated and may be removed.
     formatDateInput: function (target) {
       var id = target.id,
           value = target.value,
@@ -254,8 +256,8 @@ define(['views/InputViewBase',
     },
 
     setupDatepicker: function (datepickerOptions) {
-      this.$('.start-date').datepicker('remove');
-      this.$('.end-date').datepicker('remove');
+      this.$('.start-date').datepicker('destroy');
+      this.$('.end-date').datepicker('destroy');
 
       this.$('.start-date').datepicker(datepickerOptions);
       this.$('.end-date').datepicker(_.extend({

@@ -1,6 +1,6 @@
 define(['lib/mediator_mixin',
         'lib/objectFactory',
-        'vendor/requirejs/text!templates/left_column/left_column.html'],
+        'text!templates/left_column/left_column.html'],
        function (mediatorMixin,
                  objectFactory,
                  leftColumnTemplate) {

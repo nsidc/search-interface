@@ -1,11 +1,17 @@
 define(['lib/utility_functions',
-  'vendor/requirejs/text!templates/result_item/spatial_metadata.html',
-  'vendor/requirejs/text!templates/result_item/spatial_metadata_without_data.html',
-  'views/result_item/SpatialThumbnailView'],
+  'text!templates/result_item/spatial_metadata.html',
+  'text!templates/result_item/spatial_metadata_without_data.html',
+  'views/result_item/SpatialThumbnailView',
+  'sprintf'
+  ],
   function (UtilityFunctions,
             spatialMetadataTemplate,
             spatialMetadatWithoutDataTemplate,
-            SpatialThumbnailView) {
+            SpatialThumbnailView,
+            sprintfjs
+  ) {
+
+  var sprintf = sprintfjs.sprintf;
 
   var template, SpatialMetadataView, formatDecimalPair, validBoundingBox,
       bboxFormat, getCoordStr;
@@ -57,7 +63,7 @@ define(['lib/utility_functions',
   // ' 31.91   30.79   -82.69   -83.98'
   // '  0       0        0        0   '
   bboxFormat = function (boundingBoxes) {
-    var labelRow = _.sprintf(' %-6s  %-6s  %-7s  %-7s', 'North', 'South', 'East', 'West');
+    var labelRow = sprintf(' %-6s  %-6s  %-7s  %-7s', 'North', 'South', 'East', 'West');
 
     return _.reduce(boundingBoxes, function (memo, bbox) {
       var northStr = getCoordStr(bbox.north, 3),
@@ -65,7 +71,7 @@ define(['lib/utility_functions',
           eastStr  = getCoordStr(bbox.east,  4),
           westStr  = getCoordStr(bbox.west,  4);
 
-      return memo + '\n' + _.sprintf('%-6s  %-6s  %-7s  %-7s', northStr, southStr, eastStr, westStr);
+      return memo + '\n' + sprintf('%-6s  %-6s  %-7s  %-7s', northStr, southStr, eastStr, westStr);
 
     }, labelRow);
 
@@ -90,7 +96,7 @@ define(['lib/utility_functions',
 
         // right-align the integer part of the number, with sign
         // i.e., '  -9' for east/west, or ' 85' for north/south
-        coordInteger = _.sprintf('%' + integerPartWidth + 's', coordSign + coordSplit[0]),
+        coordInteger = sprintf('%' + integerPartWidth + 's', coordSign + coordSplit[0]),
 
         // capture decimal part of the number; if coord is a whole number, do
         // not include the decimal point
@@ -99,7 +105,7 @@ define(['lib/utility_functions',
         // the final formatted string, where any given coord will have a
         // consistent location for the ones and tens place so that they will
         // line up nicely when displaying multiple rows
-        coordStr = _.sprintf('%-' + strWidth + 's', coordInteger + coordDec);
+        coordStr = sprintf('%-' + strWidth + 's', coordInteger + coordDec);
 
     return coordStr;
   };

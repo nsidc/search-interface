@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/left_column/logo_nsidc.html',
+define(['text!templates/left_column/logo_nsidc.html',
        'lib/mediator_mixin'],
        function (logoTemplate,
                  mediatorMixin) {

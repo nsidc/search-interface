@@ -1,20 +1,26 @@
-/* global requireMock */
+var createFakeView = function () {return sinon.createStubInstance(Backbone.View);};
 
-var fakeView = sinon.createStubInstance(Backbone.View);
-
-requireMock.requireWithStubs(
-  {
-    'views/right_column/PaginationControlsView': sinon.stub().returns(fakeView)
-  },
-  ['views/right_column/results_footer/ResultsFooterView', 'views/right_column/PaginationControlsView', 'lib/objectFactory'],
-  function (ResultsFooterView, PaginationControlsView, objectFactory) {
+define(
+  ['views/right_column/results_footer/ResultsFooterView', 'lib/objectFactory'],
+  function (ResultsFooterView, objectFactory) {
     describe('Results Footer View', function () {
-      var createInstanceStub = sinon.stub(objectFactory, 'createInstance').returns(fakeView);
+      var fakeView = createFakeView();
+      var PaginationControlsView = sinon.stub().returns(fakeView);
+      var createInstanceStub;
 
-      afterEach(function () {
-        createInstanceStub.reset();
-        PaginationControlsView.reset();
-        fakeView.render.reset();
+      beforeAll(function () {
+        createInstanceStub = sinon.stub(objectFactory, 'createInstance').returns(fakeView);
+        objectFactory.register('PaginationControlsView', {Ctor: PaginationControlsView});
+      });
+
+      afterAll(function () {
+        objectFactory.createInstance.restore();
+      });
+
+      beforeEach(function () {
+        createInstanceStub.resetHistory();
+        PaginationControlsView.resetHistory();
+        fakeView.render.resetHistory();
       });
 
       describe('rendering', function () {

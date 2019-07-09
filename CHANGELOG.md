@@ -1,6 +1,8 @@
-## 1.13.0 (2019-06-10)
-
 ## Unreleased
+
+- Fixing tests, updating libraries
+
+## 1.13.0 (2019-06-10)
 
 - Vagrant and Puppet updates
 

@@ -1,5 +1,5 @@
 // SpatialCoverageTextView - Backbone view to display the spatial coverage in a human readable (string) form
-define(['vendor/requirejs/text!templates/search_criteria/nsidc_text.html', 'lib/mediator_mixin'],
+define(['text!templates/search_criteria/nsidc_text.html', 'lib/mediator_mixin'],
        function (textTemplate, mediatorMixin) {
 
   var template, NsidcSpatialCoverageTextView;

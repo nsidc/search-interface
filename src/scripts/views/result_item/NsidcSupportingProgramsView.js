@@ -1,5 +1,5 @@
 define(
-  [ 'vendor/requirejs/text!templates/result_item/nsidc_supporting_programs.html'],
+  [ 'text!templates/result_item/nsidc_supporting_programs.html'],
   function (supportingProgramsTemplate) {
 
     var template, SupportingProgramsView;

@@ -1,5 +1,5 @@
 define(['lib/mediator_mixin',
- 'vendor/requirejs/text!templates/left_column/facet.html',
+ 'text!templates/left_column/facet.html',
  'lib/objectFactory'],
  function (mediatorMixin,
    facetTemplate,

@@ -1,6 +1,6 @@
 define(
   [
-    'vendor/requirejs/text!templates/loading_results_view_overlay.html',
+    'text!templates/loading_results_view_overlay.html',
     'lib/mediator_mixin'
   ],
   function (loadingOverlayTemplate, mediatorMixin) {

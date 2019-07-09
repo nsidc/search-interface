@@ -1,4 +1,8 @@
-define(['vendor/requirejs/text!templates/left_column/clear-facet-link.html', 'lib/mediator_mixin'],
+define(
+  [
+    'text!templates/left_column/clear-facet-link.html',
+    'lib/mediator_mixin'
+  ],
   function (link_template, mediatorMixin) {
     var template, ClearFacetLinkView;
 
@@ -7,7 +11,7 @@ define(['vendor/requirejs/text!templates/left_column/clear-facet-link.html', 'li
       initialize: function () {
         this.facet = this.$el.find('ul').attr('id');
         this.element = this.$el;
-        template = _.template(link_template, {id: this.facet + '_clear_button'});
+        template = _.template(link_template)({id: this.facet + '_clear_button'});
         this.mediatorBind('facet:clearLinkTrigger', this.toggle, this);
       },
 

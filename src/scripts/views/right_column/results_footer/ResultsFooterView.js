@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/right_column/results_footer_view.html',
+define(['text!templates/right_column/results_footer_view.html',
        'lib/objectFactory'],
        function (footerTemplate,
                  objectFactory) {

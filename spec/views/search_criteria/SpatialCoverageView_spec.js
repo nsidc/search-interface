@@ -1,23 +1,19 @@
-/* global requireMock */
-
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/GeoBoundingBox': sinon.stub().returns(createFakeModel()),
-    'views/search_criteria/SpatialCoverageCompassView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
-    'models/GeoBoundingBox',
     'views/search_criteria/SpatialCoverageView',
     'views/search_criteria/NsidcSpatialCoverageTextView',
     'lib/objectFactory'
   ],
-  function (GeoBoundingBox,
-            SpatialCoverageView,
+  function (SpatialCoverageView,
             NsidcSpatialCoverageTextView,
             objectFactory) {
+
+    var GeoBoundingBox = sinon.stub().returns(createFakeModel());
+    var SpatialCoverageCompassView = sinon.stub().returns(createFakeView());
+    objectFactory.register('SpatialCoverageCompassView', {Ctor: SpatialCoverageCompassView});
 
     describe('Spatial Coverage View', function () {
       var spatialCoverageView, stubGeoBoundingBox;
@@ -38,11 +34,11 @@ requireMock.requireWithStubs(
         });
 
         it('renders a NsidcSpatialCoverageTextView', function () {
-          expect(spatialCoverageView.$el.find('#spatial-options')).toBe('input');
+          expect(spatialCoverageView.$el.find('#spatial-options').is('input')).toBeTruthy();
         });
 
         it('renders a SpatialCoverageCompassView', function () {
-          expect(spatialCoverageView.$el.find('#compass-container')).toBe('div');
+          expect(spatialCoverageView.$el.find('#compass-container').is('div')).toBeTruthy();
         });
       });
     });

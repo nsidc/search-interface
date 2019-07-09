@@ -161,7 +161,7 @@ define(
             searchResultsCollection = objectFactory.createInstance('SearchResultsCollection', {
               models: ['test'], el: document.createElement('div')
             });
-          }).toThrow('undefined OSDD URL value in configuration');
+          }).toThrow(new Error('undefined OSDD URL value in configuration'));
         });
       });
 

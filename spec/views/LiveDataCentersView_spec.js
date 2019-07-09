@@ -1,22 +1,24 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
+define(
   [
-    'models/SearchParamsModel',
-    'views/LiveDataCentersView'
+
+    'views/LiveDataCentersView',
+    'lib/Mediator'
   ],
   function (
-    SearchParamsModel,
-    LiveDataCentersView
+    LiveDataCentersView,
+    Mediator
   ) {
+
+    var SearchParamsModel = sinon.stub().returns(createFakeModel());
 
     describe('LiveDataCentersView', function () {
       var view, fakeDatacenterFacet;
 
       beforeEach(function () {
+        var mediatorStub = sinon.stub(new Mediator());
+
         view = new LiveDataCentersView({
           dynamicDatacenterCounts: true,
           model: new SearchParamsModel(),
@@ -36,6 +38,8 @@ requireMock.requireWithStubs(
             }
           ]
         });
+
+        view.setMediator(mediatorStub);
 
         fakeDatacenterFacet = {
           id: 'facet_data_center',

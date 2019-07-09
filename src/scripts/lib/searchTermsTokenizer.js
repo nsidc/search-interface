@@ -16,14 +16,15 @@ define([], function () {
   };
 
   tokenizer.tokenizeSearchTermsOrPhrases = function (termsString) {
-    return XRegExp.forEach(
+    var results = [];
+    XRegExp.forEach(
       termsString,
       new XRegExp('"[^"]*"|\\S+'),
       function (matches) {
-        this.push(matches[0]);
-      },
-      [] // this empty array is bound to the `this` within the callback function.  Poor man's reduce, shall we say.
+        results.push(matches[0]);
+      }
     );
+    return results;
   };
 
   // certain chars in the middle of a word should split the word into two terms

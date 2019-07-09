@@ -1,6 +1,6 @@
 define(
-  ['vendor/requirejs/text!templates/result_item/ade_temporal_metadata.html',
-   'vendor/requirejs/text!templates/result_item/nsidc_temporal_metadata.html'],
+  ['text!templates/result_item/ade_temporal_metadata.html',
+   'text!templates/result_item/nsidc_temporal_metadata.html'],
   function (adeTemporalTemplate,
             nsidcTemporalTemplate) {
     var TemporalMetadataView;

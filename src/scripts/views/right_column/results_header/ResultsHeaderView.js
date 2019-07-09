@@ -4,7 +4,7 @@ define(
     'lib/objectFactory',
     'views/right_column/results_header/ResultsCountView',
     'views/right_column/results_header/SortResultsView',
-    'vendor/requirejs/text!templates/right_column/results_header/results_header.html'
+    'text!templates/right_column/results_header/results_header.html'
   ], function (
     mediatorMixin,
     objectFactory,

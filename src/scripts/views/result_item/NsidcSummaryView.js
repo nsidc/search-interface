@@ -1,6 +1,6 @@
 define(
   ['views/result_item/DetailsSectionView',
-   'vendor/requirejs/text!templates/result_item/nsidc_summary.html'],
+   'text!templates/result_item/nsidc_summary.html'],
   function (DetailsSectionView,
             summaryTemplate) {
 

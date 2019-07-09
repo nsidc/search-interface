@@ -1,21 +1,13 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 var createFakeCollection = function () { return sinon.createStubInstance(Backbone.Collection); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel()),
-    'collections/SearchResultsCollection': sinon.stub().returns(createFakeCollection())
-  },
+define(
   [
     'views/right_column/results_footer/PaginationControlsView',
-    'collections/SearchResultsCollection',
-    'models/SearchParamsModel',
     'lib/Mediator'
   ],
   function (
     PaginationControlsView,
-    SearchResultsCollection,
-    SearchParamsModel,
     Mediator
   ) {
 
@@ -24,6 +16,9 @@ requireMock.requireWithStubs(
           resultsCollection,
           searchParamsModel,
           view;
+
+      var SearchParamsModel = sinon.stub().returns(createFakeModel());
+      var SearchResultsCollection = sinon.stub().returns(createFakeCollection());
 
       beforeEach(function () {
         mediator = sinon.stub(new Mediator());

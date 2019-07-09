@@ -1,17 +1,13 @@
-/* global requireMock */
+var createFakeView = function() { return sinon.createStubInstance(Backbone.View); };
 
-var fakeView = sinon.createStubInstance(Backbone.View);
-
-requireMock.requireWithStubs(
-  {
-    'views/search_criteria/SearchCriteriaView': sinon.stub().returns(fakeView)
-  },
+define(
   [
     'views/MainHeaderView',
-    'views/search_criteria/SearchCriteriaView',
     'lib/objectFactory'
   ],
-  function (MainHeaderView, SearchCriteriaView, objectFactory) {
+  function (MainHeaderView, objectFactory) {
+
+    var SearchCriteriaView = sinon.stub().returns(createFakeView());
 
     describe('Main Header View', function () {
 
@@ -23,7 +19,7 @@ requireMock.requireWithStubs(
             Ctor: SearchCriteriaView, configOptions: { preset: { searchButtonText: 'Find Data Now' } }
           });
 
-          SearchCriteriaView.reset();
+          SearchCriteriaView.resetHistory();
         });
 
         describe('rendering the ADE view', function () {

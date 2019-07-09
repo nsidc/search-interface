@@ -2,7 +2,7 @@ define(
   ['lib/SearchTerms',
    'views/InputViewBase',
    'lib/mediator_mixin',
-   'vendor/requirejs/text!templates/search_criteria/keywords.html'],
+   'text!templates/search_criteria/keywords.html'],
   function (SearchTerms, InputViewBase, mediatorMixin, keywordsTemplate) {
     var KeywordsView;
 

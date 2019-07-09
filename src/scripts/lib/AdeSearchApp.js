@@ -1,12 +1,10 @@
 define(['lib/SearchTerms',
        'lib/criteriaAppender',
        'lib/mediator_mixin',
-       'views/AdeMainView',
        'lib/objectFactory'],
        function (SearchTerms,
                  criteriaAppender,
                  mediatorMixin,
-                 AdeMainView,
                  objectFactory) {
   var AdeSearchApp, properties, compileRegex, displayHomePageOnCancel,
       isHomePageEnabled, isItemsPerPageEnabled, config;
@@ -99,7 +97,7 @@ define(['lib/SearchTerms',
       this.bindEvents();
 
       // Create an initial view and update the page
-      this.adeMainView = new AdeMainView({
+      this.adeMainView = objectFactory.createInstance('AdeMainView', {
         el: jQuery(params.el),
         searchResultsCollection: this.searchResults,
         facetsCollection: this.facets,

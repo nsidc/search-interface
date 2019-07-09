@@ -1,15 +1,11 @@
 var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 
-requireMock.requireWithStubs(
-  {
-    'models/SearchParamsModel': sinon.stub().returns(createFakeModel())
-  },
+define(
   [
     'views/right_column/results_header/ResultsHeaderView',
     'views/right_column/results_header/ResultsPerPageView',
     'views/right_column/results_header/SortResultsView',
     'collections/SearchResultsCollection',
-    'models/SearchParamsModel',
     'lib/Mediator',
     'lib/objectFactory'
   ],
@@ -18,7 +14,6 @@ requireMock.requireWithStubs(
     ResultsPerPageView,
     SortResultsView,
     SearchResultsCollection,
-    SearchParamsModel,
     Mediator,
     objectFactory
   ) {
@@ -42,6 +37,7 @@ requireMock.requireWithStubs(
           }
         });
 
+        var SearchParamsModel = sinon.stub().returns(createFakeModel());
         resultsCollection = new SearchResultsCollection();
         searchParamsModel = new SearchParamsModel();
 

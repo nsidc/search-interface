@@ -1,17 +1,10 @@
 var createFakeView = function () { return sinon.createStubInstance(Backbone.View); };
 
-requireMock.requireWithStubs(
-  {
-    'views/result_item/ResultItemView': sinon.stub().returns(createFakeView()),
-    'views/AdeMainView': sinon.stub().returns(createFakeView()),
-    'views/MainHeaderView': sinon.stub().returns(createFakeView())
-  },
+define(
   [
     'models/SearchParamsModel',
     'collections/SearchResultsCollection',
     'collections/FacetsCollection',
-    'views/AdeMainView',
-    'views/MainHeaderView',
     'lib/AdeSearchApp',
     'lib/criteriaAppender',
     'lib/objectFactory',
@@ -22,18 +15,20 @@ requireMock.requireWithStubs(
             SearchParamsModel,
             SearchResultsCollection,
             FacetsCollection,
-            AdeMainView,
-            MainHeaderView,
             AdeSearchApp,
             criteriaAppender,
             objectFactory,
             Mediator,
             OpenSearchProvider) {
 
+    var AdeMainViewInstance = createFakeView();
+    var ResultItemView = sinon.stub().returns(createFakeView()),
+      AdeMainView = sinon.stub().returns(AdeMainViewInstance),
+      MainHeaderView = sinon.stub().returns(createFakeView());
 
-    var ensureViewWasRendered = function (ViewStub) {
-      expect(ViewStub).toHaveBeenCalledOnce();
-      expect(ViewStub.returnValue.render).toHaveBeenCalledOnce();
+    var ensureAdeMainViewWasRendered = function () {
+      expect(AdeMainView).toHaveBeenCalledOnce();
+      expect(AdeMainViewInstance.render).toHaveBeenCalledOnce();
     };
 
     describe('Ade Search App', function () {
@@ -43,8 +38,8 @@ requireMock.requireWithStubs(
         defaultConfig;
 
       beforeEach(function () {
-        AdeMainView.returnValue.render.reset();
-        AdeMainView.reset();
+        AdeMainViewInstance.render.resetHistory();
+        AdeMainView.resetHistory();
       });
 
       defaultConfig = {
@@ -61,6 +56,8 @@ requireMock.requireWithStubs(
 
       createMinimalSearchApp = function (appID) {
         objectFactory.setConfig({
+            'AdeMainView': {Ctor: AdeMainView},
+            'ResultItemView': {Ctor: ResultItemView},
             'MainHeaderView': {Ctor: MainHeaderView, defaultOptions: {templateId: '#nsidc_search-MainHeaderView-panel' } },
             'SearchParamsModel': {
               Ctor: SearchParamsModel,
@@ -202,7 +199,7 @@ requireMock.requireWithStubs(
 
         it('should create and render an AdeMainView', function () {
           createMinimalAdeSearchApp();
-          ensureViewWasRendered(AdeMainView);
+          ensureAdeMainViewWasRendered();
         });
 
       });

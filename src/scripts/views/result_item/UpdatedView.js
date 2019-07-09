@@ -1,4 +1,4 @@
-define(['vendor/requirejs/text!templates/result_item/updated.html'],
+define(['text!templates/result_item/updated.html'],
        function (updatedTemplate) {
 
   var UpdatedView, templates;

@@ -20,37 +20,37 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
                     'from+Nimbus-7+SMMR+and+DMSP+SSM%2FI-SSMIS+Passive+Microwave+Data',
               description: 'Subset, reproject and reformat data through a user interface'}],
           fakeFeedTop = [
-          '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:nsidc="http://nsidc.org/ns/opensearch/1.1/" ' +
-            'xmlns:dif="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:dc="http://purl.org/dc/elements/' +
-            '1.1/" xmlns:georss="http://www.georss.org/georss" ' +
-            'xmlns:os="http://a9.com/-/spec/opensearch/1.1/">',
-          ' <os:totalResults>1</os:totalResults>',
-          ' <os:startIndex>0</os:startIndex>',
-          ' <os:itemsPerPage>25</os:itemsPerPage>',
-          ' <entry>'
-        ],
+            '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:nsidc="http://nsidc.org/ns/opensearch/1.1/" ' +
+              'xmlns:dif="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:dc="http://purl.org/dc/elements/' +
+              '1.1/" xmlns:georss="http://www.georss.org/georss" ' +
+              'xmlns:os="http://a9.com/-/spec/opensearch/1.1/">',
+            ' <os:totalResults>1</os:totalResults>',
+            ' <os:startIndex>0</os:startIndex>',
+            ' <os:itemsPerPage>25</os:itemsPerPage>',
+            ' <entry>'
+          ],
           fakeFeedEntryContents = [
-          '   <id>' + fakeUrl + '</id>',
-          '   <title>' + fakeTitle + '</title>',
-          '   <updated>' + fakeUpdated + '</updated>',
-          '   <summary>' + fakeSummary + '</summary>',
-          '   <link title="' + fakeDataUrls[0].title + '" href="' + fakeDataUrls[0].href +
-            '" rel="download-data" nsidc:description="' + fakeDataUrls[0].description + '"/>',
-          '   <link href="' + fakeUrl + '" rel="describedBy"/>',
-          '   <georss:box>-90 -180 90 180</georss:box>',
-          '   <dc:date>' + fakeStart + '/' + fakeEnd + '</dc:date>',
-          '   <author><name>' + fakeAuthor + '</name></author>',
-          '   <dif:Parameters><dif:Category>category</dif:Category><dif:Detailed_Variable>' +
-                fakeParameter + '</dif:Detailed_Variable></dif:Parameters>',
-          '   <dif:Parameters><dif:Category>category2</dif:Category><dif:Detailed_Variable>' +
-                fakeParameter + '</dif:Detailed_Variable></dif:Parameters>',
-          '   <dif:Keyword>' + fakeKeyword + '</dif:Keyword>',
-          '   <dif:Distribution><dif:Distribution_Format>' + fakeFormat + '</dif:Distribution_Format></dif:Distribution>'
-        ],
+            '   <id>' + fakeUrl + '</id>',
+            '   <title>' + fakeTitle + '</title>',
+            '   <updated>' + fakeUpdated + '</updated>',
+            '   <summary>' + fakeSummary + '</summary>',
+            '   <link title="' + fakeDataUrls[0].title + '" href="' + fakeDataUrls[0].href +
+              '" rel="download-data" nsidc:description="' + fakeDataUrls[0].description + '"/>',
+            '   <link href="' + fakeUrl + '" rel="describedBy"/>',
+            '   <georss:box>-90 -180 90 180</georss:box>',
+            '   <dc:date>' + fakeStart + '/' + fakeEnd + '</dc:date>',
+            '   <author><name>' + fakeAuthor + '</name></author>',
+            '   <dif:Parameters><dif:Category>category</dif:Category><dif:Detailed_Variable>' +
+                  fakeParameter + '</dif:Detailed_Variable></dif:Parameters>',
+            '   <dif:Parameters><dif:Category>category2</dif:Category><dif:Detailed_Variable>' +
+                  fakeParameter + '</dif:Detailed_Variable></dif:Parameters>',
+            '   <dif:Keyword>' + fakeKeyword + '</dif:Keyword>',
+            '   <dif:Distribution><dif:Distribution_Format>' + fakeFormat + '</dif:Distribution_Format></dif:Distribution>'
+          ],
           fakeFeedBottom = [
-          ' </entry>',
-          '</feed>'
-        ],
+            ' </entry>',
+            '</feed>'
+          ],
           fakeFeed = fakeFeedTop.concat(fakeFeedEntryContents).concat(fakeFeedBottom).join('\n');
 
 
@@ -76,7 +76,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts multiple data access links', function () {
-        var results, additionalEntryContents = [
+        var results, fakeFeed, additionalEntryContents = [
           '   <link title="' + fakeDataUrls[1].title + '" href="' + fakeDataUrls[1].href +
             '" rel="download-data" nsidc:description="' + fakeDataUrls[1].description + '"/>',
         ];
@@ -97,7 +97,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts order data links', function () {
-        var results, orderDataUrl = {title: 'Order Data', href: 'http://nsidc.org/data/modis/order.html'};
+        var results, fakeFeed, fakeFeedEntryContents, orderDataUrl = {title: 'Order Data', href: 'http://nsidc.org/data/modis/order.html'};
 
         fakeFeedEntryContents = [
           '   <id>' + fakeUrl + '</id>',
@@ -124,7 +124,8 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts brokered data links', function () {
-        var results, externalDataUrl = {title: 'Get External Data', href: 'http://data.eol.ucar.edu/codiac/dss/id=106.arcss054/'};
+        var results, fakeFeed, fakeFeedEntryContents,
+          externalDataUrl = {title: 'Get External Data', href: 'http://data.eol.ucar.edu/codiac/dss/id=106.arcss054/'};
 
         fakeFeedEntryContents = [
           '   <id>' + fakeUrl + '</id>',
@@ -150,7 +151,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts multiple data format fields from the response', function () {
-        var results, fakeFormats;
+        var results, fakeFeed, fakeFeedEntryContents, fakeFormats;
 
         fakeFormats = ['HDF, format'];
 
@@ -178,7 +179,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts multiple temporal fields from the response', function () {
-        var results, fakeDateRanges;
+        var results, fakeFeed, fakeFeedEntryContents, fakeDateRanges;
 
         fakeDateRanges =  [{startDate: '2013-01-01', endDate: '2013-01-31'}, {startDate: '2013-07-01', endDate: '2013-07-31'}];
 
@@ -206,7 +207,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts multiple bounding box fields from the response', function () {
-        var results, fakeBBoxes;
+        var results, fakeFeed, fakeFeedEntryContents, fakeBBoxes;
 
         fakeBBoxes =  [{north: '90', east: '180', south: '-90', west: '-180'}, {north: '45', east: '90', south: '-45', west: '-90' }];
 
@@ -234,7 +235,7 @@ define(['lib/NsidcOpenSearchResponse'], function (NsidcOpenSearchResponse) {
       });
 
       it('extracts multiple supporting programs from the response', function () {
-        var results, fakeSupportingPrograms  = ['NSIDC_DAAC', 'NSIDC_ELOKA'];
+        var results, fakeFeed, fakeFeedEntryContents, fakeSupportingPrograms  = ['NSIDC_DAAC', 'NSIDC_ELOKA'];
 
         fakeFeedEntryContents = [
           '   <id>' + fakeUrl + '</id>',

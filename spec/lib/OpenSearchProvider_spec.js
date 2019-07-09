@@ -55,7 +55,8 @@ define(['lib/OpenSearchProvider', 'lib/objectFactory', 'lib/FacetsResponse'],
           'time:start': '2011-01-01',
           'time:end': '2012-01-01',
           'nsidc:source': 'NSIDC',
-          'nsidc:facetFilters': encodeURIComponent(JSON.stringify({'facet_name': ['facet_val']}))
+          'nsidc:facetFilters': encodeURIComponent(JSON.stringify({'facet_name': ['facet_val']})),
+          sortKeys: undefined
         });
       });
 
@@ -85,7 +86,8 @@ define(['lib/OpenSearchProvider', 'lib/objectFactory', 'lib/FacetsResponse'],
           'time:start': '',
           'time:end': '',
           'nsidc:source': 'NSIDC',
-          'nsidc:facetFilters': ''
+          'nsidc:facetFilters': '',
+          sortKeys: undefined
         });
       });
     });

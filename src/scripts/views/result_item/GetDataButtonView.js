@@ -1,6 +1,6 @@
-define(['vendor/requirejs/text!templates/result_item/get_data_button_multiple_urls.html',
-       'vendor/requirejs/text!templates/result_item/get_data_button_single_url.html',
-       'vendor/requirejs/text!templates/result_item/get_data_button_no_url.html'],
+define(['text!templates/result_item/get_data_button_multiple_urls.html',
+       'text!templates/result_item/get_data_button_single_url.html',
+       'text!templates/result_item/get_data_button_no_url.html'],
        function (multipleLinksTemplate, singleLinkTemplate, noLinkTemplate) {
   var templates, GetDataButtonView;
 

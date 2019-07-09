@@ -47,7 +47,8 @@ define([
       it('renders a hidden clear facet link', function () {
         facetView.render();
         expect(facetView.$('.facet_clear_link').length).toBe(1);
-        expect(facetView.$('.facet_clear_link').css('display')).toBe('none');
+        // expect(facetView.$('.facet_clear_link').css('display')).toBe('none');
+        expect(facetView.$('.facet_clear_link')).toBeHidden();
       });
 
       it('shows the clear facet link when the filter input is used', function () {
@@ -58,7 +59,22 @@ define([
         // start typing, it's visible
         facetView.$('.facet-filter').val('sea');
         facetView.$('.facet-filter').keyup();
-        expect(facetView.$('.facet_clear_link').css('display')).toBe('inline');
+        expect(facetView.$('.facet_clear_link').css('display')).not.toBe('none');
+      });
+
+      it('hides the clear facet link when the filter input is used then cleared', function () {
+        // initial render, it's hidden
+        facetView.render();
+        expect(facetView.$('.facet_clear_link').css('display')).toBe('none');
+
+        // start typing, it's visible
+        facetView.$('.facet-filter').val('sea');
+        facetView.$('.facet-filter').keyup();
+        expect(facetView.$('.facet_clear_link').css('display')).not.toBe('none');
+
+        facetView.$('.facet-filter').val('');
+        facetView.$('.facet-filter').keyup();
+        expect(facetView.$('.facet_clear_link').css('display')).toBe('none');
       });
 
       it('Shows the clear facet link when a facet is selected', function () {

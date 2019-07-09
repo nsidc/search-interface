@@ -1,5 +1,5 @@
-define(['vendor/requirejs/text!templates/home_page_nsidc.html',
-       'vendor/requirejs/text!templates/home_page_ade.html',
+define(['text!templates/home_page_nsidc.html',
+       'text!templates/home_page_ade.html',
        'lib/objectFactory',
        'lib/mediator_mixin'],
        function (nsidcHomeTemplate,
