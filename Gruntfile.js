@@ -22,9 +22,7 @@ module.exports = function (grunt) {
     bundleExec: true,
     compass: true,
     precision: 2,
-    // sourcemap: true,
-    style: '<%= environment === "development" ? "expanded" : "compressed" %>',
-    // lineNumbers: '<%= environment === "development" %>'
+    style: '<%= environment === "development" ? "expanded" : "compressed" %>'
   };
 
   // files that should trigger their tasks when changed while `grunt watch` is

@@ -3,14 +3,12 @@ define(['lib/utility_functions',
   'text!templates/result_item/spatial_metadata_without_data.html',
   'views/result_item/SpatialThumbnailView',
   'sprintf'
-  // 'underscore.string'
   ],
   function (UtilityFunctions,
             spatialMetadataTemplate,
             spatialMetadatWithoutDataTemplate,
             SpatialThumbnailView,
             sprintfjs
-            // _s
   ) {
 
   var sprintf = sprintfjs.sprintf;
