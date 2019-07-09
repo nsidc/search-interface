@@ -1,3 +1,5 @@
+## 2.0.0 (2019-07-09)
+
 ## Unreleased
 
 - Fixing tests, updating libraries
