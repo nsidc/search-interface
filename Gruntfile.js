@@ -11,6 +11,37 @@ module.exports = function (grunt) {
     nsidc_search: '/data/search'
   };
 
+  requirejsConf = {
+    appDir: 'src/',
+    baseUrl: 'scripts/',
+    dir: 'build/',
+    findNestedDependencies: true,
+    generateSourceMaps: true,
+    inlineText: true,
+    name: 'main',
+    optimize: 'uglify2',
+    optimizeCss: 'none',
+    paths: {
+      conf: '../conf/',
+      appConfig: '../conf/appConfig',
+      iocConfig: '../conf/iocConfig',
+
+      vendor: '../vendor',
+
+      text: '../vendor/requirejs/text',
+      templates: '../templates/underscore',
+
+      sprintf: '../contrib/sprintf/sprintf.min',
+
+    },
+    preserveLicenseComments: false,
+    shim: {
+      'vendor/debug': {
+        exports: 'debug'
+      }
+    }
+  };
+
   // files that tasks run on
   runFiles = {
     jshint: ['Gruntfile.js', 'src/scripts/**/*.js', 'spec/**/*.js', 'src/conf/**/*.js'],

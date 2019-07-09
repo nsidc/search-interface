@@ -3,7 +3,7 @@
   "description": "NSIDC search portal interface",
   "version": "1.13.0",
   "devDependencies": {
-    "connect-ssi": "1.1.1",
+    "connect-ssi": "git+https://bitbucket.org/nsidc/connect-ssi.git",
     "grunt": "1.0.4",
     "grunt-available-tasks": "0.6.3",
     "grunt-concurrent": "2.3.1",
