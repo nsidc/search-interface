@@ -430,6 +430,7 @@ module.exports = function (grunt) {
           'bundle exec cucumber spec/cucumber/features',
           '--tags @<%= project %>',
           '--format pretty',
+          '-c',
           '-r spec/cucumber/features/support',
           '-r spec/cucumber/features/step_definitions',
           '-r spec/cucumber/features/page_objects',

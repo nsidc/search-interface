@@ -1,3 +1,6 @@
+- Fixing acceptance tests
+- Fixing bad stylesheet for date picker
+
 ## 2.0.0 (2019-07-09)
 
 - Fixing tests, updating libraries
