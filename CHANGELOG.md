@@ -1,3 +1,5 @@
+## 2.0.1 (2019-07-11)
+
 - Fixing acceptance tests
 - Fixing bad stylesheet for date picker
 
