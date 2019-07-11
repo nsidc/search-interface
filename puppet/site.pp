@@ -54,6 +54,19 @@ if $environment == 'ci' {
     version => '27.0.1-0ubuntu1'
   }
 
+  exec { 'get_geckodriver':
+    path => '/tmp',
+    command => 'wget "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz"'
+  } ->
+  exec { 'extract_geckodriver':
+    path => '/tmp',
+    command => 'tar -zxvf geckodriver-v0.24.0-linux64.tar.gz'
+  } ->
+  exec { 'move_geckodriver':
+    path => '/tmp',
+    command => 'mv geckodriver /usr/local/bin/'
+  }
+
   package { 'vnc4server':
     require => User['vagrant']
     } ->
