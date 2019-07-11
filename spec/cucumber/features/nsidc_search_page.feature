@@ -8,7 +8,7 @@ Feature: Search Page Basics
     When I search for ""
     And I wait for the results to come back
     Then there should be some search results
-    And all search results should have a button
+    And all search results should have a title
 
   Scenario: Basic searching
     When I search for "ice"

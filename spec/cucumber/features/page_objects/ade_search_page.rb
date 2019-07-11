@@ -1,4 +1,4 @@
-require 'watir-webdriver'
+require 'watir'
 
 class AdeSearchPage
   attr_reader :expected_data_center_counts, :actual_data_center_counts

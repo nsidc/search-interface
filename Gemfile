@@ -3,11 +3,11 @@ source 'http://rubygems.org'
 gem 'rubocop'
 
 # Acceptance testing with Firefox
-gem 'cucumber', '~> 1.3'
+gem 'cucumber', '~> 2.4.0'
 gem 'json', '~> 2.0'
-gem 'rspec', '~> 2.11'
-gem 'selenium-webdriver', '~> 2.40'
-gem 'watir-webdriver', '~> 0.6.8'
+gem 'rspec', '~> 3.5.0'
+gem 'selenium-webdriver', '~> 3.6'
+gem 'watir', '~> 6.16'
 
 # Sass
 gem 'compass', '~> 1.0'
