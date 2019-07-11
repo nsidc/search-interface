@@ -50,8 +50,8 @@ if $environment == 'ci' {
   }
 
   # browser/ display stuff for running acceptance tests
-  class { 'firefox':
-    version => '27.0.1-0ubuntu1'
+  package { 'firefox':
+    ensure => present
   }
 
   exec { 'get_geckodriver':
