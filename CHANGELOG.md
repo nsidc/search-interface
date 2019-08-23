@@ -1,3 +1,5 @@
+## 2.0.2 (2019-08-23)
+
 ## Unreleased
 
 - Adding HTTPS support to nginx server
