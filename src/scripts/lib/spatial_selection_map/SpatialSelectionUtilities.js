@@ -22,10 +22,10 @@ define([], function () {
   return {
 
     // the URL to the NSIDC map server and tile cache server
-    //dev MAP_SERVER = 'http://devsnowdev.nsidc.org/api/ogc/';
-    //test MAP_SERVER = 'http://testsnowtest.nsidc.org/api/ogc/';
-    //prod MAP_SERVER = 'http://nsidc.org/api/ogc/';
-    MAP_SERVER : 'http://nsidc.org/api/ogc/',
+    //dev MAP_SERVER = 'https://integration.nsidc.org/api/ogc/';
+    //test MAP_SERVER = 'https://staging.nsidc.org/api/ogc/';
+    //prod MAP_SERVER = 'https://nsidc.org/api/ogc/';
+    MAP_SERVER : 'https://nsidc.org/api/ogc/',
 
     // the string used to identify the NSIDC map server WMS layer
     WMS_LAYER_NAME : 'NSIDC WMS',

@@ -94,8 +94,15 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     gzip => 'off'
   }
 
+  exec { 'make_cert':
+    path => ['/bin', '/usr/bin'],
+    command => 'mkdir -p /etc/nginx/ssl && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=nsidc"'
+  } ->
   nginx::resource::vhost { 'search' :
-    www_root => $application_root
+    www_root => $application_root,
+    ssl => true,
+    ssl_cert => '/etc/nginx/ssl/nginx.crt',
+    ssl_key => '/etc/nginx/ssl/nginx.key',
   }
 
   nginx::resource::location { '/acadis/search' :
@@ -105,7 +112,8 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
 
   nginx::resource::location { '/data/search' :
     location_alias => $application_root,
-    vhost => 'search'
+    vhost => 'search',
+    ssl => true
   }
 
   # remove default nginx config
