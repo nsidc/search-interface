@@ -1,3 +1,7 @@
+## Unreleased
+
+- Adding HTTPS support to nginx server
+
 ## 2.0.1 (2019-07-11)
 
 - Fixing acceptance tests
