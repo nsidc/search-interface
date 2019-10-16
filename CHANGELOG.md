@@ -1,5 +1,8 @@
-## 2.1.0 (2019-08-23)
+## Unreleased
 
+- Updating RubyGems to latest version per security announcement
+
+## 2.1.0 (2019-08-23)
 
 - Adding HTTPS support to nginx server
 
