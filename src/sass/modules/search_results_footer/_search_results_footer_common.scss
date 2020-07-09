@@ -38,14 +38,19 @@ $pagination-color-hover: #83bce8;
   i {
     @include pagination-control(none);
 
-    &.disabled,
-    &.disabled:hover {
+    &.disabled {
       color: $pagination-color-disabled;
+
+      :hover {
+        color: $pagination-color-disabled;
+      }
     }
   }
 
-  > span:not(:first-child) {
-    margin-left: 20px;
+  > span {
+    :not(:first-child) {
+      margin-left: 20px;
+    }
   }
 
 }

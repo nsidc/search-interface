@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/nsidc/search-interface.svg)](https://travis-ci.org/nsidc/search-interface)
 
-# ADE Portal / NSIDC Search Portal
+# NSIDC Search Portal
+
+Note: ADE has been decommissioned.
 
 An Opensearch-based single page search interface
 
@@ -13,7 +15,7 @@ An Opensearch-based single page search interface
     nginx is running as a service, and can be stopped/started/etc using the
     system "service" command, e.g., "service nginx restart"
 
-    The portal code is being served from /usr/shar/nginx/portal/, which is where
+    The portal code is being served from /usr/share/nginx/portal/, which is where
     the artifact deploys when the VM is provisioned.
 
     nginx writes logfiles by default to /var/log/nginx, all logs should be in

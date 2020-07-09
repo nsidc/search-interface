@@ -26,12 +26,15 @@ body {
 
   }
 
-  .cornerInputRow input.calcInputBox {
-    background-color: #f3f3f3;
-    border: 1px solid #d7d7d7;
-    color: #888;
+  .cornerInputRow {
+    input {
+      .calcInputBox {
+        background-color: #f3f3f3;
+        border: 1px solid #d7d7d7;
+        color: #888;
+      }
+    }
   }
-
 }
 
 #wrapper {
@@ -59,11 +62,18 @@ body {
   font-weight: bold;
 }
 
-div.alert,
-div.alert h4 {
-  background-color: transparent;
-  border: transparent;
-  color: #000;
+div {
+  .alert {
+    background-color: transparent;
+    border: transparent;
+    color: #000;
+
+    h4 {
+      background-color: transparent;
+      border: transparent;
+      color: #000;
+    }
+  }
 }
 
 .alert > .icon-info-sign {
@@ -119,6 +129,6 @@ div.alert h4 {
 ::-webkit-scrollbar-thumb {
   @include border-radius(4px);
 
-  background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  background-color: rgba(0, 0, 0, .5);
 }

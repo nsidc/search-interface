@@ -3,3 +3,4 @@ $image-directory: '../images' !default;
 @function img($image-name) {
   @return $image-directory + '/' + $image-name
 }
+

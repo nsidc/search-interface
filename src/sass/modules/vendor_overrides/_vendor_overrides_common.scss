@@ -1,32 +1,38 @@
 // Bootstrap
-ul.dropdown-menu {
-  min-width: 0;
-  text-align: left;
+ul {
+  .dropdown-menu {
+    min-width: 0;
+    text-align: left;
 
-  .dropdown-option {
-    cursor: pointer;
-  }
+    .dropdown-option {
+      cursor: pointer;
+    }
 
-  .divider {
-    margin: 3px 1px;
-  }
+    .divider {
+      margin: 3px 1px;
+    }
 
-  > li {
-    margin: 0;
-
-    a {
-      font-size: 12px;
+    > li {
       margin: 0;
-      text-decoration: none;
+
+      a {
+        font-size: 12px;
+        margin: 0;
+        text-decoration: none;
+      }
     }
   }
 }
 
 // Bootstrap Datepicker
-.datepicker .year:not(.disabled) {
-  &.old,
-  &.new {
-    color: #000;
+.datepicker {
+  .year {
+    :not(.disabled) {
+      &.old,
+      &.new {
+        color: #000;
+      }
+    }
   }
 }
 
@@ -46,9 +52,15 @@ ul.dropdown-menu {
 
 }
 
-.ui-widget-content .ui-state-hover {
-  background: #ebfefe;
-  color: #00406b;
+.ui-widget-content {
+  .ui-state-hover {
+    background: #ebfefe;
+    color: #00406b;
+  }
+
+  .ui-icon {
+    background-image: url(img('ui-icons_ffffff_256x240.png'));
+  }
 }
 
 // override the default jQuery UI Message background which is a red diagonals
@@ -59,31 +71,31 @@ ul.dropdown-menu {
   color: #000;
 }
 
-.ui-state-default,
-.ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default {
-  background: #f7f7f7;
-  border: 1px solid #f7f7f7;
-  color: #565656;
-  font-family: $default-font-family;
-  font-size: .9em;
-  font-weight: normal;
-  margin-top: 4px;
+.ui-widget-content,
+.ui-widget-header {
+  .ui-state-default {
+    background: #f7f7f7;
+    border: 1px solid #f7f7f7;
+    color: #565656;
+    font-family: $default-font-family;
+    font-size: .9em;
+    font-weight: normal;
+    margin-top: 4px;
+  }
 }
 
-.ui-icon,
-.ui-widget-content .ui-icon {
-  background-image: url(img('ui-icons_ffffff_256x240.png'));
+.ui-state-hover,
+.ui-state-focus {
+  .ui-icon {
+    background-image: url(img('ui-icons_116074_256x240.png'));
+  }
 }
 
-.ui-state-hover .ui-icon,
-.ui-state-focus .ui-icon {
-  background-image: url(img('ui-icons_116074_256x240.png'));
-}
-
-.ui-state-error .ui-icon,
-.ui-state-error-text .ui-icon {
-  background-image: url(img('ui-icons_ffd27a_256x240.png'));
+.ui-state-error,
+.ui-state-error-text {
+  .ui-icon {
+    background-image: url(img('ui-icons_ffd27a_256x240.png'));
+  }
 }
 
 // Tipsy

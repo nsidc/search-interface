@@ -3,42 +3,42 @@
 #results {
 
   // "Get Data" button
-  button.access-data {
-    @include box-shadow(1px 2px 1px rgba(15, 38, 76, .4));
-    float: right;
-    font-size: 11px;
-    height: 23px;
-    line-height: normal;
-    margin-top: 10px;
-    padding: 0 0 3px;
-    width: 90px;
+  button {
+    .access-data {
+      @include box-shadow(1px 2px 1px rgba(15, 38, 76, .4));
+      float: right;
+      font-size: 11px;
+      height: 23px;
+      line-height: normal;
+      margin-top: 10px;
+      padding: 0 0 3px;
+      width: 90px;
 
-    .caret {
-      border-bottom-color: #fff;
-      border-top-color: #fff;
-      margin-left: 6px;
-      margin-top: 6px;
+      .caret {
+        border-bottom-color: #fff;
+        border-top-color: #fff;
+        margin-left: 6px;
+        margin-top: 6px;
+      }
+
+      &:hover {
+        @include background-image(linear-gradient(#065084 0%, #83bce8 100%));
+  
+        background-position: 0% 0%;
+      }
+
+      // "no data link" button
+      &.no-data {
+        @include box-shadow(none);
+        @include text-shadow(none);
+  
+        background: #f7f7f7;
+        border-color: #ddd;
+        color: #444;
+        padding: 2px 8px 4px;
+      }
     }
-
-    &:hover {
-      @include background-image(linear-gradient(#065084 0%, #83bce8 100%));
-
-      background-position: 0% 0%;
-    }
-
-    // "no data link" button
-    &.no-data {
-      @include box-shadow(none);
-      @include text-shadow(none);
-
-      background: #f7f7f7;
-      border-color: #ddd;
-      color: #444;
-      padding: 2px 8px 4px;
-    }
-
   }
-
 }
 
 .get-data>.dropdown-menu {
@@ -88,16 +88,17 @@
 
   td {
     padding: 3px 10px;
+
+    :last-child {
+      border-left: 1px dashed #ebebeb;
+    }
   }
 
-  td:last-child {
-    border-left: 1px dashed #ebebeb;
+  :hover {
+    td {
+      background-color: #d2e1e9;
+    }
   }
-
-}
-
-.getdata-value:hover td {
-  background-color: #d2e1e9;
 }
 
 .getdata-title {
@@ -108,10 +109,10 @@
 .results-row {
   line-height: 1.1em;
   padding-bottom: 7px;
-}
 
-.results-row:last-child {
-  padding-bottom: 0;
+  :last-child {
+    padding-bottom: 0;
+  }
 }
 
 .results-top-right {
@@ -130,8 +131,10 @@
   width: 450px;
 }
 
-.summary .value {
-  width: 510px;
+.summary {
+  .value {
+    width: 510px;
+  }
 }
 
 .result-buttons {
@@ -154,10 +157,10 @@
   height: 32px;
   margin-right: 4px;
   width: 32px;
-}
 
-.supporting-program-logo:first-child {
-  margin-right: 0;
+  :first-child {
+    margin-right: 0;
+  }
 }
 
 .NASA_DAAC {

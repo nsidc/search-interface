@@ -32,7 +32,7 @@ If switching which project you are working on, take care that you are using the
 correct config file, and that the temp file `.nsidc-project.yaml` references the
 right project.
 
-Once that is setup, machines can be provisied as expected using the vagrant-nsidc
+Once that is setup, machines can be provisioned as expected using the vagrant-nsidc
 plugin.
 
 ## Grunt
@@ -50,13 +50,13 @@ that are useful:
 * `grunt watch:lint-test` will automatically run JSHint, scss-lint, and the
   Jasmine test suite whenever a JavaScript or Sass file is changed
 * `grunt watch:build-$PROJECT` automatically runs `grunt build:$PROJECT-dev`
-  whenever a Sass or Jade file is changed (`PROJECT` must be `ade` or
+  whenever a Sass or Pug  file is changed (`PROJECT` must be `ade` or
   `nsidc`)
 
 ## Build
 
 `grunt build:nsidc` and `grunt build:ade` will create a `build/` directory
-containing HTML and CSS files generated from Jade and Sass files, as well as a
+containing HTML and CSS files generated from Pug and Sass files, as well as a
 minified JavaScript file created by the
 [RequireJS Optimizer](http://requirejs.org/docs/optimization.html). Other files,
 such as external JavaScript libs and image files, are also copied to `build/` so
@@ -225,7 +225,7 @@ rubocop`. Settings can be found in `.rubocop.yml`.
 
 Our build server attempts to build the project with every revision, and it
 requires that linters and unit tests pass successfully. To protect yourself from
-the embarrasment of breaking the build, git hooks can be set up to run
+the embarrassment of breaking the build, git hooks can be set up to run
 everything on your local box before you push.
 
 Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
@@ -270,11 +270,12 @@ Replace the `src/contrib/bootstrap/` directory with the contents of the
 downloaded zip file. Be sure to update this list of components after each new
 download.
 
-## Releases/Changelog
+## Releases
 
 The version in `package.json` is updated automatically with the `grunt
 release:$part` task (where `$part` is `patch`, `minor`, or `major`). This task
 creates a git tag for the new version, and adds 2 new header lines to
 `CHANGELOG.md`, indicating the version number and the date it was
-released. Therefore, new changes should be documented at the top of CHANGELOG.md
-without a version header, since it will be added automatically later.
+released. Note that no `## Unreleased` place-holder line is necessary at the top of the
+`CHANGELOG.md` file. Simply add a description of changes at the beginning of `CHANGELOG.md`
+and the release version and date will be inserted when the version is `bump`-ed.

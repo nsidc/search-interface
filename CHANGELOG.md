@@ -1,7 +1,5 @@
 ## 2.1.1 (2019-10-17)
 
-## Unreleased
-
 - Updating RubyGems to latest version per security announcement
 
 ## 2.1.0 (2019-08-23)
