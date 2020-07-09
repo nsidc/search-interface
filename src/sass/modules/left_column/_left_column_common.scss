@@ -35,8 +35,6 @@
     cursor: pointer;
 
     .shortName {
-      @include inline-block();
-
       margin-top: -5px;
       overflow: hidden;
       position: relative;

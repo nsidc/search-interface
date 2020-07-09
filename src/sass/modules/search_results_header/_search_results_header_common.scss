@@ -11,8 +11,6 @@ $header-font-size: 12px;
     font-size: $header-font-size;
 
     button {
-      @include border-radius();
-
       font-family: $default-font-family;
       margin: 0;
       vertical-align: baseline;

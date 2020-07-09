@@ -181,10 +181,6 @@ span {
   }
 }
 
-.spatial-value {
-  @include inline-block(none);
-}
-
 .temporal-results {
   padding-bottom: 3px;
 
@@ -273,8 +269,6 @@ span {
   .with-map-data {
     :hover {
       :after {
-        @include border-radius(5px);
-
         background: rgba(0, 0, 0, .8);
         color: #fff;
         content: attr(data-bbox);
@@ -298,8 +292,4 @@ span {
   text-align: center;
   top: 60px;
   width: 160px;
-}
-
-.map-without-data {
-  @include opacity(.45);
 }

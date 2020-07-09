@@ -32,10 +32,6 @@ body {
 .container {
   button {
     .blue-shade {
-      @include background-image(linear-gradient(#83bce8 5%, #065084 100%));
-      @include border-radius();
-      @include text-shadow(1px 1px 0 #7c7e93);
-
       background-color: #065084;
       border: 1px solid #7a99aa;
       border-top-color: #c9dce7;
@@ -45,8 +41,6 @@ body {
       white-space: nowrap;
 
       &:hover {
-        @include background-image(linear-gradient(#065084 0, #83bce8 100%));
-
         background-color: #076aaf;
         filter: none;
       }

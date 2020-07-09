@@ -72,7 +72,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     command: |
       bundle exec rubocop
-      grunt scsslint
+      grunt sasslint
       grunt jshint
     trigger_job: "%{hiera('job_integration_provision')}"
 

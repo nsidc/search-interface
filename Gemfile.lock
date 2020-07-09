@@ -42,7 +42,7 @@ GEM
     ffi (1.13.1)
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
-    json (2.3.0)
+    json (2.3.1)
     middleware (0.1.0)
     minitest (5.14.1)
     multi_test (0.1.2)
@@ -55,7 +55,7 @@ GEM
       thor
       thread_safe
     rainbow (3.0.0)
-    rake (12.3.3)
+    rake (13.0.1)
     regexp_parser (1.7.1)
     rexml (3.2.4)
     rspec (3.9.0)
@@ -71,23 +71,19 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
-    rubocop (0.86.0)
+    rubocop (0.87.1)
       parallel (~> 1.10)
-      parser (>= 2.7.0.1)
+      parser (>= 2.7.1.1)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.7)
       rexml
-      rubocop-ast (>= 0.0.3, < 1.0)
+      rubocop-ast (>= 0.1.0, < 1.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.1.0)
       parser (>= 2.7.0.1)
     ruby-progressbar (1.10.1)
     rubyzip (2.3.0)
-    sass (3.4.25)
-    scss_lint (0.55.0)
-      rake (>= 0.9, < 13)
-      sass (~> 3.4.20)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -109,10 +105,10 @@ PLATFORMS
 DEPENDENCIES
   cucumber (~> 4.0.1)
   json (~> 2.0)
+  rake (~> 13.0.1)
   rspec (~> 3.9.0)
   rubocop
-  scss_lint
-  selenium-webdriver (~> 3.6)
+  selenium-webdriver (~> 3.142.7)
   watir (~> 6.16)
 
 BUNDLED WITH
