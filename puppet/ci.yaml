@@ -74,7 +74,7 @@ nsidc_jenkins::jobs:
       bundle exec rubocop
       grunt sasslint
       grunt jshint
-    trigger_job: "%{hiera('job_integration_provision')}"
+    trigger_job: "%{hiera('job_integration_unit_tests')}"
 
   "%{hiera('job_integration_unit_tests')}":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
@@ -91,8 +91,8 @@ nsidc_jenkins::jobs:
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
       export NSIDC_PLUGIN_LOG=debug
 
-      # compile jade and sass, minify js into build/
-      grunt build:%{hiera('project')} --environment=$ENV
+      # compile pug and sass, minify js into build/
+      grunt build:nsidc-dev --environment=$ENV
 
       # provision, including rsyncing build/ to /vagrant
       vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true
@@ -144,7 +144,7 @@ nsidc_jenkins::jobs:
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
       export NSIDC_PLUGIN_LOG=debug
 
-      # compile jade and sass, minify js into build/
+      # compile pug and sass, minify js into build/
       grunt build:%{hiera('project')} --environment=$ENV
 
       # provision, including rsyncing build/ to /vagrant
@@ -198,7 +198,7 @@ nsidc_jenkins::jobs:
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
       export NSIDC_PLUGIN_LOG=debug
 
-      # compile jade and sass, minify js into build/
+      # compile pug and sass, minify js into build/
       grunt build:%{hiera('project')} --environment=$ENV
 
       # provision, including rsyncing build/ to /vagrant
@@ -253,7 +253,7 @@ nsidc_jenkins::jobs:
       export VAGRANT_NSIDC_YAML=vagrant-nsidc.%{hiera('project')}.yaml
       export NSIDC_PLUGIN_LOG=debug
 
-      # compile jade and sass, minify js into build/
+      # compile pug and sass, minify js into build/
       grunt build:%{hiera('project')} --environment=$ENV
 
       # provision, including rsyncing build/ to /vagrant

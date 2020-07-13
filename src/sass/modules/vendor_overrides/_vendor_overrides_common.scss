@@ -102,6 +102,7 @@ ul {
 .temporal > .tipsy-inner {
   background-color: #ffa;
   border: 1px inset rgba(0, 0, 0, .2);
+  box-shadow: $search-criteria-box-shadow;
   color: #000;
 }
 

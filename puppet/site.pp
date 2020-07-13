@@ -27,7 +27,7 @@ if $environment == 'ci' {
     path => ['/usr/bin']
   } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler -v 1.17.1',
+    command => 'sudo gem install bundler',
     path => '/usr/bin'
   }
 

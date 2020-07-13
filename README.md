@@ -2,7 +2,7 @@
 
 # NSIDC Search Portal
 
-Note: ADE has been decommissioned.
+Note: Arctic Data Explorer (ADE) has been decommissioned.
 
 An Opensearch-based single page search interface
 
