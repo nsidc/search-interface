@@ -1,4 +1,5 @@
 .search-header {
+  box-shadow: 0 2px 3px rgba(15, 38, 76, .4);
   background: $header-bg;
   background-position: $header-bg-position;
   float: left;
@@ -13,9 +14,12 @@
   .add-on,
   .combo-box-drop-down {
     border: $search-criteria-input-border;
+    box-shadow: $search-criteria-box-shadow;
   }
 
   button {
+    border-radius: 5px;
+    box-shadow: $search-criteria-box-shadow;
     cursor: pointer;
     height: 28px;
     text-align: center;

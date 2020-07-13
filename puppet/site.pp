@@ -31,8 +31,9 @@ if $environment == 'ci' {
     path => '/usr/bin'
   }
 
-  # install npm, grunt
-  include nodejs
+  class { 'nodejs':
+    version => latest,
+   }
 
   package { 'grunt-cli':
     ensure => present,
@@ -43,7 +44,6 @@ if $environment == 'ci' {
   # willdurand-nodejs installs the executables into
   # /usr/local/node/node-default/bin/, we want access to them on the
   # PATH, so create symlinks in /usr/local/bin
-
   $node_path = '/usr/local/node/node-default/bin'
   $grunt_path = '/usr/local/lib/node_modules/grunt-cli/bin'
 
@@ -59,16 +59,16 @@ if $environment == 'ci' {
   }
 
   exec { 'get_geckodriver':
-    path => '/tmp',
-    command => 'wget "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz"'
+    cwd => '/tmp',
+    command => '/usr/bin/wget "https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz"'
   } ->
   exec { 'extract_geckodriver':
-    path => '/tmp',
-    command => 'tar -zxvf geckodriver-v0.24.0-linux64.tar.gz'
+    cwd => '/tmp',
+    command => '/bin/tar -zxvf geckodriver-v0.26.0-linux64.tar.gz'
   } ->
   exec { 'move_geckodriver':
-    path => '/tmp',
-    command => 'mv geckodriver /usr/local/bin/'
+    cwd => '/tmp',
+    command => '/bin/mv geckodriver /usr/local/bin/'
   }
 
   package { 'vnc4server':
@@ -87,11 +87,9 @@ if $environment == 'ci' {
   package { 'fluxbox': }
 }
 
-# blue/green/red can be removed from here when VGTNSIDC-153 is done
-if ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red') {
+if ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') {
 
   $hiera_project = hiera('project')
-
   $application_root = "/opt/${hiera_project}"
 
   class { 'nginx' :
@@ -109,11 +107,6 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     ssl_key => '/etc/nginx/ssl/nginx.key',
   }
 
-  nginx::resource::location { '/acadis/search' :
-    location_alias => $application_root,
-    vhost => 'search'
-  }
-
   nginx::resource::location { '/data/search' :
     location_alias => $application_root,
     vhost => 'search',
@@ -126,5 +119,3 @@ if ($environment == 'integration') or ($environment == 'qa') or ($environment ==
     ensure  =>  absent
   }
 }
-
-package { "emacs": }
