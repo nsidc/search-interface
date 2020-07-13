@@ -31,22 +31,22 @@ body {
 // button stylings will have precedence over these stylings
 #search-criteria {
   .blue-shade {
-      background-color: #065084;
-      background-image: linear-gradient(#83bce8 5%, #065084 100%);
-      border: 1px solid #7a99aa;
-      border-radius: 4px;
-      border-top-color: #c9dce7;
-      color: #fff;
-      filter: none;
-      text-decoration: none;
-      text-shadow: 1px 1px 0 #7c7e93;
-      white-space: nowrap;
+    background-color: #065084;
+    background-image: linear-gradient(#83bce8 5%, #065084 100%);
+    border: 1px solid #7a99aa;
+    border-radius: 4px;
+    border-top-color: #c9dce7;
+    color: #fff;
+    filter: none;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #7c7e93;
+    white-space: nowrap;
 
-      &:hover {
-        background-color: #076aaf;
-        background-image: linear-gradient(#065084 0, #83bce8 100%);
-        filter: none;
-      }
+    &:hover {
+      background-color: #076aaf;
+      background-image: linear-gradient(#065084 0, #83bce8 100%);
+      filter: none;
+    }
   }
 }
 
