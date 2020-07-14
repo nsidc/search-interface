@@ -1,6 +1,6 @@
 // Bootstrap
 ul {
-  .dropdown-menu {
+  &.dropdown-menu {
     min-width: 0;
     text-align: left;
 
@@ -26,8 +26,8 @@ ul {
 
 // Bootstrap Datepicker
 .datepicker {
-  .year {
-    :not(.disabled) {
+  &.year {
+    &:not(.disabled) {
       &.old,
       &.new {
         color: #000;

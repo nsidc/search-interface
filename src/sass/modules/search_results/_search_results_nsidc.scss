@@ -4,7 +4,7 @@
 
   // "Get Data" button
   button {
-    .access-data {
+    &.access-data {
       box-shadow: 1px 2px 1px rgba(15, 38, 76, .4);
       float: right;
       font-size: 11px;
@@ -68,7 +68,7 @@
   top: -.41em;
   z-index: 1001;
 
-  :hover {
+  &:hover {
     font-weight: bold;
   }
 
@@ -85,12 +85,12 @@
   td {
     padding: 3px 10px;
 
-    :last-child {
+    &:last-child {
       border-left: 1px dashed #ebebeb;
     }
   }
 
-  :hover {
+  &:hover {
     td {
       background-color: #d2e1e9;
     }
@@ -106,7 +106,7 @@
   line-height: 1.1em;
   padding-bottom: 7px;
 
-  :last-child {
+  &:last-child {
     padding-bottom: 0;
   }
 }
@@ -152,7 +152,7 @@
   margin-right: 4px;
   width: 32px;
 
-  :first-child {
+  &:first-child {
     margin-right: 0;
   }
 }

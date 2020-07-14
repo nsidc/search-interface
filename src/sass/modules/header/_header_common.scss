@@ -81,7 +81,7 @@
     }
 
     &:hover {
-      :before {
+      &:before {
         background-position: 0 -16px;
       }
     }
@@ -186,13 +186,13 @@
     }
 
     &:hover {
-      :before {
+      &:before {
         background-position: 0 -16px;
       }
     }
 
     &:active {
-      :before {
+      &:before {
         background-position: 0 0;
       }
     }
@@ -336,23 +336,23 @@
 }
 
 div {
-  .olControlEditingToolbar {
+  &.olControlEditingToolbar {
     left: 0;
     right: initial;
     top: 0;
   }
 
-  .olControlPanZoomBar {
+  &.olControlPanZoomBar {
     top: 28px;
   }
 
-  .olControlMousePosition {
+  &.olControlMousePosition {
     color: #ffa500;
     font-family: Verdana;
     font-size: 1em;
   }
 
-  .geospatialInputFieldsNsew {
+  &.geospatialInputFieldsNsew {
     margin: 0;
     padding: 0;
   }

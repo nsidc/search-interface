@@ -1,4 +1,4 @@
-project: collinsj_nsidc_search
+project: nsidc_search
 gitrepo: git@github.com:nsidc/search-interface.git
 
 vsphere:

@@ -22,7 +22,7 @@
   }
 
   img {
-    .partner-logo {
+    &.partner-logo {
       border: 0;
       margin-top: 0;
       padding-right: 5px;
@@ -33,7 +33,7 @@
 
 .data-set-details {
   img {
-    .image-icon {
+    &.image-icon {
       float: left;
       margin-right: 15px;
     }
@@ -92,17 +92,17 @@
 }
 
 a {
-  .spatial-coverage,
-  .temporal-coverage {
+  &.spatial-coverage,
+  &.temporal-coverage {
     cursor: pointer;
     text-decoration: none;
   }
 }
 
 span {
-  .term,
-  .spatial-coverage,
-  .temporal-coverage {
+  &.term,
+  &.spatial-coverage,
+  &.temporal-coverage {
     > .icon-remove-sign {
       color: #808080;
       font-size: 14px;
@@ -110,7 +110,7 @@ span {
       position: absolute;
       right: 20px;
 
-      :hover {
+      &:hover {
         color: #069;
         cursor: pointer;
       }
@@ -138,7 +138,7 @@ span {
 
   .more {
     a {
-      .more-link {
+      &.more-link {
         background-image: url(img('arrow-down.png'));
         background-position: right center;
         background-repeat: no-repeat;
@@ -168,7 +168,7 @@ span {
     padding-bottom: 12px;
   }
 
-  :last-child {
+  &:last-child {
     padding-bottom: 0;
   }
 }
@@ -176,7 +176,7 @@ span {
 .spatial-row {
   padding-bottom: 2px;
 
-  :last-child {
+  &:last-child {
     padding-bottom: 0;
   }
 }
@@ -184,7 +184,7 @@ span {
 .temporal-results {
   padding-bottom: 3px;
 
-  :last-child {
+  &:last-child {
     padding-bottom: 0;
   }
 }
@@ -266,9 +266,9 @@ span {
 
 // spatial coverage popup
 .spatial-coverage {
-  .with-map-data {
-    :hover {
-      :after {
+  &.with-map-data {
+    &:hover {
+      &:after {
         background: rgba(0, 0, 0, .8);
         border-radius: 5px;
         color: #fff;

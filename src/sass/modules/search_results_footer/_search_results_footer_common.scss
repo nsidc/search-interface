@@ -41,14 +41,14 @@ $pagination-color-hover: #83bce8;
     &.disabled {
       color: $pagination-color-disabled;
 
-      :hover {
+      &:hover {
         color: $pagination-color-disabled;
       }
     }
   }
 
   > span {
-    :not(:first-child) {
+    &:not(:first-child) {
       margin-left: 20px;
     }
   }

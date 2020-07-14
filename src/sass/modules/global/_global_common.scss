@@ -27,7 +27,7 @@ body {
 
   .cornerInputRow {
     input {
-      .calcInputBox {
+      &.calcInputBox {
         background-color: #f3f3f3;
         border: 1px solid #d7d7d7;
         color: #888;
@@ -62,7 +62,7 @@ body {
 }
 
 div {
-  .alert {
+  &.alert {
     background-color: transparent;
     border: transparent;
     color: #000;
