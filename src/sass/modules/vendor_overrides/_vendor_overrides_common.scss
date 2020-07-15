@@ -100,9 +100,9 @@ ul {
 
 // Tipsy
 .temporal > .tipsy-inner {
+  @include box-shadow($search-criteria-box-shadow);
   background-color: #ffa;
   border: 1px inset rgba(0, 0, 0, .2);
-  box-shadow: $search-criteria-box-shadow;
   color: #000;
 }
 

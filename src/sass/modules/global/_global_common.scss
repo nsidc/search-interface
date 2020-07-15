@@ -5,7 +5,7 @@ body {
 }
 
 #container {
-  box-shadow: 0 3px 5px #0f264c;
+  @include box-shadow(0 3px 5px #0f264c);
   clear: both;
   padding: 0;
   width: 1100px;
@@ -95,9 +95,9 @@ div {
   width: 1100px;
 
   .sub-feature {
+    @include border-radius(1em);
     background: #fff;
     border: 1px solid #ccc;
-    border-radius: 1em;
     float: left;
     margin-bottom: 20px;
     margin-left: 20px;
@@ -125,7 +125,7 @@ div {
 }
 
 ::-webkit-scrollbar-thumb {
+  @include border-radius(4px);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
   background-color: rgba(0, 0, 0, .5);
-  border-radius: 4px;
 }

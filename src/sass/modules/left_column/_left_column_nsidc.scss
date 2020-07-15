@@ -3,6 +3,8 @@
 #facets {
 
   .facet {
+    @include inline-block;
+
     border-bottom: 1px solid #ccc;
     padding-bottom: 1em;
     width: 100%;
@@ -39,8 +41,8 @@
 
   input {
     &.facet-filter {
+      @include box-shadow($search-criteria-box-shadow);
       border: $search-criteria-input-border;
-      box-shadow: $search-criteria-box-shadow;
       left: 10px;
       margin-bottom: 7px;
       position: relative;

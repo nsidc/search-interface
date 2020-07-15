@@ -1,7 +1,7 @@
 .search-header {
+  @include box-shadow(0 2px 3px rgba(15, 38, 76, .4));
   background: $header-bg;
   background-position: $header-bg-position;
-  box-shadow: 0 2px 3px rgba(15, 38, 76, .4);
   float: left;
   height: 115px;
   margin: 0;
@@ -13,13 +13,13 @@
   input,
   .add-on,
   .combo-box-drop-down {
+    @include box-shadow($search-criteria-box-shadow);
     border: $search-criteria-input-border;
-    box-shadow: $search-criteria-box-shadow;
   }
 
   button {
-    border-radius: 5px;
-    box-shadow: $search-criteria-box-shadow;
+    @include border-radius(4px);
+    @include box-shadow($search-criteria-box-shadow);
     cursor: pointer;
     height: 28px;
     text-align: center;
@@ -65,7 +65,7 @@
   }
 
   .spatial-trigger {
-    box-shadow: $search-criteria-box-shadow;
+    @include box-shadow($search-criteria-box-shadow);
     float: left;
     height: 16px;
     padding: 5px;
@@ -97,15 +97,15 @@
   width: $header-search-criteria-width;
 
   input {
+    @include border-radius(4px);
+    @include box-shadow($search-criteria-box-shadow);
     border: $search-criteria-input-border;
-    border-radius: 4px;
-    box-shadow: $search-criteria-box-shadow;
     font-size: 1em;
     height: 26px;
     padding: 0 $header-keyword-input-text-padding;
 
     &.combo-box-input {
-      border-radius: $combo-box-input-border-radius;
+      @include border-radius($combo-box-input-border-radius);
       border-right: 0;
     }
 
@@ -150,8 +150,8 @@
   }
 
   .add-on {
+    @include border-radius($combo-box-drop-down-border-radius);
     border: $search-criteria-input-border;
-    border-radius: $combo-box-drop-down-border-radius;
     cursor: pointer;
     padding: 2px 10px 4px;
     text-align: center;
@@ -161,6 +161,9 @@
     &,
     &:hover,
     &:active {
+      @include inline-block;
+      @include user-select;
+
       background: #f7f7f7;
       border: $search-criteria-input-border;
       border-left-color: $search-criteria-add-on-border-left-color;
@@ -213,10 +216,10 @@
 }
 
 .combo-box-drop-down {
+  @include border-radius($combo-box-drop-down-border-radius);
   background: #f7f7f7;
   border: $search-criteria-input-border;
   border-left-color: #ddd;
-  border-radius: $combo-box-drop-down-border-radius;
   cursor: pointer;
   padding: 0;
 }
@@ -256,8 +259,8 @@
   text-align: center;
 
   input {
+    @include box-shadow(1px 2px 2px rgba(15, 38, 76, .3));
     border: 1px solid #ddd;
-    box-shadow: 1px 2px 2px rgba(15, 38, 76, .3);
   }
 
   .alert {
@@ -331,8 +334,8 @@
 }
 
 .olControlEditingToolbar > .disabled {
+  @include opacity(.4);
   cursor: default;
-  opacity: .4;
 }
 
 div {
@@ -393,9 +396,9 @@ div {
 }
 
 #compass-container {
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
   background: #fff;
   border: 1px solid #ccc;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
   clear: left;
   margin: 30px 0;
   padding: 10px;
@@ -419,9 +422,9 @@ div {
 $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
 .tt-dropdown-menu {
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
   background: #fff;
   border: 1px solid rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
   padding-left: 10px;
   padding-top: 5px;
   width: $header-keyword-input-width + $header-keyword-input-text-padding;
