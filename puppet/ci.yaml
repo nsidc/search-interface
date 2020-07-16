@@ -79,6 +79,7 @@ nsidc_jenkins::jobs:
   "%{hiera('job_integration_unit_tests')}":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     command: |
+      export CHROME_BIN=$(node -p "require('puppeteer').executablePath()")
       grunt test:unit
     trigger_job: "%{hiera('job_integration_provision')}"
 
@@ -92,7 +93,7 @@ nsidc_jenkins::jobs:
       export NSIDC_PLUGIN_LOG=debug
 
       # compile pug and sass, minify js into build/
-      grunt build:nsidc-dev --environment=$ENV
+      grunt build:%{hiera('project')} --environment=$ENV
 
       # provision, including rsyncing build/ to /vagrant
       vagrant nsidc hijack --env=$ENV --project=%{hiera('project')} || true

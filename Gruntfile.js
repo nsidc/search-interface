@@ -69,11 +69,6 @@ module.exports = function (grunt) {
     project: grunt.option('project'),
     urlPath: urlPath[grunt.option('project')],
     url: grunt.option('url') || 'http://<%= environment %>.nsidc.org/<%= urlPath %>',
-    env: {
-      options: {
-        CHROME_BIN: require('puppeteer').executablePath()
-      }
-    },
 
     availabletasks: {
       tasks: {
@@ -110,7 +105,7 @@ module.exports = function (grunt) {
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
             'test:acceptance': 'Run Cucumber features. [--environment --project]',
-            'test:unit': 'Run jasmine specs headlessly through PhantomJS.',
+            'test:unit': 'Run jasmine specs headlessly through Chrome.',
             'updateTag': 'Update the git tag to indicate which commit is deployed. [--environment --project]'
           }
         }

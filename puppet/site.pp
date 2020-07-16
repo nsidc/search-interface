@@ -10,15 +10,15 @@ if $environment == 'ci' {
     ensure => present,
   }
 
-  package { 'ruby2.5':
+  package { 'ruby2.6':
     ensure => present,
     require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
   } ->
-  package { 'ruby2.5-dev':
+  package { 'ruby2.6-dev':
     ensure => present
   } ->
   exec { 'switch-ruby':
-    command => 'ruby-switch --set ruby2.5',
+    command => 'ruby-switch --set ruby2.6',
     path => ['/usr/bin'],
     require => Package['ruby-switch']
   } ->
@@ -27,7 +27,7 @@ if $environment == 'ci' {
     path => ['/usr/bin']
   } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler',
+    command => 'gem install bundler',
     path => '/usr/bin'
   }
 
