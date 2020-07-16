@@ -69,6 +69,11 @@ module.exports = function (grunt) {
     project: grunt.option('project'),
     urlPath: urlPath[grunt.option('project')],
     url: grunt.option('url') || 'http://<%= environment %>.nsidc.org/<%= urlPath %>',
+    env: {
+      options: {
+        CHROME_BIN: require('puppeteer').executablePath()
+      }
+    },
 
     availabletasks: {
       tasks: {
@@ -324,7 +329,7 @@ module.exports = function (grunt) {
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],
-          captureTiemout: 60000,
+          captureTimeout: 60000,
           singleRun: true,
           autoWatch: true,
           clearContext: false,
