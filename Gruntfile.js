@@ -7,7 +7,6 @@ module.exports = function (grunt) {
       watchFiles;
 
   urlPath = {
-    ade_search: '/acadis/search',
     nsidc_search: '/data/search'
   };
 
@@ -45,22 +44,22 @@ module.exports = function (grunt) {
   // files that tasks run on
   runFiles = {
     jshint: ['Gruntfile.js', 'src/scripts/**/*.js', 'spec/**/*.js', 'src/conf/**/*.js'],
-    scsslint: ['src/sass/**/*.scss'],
+    sasslint: ['src/sass/**/*.scss'],
     specs: ['spec/**/*.js']
   };
 
+  var sass = require('node-sass');
   sassConf = {
-    bundleExec: true,
-    compass: true,
+    implementation: sass,
     precision: 2,
-    style: '<%= environment === "development" ? "expanded" : "compressed" %>'
+    outputStyle: '<%= environment === "development" ? "expanded" : "compressed" %>'
   };
 
   // files that should trigger their tasks when changed while `grunt watch` is
   // happening; mostly this includes runFiles and relevant config files
   watchFiles = {
     jshint: runFiles.jshint.concat(['.jshintrc']),
-    scsslint: runFiles.scsslint.concat(['config/scss-lint*.yml']),
+    sasslint: runFiles.sasslint.concat(['config/sass-lint*.yml']),
     specs: runFiles.specs.concat(['src/scripts/**/*.js', 'src/conf/**/*.js', 'src/templates/underscore/**/*.html'])
   };
 
@@ -76,8 +75,6 @@ module.exports = function (grunt) {
         options: {
           filter: 'include',
           tasks: [
-            'build:ade-dev',
-            'build:arctic-data-explorer',
             'build:nsidc-dev',
             'build:nsidc_search',
             'default',
@@ -85,7 +82,7 @@ module.exports = function (grunt) {
             'githooks',
             'jshint',
             'release',
-            'scsslint',
+            'sasslint',
             'serve-tests',
             'tasks',
             'test:acceptance',
@@ -93,24 +90,22 @@ module.exports = function (grunt) {
             'updateTag'
           ],
           groups: {
-            'Build for Development': ['build:ade-dev', 'build:nsidc-dev'],
-            'Deployment/Release': ['build:arctic-data-explorer', 'build:nsidc_search', 'deploy', 'release', 'updateTag'],
+            'Build for Development': ['build:nsidc-dev'],
+            'Deployment/Release': ['build:nsidc_search', 'deploy', 'release', 'updateTag'],
             'Miscellaneous': ['default', 'githooks', 'tasks'],
-            'Syntax': ['scsslint', 'jshint'],
+            'Syntax': ['sasslint', 'jshint'],
             'Tests': ['test:acceptance', 'test:unit', 'serve-tests']
           },
           descriptions: {
-            'build:ade-dev': 'Compile Jade to HTML and Sass to CSS into src/ for ADE.',
-            'build:nsidc-dev': 'Compile Jade to HTML and Sass to CSS into src/ for NSIDC Search.',
-            'build:arctic-data-explorer': 'Compile Jade and Sass, minify JavaScript into build/ for ADE. [--environment]',
-            'build:nsidc_search': 'Compile Jade and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
+            'build:nsidc-dev': 'Compile Pug to HTML and Sass to CSS into src/ for NSIDC Search.',
+            'build:nsidc_search': 'Compile Pug and Sass, minify JavaScript into build/ for NSIDC Search. [--environment]',
             'default': 'Run syntax checkers and unit tests.',
             'deploy': 'Copy build/ to /opt/$project on a VM [--environment --project]',
             'release': 'Bump version, update CHANGELOG.md, git tag, git push.',
             'serve-tests': 'Run unit tests (for debugging) in a browser with a connect web server.',
             'tasks': 'List available Grunt tasks & targets.',
             'test:acceptance': 'Run Cucumber features. [--environment --project]',
-            'test:unit': 'Run jasmine specs headlessly through PhantomJS.',
+            'test:unit': 'Run jasmine specs headlessly through Chrome.',
             'updateTag': 'Update the git tag to indicate which commit is deployed. [--environment --project]'
           }
         }
@@ -193,7 +188,7 @@ module.exports = function (grunt) {
     // option --no-verify
     githooks: {
       all: {
-        'pre-commit': 'scsslint jshint',
+        'pre-commit': 'sasslint jshint',
         'pre-push': 'karma'
       }
     },
@@ -229,26 +224,12 @@ module.exports = function (grunt) {
       }
     },
 
-    // 'jade:ade' and 'jade:nsidc' used when the portal is built for
+    // 'pug:nsidc' used when the portal is built for
     // deployment; use '-dev' for local development
-    jade: {
+    pug: {
       options: {
         basedir: 'src',
         pretty: true
-      },
-      'ade-dev': {
-        options: {
-          data: {
-            environment: '<%= environment %>',
-            project: 'ADE',
-            title: 'Arctic Data Explorer',
-            version: '<%= pkg.version %>'
-          }
-        },
-        files: {
-          'src/index-ade.html': ['src/templates/ade-index.jade'],
-          'src/index.html': ['src/templates/ade-index.jade']
-        }
       },
       'nsidc-dev': {
         options: {
@@ -260,21 +241,8 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'src/index-nsidc.html': ['src/templates/nsidc-index.jade'],
-          'src/index.html': ['src/templates/nsidc-index.jade']
-        }
-      },
-      ade: {
-        options: {
-          data: {
-            environment: '<%= environment %>',
-            project: 'ADE',
-            title: 'Arctic Data Explorer',
-            version: '<%= pkg.version %>'
-          }
-        },
-        files: {
-          'build/index.html': ['src/templates/ade-index.jade']
+          'src/index-nsidc.html': ['src/templates/nsidc-index.pug'],
+          'src/index.html': ['src/templates/nsidc-index.pug']
         }
       },
       nsidc: {
@@ -287,7 +255,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'build/index.html': ['src/templates/nsidc-index.jade']
+          'build/index.html': ['src/templates/nsidc-index.pug']
         }
       }
     },
@@ -356,7 +324,7 @@ module.exports = function (grunt) {
           port: 9876,
           colors: true,
           browsers: ['ChromeHeadless'],
-          captureTiemout: 60000,
+          captureTimeout: 60000,
           singleRun: true,
           autoWatch: true,
           clearContext: false,
@@ -376,15 +344,12 @@ module.exports = function (grunt) {
     },
 
     requirejs: {
-      ade: {
-        options: requirejsConf
-      },
       nsidc: {
         options: requirejsConf
       }
     },
 
-    // 'sass:ade' and 'sass:nsidc' used when the portal is built for
+    // 'sass:nsidc' used when the portal is built for
     // deployment; use 'sass:dev' for local development
     //
     // sass/ must have the same parent directory as css/ for sourcemaps to work;
@@ -393,14 +358,7 @@ module.exports = function (grunt) {
     sass: {
       'dev': {
         files: {
-          'src/css/ade-search.css': './src/sass/ade_main.scss',
           'src/css/nsidc-search.css': './src/sass/nsidc_main.scss'
-        },
-        options: sassConf
-      },
-      ade: {
-        files: {
-          'build/css/ade-search.css': 'build/sass/ade_main.scss'
         },
         options: sassConf
       },
@@ -412,12 +370,11 @@ module.exports = function (grunt) {
       }
     },
 
-    scsslint: {
-      all: runFiles.scsslint,
+    sasslint: {
       options: {
-        bundleExec: true,
-        config: 'config/scss-lint.yml'
-      }
+        configFile: 'config/sass-lint.yml'
+      },
+      target: runFiles.sasslint
     },
 
     shell: {
@@ -462,12 +419,8 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      'build-ade': {
-        files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
-        tasks: ['build:ade-dev']
-      },
       'build-nsidc': {
-        files: ['src/sass/**/*', 'src/templates/*.jade', 'Gruntfile.js'],
+        files: ['src/sass/**/*', 'src/templates/*.pug', 'Gruntfile.js'],
         tasks: ['build:nsidc-dev']
       },
       'sass': {
@@ -477,7 +430,7 @@ module.exports = function (grunt) {
       'lint-test': {
         files: Array.prototype.concat(
           watchFiles.jshint,
-          watchFiles.scsslint,
+          watchFiles.sasslint,
           watchFiles.specs
         ),
         tasks: ['lint-test']
@@ -486,9 +439,9 @@ module.exports = function (grunt) {
         files: watchFiles.jshint,
         tasks: ['jshint']
       },
-      scsslint: {
-        files: watchFiles.scsslint,
-        tasks: ['scsslint']
+      sasslint: {
+        files: watchFiles.sasslint,
+        tasks: ['sasslint']
       },
       specs: {
         files: watchFiles.specs,
@@ -501,36 +454,30 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-connect-proxy3');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-pug');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-sass-lint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-release');
-  grunt.loadNpmTasks('grunt-scss-lint');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-karma');
 
-  // build tasks for local development; note that both projects are built
-  //
-  // both build tasks allow NSIDC Search to be mounted at /data/search/ and
-  // ADE to be mounted at /acadis/search/ on your localhost
+  // build tasks for local development
+  // build tasks allow NSIDC Search to be mounted at /data/search/ on your localhost
   //
   // build:nsidc-dev allows NSIDC Search to be mounted at /
-  // build:ade-dev allows ADE to be mounted at /
-  grunt.registerTask('build:ade-dev', ['clean:dev', 'jade:nsidc-dev', 'jade:ade-dev', 'sass:dev']);
-  grunt.registerTask('build:nsidc-dev', ['clean:dev', 'jade:ade-dev', 'jade:nsidc-dev', 'sass:dev']);
+  grunt.registerTask('build:nsidc-dev', ['clean:dev', 'pug:nsidc-dev', 'sass:dev']);
 
   // build tasks for deployment
-  grunt.registerTask('build:ade', ['clean:build', 'requirejs:ade', 'shell:link_proj4js', 'jade:ade', 'sass:ade', 'clean:post-build']);
-  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'jade:nsidc', 'sass:nsidc', 'clean:post-build']);
-  grunt.registerTask('build:arctic-data-explorer', 'build:ade');
+  grunt.registerTask('build:nsidc', ['clean:build', 'requirejs:nsidc', 'shell:link_proj4js', 'pug:nsidc', 'sass:nsidc', 'clean:post-build']);
   grunt.registerTask('build:nsidc_search', 'build:nsidc');
 
-  grunt.registerTask('lint-test', ['scsslint', 'jshint', 'karma']);
+  grunt.registerTask('lint-test', ['sasslint', 'jshint', 'karma']);
   grunt.registerTask('serve-tests', 'connect:spec:keepalive');
   grunt.registerTask('server', 'connect:site');
 
@@ -542,7 +489,5 @@ module.exports = function (grunt) {
   grunt.registerTask('updateTag', 'shell:updateTag');
   grunt.registerTask('tagLatest', ['gitfetch:fetchTags', 'gittag:deleteLatest', 'gitpush:pushLatest', 'gittag:addLatest', 'gitpush:pushLatest']);
   grunt.registerTask('default', ['lint-test']);
-
-
   grunt.registerTask('jasmine-server', ['jasmine:all:build', 'connect::keepalive']);
 };

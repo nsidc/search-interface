@@ -11,8 +11,6 @@ $header-font-size: 12px;
     font-size: $header-font-size;
 
     button {
-      @include border-radius();
-
       font-family: $default-font-family;
       margin: 0;
       vertical-align: baseline;
@@ -53,13 +51,15 @@ $header-font-size: 12px;
   }
 
   // lining up the bootstrap dropdowns with the buttons that open them
-  .sort-results ul {
-    left: 44px;
+  .sort-results {
+    ul {
+      left: 44px;
+    }
   }
 
-  .results-per-page ul {
-    left: 56px;
+  .results-per-page {
+    ul {
+      left: 56px;
+    }
   }
-
-
 }

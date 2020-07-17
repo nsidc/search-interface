@@ -2,30 +2,10 @@
   @include opacity(.7);
 }
 
-a:hover,
-.dataset-title a:hover {
-  text-decoration: underline;
-}
-
-.spatial-row {
-  padding-bottom: 2px;
-}
-
-.spatial-coverage {
-  float: left;
-  padding: 0 10px 15px 0;
-}
-
-.spatial-coverage:hover:after {
-  top: 111px;
-}
-
-.temporal-results {
-  padding-bottom: 3px;
-}
-
-.temporal-results:last-child {
-  padding-bottom: 0;
+a {
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .dataset-title {
@@ -34,17 +14,46 @@ a:hover,
   a {
     font-size: 1.05em;
     text-decoration: none;
-  }
 
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
-.authoritative-id,
-.authoritative-id:visited {
+.spatial-coverage {
+  float: left;
+  padding: 0 10px 15px 0;
+
+  &:hover {
+    &:after {
+      top: 111px;
+    }
+  }
+}
+
+.temporal-results {
+  padding-bottom: 3px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.authoritative-id {
   color: rgb(100, 100, 100);
   float: left;
   font-size: 80%;
   margin: 15px 0 0;
   text-decoration: none;
+
+  &:visited {
+    color: rgb(100, 100, 100);
+    float: left;
+    font-size: 80%;
+    margin: 15px 0 0;
+    text-decoration: none;
+  }
 }
 
 .pipe-separated-value {
@@ -52,12 +61,12 @@ a:hover,
   float: left;
   margin-right: 6px;
   padding-right: 6px;
-}
 
-.pipe-separated-value:last-child {
-  border-right: 0;
-  margin: 0;
-  padding: 0;
+  &:last-child {
+    border-right: 0;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .section {

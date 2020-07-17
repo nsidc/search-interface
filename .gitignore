@@ -6,7 +6,6 @@ local_config.yaml
 *.iml
 .floo
 .sublime-project
-package-lock.json
 
 # /
 /build

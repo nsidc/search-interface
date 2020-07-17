@@ -1,23 +1,25 @@
 [![Build Status](https://travis-ci.org/nsidc/search-interface.svg)](https://travis-ci.org/nsidc/search-interface)
 
-# ADE Portal / NSIDC Search Portal
+# NSIDC Search Portal
 
-An Opensearch-based single page search interface
+Note: Arctic Data Explorer (ADE) has been decommissioned.
+
+An Opensearch-based single page search interface.
 
 ### OPS Configuration Information
 
-    The portal is a javascript app being served via nginx
-    (http://wiki.nginx.org/Main)
+The portal is a Javascript app being served via `nginx`
+(http://wiki.nginx.org/Main).
+Configuration files are located at `/etc/nginx`.
+The portal code is being served from `/opt/nsidc_search`, which is where
+the artifact deploys when the VM is provisioned.
 
-    nginx configuration files are located at /etc/nginx
-    nginx is running as a service, and can be stopped/started/etc using the
-    system "service" command, e.g., "service nginx restart"
+`nginx` is running as a service, and can be stopped/started/etc using the
+system `service` command, e.g., `service nginx restart`.
 
-    The portal code is being served from /usr/shar/nginx/portal/, which is where
-    the artifact deploys when the VM is provisioned.
 
-    nginx writes logfiles by default to /var/log/nginx, all logs should be in
-    this folder.
+`nginx` writes logfiles by default to `/var/log/nginx`; all logs should be in
+this folder.
 
 ### Prerequisites:
 

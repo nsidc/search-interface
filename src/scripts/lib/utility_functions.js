@@ -115,17 +115,6 @@ define(function () {
     return results;
   };
 
-  exports.normalizeDate = function (dateString) {
-    if (dateString && dateString.length && dateString.length > 0) {
-      dateString = exports.removeWhitespace(dateString);
-      // Accept only ISO formatted dates
-      if (moment(dateString).isValid()) {
-        return dateString.substr(0, 10);
-      }
-    }
-    return undefined;
-  };
-
   exports.osGeoBoxToNsewObj = function (osGeoBox) {
     var bboxArray, cardinals, coords = {};
 

@@ -1,3 +1,7 @@
+**NOTE**: The Arctic Data Explorer (ADE) has been decommissioned.
+Although there are still references to it throughout this project,
+they can be removed.
+ 
 ## Git workflow
 
 Development on this project uses
@@ -13,8 +17,8 @@ Development on this project uses
 
 ## NSIDC Continuous Integration
 
-NSIDC's project CI utilizes internal configuration found in the *.yaml, Vagrantfile
-and /puppet/*.   If you are utilizing this project external to NSIDC
+NSIDC's project CI utilizes internal configuration found in the `*.yaml` files, `Vagrantfile`
+and `/puppet/*`.   If you are utilizing this project external to NSIDC
 you can safely ignore those files and the remainder of this section.
 
 Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
@@ -32,7 +36,7 @@ If switching which project you are working on, take care that you are using the
 correct config file, and that the temp file `.nsidc-project.yaml` references the
 right project.
 
-Once that is setup, machines can be provisied as expected using the vagrant-nsidc
+Once that is setup, machines can be provisioned as expected using the vagrant-nsidc
 plugin.
 
 ## Grunt
@@ -50,13 +54,13 @@ that are useful:
 * `grunt watch:lint-test` will automatically run JSHint, scss-lint, and the
   Jasmine test suite whenever a JavaScript or Sass file is changed
 * `grunt watch:build-$PROJECT` automatically runs `grunt build:$PROJECT-dev`
-  whenever a Sass or Jade file is changed (`PROJECT` must be `ade` or
+  whenever a Sass or Pug  file is changed (`PROJECT` must be `ade` or
   `nsidc`)
 
 ## Build
 
 `grunt build:nsidc` and `grunt build:ade` will create a `build/` directory
-containing HTML and CSS files generated from Jade and Sass files, as well as a
+containing HTML and CSS files generated from Pug and Sass files, as well as a
 minified JavaScript file created by the
 [RequireJS Optimizer](http://requirejs.org/docs/optimization.html). Other files,
 such as external JavaScript libs and image files, are also copied to `build/` so
@@ -168,9 +172,6 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
   tool on the Sass files. It is configured by rules in `config/scss-lint.yml`
   (with additional rules that should be cleaned up in
   `config/scsslint-todo.yml`)
-* [Compass](http://compass-style.org/) is used to handle cross-browser CSS3
-  features with less code in the files we write.
-* Using Sass requires some gems which can be installed with `bundle install`.
 
 ## Unit tests
 
@@ -184,9 +185,7 @@ karma`. Test code is located in `spec/`, written in
 
 Note that running these tests locally may result in failure. If so, try running
 the unit tests in a browser (discussed below).  Make sure unit tests pass in the
-browser and in Travis CI before merging any code with master. Running headless
-unit tests have failed for local development starting after v1.11.0. Jasmine
-will probably need to be upgraded to v2.x before they work again.
+browser and in Travis CI before merging any code with master.
 
 It can helpful for debugging purposes to run the unit tests in a browser. To do
 so, follow these steps:
@@ -225,7 +224,7 @@ rubocop`. Settings can be found in `.rubocop.yml`.
 
 Our build server attempts to build the project with every revision, and it
 requires that linters and unit tests pass successfully. To protect yourself from
-the embarrasment of breaking the build, git hooks can be set up to run
+the embarrassment of breaking the build, git hooks can be set up to run
 everything on your local box before you push.
 
 Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
@@ -270,11 +269,35 @@ Replace the `src/contrib/bootstrap/` directory with the contents of the
 downloaded zip file. Be sure to update this list of components after each new
 download.
 
-## Releases/Changelog
+## Releases
 
 The version in `package.json` is updated automatically with the `grunt
 release:$part` task (where `$part` is `patch`, `minor`, or `major`). This task
 creates a git tag for the new version, and adds 2 new header lines to
 `CHANGELOG.md`, indicating the version number and the date it was
-released. Therefore, new changes should be documented at the top of CHANGELOG.md
-without a version header, since it will be added automatically later.
+released. Note that no `## Unreleased` place-holder line is necessary at the top of the
+`CHANGELOG.md` file. Simply add a description of changes at the beginning of `CHANGELOG.md`
+and the release version and date will be inserted when the version is `bump`-ed.
+
+## Other gotchas
+
+### Node "circular dependency" warnings
+When running some of the Grunt tasks, you may see some warning output like:
+
+    (node:29680) Warning: Accessing non-existent property 'cat' of module exports inside circular dependency
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    (node:29680) Warning: Accessing non-existent property 'cd' of module exports inside circular dependency
+    (node:29680) Warning: Accessing non-existent property 'chmod' of module exports inside circular dependency
+    (node:29680) Warning: Accessing non-existent property 'cp' of module exports inside circular dependency
+    
+This is apparently being emitted by the `shelljs` package in the Node 14+ context.
+To see more details and confirm the source set the `NODE_OPTIONS` environment variable
+to include `--trace-warnings`. For example:
+
+    NODE_OPTIONS="--trace-warnings" grunt test:unit
+    
+### Xvnc password failure in acceptance tests
+
+If acceptance tests are failing with a warning about an invalid Xvnc password,
+run `vncpasswd` on the machine running the tests and set a dummy password
+(password value doesn't matter).

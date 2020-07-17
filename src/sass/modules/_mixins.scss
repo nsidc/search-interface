@@ -1,0 +1,33 @@
+@mixin box-shadow($props) {
+  -moz-box-shadow: $props;
+  -webkit-box-shadow: $props;
+  box-shadow: $props;
+}
+
+@mixin border-radius($props) {
+  -moz-border-radius: $props;
+  -webkit-border-radius: $props;
+  border-radius: $props;
+}
+
+@mixin opacity($value) {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$value*100});
+  opacity: $value;
+}
+
+@mixin background-image-gradient($props) {
+  background-image: linear-gradient($props);
+  background-size: 100%;
+}
+
+@mixin inline-block {
+  display: inline-block;
+}
+
+@mixin user-select {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+

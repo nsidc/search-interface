@@ -1,24 +1,24 @@
 Before do
-  @url = ENV['URL'] || 'http://integration.nsidc.org/acadis/search'
+  @url = ENV['URL'] || 'http://integration.nsidc.org/data/search'
 end
 
 Given(/^I open the search page not expecting a home page$/) do
-  @search_page = AdeSearchPage.new(@url, @browser)
+  @search_page = SearchPage.new(@url, @browser)
   @search_page.wait_until_loading_is_complete
   @search_page.add_results_to_history
 end
 
 Given(/^I open the search page expecting a home page$/) do
-  @search_page = AdeSearchPage.new(@url, @browser)
+  @search_page = SearchPage.new(@url, @browser)
   @search_page.wait_until_home_page_is_visible
 end
 
 Then(/^there should be some search results$/) do
-  @search_page.results_count.should >= 1
+  expect(@search_page.results_count).to be >= 1
 end
 
 Then(/^all search results should have a title$/) do
-  @search_page.num_dataset_titles.should == @search_page.results_count
+  expect(@search_page.num_dataset_titles).to be @search_page.results_count
 end
 
 When(/^I search for "(.*?)"$/) do |search_term|
@@ -50,7 +50,7 @@ When(/^I click the next page button$/) do
 end
 
 Then(/^the page number should be "(.*?)"$/) do |page_number|
-  @search_page.current_page_number.should == page_number
+  expect(@search_page.current_page_number).to eq page_number
 end
 
 Then(/^I should see text containing "(.*?)"$/) do |home_text|
@@ -63,5 +63,5 @@ When(/I follow each link to a search faceted by data center/) do
 end
 
 Then(/I should get the correct number of results for each data center/) do
-  @search_page.actual_data_center_counts.should == @search_page.expected_data_center_counts
+  expect(@search_page.actual_data_center_counts).to eq @search_page.expected_data_center_counts
 end

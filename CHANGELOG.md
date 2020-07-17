@@ -1,6 +1,11 @@
-## 2.1.1 (2019-10-17)
+- Update node.js and Javascript package versions.
+- Switch from Jade to Pug for HTML templates (Jade was renamed).
+- Move to Javascript version of Sass (Ruby version is no longer being maintained).
+- Add package-lock.json to committed files.
+- Update Puppet configuration for CI VM.
+- Start to remove ADE-related files (Arctic Data Explorer has been decommissioned).
 
-## Unreleased
+## 2.1.1 (2019-10-17)
 
 - Updating RubyGems to latest version per security announcement
 

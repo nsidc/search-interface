@@ -21,18 +21,23 @@
 
   }
 
-  img.partner-logo {
-    border: 0;
-    margin-top: 0;
-    padding-right: 5px;
-    text-decoration: none;
+  img {
+    &.partner-logo {
+      border: 0;
+      margin-top: 0;
+      padding-right: 5px;
+      text-decoration: none;
+    }
   }
-
 }
 
-.data-set-details img.image-icon {
-  float: left;
-  margin-right: 15px;
+.data-set-details {
+  img {
+    &.image-icon {
+      float: left;
+      margin-right: 15px;
+    }
+  }
 }
 
 .loading-results-ajax {
@@ -56,14 +61,18 @@
   vertical-align: top;
   width: 190px;
 
-  #refine-search-container p,
-  #narrow-results-container p {
-    margin-bottom: 0;
-    margin-top: 0;
+  #refine-search-container,
+  #narrow-results-container {
+    p {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
   }
 
-  #refine-search-container .add-space-top {
-    margin-top: 10px;
+  #refine-search-container {
+    .add-space-top {
+      margin-top: 10px;
+    }
   }
 
   .spatial-coverage,
@@ -82,27 +91,31 @@
   text-align: center;
 }
 
-a.spatial-coverage,
-a.temporal-coverage {
-  cursor: pointer;
-  text-decoration: none;
+a {
+  &.spatial-coverage,
+  &.temporal-coverage {
+    cursor: pointer;
+    text-decoration: none;
+  }
 }
 
-span.term > .icon-remove-sign,
-span.spatial-coverage > .icon-remove-sign,
-span.temporal-coverage > .icon-remove-sign {
-  color: #808080;
-  font-size: 14px;
-  margin: 2px 0;
-  position: absolute;
-  right: 20px;
-}
+span {
+  &.term,
+  &.spatial-coverage,
+  &.temporal-coverage {
+    > .icon-remove-sign {
+      color: #808080;
+      font-size: 14px;
+      margin: 2px 0;
+      position: absolute;
+      right: 20px;
 
-span.term > .icon-remove-sign:hover,
-span.spatial-coverage > .icon-remove-sign:hover,
-span.temporal-coverage > .icon-remove-sign:hover {
-  color: #069;
-  cursor: pointer;
+      &:hover {
+        color: #069;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .results-header-summary {
@@ -123,18 +136,24 @@ span.temporal-coverage > .icon-remove-sign:hover {
   padding-bottom: 7px;
   width: 630px;
 
-  .more a.more-link {
-    background-image: url(img('arrow-down.png'));
-    background-position: right center;
-    background-repeat: no-repeat;
-    padding-right: 15px;
-    text-decoration: none;
+  .more {
+    a {
+      &.more-link {
+        background-image: url(img('arrow-down.png'));
+        background-position: right center;
+        background-repeat: no-repeat;
+        padding-right: 15px;
+        text-decoration: none;
+      }
+    }
   }
 
 }
 
-.summary a {
-  cursor: pointer;
+.summary {
+  a {
+    cursor: pointer;
+  }
 }
 
 .results-count-container {
@@ -149,36 +168,34 @@ span.temporal-coverage > .icon-remove-sign:hover {
     padding-bottom: 12px;
   }
 
-}
-
-.results-row:last-child {
-  padding-bottom: 0;
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 
 .spatial-row {
   padding-bottom: 2px;
-}
 
-.spatial-row:last-child {
-  padding-bottom: 0;
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 
 .spatial-value {
-  @include inline-block(none);
+  @include inline-block;
 }
 
 .temporal-results {
   padding-bottom: 3px;
-}
 
-.temporal-results:last-child {
-  padding-bottom: 0;
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 
 #sort-box {
   float: left;
   width: 250px;
-  // [disabled]margin-left: 30px;
 }
 
 #compare-container {
@@ -240,9 +257,11 @@ span.temporal-coverage > .icon-remove-sign:hover {
   margin-top: -21px;
 }
 
-#compare-btn a {
-  color: #fff;
-  text-decoration: none;
+#compare-btn {
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 }
 
 .leaflet-map-pane {
@@ -250,18 +269,23 @@ span.temporal-coverage > .icon-remove-sign:hover {
 }
 
 // spatial coverage popup
-.spatial-coverage.with-map-data:hover:after {
-  @include border-radius(5px);
-
-  background: rgba(0, 0, 0, .8);
-  color: #fff;
-  content: attr(data-bbox);
-  font-family: 'Lucida Console', Monospace;
-  padding: 5px 15px;
-  position: absolute;
-  white-space: pre;
-  width: 231px;
-  z-index: 9999;
+.spatial-coverage {
+  &.with-map-data {
+    &:hover {
+      &:after {
+        @include border-radius(5px);
+        background: rgba(0, 0, 0, .8);
+        color: #fff;
+        content: attr(data-bbox);
+        font-family: 'Lucida Console', Monospace;
+        padding: 5px 15px;
+        position: absolute;
+        white-space: pre;
+        width: 231px;
+        z-index: 9999;
+      }
+    }
+  }
 }
 
 .no-spatial-data-overlay {

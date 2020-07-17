@@ -1,6 +1,6 @@
 require 'watir'
 
-class AdeSearchPage
+class SearchPage
   attr_reader :expected_data_center_counts, :actual_data_center_counts
 
   def initialize(url, browser = nil)
@@ -17,12 +17,12 @@ class AdeSearchPage
   end
 
   def wait_until_home_page_is_visible
-    @browser.div(id: 'home-page').wait_until_present(@timeout)
+    @browser.div(id: 'home-page').wait_until(timeout: @timeout, &:present?)
   end
 
   def wait_until_loading_is_complete
     sleep 0.25
-    @browser.div(id: 'current-results').wait_until_present(@timeout)
+    @browser.div(id: 'current-results').wait_until(timeout: @timeout, &:present?)
   end
 
   def add_results_to_history
@@ -30,8 +30,8 @@ class AdeSearchPage
   end
 
   def search_for(term)
-    @browser.text_field(:id, 'keyword').set term
-    @browser.button(:id, 'search-now').click
+    @browser.text_field(id: 'keyword').set term
+    @browser.button(id: 'search-now').click
   end
 
   def wait_for_results
@@ -80,7 +80,7 @@ class AdeSearchPage
   end
 
   def click_next_page_button
-    @browser.a(:class, 'next').click
+    @browser.a(class: 'next').click
     wait_until_loading_is_complete
     @results_history.push AdeSearchResultsPage.new(@browser)
   end

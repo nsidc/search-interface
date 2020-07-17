@@ -14,14 +14,12 @@
   .add-on,
   .combo-box-drop-down {
     @include box-shadow($search-criteria-box-shadow);
-
     border: $search-criteria-input-border;
   }
 
   button {
-    @include border-radius();
+    @include border-radius(4px);
     @include box-shadow($search-criteria-box-shadow);
-
     cursor: pointer;
     height: 28px;
     text-align: center;
@@ -49,14 +47,13 @@
 
     // reset bounding box
     &.reset-coordinates {
-      @include background-image(none);
-      @include text-shadow(none);
-
       background: #fff;
+      background-image: none;
       color: #000;
       font-size: 11px;
       height: 22px;
       line-height: 0;
+      text-shadow: none;
       width: auto;
 
       &:hover {
@@ -69,7 +66,6 @@
 
   .spatial-trigger {
     @include box-shadow($search-criteria-box-shadow);
-
     float: left;
     height: 16px;
     padding: 5px;
@@ -84,10 +80,11 @@
       width: 16px;
     }
 
-    &:hover:before {
-      background-position: 0 -16px;
+    &:hover {
+      &:before {
+        background-position: 0 -16px;
+      }
     }
-
   }
 
 }
@@ -100,9 +97,8 @@
   width: $header-search-criteria-width;
 
   input {
+    @include border-radius(4px);
     @include box-shadow($search-criteria-box-shadow);
-    @include border-radius();
-
     border: $search-criteria-input-border;
     font-size: 1em;
     height: 26px;
@@ -110,7 +106,6 @@
 
     &.combo-box-input {
       @include border-radius($combo-box-input-border-radius);
-
       border-right: 0;
     }
 
@@ -156,7 +151,6 @@
 
   .add-on {
     @include border-radius($combo-box-drop-down-border-radius);
-
     border: $search-criteria-input-border;
     cursor: pointer;
     padding: 2px 10px 4px;
@@ -167,8 +161,8 @@
     &,
     &:hover,
     &:active {
-      @include inline-block(none);
-      @include user-select(none);
+      @include inline-block;
+      @include user-select;
 
       background: #f7f7f7;
       border: $search-criteria-input-border;
@@ -194,12 +188,16 @@
 
     }
 
-    &:hover:before {
-      background-position: 0 -16px;
+    &:hover {
+      &:before {
+        background-position: 0 -16px;
+      }
     }
 
-    &:active:before {
-      background-position: 0 0;
+    &:active {
+      &:before {
+        background-position: 0 0;
+      }
     }
 
   }
@@ -219,7 +217,6 @@
 
 .combo-box-drop-down {
   @include border-radius($combo-box-drop-down-border-radius);
-
   background: #f7f7f7;
   border: $search-criteria-input-border;
   border-left-color: #ddd;
@@ -262,9 +259,7 @@
   text-align: center;
 
   input {
-    @include border-radius();
     @include box-shadow(1px 2px 2px rgba(15, 38, 76, .3));
-
     border: 1px solid #ddd;
   }
 
@@ -279,8 +274,10 @@
 
 }
 
-.geospatialInputFieldsNsew .compassInput {
-  margin: 1.1em;
+.geospatialInputFieldsNsew {
+  .compassInput {
+    margin: 1.1em;
+  }
 }
 
 #northInput {
@@ -312,8 +309,10 @@
 }
 
 // Style the OpenLayers map
-.openlayers-map img {
-  margin: 0;
+.openlayers-map {
+  img {
+    margin: 0;
+  }
 }
 
 .olControlTransformFeatureActive {
@@ -330,36 +329,44 @@
 
 .olControlEditingToolbar > .olButton {
   -webkit-filter: #{'grayscale(0%)'};
-  filter: url("data:image/svg+xml;utf8, <svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+  filter: url('data:image/svg+xml;utf8, <svg xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"grayscale\"><feColorMatrix type=\"matrix\" values=\"1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\"/></filter></svg>#grayscale');
   float: left;
 }
 
 .olControlEditingToolbar > .disabled {
   @include opacity(.4);
-
   cursor: default;
 }
 
-div.olControlEditingToolbar {
-  left: 0;
-  right: initial;
-  top: 0;
+div {
+  &.olControlEditingToolbar {
+    left: 0;
+    right: initial;
+    top: 0;
+  }
+
+  &.olControlPanZoomBar {
+    top: 28px;
+  }
+
+  &.olControlMousePosition {
+    color: #ffa500;
+    font-family: Verdana;
+    font-size: 1em;
+  }
+
+  &.geospatialInputFieldsNsew {
+    margin: 0;
+    padding: 0;
+  }
 }
 
-div.olControlPanZoomBar {
-  top: 28px;
-}
-
-div.olControlMousePosition {
-  color: #ffa500;
-  font-family: Verdana;
-  font-size: 1em;
-}
-
-.geospatialInputFieldsCorners .compassInput {
-  margin-bottom: .24em;
-  margin-left: .18em;
-  width: 75px;
+.geospatialInputFieldsCorners {
+  .compassInput {
+    margin-bottom: .24em;
+    margin-left: .18em;
+    width: 75px;
+  }
 }
 
 .upperLeftCoordinate {
@@ -390,8 +397,6 @@ div.olControlMousePosition {
 
 #compass-container {
   @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
-  @include border-radius();
-
   background: #fff;
   border: 1px solid #ccc;
   clear: left;
@@ -407,13 +412,10 @@ div.olControlMousePosition {
 
 }
 
-div.geospatialInputFieldsNsew {
-  margin: 0;
-  padding: 0;
-}
-
-#spatialInput_nsew input {
-  width: 90px;
+#spatialInput_nsew {
+  input {
+    width: 90px;
+  }
 }
 
 // auto-suggest dropdown
@@ -421,7 +423,6 @@ $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
 .tt-dropdown-menu {
   @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
-
   background: #fff;
   border: 1px solid rgba(0, 0, 0, .2);
   padding-left: 10px;
