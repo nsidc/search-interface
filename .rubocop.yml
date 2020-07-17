@@ -7,16 +7,13 @@ AllCops:
   - ./node_modules/**/*
   - ./vendor/**/*
 
-Layout/LineLength:
-  Max: 100
-
-Style/Documentation:
-  Enabled: false
-
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: false
+Layout/LineLength:
+  Max: 100
 Layout/SpaceAroundMethodCallOperator:
   Enabled: false
+
 Lint/DeprecatedOpenSSLConstant:
   Enabled: false
 Lint/MixedRegexpCaptureTypes:
@@ -25,9 +22,12 @@ Lint/RaiseException:
   Enabled: false
 Lint/StructNewOverride:
   Enabled: false
+
 Style/AccessorGrouping:
   Enabled: false
 Style/BisectedAttrAccessor:
+  Enabled: false
+Style/Documentation:
   Enabled: false
 Style/ExponentialNotation:
   Enabled: false

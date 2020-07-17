@@ -3,9 +3,9 @@ class AdeSearchResultsPage
               :current_page_number, :titles, :num_dataset_titles
 
   def initialize(browser)
-    @total_num_results = Integer(browser.span(:class, 'total-results-count').text.split.first)
+    @total_num_results = Integer(browser.span(class: 'total-results-count').text.split.first)
     @results_on_page = browser.elements(class: 'result-item').size
-    @current_page_number = browser.a(:class, 'current-page').text.split.first || '1'
+    @current_page_number = browser.a(class: 'current-page').text.split.first || '1'
 
     @results = browser.elements(class: 'result-item').map do |result_item|
       SearchResultItem.new(result_item)
