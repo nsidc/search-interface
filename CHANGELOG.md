@@ -1,3 +1,5 @@
+## 3.0.0 (2020-07-17)
+
 - Update node.js and Javascript package versions.
 - Switch from Jade to Pug for HTML templates (Jade was renamed).
 - Move to Javascript version of Sass (Ruby version is no longer being maintained).
