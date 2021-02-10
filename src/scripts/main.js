@@ -6,11 +6,6 @@ requirejs.config({
     text: '../vendor/requirejs/text',
     templates: '../templates/underscore',
   },
-  shim: {
-    'vendor/debug': {
-      exports: 'debug'
-    }
-  },
 });
 
 require([
@@ -25,11 +20,11 @@ require([
   // bootstrap the object factory
   objectFactory.setConfig(iocConfig);
 
-  require(['lib/AdeSearchApp'], function (AdeSearchApp) {
+  require(['lib/SearchApp'], function (SearchApp) {
     // Start up the app...
     var appOptions = {
       el: $('#main-content')
     };
-    new AdeSearchApp(appOptions, appConfig);
+    new SearchApp(appOptions, appConfig);
   });
 });

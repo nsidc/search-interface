@@ -2,7 +2,8 @@ forge 'https://forgeapi.puppetlabs.com'
 
 # Module for access to NSIDC Enterprise storage
 mod 'nsidc/nsidc_nfs',
-  :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git'
+  :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git',
+  :ref => 'latest'
 
 # Module for creating NSIDC Jenkins servers
 mod "nsidc/nsidc_jenkins",
@@ -11,9 +12,11 @@ mod "nsidc/nsidc_jenkins",
 
 # Module for webserver (nginx) install
 mod "nsidc/puppet-nginx",
-    :git => 'https://github.com/nsidc/puppet-nginx'
+  :git => 'https://github.com/nsidc/puppet-nginx'
+
+# Module for installing packages from apt
+mod 'puppetlabs/apt', "< 2.0.0"
 
 mod 'puppetlabs/concat', '1.2.3'
 mod 'p0deje/firefox'
-mod 'puppetlabs/apt', '< 2.0.0'
 mod 'willdurand/nodejs', '2.1.1'

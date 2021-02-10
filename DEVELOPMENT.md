@@ -289,13 +289,13 @@ When running some of the Grunt tasks, you may see some warning output like:
     (node:29680) Warning: Accessing non-existent property 'cd' of module exports inside circular dependency
     (node:29680) Warning: Accessing non-existent property 'chmod' of module exports inside circular dependency
     (node:29680) Warning: Accessing non-existent property 'cp' of module exports inside circular dependency
-    
+
 This is apparently being emitted by the `shelljs` package in the Node 14+ context.
 To see more details and confirm the source set the `NODE_OPTIONS` environment variable
 to include `--trace-warnings`. For example:
 
     NODE_OPTIONS="--trace-warnings" grunt test:unit
-    
+
 ### Xvnc password failure in acceptance tests
 
 If acceptance tests are failing with a warning about an invalid Xvnc password,
