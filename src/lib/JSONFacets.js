@@ -1,25 +1,27 @@
-define([], function () {
+/* jshint esversion: 6 */
 
-  var JSONFacets = function (init) {
-    var facets = init.facets;
+import _ from 'underscore';
 
-    this.getFacets = function () {
-      return facets;
-    };
+class JSONFacets {
+    constructor(init) {
+        this.facets = init.facets;
+    }
 
-    this.getFacet = function (id) {
-      return _.find(facets, function (facet) {
-        return facet.id === id;
-      });
-    };
+    getFacets() {
+        return this.facets;
+    }
 
-    this.findFacetValue = function (facetCategory, name) {
-      return _.find(facetCategory.values, function (value) {
-        return value.fullName === name;
-      });
-    };
+    getFacet(id) {
+        return _.find(this.facets, function (facet) {
+            return facet.id === id;
+        });
+    }
 
-  };
+    findFacetValue(facetCategory, name) {
+        return _.find(facetCategory.values, function (value) {
+            return value.fullName === name;
+        });
+    }
+}
 
-  return JSONFacets;
-});
+export default JSONFacets;

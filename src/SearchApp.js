@@ -5,9 +5,11 @@ import _ from 'underscore';
 import * as config from './config/appConfig';
 import BaseView from './views/BaseView';
 import {fromEncodedString} from './lib/SearchTerms';
+import FacetsCollection from './collections/FacetsCollection';
+import OpenSearchProvider from './lib/OpenSearchProvider';
 import SearchParamsModel from './models/SearchParamsModel';
+import SearchResultsCollection from './collections/SearchResultsCollection';
 // import criteriaAppender from './lib/criteriaAppender';
-//import objectFactory from './scripts/lib/objectFactory';
 
 class SearchApp extends Backbone.Router {
     preinitialize() {
@@ -67,10 +69,19 @@ class SearchApp extends Backbone.Router {
         // routing should happen to the routeHandlerProperties object.
         //this.route('*path', 'doRoute');
 
-        // this.openSearchProvider = objectFactory.createInstance('OpenSearchProvider');
-        // this.searchParamsModel = objectFactory.createInstance('SearchParamsModel');
-        // this.searchResults = objectFactory.createInstance('SearchResultsCollection', {provider: this.openSearchProvider});
-        // this.facets = objectFactory.createInstance('FacetsCollection', {provider: this.openSearchProvider});
+        this.openSearchProvider = new OpenSearchProvider({ mediator: this.mediator });
+        this.searchParamsModel = new SearchParamsModel({
+            mediator: this.mediator,
+            openSearchOptions: this.openSearchOptions
+        });
+        this.searchResults = new SearchResultsCollection({
+            mediator: this.mediator,
+            provider: this.openSearchProvider
+        });
+        this.facets = new FacetsCollection({
+            mediator: this.mediator,
+            provider: this.openSearchProvider
+        });
 
         if(params.el === 'undefined') {
             throw new Error('el is a required parameter of the SearchApp');

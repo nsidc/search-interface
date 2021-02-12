@@ -80,7 +80,8 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        loader: 'url-loader',
+        options: {}
       }
     ],
   },

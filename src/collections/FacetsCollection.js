@@ -1,54 +1,52 @@
-define([
-  'lib/mediator_mixin',
-  'models/FacetModel'
-],
-       function (
-         mediatorMixin,
-         FacetModel
-       ) {
+/* jshint esversion: 6 */
 
-  var FacetsCollection = Backbone.Collection.extend({
+import * as Backbone from 'backbone';
+import _ from 'underscore';
+//import FacetModel from '../models/FacetModel';
 
-    model: FacetModel,
+class FacetsCollection extends Backbone.Collection {
 
-    initialize: function (options) {
+    //model: FacetModel,
+
+    initialize(options) {
       if (options !== undefined) {
+          this.mediator = options.mediator;
         this.osDefaultParameters = options.osDefaultParameters;
         this.facets = options.facets;
         this.facetsEnabled = options.facetsEnabled;
         this.provider = options.provider;
       }
 
-      this.bindEvents();
-    },
+      this.bindEvents(this.mediator);
+    }
 
-    bindEvents: function () {
-      this.mediatorBind('search:initiated', this.onSearchInitiated, this);
-      this.mediatorBind('search:refinedSearch', this.onRefinedSearch, this);
-      this.mediatorBind('search:datacentersOnly', this.onDatacentersOnly, this);
-      this.mediatorBind('search:urlParams', this.onSearchUrlParams, this);
-    },
+    bindEvents() {
+      this.mediator.on('search:initiated', this.onSearchInitiated, this);
+      this.mediator.on('search:refinedSearch', this.onRefinedSearch, this);
+      this.mediator.on('search:datacentersOnly', this.onDatacentersOnly, this);
+      this.mediator.on('search:urlParams', this.onSearchUrlParams, this);
+    }
 
-    onSearchInitiated: function (model) {
+    onSearchInitiated(model) {
       this.performFacetSearch(model, this.onSearchInitiatedFacetsData);
-    },
+    }
 
-    onRefinedSearch: function (model) {
+    onRefinedSearch(model) {
       this.performFacetSearch(model, this.onRefinedSearchFacetsData);
-    },
+    }
 
-    onDatacentersOnly: function (model) {
+    onDatacentersOnly(model) {
       this.performFacetSearch(model, this.onDatacentersOnlyFacetsData);
-    },
+    }
 
-    onSearchUrlParams: function (model, facetFilters) {
+    onSearchUrlParams(model, facetFilters) {
       this.performFacetSearch(model, function (json) {
         this.onUrlParamsFacetsData(json, model, facetFilters);
       });
-    },
+    }
 
-    performFacetSearch: function (model, successMethod) {
-      var startPage, itemsPerPage;
+    performFacetSearch(model, successMethod) {
+      let startPage, itemsPerPage;
 
       if (!this.facetsEnabled) {
         return;
@@ -79,22 +77,22 @@ define([
         success: _.bind(successMethod, this),
         error : _.bind(this.onErrorResponse, this)
       });
-    },
+    }
 
-    getFacets: function () {
+    getFacets() {
       return this.facets;
-    },
+    }
 
-    onSearchInitiatedFacetsData: function (json) {
+    onSearchInitiatedFacetsData(json) {
       this.reset(json.getFacets());
 
       if (this.countFacetValues(json.getFacets()) > 0) {
         this.mediatorTrigger('search:facetsReturned');
       }
-    },
+    }
 
-    onRefinedSearchFacetsData: function (json) {
-      var newFacetData, newFacetValue;
+    onRefinedSearchFacetsData(json) {
+      let newFacetData, newFacetValue;
 
       this.forEach(function (facetCategory) {
         newFacetData = json.getFacet(facetCategory.id);
@@ -108,13 +106,13 @@ define([
         });
       });
       this.mediatorTrigger('search:facetsRefined');
-    },
+    }
 
-    onDatacentersOnlyFacetsData: function (json) {
+    onDatacentersOnlyFacetsData(json) {
       this.mediatorTrigger('search:datacentersReturned', json.getFacet('facet_data_center'));
-    },
+    }
 
-    onUrlParamsFacetsData: function (json, model, facetFilters) {
+    onUrlParamsFacetsData(json, model, facetFilters) {
       this.reset(json.getFacets());
       model.setFacetFilters(facetFilters);
       if (this.countFacetValues(json.getFacets()) > 0) {
@@ -123,25 +121,25 @@ define([
       }
       else {
         // Possible that data could come back with no facets.
-        // Instead of spinning the loading symbol forever, 
+        // Instead of spinning the loading symbol forever,
         // go through normal search event workflow
         this.mediatorTrigger('search:initiated', model);
       }
-    },
+    }
 
-    onErrorResponse: function (errorXHR) {
+    onErrorResponse(errorXHR) {
       if (errorXHR.statusText !== 'abort') {
         this.reset();
         this.mediatorTrigger('search:error');
       }
-    },
+    }
 
-    countCaps: function (str) {
+    countCaps(str) {
       return str.replace(/[^A-Z]/g, '').length;
-    },
+    }
 
-    countFacetValues: function (facets) {
-      var numValues = 0;
+    countFacetValues(facets) {
+      let numValues = 0;
 
       _.each(facets, function (facet) {
         _.each(facet.values, function (value) {
@@ -152,10 +150,6 @@ define([
       return numValues;
     }
 
-  });
+}
 
-  // Mix in the mediator behaviour
-  _.extend(FacetsCollection.prototype, mediatorMixin);
-
-  return FacetsCollection;
-});
+export default FacetsCollection;

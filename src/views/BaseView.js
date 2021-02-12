@@ -67,8 +67,8 @@ class BaseView extends Backbone.View {
         this.$el.html(this.mainLayout());
 
         this.headerView = new HeaderView({
-            //     searchParamsModel: this.options.searchParamsModel,
-            //     searchResultsCollection: this.options.searchResultsCollection,
+            searchParamsModel: this.options.searchParamsModel(this.mediator),
+            searchResultsCollection: this.options.searchResultsCollection,
             //     facetsCollection: this.options.facetsCollection
             el: this.$el.find('.search-header'),
             config: this.options.config,

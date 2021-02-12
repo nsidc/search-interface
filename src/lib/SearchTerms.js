@@ -1,11 +1,13 @@
 /* jshint esversion: 6 */
 
-//define(['lib/searchTermsTokenizer'], function (tokenizer) {
+import SearchTermsTokenizer from './searchTermsTokenizer';
 
 class SearchTerms {
     // Constructor for a SearchTerms. Param:
     // * terms - an array of search terms
     constructor(terms) {
+        this.tokenizer = new SearchTermsTokenizer();
+
         if(terms === '' || terms === undefined) {
             terms = [];
         }
@@ -40,23 +42,21 @@ class SearchTerms {
     formEncode() {
         return this.urlEncode().replace(/%20/g, '+');
     }
+
+    // Creates a new SearchTerms instance from the type of string that a user would enter
+    tokenizeInputString() {
+        return this.tokenizer.tokenize(this.terms);
+    }
+
+    fromInputString() {
+        return this.tokenizeInputString(this.terms);
+    }
 }
 
 // TODO [IT, 2013-05-013]: This has no unit tests
 export function fromEncodedString(encodedTermsString) {
-    var termsString = decodeURIComponent(encodedTermsString.replace(/\+/g, '%20'));
-    return SearchTerms.fromInputString(termsString);
-}
-
-// Creates a new SearchTerms instance from the type of string that a user would enter
-// TODO update tokenizer code
-export function fromInputString(termsString) {
-    //return new SearchTerms(SearchTerms.tokenizeInputString(termsString));
-}
-
-// TODO update tokenizer code
-function tokenizeInputString(termsString) {
-    // return tokenizer.tokenize(termsString);
+    let termsString = decodeURIComponent(encodedTermsString.replace(/\+/g, '%20'));
+    return new SearchTerms(termsString).fromInputString();
 }
 
 export default SearchTerms;

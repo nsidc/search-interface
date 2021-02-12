@@ -2,13 +2,12 @@
 
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import { openSearchOptions } from '../config/appConfig';
 import * as utilityFunctions from '../lib/utility_functions';
 
 class SearchParamsModel extends Backbone.Model {
     initialize(options) {
         this.mediator = options.mediator;
-        this.openSearchOptions = openSearchOptions;
+        this.openSearchOptions = options.openSearchOptions;
         this.setParamsFromDefaults();
         this.bindEvents();
     }

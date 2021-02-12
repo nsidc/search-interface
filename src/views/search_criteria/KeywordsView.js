@@ -5,14 +5,6 @@ import InputViewBase from '../InputViewBase';
 import SearchTerms from '../../lib/SearchTerms';
 import viewTemplate from '../../templates/search_criteria/keywords.html';
 
-// define(
-//   ['lib/SearchTerms',
-//    'views/InputViewBase',
-//    'lib/mediator_mixin',
-//    'text!templates/search_criteria/keywords.html'],
-//   function (SearchTerms, InputViewBase, mediatorMixin, keywordsTemplate) {
-//     var KeywordsView;
-
 class KeywordsView extends InputViewBase {
     initialize(options) {
         this.mediator = options.mediator;
@@ -27,7 +19,7 @@ class KeywordsView extends InputViewBase {
     }
 
     getSearchTermArrayFromInput() {
-        return new SearchTerms.fromInputString(this.getInputField('keyword')).asArray();
+        return new SearchTerms(this.getInputField('keyword')).tokenizeInputString().asArray();
     }
 
     getKeywords() {

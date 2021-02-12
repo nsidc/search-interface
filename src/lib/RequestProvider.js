@@ -1,22 +1,22 @@
-define(['lib/mediator_mixin'], function (mediatorMixin) {
+/* jshint esversion: 6 */
 
-  var RequestProvider = function () {
+class RequestProvider {
 
-    var currentRequest;
+    initialize() {
+        this.currentRequest = null;
+    }
 
-    this.holdRequest = function (xhr) {
-      currentRequest = xhr;
-    };
+    holdRequest(xhr) {
+      this.currentRequest = xhr;
+    }
 
-    this.abortSearchRequests = function () {
+    abortSearchRequests() {
       // abort function with check readystate
-      if (currentRequest && currentRequest.readystate !== 4) {
-        currentRequest.abort();
-        currentRequest = null;
+      if (this.currentRequest && this.currentRequest.readystate !== 4) {
+        this.currentRequest.abort();
+        this.currentRequest = null;
       }
-    };
-  };
+    }
+}
 
-  _.extend(RequestProvider.prototype, mediatorMixin);
-  return RequestProvider;
-});
+export default RequestProvider;

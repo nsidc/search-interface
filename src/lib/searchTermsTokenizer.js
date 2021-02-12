@@ -1,22 +1,25 @@
-define([], function () {
-  var tokenizer = {};
+/* jshint esversion: 6 */
 
-  tokenizer.tokenize = function (termsString) {
-    var terms = tokenizer.tokenizeSearchTermsOrPhrases(termsString);
+import _ from 'underscore';
+
+class SearchTermsTokenizer {
+
+  tokenize(termsString) {
+    let terms = this.tokenizeSearchTermsOrPhrases(termsString);
 
     // In the case of no matches at all, just bail early
     if (!terms) {
       return '';
     }
 
-    terms = tokenizer.splitSearchTermsWithSpecialChars(terms);
-    terms = tokenizer.trimSearchTerms(terms);
+    terms = this.splitSearchTermsWithSpecialChars(terms);
+    terms = this.trimSearchTerms(terms);
 
     return terms.length > 0 ? terms : '';
-  };
+  }
 
-  tokenizer.tokenizeSearchTermsOrPhrases = function (termsString) {
-    var results = [];
+  tokenizeSearchTermsOrPhrases(termsString) {
+    let results = [];
     XRegExp.forEach(
       termsString,
       new XRegExp('"[^"]*"|\\S+'),
@@ -25,10 +28,10 @@ define([], function () {
       }
     );
     return results;
-  };
+  }
 
   // certain chars in the middle of a word should split the word into two terms
-  tokenizer.splitSearchTermsWithSpecialChars = function (termsArray) {
+  splitSearchTermsWithSpecialChars(termsArray) {
     return _.reduce(
       termsArray,
       function (memo, term) {
@@ -39,10 +42,10 @@ define([], function () {
             return innerMemo;
           }, memo);
       }, []);
-  };
+  }
 
   // trim and remove quotes, and leading and trailing special chars
-  tokenizer.trimSearchTerms = function (termsArray) {
+  trimSearchTerms(termsArray) {
     return _.chain(termsArray)
       .map(function (term) {
         return $.trim(term)
@@ -52,7 +55,7 @@ define([], function () {
       })
       .filter(function (term) { return term.length > 1; })            // remove terms of just 1 char
       .value();
-  };
+  }
+}
 
-  return tokenizer;
-});
+export default SearchTermsTokenizer;

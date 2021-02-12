@@ -1,13 +1,17 @@
-define(['lib/mediator_mixin', 'lib/utility_functions'],
-       function (mediatorMixin, utilityFunctions) {
+/* jshint esversion: 6 */
 
-  var SearchResultsCollection = Backbone.Collection.extend({
+import * as Backbone from 'backbone';
+import _ from 'underscore';
+import * as utilityFunctions from '../lib/utility_functions';
 
-    initialize: function (options) {
+class SearchResultsCollection extends Backbone.Collection {
+
+    initialize(options) {
       if (options && options.osDefaultParameters && (! options.osDefaultParameters.osdd)) {
         throw new Error('undefined OSDD URL value in configuration');
       }
       if (options !== undefined) {
+          this.mediator = options.mediator;
         this.provider = options.provider;
         this.osDefaultParameters = options.osDefaultParameters;
         this.keyword = '';
@@ -16,23 +20,23 @@ define(['lib/mediator_mixin', 'lib/utility_functions'],
         this.geoBoundingBox = options.geoBoundingBox;
       }
 
-      this.bindEvents();
-    },
+      this.bindEvents(this.mediator);
+    }
 
-    bindEvents: function () {
-      this.mediatorBind('search:initiated', this.onSearchInitiated, this);
-      this.mediatorBind('search:refinedSearch', this.onRefinedSearch, this);
-    },
+    bindEvents() {
+      this.mediator.on('search:initiated', this.onSearchInitiated, this);
+      this.mediator.on('search:refinedSearch', this.onRefinedSearch, this);
+    }
 
-    onSearchInitiated: function (model) {
+    onSearchInitiated(model) {
       this.performSearch(model, this.onSearchInitiatedSuccess);
-    },
+    }
 
-    onRefinedSearch: function (model) {
+    onRefinedSearch(model) {
       this.performSearch(model, this.onSearchRefinedSuccess);
-    },
+    }
 
-    performSearch: function (model, successMethod) {
+    performSearch(model, successMethod) {
       var startPage = model.get('pageNumber'),
         itemsPerPage = model.get('itemsPerPage');
 
@@ -59,85 +63,85 @@ define(['lib/mediator_mixin', 'lib/utility_functions'],
         success: _.bind(successMethod, this),
         error : _.bind(this.onErrorResponse, this)
       });
-    },
+    }
 
-    getGeoBoundingBox: function () {
+    getGeoBoundingBox() {
       return this.geoBoundingBox || '';
-    },
+    }
 
     // Return the geo bounding box as identifier for the URL
-    getOsGeoBbox: function () {
+    getOsGeoBbox() {
       return utilityFunctions.osGeoBoxToIdentifier(this.geoBoundingBox);
-    },
+    }
 
-    getNorth: function () {
+    getNorth() {
       var bboxArray, north;
 
       bboxArray = this.geoBoundingBox.split(',');
       north = parseFloat(bboxArray[3], 10);
 
       return north;
-    },
+    }
 
-    getSouth: function () {
+    getSouth() {
       var bboxArray = this.geoBoundingBox.split(','),
       south = parseFloat(bboxArray[1], 10);
 
       return south;
-    },
+    }
 
-    getEast: function () {
+    getEast() {
       var bboxArray = this.geoBoundingBox.split(','),
       east = parseFloat(bboxArray[2], 10);
 
       return east;
-    },
+    }
 
-    getWest: function () {
+    getWest() {
       var bboxArray = this.geoBoundingBox.split(','),
       west = parseFloat(bboxArray[0], 10);
 
       return west;
-    },
+    }
 
-    getItemsPerPage: function () {
+    getItemsPerPage() {
       return this.itemsPerPage;
-    },
+    }
 
-    getPageNumber: function () {
+    getPageNumber() {
       return this.pageNumber;
-    },
+    }
 
-    getLastPageNumber: function () {
+    getLastPageNumber() {
       return this.lastPage;
-    },
+    }
 
-    getTotalResultsCount: function () {
+    getTotalResultsCount() {
       return this.totalResultsCount;
-    },
+    }
 
     // prevent undefined keywords.
-    getKeyword: function () {
+    getKeyword() {
       return this.keyword || '';
-    },
+    }
 
-    getAuthor: function () {
+    getAuthor() {
       return this.author;
-    },
+    }
 
-    getParameter: function () {
+    getParameter() {
       return this.parameter;
-    },
+    }
 
-    getSensor: function () {
+    getSensor() {
       return this.sensor;
-    },
+    }
 
-    getTitle: function () {
+    getTitle() {
       return this.title;
-    },
+    }
 
-    getPopulatedTerms: function () {
+    getPopulatedTerms() {
       var termFields = {
         all:  this.getKeyword(),
         author: this.getAuthor(),
@@ -160,35 +164,35 @@ define(['lib/mediator_mixin', 'lib/utility_functions'],
       });
 
       return terms;
-    },
+    }
 
-    getStartDate: function () {
+    getStartDate() {
       return this.startDate || '';
-    },
+    }
 
-    getEndDate: function () {
+    getEndDate() {
       return this.endDate || '';
-    },
+    }
 
-    getSortKeys: function () {
+    getSortKeys() {
       return this.sortKeys || '';
-    },
+    }
 
-    getFacetFilters: function () {
+    getFacetFilters() {
       return this.facetFilters || {};
-    },
+    }
 
-    onSearchInitiatedSuccess: function (json) {
+    onSearchInitiatedSuccess(json) {
       this.onNewSearchResultData(json);
       this.mediatorTrigger('search:fullSearchComplete');
-    },
+    }
 
-    onSearchRefinedSuccess: function (json) {
+    onSearchRefinedSuccess (json) {
       this.onNewSearchResultData(json);
       this.mediatorTrigger('search:refinedSearchComplete');
-    },
+    }
 
-    onNewSearchResultData: function (json) {
+    onNewSearchResultData (json) {
       this.itemsPerPage = json.getItemsPerPage() || this.osDefaultParameters.osItemsPerPage;
       this.pageNumber = Math.floor(json.getCurrentIndex() / this.getItemsPerPage()) + 1;
       this.lastPage = Math.ceil(json.getTotalCount() / this.getItemsPerPage());
@@ -210,36 +214,32 @@ define(['lib/mediator_mixin', 'lib/utility_functions'],
       } else {
         this.mediatorTrigger('search:complete');
       }
-    },
+    }
 
-    onErrorResponse : function (errorXHR) {
+    onErrorResponse  (errorXHR) {
       if (errorXHR.statusText !== 'abort') {
         this.reset();
         this.mediatorTrigger('search:error');
       }
-    },
+    }
 
     // deprecated functions for retrieving parameters based on old URLs
 
-    getKeywords: function () {
+    getKeywords () {
       return this.getKeyword();
-    },
+    }
 
-    getP: function () {
+    getP () {
       return this.getPageNumber();
-    },
+    }
 
-    getBbox: function () {
+    getBbox () {
       return this.getOsGeoBbox();
-    },
+    }
 
-    getPsize: function () {
+    getPsize () {
       return this.getItemsPerPage();
     }
-  });
+}
 
-  // Mix in the mediator behaviour
-  _.extend(SearchResultsCollection.prototype, mediatorMixin);
-
-  return SearchResultsCollection;
-});
+export default SearchResultsCollection;
