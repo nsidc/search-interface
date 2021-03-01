@@ -24,7 +24,7 @@ define(['lib/mediator_mixin'], function (mediatorMixin) {
     },
 
     onSelectionDone : function (evt) {
-      this.mediatorTrigger('map:selectionDone', evt.feature.geometry);
+      this.mediator.trigger('map:selectionDone', evt.feature.geometry);
     }
   });
 

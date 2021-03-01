@@ -1,6 +1,21 @@
-/* jshint esversion: 6 */
+export const urls = {
+    development: {
+        openSearchHost: 'https://nsidc.org',
+        port: 80
+    },
+    integration: {
+        openSearchHost: 'https://integration.dss.apps.int.nsidc.org',
+        port: 10680
+    },
+    production: {
+        openSearchHost: 'https://nsidc.org/',
+        port: 80
+    },
+};
 
+// Values consistent across all environments
 export const openSearchOptions = {
+    osProvider: {},
     osdd: '/api/dataset/2/OpenSearchDescription',
     osSource: 'NSIDC',
     osStartIndex: 0,
@@ -16,7 +31,9 @@ export const openSearchOptions = {
     osDtStart: '',
     osDtEnd: '',
     osRequestHeaders: [{name: 'X-Requested-With', value: 'NSIDC'}],
+    osSearchContentType: 'application/atom+xml',
     osFacetFilters: {},
+    osFacetContentType: 'application/nsidc:facets+xml',
     osSortKeys: 'score,,desc'
 };
 
@@ -38,13 +55,6 @@ export const appConfig = {
             'updated,,desc': 'Last Updated (newest to oldest)'
         },
 
-        // map thumbnail in results
-        mapThumbnail: true,
-        mapThumbnailBounds: [[-90, -180], [90, 180]],
-        mapThumbnailShading: '/data/search/images/map/fill-pattern.png',
-        mapPixelSize: 160,
-        mapProjection: '4326',
-
         // facets
         facets: true,
         facetResetButton: true,
@@ -59,6 +69,7 @@ export const appConfig = {
 
         // auto-suggest settings
         autoSuggestEnabled: true,
+        autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
 
         // home page
         homePage: true,
@@ -77,10 +88,19 @@ export const appConfig = {
     },
 
     searchCriteriaView: {
-        searchButtonText: 'Search'
+        searchButtonText: 'Search',
     },
 
     spatialCoverageTextView: {
         spatialText: 'N:90, S:-90, E:180, W:-180'
+    },
+
+    // map thumbnail in results
+    spatialMetadataView: {
+        mapThumbnail: true,
+        mapThumbnailBounds: [[-90, -180], [90, 180]],
+        mapThumbnailShading: 'images/map/fill-pattern.png',
+        mapPixelSize: 160,
+        mapProjection: '4326'
     },
 };

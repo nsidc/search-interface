@@ -1,10 +1,7 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 import SearchCriteriaView from './search_criteria/SearchCriteriaView';
 import viewTemplate from '../templates/header.html';
-import SearchParamsModel from '../models/SearchParamsModel';
 
 class HeaderView extends Backbone.View {
     get events() {
@@ -20,9 +17,7 @@ class HeaderView extends Backbone.View {
     }
 
     render() {
-        let model = new SearchParamsModel({
-            mediator: this.mediator
-        });
+        let model = this.options.searchParamsModel;
         this.$el.html(_.template(viewTemplate));
         this.searchCriteriaView = new SearchCriteriaView({
             el: this.$el.find('#search-criteria'),
@@ -35,7 +30,7 @@ class HeaderView extends Backbone.View {
     }
 
     onClickLogo() {
-      this.mediatorTrigger('app:home');
+      this.mediator.trigger('app:home');
     }
 
 }

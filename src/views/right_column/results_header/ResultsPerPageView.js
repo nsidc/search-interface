@@ -1,41 +1,33 @@
-define(
-  [
-    'views/right_column/results_header/DropdownView',
-    'text!templates/right_column/results_header/results_per_page_label.html',
-  ], function (
-    DropdownView,
-    label
-  ) {
+import _ from 'underscore';
+import viewTemplate from '../../../templates/right_column/results_header/results_per_page_label.html';
+import DropdownView from './DropdownView';
 
-    var ResultsPerPageView;
+class ResultsPerPageView extends DropdownView {
+    get template() {
+        return _.template(viewTemplate);
+    }
 
-    ResultsPerPageView = DropdownView.extend({
-
-      template: _.template(label),
-
-      initialize : function (options) {
-        var resultsPerPage = options.features.resultsPerPage;
-
+    initialize(options) {
+        const resultsPerPage = options.config.features.itemsPerPage;
         this.updateParamsModel = this.model.setItemsPerPage;
         this.dropdownOptions = _.object(resultsPerPage, resultsPerPage);
-      },
+        this.mediator = options.mediator;
+    }
 
-      render: function () {
+    render() {
         DropdownView.prototype.render.call(this);
         this.$el.prepend(this.template());
 
         return this;
-      },
+    }
 
-      getButtonId: function () {
+    getButtonId() {
         return 'results-per-page';
-      },
+    }
 
-      getSelectedOption: function () {
+    getSelectedOption() {
         return this.collection.getItemsPerPage();
-      }
+    }
+}
 
-    });
-
-    return ResultsPerPageView;
-  });
+export default ResultsPerPageView;

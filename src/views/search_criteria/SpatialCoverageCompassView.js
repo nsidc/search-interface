@@ -1,6 +1,6 @@
-/* jshint esversion: 6 */
-
+import * as Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 import SpatialSelectionUtilities from '../../lib/spatial_selection_map/SpatialSelectionUtilities';
 import viewTemplate from '../../templates/search_criteria/compass.html';
 
@@ -253,12 +253,7 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     bboxErrorsInitialRender() {
-        let errorElements;
-
-        errorElements = this.$el.find('.bbox-error');
-
         this.hideAllBboxErrors();
-
     }
 
     getBboxErrorElementIDs(errorKey) {
@@ -299,10 +294,10 @@ class SpatialCoverageCompassView extends Backbone.View {
     hideAllBboxErrors() {
         let elements;
 
-        // _.each(errorList, function (value, key) {
-        //     elements = this.getBboxErrorElementIDs(key);
-        //     this.hideBboxErrorByIDpair(elements);
-        // }, this);
+        _.each(errorList, function (value, key) {
+            elements = this.getBboxErrorElementIDs(key);
+            this.hideBboxErrorByIDpair(elements);
+        }, this);
     }
 
     showBboxError(errorKey) {
@@ -387,12 +382,12 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     reset() {
-        this.mediatorTrigger('search:resetBoundingBox');
+        this.mediator.trigger('search:resetBoundingBox');
         this.clearSpatialSelection();
     }
 
     clearMap(projection) {
-        this.mediatorTrigger('map:reset', projection);
+        this.mediator.trigger('map:reset', projection);
     }
 
     toggleVisibility() {
@@ -415,7 +410,7 @@ class SpatialCoverageCompassView extends Backbone.View {
                 west -= 360;
             }
 
-            this.mediatorTrigger('map:changeGlobalCoords', north, west, south, east);
+            this.mediator.trigger('map:changeGlobalCoords', north, west, south, east);
         }
     }
 
@@ -435,7 +430,7 @@ class SpatialCoverageCompassView extends Backbone.View {
             lowerRightLon = parseFloat(this.lowerRightLon());
 
         if(this.validateUserInputCorners()) {
-            this.mediatorTrigger('map:changePolarCoords', upperLeftLat, upperLeftLon, lowerRightLat, lowerRightLon);
+            this.mediator.trigger('map:changePolarCoords', upperLeftLat, upperLeftLon, lowerRightLat, lowerRightLon);
         }
     }
 

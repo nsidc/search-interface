@@ -1,6 +1,5 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
+import XRegExp from 'xregexp';
 
 class SearchTermsTokenizer {
 

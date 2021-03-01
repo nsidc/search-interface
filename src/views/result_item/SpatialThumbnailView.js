@@ -1,17 +1,22 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// TODO: Do we need both projection images for nsidc search?
+// use require.context in webpack?
+// Or is "require" approach on line 119 good enough?
+//import img4326 from './../../images/map/map-projection-4326.png';
+//import img3857 from './../../images/map/map-projection-3857.png';
 
 // settings for all the drawn bounding boxes
 const bboxSettings = {
     clickable: false,
     fillOpacity: 0.3,
     color: '#ee9900' // rgb(238, 153, 0)
-  };
+};
 
-  // settings to effectively make the map a static image
+// settings to effectively make the map a static image
 const mapSettings = {
     dragging: false,
     touchZoom: false,
@@ -26,30 +31,31 @@ const mapSettings = {
     zoomControl: false,
     fadeAnimation: false,
     zoomAnimation: false
-  };
+};
 
-  // add a layer to the given array of layers based on the given bounding box
-  //
-  // if the given box crosses the dateline, 2 layers are added so that the box
-  // will be drawn properly
+// add a layer to the given array of layers based on the given bounding box
+//
+// if the given box crosses the dateline, 2 layers are added so that the box
+// will be drawn properly
 function addLayer(layers, box, options) {
-    var north = box.north, south = box.south, east = box.east, west = box.west;
+    const north = box.north, south = box.south, east = box.east, west = box.west;
 
-    if (east < west) {
-      layers.push(L.rectangle([[south, -180], [north, east]], options));
-      layers.push(L.rectangle([[south, west], [north, 180]], options));
-    } else {
-      layers.push(L.rectangle([[south, west], [north, east]], options));
+    if(east < west) {
+        layers.push(L.rectangle([[south, -180], [north, east]], options));
+        layers.push(L.rectangle([[south, west], [north, 180]], options));
     }
+    else {
+        layers.push(L.rectangle([[south, west], [north, east]], options));
+    }
+}
 
-  }
-
-  // takes a bounding box and returns how thick the border of the drawn bounding
-  // box should be, or its 'weight' in terms of the leaflet API
+// takes a bounding box and returns how thick the border of the drawn bounding
+// box should be, or its 'weight' in terms of the leaflet API
 function calculateWeight(box) {
-    var north = box.north, south = box.south, west = box.west, east = box.east,
-        height, width, weight = 2,
-        smallThreshold = 10,
+    const north = box.north, south = box.south, west = box.west;
+    let east = box.east;
+    let height, width, weight = 2;
+    const smallThreshold = 10,
         smallWeight = 7,
         thinThreshold = 25;
 
@@ -85,7 +91,7 @@ class SpatialThumbnailView extends Backbone.View {
     render() {
         let layers, map, divHeight = this.options.mapPixelSize;
 
-        if(this.options.mapProjection === '4326' || this.options.thumbnailBounds[0][0] === 0) {
+        if(this.options.mapProjection === '4326' || this.options.mapThumbnailBounds[0][0] === 0) {
             divHeight = divHeight / 2;
         }
 
@@ -112,7 +118,8 @@ class SpatialThumbnailView extends Backbone.View {
 
         layers = [];
 
-        layers.push(L.imageOverlay('/data/search/images/map/map-projection-' + this.options.mapProjection + '.png',
+        const img = require('./../../images/map/map-projection-' + this.options.mapProjection + '.png');
+        layers.push(L.imageOverlay(img.default,
             [[-90, -180], [90, 180]]));
 
         _.each(this.model.get('boundingBoxes'), function (bbox) {
@@ -142,7 +149,7 @@ class SpatialThumbnailView extends Backbone.View {
             crs: L.CRS.CustomZoom
         }, mapSettings));
 
-        map.fitBounds(this.options.thumbnailBounds);
+        map.fitBounds(this.options.mapThumbnailBounds);
 
         // for unknown reasons, the map is not initially drawn correctly, but
         // triggering the resize event seems to fix it

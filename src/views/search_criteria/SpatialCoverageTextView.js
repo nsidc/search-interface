@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import viewTemplate from '../../templates/search_criteria/spatial_coverage_text.html';
 

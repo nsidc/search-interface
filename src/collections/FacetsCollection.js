@@ -1,23 +1,21 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-//import FacetModel from '../models/FacetModel';
+import FacetModel from '../models/FacetModel';
 
 class FacetsCollection extends Backbone.Collection {
 
-    //model: FacetModel,
+    get model() {
+      return FacetModel;
+    }
 
     initialize(options) {
-      if (options !== undefined) {
-          this.mediator = options.mediator;
-        this.osDefaultParameters = options.osDefaultParameters;
-        this.facets = options.facets;
-        this.facetsEnabled = options.facetsEnabled;
-        this.provider = options.provider;
-      }
-
-      this.bindEvents(this.mediator);
+        if(options !== undefined) {
+            this.mediator = options.mediator;
+            this.osDefaultParameters = options.osDefaultParameters;
+            this.facetsEnabled = options.config.features.facets;
+            this.provider = options.provider;
+            this.bindEvents(this.mediator);
+        }
     }
 
     bindEvents() {
@@ -56,9 +54,8 @@ class FacetsCollection extends Backbone.Collection {
       itemsPerPage = model.get('itemsPerPage');
 
       this.provider.requestJSON({
-        contentType: 'application/nsidc:facets+xml',
+        contentType: this.osDefaultParameters.osFacetContentType,
         osParameters: {
-          osdd: this.osDefaultParameters.osdd,
           osSource: this.osDefaultParameters.osSource,
           osStartIndex: (startPage - 1) * itemsPerPage + 1,
           osItemsPerPage: itemsPerPage,
@@ -87,7 +84,7 @@ class FacetsCollection extends Backbone.Collection {
       this.reset(json.getFacets());
 
       if (this.countFacetValues(json.getFacets()) > 0) {
-        this.mediatorTrigger('search:facetsReturned');
+        this.mediator.trigger('search:facetsReturned');
       }
     }
 
@@ -105,32 +102,32 @@ class FacetsCollection extends Backbone.Collection {
           }
         });
       });
-      this.mediatorTrigger('search:facetsRefined');
+      this.mediator.trigger('search:facetsRefined');
     }
 
     onDatacentersOnlyFacetsData(json) {
-      this.mediatorTrigger('search:datacentersReturned', json.getFacet('facet_data_center'));
+      this.mediator.trigger('search:datacentersReturned', json.getFacet('facet_data_center'));
     }
 
     onUrlParamsFacetsData(json, model, facetFilters) {
       this.reset(json.getFacets());
       model.setFacetFilters(facetFilters);
       if (this.countFacetValues(json.getFacets()) > 0) {
-        this.mediatorTrigger('search:facetsReturned');
-        this.mediatorTrigger('search:refinedSearch', model);
+        this.mediator.trigger('search:facetsReturned');
+        this.mediator.trigger('search:refinedSearch', model);
       }
       else {
         // Possible that data could come back with no facets.
         // Instead of spinning the loading symbol forever,
         // go through normal search event workflow
-        this.mediatorTrigger('search:initiated', model);
+        this.mediator.trigger('search:initiated', model);
       }
     }
 
     onErrorResponse(errorXHR) {
       if (errorXHR.statusText !== 'abort') {
         this.reset();
-        this.mediatorTrigger('search:error');
+        this.mediator.trigger('search:error');
       }
     }
 

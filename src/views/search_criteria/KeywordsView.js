@@ -1,6 +1,6 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
+//import Bloodhound from 'typeahead.js/dist/bloodhound';
+import 'typeahead.js/dist/typeahead.bundle';
 import InputViewBase from '../InputViewBase';
 import SearchTerms from '../../lib/SearchTerms';
 import viewTemplate from '../../templates/search_criteria/keywords.html';
@@ -10,6 +10,7 @@ class KeywordsView extends InputViewBase {
         this.mediator = options.mediator;
         this.bindEvents(this.mediator);
         this.autoSuggestEnabled = options.autoSuggestEnabled;
+        this.autoSuggestPath = options.autoSuggestPath;
         this.source = options.source;
     }
 
@@ -19,7 +20,7 @@ class KeywordsView extends InputViewBase {
     }
 
     getSearchTermArrayFromInput() {
-        return new SearchTerms(this.getInputField('keyword')).tokenizeInputString().asArray();
+        return new SearchTerms(this.getInputField('keyword')).asArray();
     }
 
     getKeywords() {
@@ -64,7 +65,7 @@ class KeywordsView extends InputViewBase {
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             limit: 10,
             remote: {
-                url: '/api/dataset/2/suggest?q=%QUERY&source=' + this.source, // OpenSearch Suggestion url
+                url: this.autoSuggestPath + this.source, // OpenSearch Suggestion url
                 filter: this.parseOpenSearchSuggestions
             }
         });

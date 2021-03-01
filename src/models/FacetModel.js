@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 
@@ -10,12 +8,13 @@ class FacetModel extends Backbone.Model {
         _.each(values, function (param) {
             param.selected = false;
         });
-        this.bindEvents();
+        this.mediator = this.collection.mediator;
+        this.bindEvents(this.mediator);
     }
 
     bindEvents() {
-        this.mediatorBind('model:toggleFacet', this.toggleSelectedFacet, this);
-        this.mediatorBind('model:clearSelectedFacet', this.clearFacetSelected, this);
+        this.mediator.on('model:toggleFacet', this.toggleSelectedFacet, this);
+        this.mediator.on('model:clearSelectedFacet', this.clearFacetSelected, this);
     }
 
     clearFacetSelected(facet) {

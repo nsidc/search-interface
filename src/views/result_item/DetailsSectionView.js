@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import DetailsView from './DetailsView';
 import viewTemplate from '../../templates/result_item/details_section.html';

@@ -1,17 +1,15 @@
-/* jshint esversion: 6 */
-/* globals OpenSearchlight */
-
 import _ from 'underscore';
 import FacetsResponse from './FacetsResponse';
 import NsidcOpenSearchResponse from './NsidcOpenSearchResponse';
+import OpenSearchlight from 'OpenSearchlight/dist/OpenSearchlight-0.4.0';
 import SearchTerms from './SearchTerms';
+import {appConfig} from '../config/appConfig';
+import {openSearchOptions} from '../config/appConfig';
 
-class OpenSearchProvider {
+function OpenSearchProvider() {
 
-  initialize(options) {
-    this.currentRequest = null;
-    options.mediator.on('search:cancel', this.onSearchCancel, this);
-  }
+  // TODO: remove event handling from provider?
+  this.on('search:cancel', this.onSearchCancel, this);
 
   /** Request a JSON-formatted data of a feed from the provider.
    *  parameters:
@@ -23,8 +21,11 @@ class OpenSearchProvider {
    *  returns:
    *    - nothing
    */
-  requestJSON(options) {
-    let onSuccess = function (jqXhr) {
+   this.requestJSON = function(options) {
+     // TODO add port
+     options.osParameters.osdd = openSearchOptions.osProvider.openSearchHost + openSearchOptions.osdd;
+
+     let onSuccess = function (jqXhr) {
       OpenSearchProvider.prototype.successHandle(jqXhr, options);
     };
 
@@ -34,9 +35,9 @@ class OpenSearchProvider {
         options,
         onSuccess,
         options.error);
-  }
+  };
 
-  queryOpenSearch(options, successCallback, errorCallback) {
+  this.queryOpenSearch = function(options, successCallback, errorCallback) {
     let osParams = options.osParameters,
         st = new SearchTerms(osParams.osSearchTerms).urlEncode(),
         title = new SearchTerms(osParams.osTitle).urlEncode(),
@@ -79,31 +80,30 @@ class OpenSearchProvider {
       error: errorCallback,
       queryXhr: this.holdRequest
     });
-  }
+  };
 
-  onSearchCancel() {
+  this.onSearchCancel = function() {
     this.abortSearchRequests();
-  }
+  };
 
-  holdRequest(xhr) {
+  this.holdRequest = function(xhr) {
     this.currentRequest = xhr;
-  }
+  };
 
-  abortSearchRequests() {
+  this.abortSearchRequests = function() {
     // abort function with check readystate
     if(this.currentRequest && this.currentRequest.readystate !== 4) {
       this.currentRequest.abort();
       this.currentRequest = null;
     }
-  }
+  };
+}
 
-  successHandle(jqXhr, options) {
+OpenSearchProvider.prototype.successHandle = function(jqXhr, options) {
     let response;
 
-    this.mediatorTrigger('search:success');
-
     if(options.contentType.indexOf('facets') !== -1) {
-      response = new FacetsResponse();
+      response = new FacetsResponse(appConfig.features.facetNames);
     }
     else {
       response = new NsidcOpenSearchResponse();
@@ -114,8 +114,7 @@ class OpenSearchProvider {
             jqXhr.responseText,
             options.osParameters)
     );
-  }
+};
 
-}
 export default OpenSearchProvider;
 

@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import DataFormatView from './DataFormatView';
 import ParametersView from './ParametersView';
@@ -11,6 +9,10 @@ import viewTemplate from '../../templates/result_item/result_item.html';
 import _ from 'underscore';
 
 class ResultItemView extends Backbone.View {
+    get className() {
+        return 'result-item';
+    }
+
     initialize(options) {
         this.options = options;
     }
@@ -26,43 +28,39 @@ class ResultItemView extends Backbone.View {
             new SupportingProgramsView({
                 el: this.$el.find('.supporting-programs'),
                 model: this.model
-            });
+            }).render();
 
             new SpatialMetadataView({
                 el: this.$el.find('.spatial-coverage')[0],
+                config: this.options.config.spatialMetadataView,
                 model: this.model,
                 mapThumbnail: this.options.mapThumbnail,
-                thumbnailBounds: this.options.thumbnailBounds,
+                mapThumbnailBounds: this.options.mapThumbnailBounds,
                 mapThumbnailShading: this.options.mapThumbnailShading,
                 mapProjection: this.options.mapProjection,
                 mapPixelSize: this.options.mapPixelSize
-            });
-            // }).render();
+            }).render();
 
             new TemporalMetadataView({
                 el: this.$el.find('.temporal-coverage'),
                 model: this.model,
                 forceRender: true
-            });
-            // ).render();
+            }).render();
 
             new ParametersView({
                 el: this.$el.find('.parameters'),
                 model: this.model
-            });
-            // ).render();
+            }).render();
 
             new DataFormatView({
                 el: this.$el.find('.data-formats'),
                 model: this.model
-            });
-            // ).render();
+            }).render();
 
             new SummaryView({
                 el: this.$el.find('.summary'),
                 model: this.model
-            });
-            // ).render();
+            }).render();
         }
 
         return this;

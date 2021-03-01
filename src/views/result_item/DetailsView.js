@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 
 class DetailsView extends Backbone.View {

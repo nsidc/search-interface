@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import DetailsSectionView from './DetailsSectionView';
 import viewTemplate from '../../templates/result_item/summary.html';

@@ -1,23 +1,23 @@
-/* jshint esversion: 6 */
-
+import _ from 'underscore';
 import SearchTermsTokenizer from './searchTermsTokenizer';
 
 class SearchTerms {
     // Constructor for a SearchTerms. Param:
-    // * terms - an array of search terms
-    constructor(terms) {
+    // * inputString - an input string from the search form
+    constructor(inputString) {
         this.tokenizer = new SearchTermsTokenizer();
 
-        if(terms === '' || terms === undefined) {
-            terms = [];
+        if(inputString === '' || inputString === undefined) {
+            this.terms = [];
+        }
+        else {
+            this.terms = this.tokenizeInputString(inputString);
         }
 
-        if(terms instanceof Array === false) {
+        if(this.terms instanceof Array === false) {
             throw new TypeError('Must construct SearchTerms with an array of terms');
         }
-
-        this.terms = _(terms).clone();
-        this.length = terms.length;
+        this.length = this.terms.length;
     }
 
     count() {
@@ -44,19 +44,15 @@ class SearchTerms {
     }
 
     // Creates a new SearchTerms instance from the type of string that a user would enter
-    tokenizeInputString() {
-        return this.tokenizer.tokenize(this.terms);
-    }
-
-    fromInputString() {
-        return this.tokenizeInputString(this.terms);
+    tokenizeInputString(inputStr) {
+        return this.tokenizer.tokenize(inputStr);
     }
 }
 
 // TODO [IT, 2013-05-013]: This has no unit tests
 export function fromEncodedString(encodedTermsString) {
     let termsString = decodeURIComponent(encodedTermsString.replace(/\+/g, '%20'));
-    return new SearchTerms(termsString).fromInputString();
+    return new SearchTerms(termsString).asArray();
 }
 
 export default SearchTerms;

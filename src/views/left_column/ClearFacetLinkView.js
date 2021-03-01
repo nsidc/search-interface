@@ -1,7 +1,6 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 import viewTemplate from '../../templates/left_column/clear-facet-link.html';
 
 class ClearFacetLinkView extends Backbone.View {
@@ -12,20 +11,21 @@ class ClearFacetLinkView extends Backbone.View {
         };
     }
 
-    initialize() {
+    initialize(options) {
         this.facet = this.$el.find('ul').attr('id');
         this.element = this.$el;
         this.template = _.template(viewTemplate)({id: this.facet + '_clear_button'});
-        this.mediatorBind('facet:clearLinkTrigger', this.toggle, this);
+        this.mediator = options.mediator;
+        this.mediator.on('facet:clearLinkTrigger', this.toggle, this);
     }
 
     clearFacet() {
         _.each(this.$el.find(':input[type=checkbox]'), function (input) {
             $(input).attr('checked', false);
         });
-        this.mediatorTrigger('model:clearFacet', this.facet);
-        this.mediatorTrigger('model:clearSelectedFacet', this.facet);
-        this.mediatorTrigger('facet:sort');
+        this.mediator.trigger('model:clearFacet', this.facet);
+        this.mediator.trigger('model:clearSelectedFacet', this.facet);
+        this.mediator.trigger('facet:sort');
         this.toggle();
     }
 

@@ -1,9 +1,9 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../../templates/right_column/right_column.html';
 import ResultsHeaderView from './results_header/ResultsHeaderView';
+import ResultsFooterView from './results_footer/ResultsFooterView';
+import SearchResultsView from './SearchResultsView';
 
 class RightColumnView extends Backbone.View {
 
@@ -29,23 +29,27 @@ class RightColumnView extends Backbone.View {
     render() {
         this.$el.html(_.template(viewTemplate)());
 
-        this.resultsHeaderView = new ResultsHeaderView({
-            //   searchParamsModel: this.options.searchParamsModel,
-            //   searchResultsCollection: this.options.searchResultsCollection
+        new ResultsHeaderView({
+            config: this.options.config,
+            searchParamsModel: this.options.searchParamsModel,
+            searchResultsCollection: this.options.searchResultsCollection,
             el: this.$el.find('.results-header'),
             mediator: this.mediator
         }).render();
 
-        // objectFactory.createInstance('SearchResultsView',{
-        //   el : this.$el.find('#results')[0],
-        //   collection : this.options.searchResultsCollection
-        // });
-        //
-        // objectFactory.createInstance('ResultsFooterView',{
-        //   el: this.$el.find('.results-footer'),
-        //   searchParamsModel: this.options.searchParamsModel,
-        //   searchResultsCollection: this.options.searchResultsCollection
-        // }).render();
+        new SearchResultsView({
+            config: this.options.config,
+            el: this.$el.find('#results')[0],
+            collection: this.options.searchResultsCollection,
+            mediator: this.mediator
+        }).render();
+
+        new ResultsFooterView({
+            el: this.$el.find('.results-footer'),
+            searchParamsModel: this.options.searchParamsModel,
+            searchResultsCollection: this.options.searchResultsCollection,
+            mediator: this.mediator
+        }).render();
     }
 
     hide(id) {

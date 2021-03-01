@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../templates/home_page.html';
@@ -39,11 +37,11 @@ class HomeContentView extends Backbone.View {
     }
 
     onStartSearchingClicked() {
-      this.mediatorTrigger('search:initiated', this.model);
+      this.mediator.trigger('search:initiated', this.model);
     }
 
     onClickExampleTerm(event) {
-      this.mediatorTrigger('search:example', event.target.text);
+      this.mediator.trigger('search:example', event.target.text);
     }
 
     show() {

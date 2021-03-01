@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import FacetView from './FacetView';
@@ -16,10 +14,11 @@ class FacetsView extends Backbone.View {
 
     initialize(options) {
         this.options = options;
+        this.mediator = options.mediator;
     }
 
     collapse(event) {
-        var id = event.target.id,
+        const id = event.target.id,
             shownFacets = this.options.itemsPerFacet - 1;
 
         this.$('ul#' + id).children(':gt(' + shownFacets + ')').addClass('hidden');
@@ -37,14 +36,16 @@ class FacetsView extends Backbone.View {
     }
 
     render() {
+        const facetTemplate = _.template(viewTemplate);
         this.options.facetsCollection.each(function (facet, index) {
-            this.$el.append(_.template(viewTemplate))({id: facet.id});
+            this.$el.append(facetTemplate({id: facet.id}));
 
             if(this.options.searchParamsModel.get('facetFilters')) {
                 const facetFilters = this.options.searchParamsModel.get('facetFilters')[facet.id] || [];
 
                 new FacetView({
                     el: this.$('.facet').eq(index),
+                    mediator: this.mediator,
                     model: facet,
                     selectedFacets: facetFilters
                 }).render();

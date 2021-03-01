@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../templates/loading_results_view_overlay.html';
@@ -7,13 +5,12 @@ import viewTemplate from '../templates/loading_results_view_overlay.html';
 class LoadingResultsView extends Backbone.View {
 
       initialize(options) {
-        if (options !== undefined) {
-          this.facetsEnabled = options.facetsEnabled;
-        }
-        this.mediator = options.mediator;
-        this.bindEvents(this.mediator);
-        this.datasetsReturned = true;
-        this.facetsReturned = true;
+          if(options !== undefined) {
+              this.mediator = options.mediator;
+              this.bindEvents(this.mediator);
+          }
+          this.datasetsReturned = true;
+          this.facetsReturned = true;
       }
 
       bindEvents(mediator) {

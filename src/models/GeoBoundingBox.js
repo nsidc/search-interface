@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 import * as UtilityFunctions from '../lib/utility_functions';
@@ -10,7 +8,8 @@ import * as UtilityFunctions from '../lib/utility_functions';
 // * urlPart object - an object that has a urlPart property, formatted like 'N:90,S:45,E:180,W:-180'
 class GeoBoundingBox extends Backbone.Model {
 
-    initialize(cornerLocs) {
+    initialize(options) {
+        const cornerLocs = options.cornerLocs;
         if(cornerLocs === undefined) {
             this.set({
                 north: 90,
@@ -43,8 +42,7 @@ class GeoBoundingBox extends Backbone.Model {
         }
 
         this.setDefaults();
-
-        this.mediatorBind('search:resetBoundingBox', this.onResetBoundingBox, this);
+        options.mediator.on('search:resetBoundingBox', this.onResetBoundingBox, this);
     }
 
     setDefaults() {

@@ -1,23 +1,23 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import * as utilityFunctions from '../lib/utility_functions';
+import * as UtilityFunctions from '../lib/utility_functions';
 
 class SearchParamsModel extends Backbone.Model {
     initialize(options) {
         this.mediator = options.mediator;
         this.openSearchOptions = options.openSearchOptions;
+        this.set('pageNumber', 1);
+        this.set('itemsPerPage', this.openSearchOptions.osItemsPerPage);
         this.setParamsFromDefaults();
         this.bindEvents();
     }
 
-    // TODO: Is this method duplicated in utilityFunctions?
+    // TODO: Is this method duplicated in UtilityFunctions?
     // Ensures the input is convertible to an integer greater than 1, and throws
     // errors if it's not.
     // Returns an integer greater than zero
     sanitizePageNumber(input) {
-        input = utilityFunctions.toNumber(input, 'int',
+        input = UtilityFunctions.toNumber(input, 'int',
                            'Requested page number must be a number');
 
         if(input < 1) {
@@ -28,7 +28,7 @@ class SearchParamsModel extends Backbone.Model {
     }
 
     getMutatorName(propertyName) {
-        return 'set' + utilityFunctions.toInitialCaps(propertyName);
+        return 'set' + UtilityFunctions.toInitialCaps(propertyName);
     }
 
     bindEvents() {
@@ -64,7 +64,7 @@ class SearchParamsModel extends Backbone.Model {
 
         this.set('facetFilters', facetFilters);
         this.set('pageNumber', 1);
-        this.mediatorTrigger('search:refinedSearch', this);
+        this.mediator.trigger('search:refinedSearch', this);
     }
 
     clearFacet(facet) {
@@ -72,7 +72,7 @@ class SearchParamsModel extends Backbone.Model {
         if(facet in facetFilters) {
             delete facetFilters[facet];
             this.set('facetFilters', facetFilters);
-            this.mediatorTrigger('search:refinedSearch', this);
+            this.mediator.trigger('search:refinedSearch', this);
         }
     }
 
@@ -131,6 +131,11 @@ class SearchParamsModel extends Backbone.Model {
         this.setKeywordAndConstraint('keyword', keywords, backboneOptions);
     }
 
+    // TODO: Is a regex off somewhere? "keywords" plural is no longer being matched.
+    setKeywords(keywords, backboneOptions) {
+        this.setKeyword(keywords, backboneOptions);
+    }
+
     setAuthor(keywords, backboneOptions) {
         this.setKeywordAndConstraint('author', keywords, backboneOptions);
     }
@@ -181,7 +186,7 @@ class SearchParamsModel extends Backbone.Model {
 
     // set the model's box using the 'identifier' string form: N:$N,S:$S,E:$E,W:$W
     setOsGeoBbox(geoBBAsURLPart, backboneOptions) {
-      var bbox = utilityFunctions.osGeoBoxFromIdentifier(geoBBAsURLPart);
+      const bbox = UtilityFunctions.osGeoBoxFromIdentifier(geoBBAsURLPart);
       this.setGeoBoundingBox(bbox, backboneOptions);
     }
 
@@ -191,7 +196,7 @@ class SearchParamsModel extends Backbone.Model {
       this.resetCriteria();
 
       _.each(criteria, function (value, propertyName) {
-        var mutatorFn = this[this.getMutatorName(propertyName)];
+        let mutatorFn = this[this.getMutatorName(propertyName)];
 
         if(mutatorFn !== undefined && typeof mutatorFn === 'function') {
           mutatorFn.call(this, value);
@@ -205,10 +210,10 @@ class SearchParamsModel extends Backbone.Model {
     }
 
     removeSearchTerm(term) {
-      var searchTermFields = ['keyword', 'author', 'parameter', 'sensor', 'title'];
+      let searchTermFields = ['keyword', 'author', 'parameter', 'sensor', 'title'];
 
       _.each(searchTermFields, function (field) {
-        var terms = this.get(field);
+        let terms = this.get(field);
 
         terms = typeof terms === 'string' ? [terms] : terms;
 

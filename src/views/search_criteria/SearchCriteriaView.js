@@ -1,26 +1,12 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import InputViewBase from '../InputViewBase';
+import GeoBoundingBox from '../../models/GeoBoundingBox';
 import KeywordsView from './KeywordsView';
 import SpatialCoverageView from './SpatialCoverageView';
-import viewTemplate from '../../templates/search_criteria/container.html';
 import TemporalCoverageView from './TemporalCoverageView';
+import * as UtilityFunctions from '../../lib/utility_functions';
+import viewTemplate from '../../templates/search_criteria/container.html';
 
-// define(
-//  ['lib/mediator_mixin',
-//   'lib/objectFactory',
-//   'models/GeoBoundingBox',
-//   'views/InputViewBase',
-//   'text!templates/search_criteria/container.html',
-//   'lib/utility_functions'],
-//   function (mediatorMixin,
-//             objectFactory,
-//             GeoBoundingBox,
-//             InputViewBase,
-//             containerTemplate,
-//             UtilityFunctions) {
-//
 class SearchCriteriaView extends InputViewBase {
     get template() {
       return _.template(viewTemplate);
@@ -37,13 +23,18 @@ class SearchCriteriaView extends InputViewBase {
     initialize(options) {
         this.options = options;
         this.mediator = options.mediator;
-        //const geoBoundingBox = this.model.get('geoBoundingBox');
+        const geoBoundingBox = this.model.get('geoBoundingBox');
 
-        // if (!geoBoundingBox) {
-        //   geoBoundingBoxModel = new GeoBoundingBox();
-        // } else {
-        //   geoBoundingBoxModel = new GeoBoundingBox(geoBoundingBox);
-        // }
+        if (!geoBoundingBox) {
+            this.geoBoundingBoxModel = new GeoBoundingBox({
+                mediator: this.mediator
+            });
+        } else {
+            this.geoBoundingBoxModel = new GeoBoundingBox({
+                geoBoundingBox: geoBoundingBox,
+                mediator: this.mediator
+            });
+        }
 
         this.bindEvents(this.mediator);
         //_.bindAll(this);
@@ -61,7 +52,7 @@ class SearchCriteriaView extends InputViewBase {
     }
 
     updateBboxModelFromIdentifier(geoBboxIdentifier) {
-       // geoBoundingBoxModel.setFromIdentifier(geoBboxIdentifier);
+        this.geoBoundingBoxModel.setFromIdentifier(geoBboxIdentifier);
     }
 
     onFindDataPressed() {
@@ -80,7 +71,7 @@ class SearchCriteriaView extends InputViewBase {
 
             this.model.setCriteria(criteriaHash);
             this.model.resetFacetFilters();
-            this.mediatorTrigger('search:initiated', this.model);
+            this.mediator.trigger('search:initiated', this.model);
         }
     }
 
@@ -95,7 +86,7 @@ class SearchCriteriaView extends InputViewBase {
         };
 
         if (coords.north) {
-          //geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);
+          geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);
         } else {
           geoBoundingBoxIdentifier = this.getInputField('spatial-options');
         }
@@ -148,31 +139,25 @@ class SearchCriteriaView extends InputViewBase {
         }));
         this.keywordsView = new KeywordsView({
             el: this.$el.find('#keywords-container'),
-            mediator: this.mediator
+            mediator: this.mediator,
+            autoSuggestEnabled: this.options.config.searchCriteriaView.autoSuggestEnabled,
+            autoSuggestPath: this.options.config.searchCriteriaView.autoSuggestPath
         }).render();
 
         this.spatialCoverageView = new SpatialCoverageView({
             el: this.$el.find('#spatial-container'),
+            model: this.geoBoundingBoxModel,
+            map: this.options.map,
+            features: this.options.features,
             mediator: this.mediator
         }).render();
 
         this.temporalCoverageView = new TemporalCoverageView({
             el: this.$el.find('#temporal-container'),
-            mediator: this.mediator
+            mediator: this.mediator,
+            model: this.model
 
         }).render();
-
-        // this.spatialCoverageView =  objectFactory.createInstance('SpatialCoverageView', {
-        //   el: this.$el.find('#spatial-container'),
-        //   model: geoBoundingBoxModel,
-        //   map: this.options.map,
-        //   features: this.options.features
-        // }).render();
-        //
-        // this.temporalCoverageView = objectFactory.createInstance('TemporalCoverageView', {
-        //   el: this.$el.find('#temporal-container'),
-        //   model: this.model
-        // }).render();
 
         // TODO: is "reset" here referring to the reset setting in appConfig?
         if (this.options.reset !== 'off') {

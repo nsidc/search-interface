@@ -2,13 +2,13 @@
 
 import './styles/nsidc_main.scss';
 import * as Backbone from 'backbone';
+import $ from 'jquery';
 import SearchApp from './SearchApp';
 
 function webapp() {
-    const appOptions = {
+    new SearchApp({
         el: $('#main-content')
-    };
-    new SearchApp(appOptions);
+    });
     Backbone.history.start();
 }
 

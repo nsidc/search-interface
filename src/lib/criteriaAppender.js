@@ -1,19 +1,19 @@
-define(['lib/utility_functions', 'lib/SearchTerms'], function (utilityFunctions, SearchTerms) {
+import _ from 'underscore';
+import * as UtilityFunctions from '../lib/utility_functions';
+import SearchTerms from './SearchTerms';
 
-  var criteriaAppender = {};
+  function getAccessorName(propertyName) {
+    return 'get' + UtilityFunctions.toInitialCaps(propertyName);
+  }
 
-  criteriaAppender.getAccessorName = function (propertyName) {
-    return 'get' + utilityFunctions.toInitialCaps(propertyName);
-  };
-
-  criteriaAppender.substituteFirstCaptureGroup = function (inputRegex, replacement, options) {
-    var encode = true;
+  function substituteFirstCaptureGroup(inputRegex, replacement, options) {
+    let encode = true;
     if (options && options.urlEncode === false) {
       encode = false;
     }
     return inputRegex.replace(/\([^)]*\)/,
                               (encode ? encodeURI(replacement) : replacement));
-  };
+  }
 
   // Params:
   // * routerProperties - the options object from SearchApp.  Its property
@@ -21,12 +21,12 @@ define(['lib/utility_functions', 'lib/SearchTerms'], function (utilityFunctions,
   // the names of properties in the searchResults object (each property needs a
   // getXXX accessor)
   // * searchResults - the SearchResultsCollection object
-  criteriaAppender.generateUrl = function (routerProperties, searchResults) {
-    var urlSegments = _.map(routerProperties, function (regex, propName) {
-      var accessorFn, propValue, urlSegment, urlEncode = true;
+  export function generateUrl(routerProperties, searchResults) {
+    let urlSegments = _.map(routerProperties, function (regex, propName) {
+      let accessorFn, propValue, urlSegment, urlEncode = true;
 
       // properties should have standard accessor methods, so determine the name of the property's getX() method
-      accessorFn = searchResults[criteriaAppender.getAccessorName(propName)];
+      accessorFn = searchResults[getAccessorName(propName)];
 
       // having determined the function's name, call it, and get the prop value
       propValue = accessorFn.call(searchResults);
@@ -43,7 +43,7 @@ define(['lib/utility_functions', 'lib/SearchTerms'], function (utilityFunctions,
         propValue = '';
       }
 
-      urlSegment = criteriaAppender.substituteFirstCaptureGroup(regex, propValue, { urlEncode: urlEncode });
+      urlSegment = substituteFirstCaptureGroup(regex, propValue, { urlEncode: urlEncode });
 
       if (propValue !== '') {
         return urlSegment;
@@ -58,7 +58,5 @@ define(['lib/utility_functions', 'lib/SearchTerms'], function (utilityFunctions,
     });
 
     return urlSegments.join('/');
-  };
+  }
 
-  return criteriaAppender;
-});

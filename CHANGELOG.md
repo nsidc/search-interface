@@ -1,3 +1,9 @@
+##
+popper.js installed to get rid of bootstrap peer-dependency complaint. This is
+actually an outdated package; should be using @popperjs/core.
+Replaced jquery/tipsy with tippy as a bridge. Eventually should go with React
+components (everest-ui currently uses react-tooltip.
+
 ## 3.0.0 (2020-07-17)
 
 - Update node.js and Javascript package versions.

@@ -1,41 +1,36 @@
-define(
-  [
-    'views/right_column/results_header/DropdownView',
-    'text!templates/right_column/results_header/sort_results_label.html',
-  ], function (
-    DropdownView,
-    label
-  ) {
+import _ from 'underscore';
+import viewTemplate from '../../../templates/right_column/results_header/sort_results_label.html';
+import DropdownView from './DropdownView';
 
-    var SortResultsView;
+class SortResultsView extends DropdownView {
 
-    SortResultsView = DropdownView.extend({
+    get template() {
+        return _.template(viewTemplate);
+    }
 
-      template: _.template(label),
-
-      initialize : function (options) {
+    initialize(options) {
+        // this.model = options.model;
+        // this.collection = options.collection;
         this.updateParamsModel = this.model.setSortKeys;
-        this.dropdownOptions = options.sortByOptions;
-      },
+        this.dropdownOptions = options.config.features.sortByOptions;
+        this.mediator = options.mediator;
+    }
 
-      render: function () {
+    render() {
         DropdownView.prototype.render.call(this);
         this.$el.prepend(this.template());
-
         return this;
-      },
+    }
 
-      getButtonId: function () {
+    getButtonId() {
         return 'sort-results';
-      },
+    }
 
-      getSelectedOption: function () {
-        var sortKeys = this.collection.getSortKeys();
+    getSelectedOption() {
+        const sortKeys = this.collection.getSortKeys();
         return this.dropdownOptions[sortKeys];
-      }
+    }
+}
 
-    });
+export default SortResultsView;
 
-    return SortResultsView;
-
-  });

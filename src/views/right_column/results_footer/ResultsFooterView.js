@@ -1,36 +1,41 @@
-define(['text!templates/right_column/results_footer_view.html',
-       'lib/objectFactory'],
-       function (footerTemplate,
-                 objectFactory) {
+import * as Backbone from 'backbone';
+import _ from 'underscore';
+import PaginationControlsView from './PaginationControlsView';
+import viewTemplate from '../../../templates/right_column/results_footer_view.html';
 
-  var ResultsFooterView, templates;
-
-  templates = {
-    footer : _.template(footerTemplate)
-  };
-
-  ResultsFooterView = Backbone.View.extend({
-
-    tagName: 'div',
-    className: 'results-footer',
-
-    initialize: function (options) {
-      this.options = options;
-    },
-
-    render: function () {
-
-      this.$el.html(templates.footer());
-
-      objectFactory.createInstance('PaginationControlsView', {
-        el: this.$el.find('.pagination'),
-        model: this.options.searchParamsModel,
-        collection: this.options.searchResultsCollection
-      }).render();
-
-      return this;
+class ResultsFooterView extends Backbone.View {
+    get templates() {
+        return {
+            footer: _.template(viewTemplate)
+        };
     }
-  });
 
-  return ResultsFooterView;
-});
+    get tagName() {
+        return 'div';
+    }
+
+    get className() {
+        return 'results-footer';
+    }
+
+    initialize(options) {
+        this.options = options;
+        this.mediator = options.mediator;
+    }
+
+    render() {
+
+        this.$el.html(this.templates.footer());
+
+        new PaginationControlsView({
+            mediator: this.mediator,
+            el: this.$el.find('.pagination'),
+            model: this.options.searchParamsModel,
+            collection: this.options.searchResultsCollection
+        }).render();
+
+        return this;
+    }
+}
+
+export default ResultsFooterView;

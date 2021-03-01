@@ -1,7 +1,8 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
 import ClearFacetLinkView from './ClearFacetLinkView';
 import dividerTemplate from '../../templates/li-divider.html';
 import filterTemplate from '../../templates/left_column/facet-filter-input.html';
@@ -19,7 +20,7 @@ class FacetView extends Backbone.View {
 
     initialize(options) {
         this.readOptions(options);
-        this.bindEvents();
+        this.bindEvents(this.mediator);
 
         this.templates = {
             divider: _.template(dividerTemplate),
@@ -33,13 +34,14 @@ class FacetView extends Backbone.View {
         this.scrollThreshold = options.scrollThreshold;
         this.selectedFacets = options.selectedFacets;
         this.facetResetButton = options.facetResetButton;
+        this.mediator = options.mediator;
     }
 
     bindEvents() {
-        this.mediatorBind('search:facetsRefined', this.updateCounts, this);
-        this.mediatorBind('search:complete', this.addTooltips, this);
-        this.mediatorBind('facet:sort', this.sortFacets, this);
-        this.mediatorBind('search:complete', this.scrollToTop, this);
+        this.mediator.on('search:facetsRefined', this.updateCounts, this);
+        this.mediator.on('search:complete', this.addTooltips, this);
+        this.mediator.on('facet:sort', this.sortFacets, this);
+        this.mediator.on('search:complete', this.scrollToTop, this);
     }
 
     render() {
@@ -85,7 +87,11 @@ class FacetView extends Backbone.View {
         }, this);
 
         if(this.facetResetButton) {
-            new ClearFacetLinkView({el: this.$el, model: this.model}).render();
+            new ClearFacetLinkView({
+                el: this.$el,
+                model: this.model,
+                mediator: this.mediator
+            }).render();
         }
 
         this.updateCounts();
@@ -124,8 +130,8 @@ class FacetView extends Backbone.View {
     toggleFacet(ev) {
         var facet = $(ev.target).closest('ul').attr('id'),
             name = $(ev.target).closest('li').attr('name');
-        this.mediatorTrigger('model:toggleFacet', facet, name);
-        this.mediatorTrigger('facet:clearLinkTrigger');
+        this.mediator.trigger('model:toggleFacet', facet, name);
+        this.mediator.trigger('facet:clearLinkTrigger');
         this.sortFacets();
         this.scrollToTop();
         this.addTooltips();
@@ -146,21 +152,23 @@ class FacetView extends Backbone.View {
         });
     }
 
-    // el.offsetWidth and el.scrollWidth are not available when render() is
-    // called, so we need to apply the tooltip at a later time
+    // This code originally attempted to use el.offsetWidth and el.scrollWidth
+    // to determine if the facet label overflowed its container. That approach
+    // doesn't seem to be working. The content always, by definition, fits its
+    // container because the browser applies whatever overflow strategy is
+    // defined in the page styles. What we need is a DOM attribute that lets us
+    // know whether the overflow strategy is being applied for a particular
+    // element. I can't find such an indicator.
+    // TODO: ellipsis check seems to work in production. Why not here?
+    //
+    // For now, just show a tooltip on every facet.
     addTooltips() {
-        _.each(this.$('.shortName'), function (el) {
-            var $el,
-                longTextIsDifferent,
-                usingEllipsis;
-
-            $el = $(el);
-            usingEllipsis = el.offsetWidth < el.scrollWidth;
-            longTextIsDifferent = $el.attr('data-long-name') !== $el.text();
-
-            if(usingEllipsis || longTextIsDifferent) {
-                $el.tipsy({title: 'data-long-name', gravity: 'w', opacity: 0.9});
-            }
+        _.each(this.$('.facetListItem'), function (el) {
+            const s = el.querySelector('.shortName');
+            const usingEllipsis = el.offsetWidth < el.scrollWidth;
+            tippy('#' + el.id, {
+                content: s.innerText
+            });
         }, this);
     }
 

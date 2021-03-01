@@ -1,5 +1,3 @@
-/* jshint maxcomplexity: 21 */
-
 define(['lib/mediator_mixin',
         'lib/spatial_selection_map/OpenLayersClickControl',
         'lib/spatial_selection_map/OpenLayersCustomToolbar',

@@ -1,10 +1,10 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import ResultItemView from '../result_item/ResultItemView';
 
 class SearchResultsView extends Backbone.View {
     initialize(options) {
+        this.config = options.config;
+        this.collection = options.collection;
         this.mediator = options.mediator;
         this.bindEvents(this.mediator);
     }
@@ -20,14 +20,14 @@ class SearchResultsView extends Backbone.View {
     }
 
     renderItems() {
-        new ResultItemView();
-        // this.collection.each(function (collectionElement) {
-        //   var subView = objectFactory.createInstance('ResultItemView', {
-        //     model: collectionElement
-        //   });
-        //   subView.render();
-        //   this.$el.append(subView.el);
-        // }, this);
+        this.collection.each(function (collectionElement) {
+          var subView = new ResultItemView({
+            config: this.config,
+            model: collectionElement
+          });
+          subView.render();
+          this.$el.append(subView.el);
+        }, this);
     }
 }
 

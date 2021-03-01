@@ -1,24 +1,22 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import * as utilityFunctions from '../lib/utility_functions';
+import * as UtilityFunctions from '../lib/utility_functions';
 
 class SearchResultsCollection extends Backbone.Collection {
 
     initialize(options) {
-      if (options && options.osDefaultParameters && (! options.osDefaultParameters.osdd)) {
-        throw new Error('undefined OSDD URL value in configuration');
-      }
-      if (options !== undefined) {
-          this.mediator = options.mediator;
-        this.provider = options.provider;
-        this.osDefaultParameters = options.osDefaultParameters;
-        this.keyword = '';
-        this.startDate = '';
-        this.endDate = '';
-        this.geoBoundingBox = options.geoBoundingBox;
-      }
+        if(options && options.osDefaultParameters && (!options.osDefaultParameters.osdd)) {
+            throw new Error('undefined OSDD URL value in configuration');
+        }
+        if(options !== undefined) {
+            this.mediator = options.mediator;
+            this.provider = options.provider;
+            this.osDefaultParameters = options.osDefaultParameters;
+            this.keyword = '';
+            this.startDate = '';
+            this.endDate = '';
+            this.geoBoundingBox = options.geoBoundingBox;
+        }
 
       this.bindEvents(this.mediator);
     }
@@ -41,9 +39,8 @@ class SearchResultsCollection extends Backbone.Collection {
         itemsPerPage = model.get('itemsPerPage');
 
       this.provider.requestJSON({
-        contentType: 'application/atom+xml',
+        contentType: this.osDefaultParameters.osSearchContentType,
         osParameters: {
-          osdd: this.osDefaultParameters.osdd,
           osSource: this.osDefaultParameters.osSource,
           osStartIndex: (startPage - 1) * itemsPerPage + 1,
           osItemsPerPage: itemsPerPage,
@@ -71,7 +68,7 @@ class SearchResultsCollection extends Backbone.Collection {
 
     // Return the geo bounding box as identifier for the URL
     getOsGeoBbox() {
-      return utilityFunctions.osGeoBoxToIdentifier(this.geoBoundingBox);
+      return UtilityFunctions.osGeoBoxToIdentifier(this.geoBoundingBox);
     }
 
     getNorth() {
@@ -184,12 +181,14 @@ class SearchResultsCollection extends Backbone.Collection {
 
     onSearchInitiatedSuccess(json) {
       this.onNewSearchResultData(json);
-      this.mediatorTrigger('search:fullSearchComplete');
+      this.mediator.trigger('search:success');
+      this.mediator.trigger('search:fullSearchComplete');
     }
 
     onSearchRefinedSuccess (json) {
       this.onNewSearchResultData(json);
-      this.mediatorTrigger('search:refinedSearchComplete');
+      this.mediator.trigger('search:success');
+      this.mediator.trigger('search:refinedSearchComplete');
     }
 
     onNewSearchResultData (json) {
@@ -210,16 +209,16 @@ class SearchResultsCollection extends Backbone.Collection {
       this.facetFilters = json.getFacetFilters();
 
       if (this.totalResultsCount === 0) {
-        this.mediatorTrigger('search:noResults');
+        this.mediator.trigger('search:noResults');
       } else {
-        this.mediatorTrigger('search:complete');
+        this.mediator.trigger('search:complete');
       }
     }
 
     onErrorResponse  (errorXHR) {
       if (errorXHR.statusText !== 'abort') {
         this.reset();
-        this.mediatorTrigger('search:error');
+        this.mediator.trigger('search:error');
       }
     }
 

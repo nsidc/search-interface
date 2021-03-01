@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 import AlertMessageView from './AlertMessageView';
@@ -66,61 +64,63 @@ class BaseView extends Backbone.View {
         this.addEnvironmentToTitle();
         this.$el.html(this.mainLayout());
 
-        this.headerView = new HeaderView({
-            searchParamsModel: this.options.searchParamsModel(this.mediator),
+        new HeaderView({
+            searchParamsModel: this.options.searchParamsModel,
             searchResultsCollection: this.options.searchResultsCollection,
-            //     facetsCollection: this.options.facetsCollection
+            facetsCollection: this.options.facetsCollection,
             el: this.$el.find('.search-header'),
             config: this.options.config,
             mediator: this.mediator
         }).render();
 
-        this.homePageView = new HomeContentView({
-            //     facetsCollection: this.options.facetsCollection,
-            //     model: this.options.searchParamsModel
+        new HomeContentView({
+            facetsCollection: this.options.facetsCollection,
+            model: this.options.searchParamsModel,
             el : this.$el.find('#home-page'),
             config: this.options.config,
             mediator: this.mediator
         }).render();
 
-        this.loadingResultsView = new LoadingResultsView({
-            //     resultsCollection: this.options.searchResultsCollection,
-            //     searchParamsModel: this.options.searchParamsModel
+        new LoadingResultsView({
+            resultsCollection: this.options.searchResultsCollection,
+            searchParamsModel: this.options.searchParamsModel,
             el : this.$el.find('#loading-results'),
             mediator: this.mediator
         }).render();
 
-        this.alertMessageView = new AlertMessageView({
+        new AlertMessageView({
             el: this.$el.find('#alert-placeholder'),
             mediator: this.mediator
         }).render();
 
-        this.noResultsView = new NoResultsView({
+        new NoResultsView({
             el: this.$el.find('#no-results'),
             mediator: this.mediator
         }).render();
 
-        this.searchErrorView = new SearchErrorView({
+        new SearchErrorView({
             el: this.$el.find('#search-error'),
             mediator: this.mediator
         }).render();
 
-        this.attributionView = new AttributionView({
+        new AttributionView({
             el: this.$el.find('#attribution'),
         }).render();
 
-        this.leftColumnView = new LeftColumnView({
-            //     searchParamsModel: this.options.searchParamsModel,
-            //     resultsCollection: this.options.searchResultsCollection,
-            //     facetsCollection: this.options.facetsCollection
+        new LeftColumnView({
+            searchParamsModel: this.options.searchParamsModel,
+            resultsCollection: this.options.searchResultsCollection,
+            facetsCollection: this.options.facetsCollection,
             el: this.$el.find('#left-column'),
+            config: this.options.config,
             mediator: this.mediator
         }).render();
 
-        this.rightColumnView = new RightColumnView({
-            //     collection : this.collection,
-            //     searchParamsModel: this.options.searchParamsModel,
-            //     searchResultsCollection: this.options.searchResultsCollection
+        new RightColumnView({
+            config: this.options.config,
+            collection : this.collection,
+            searchParamsModel: this.options.searchParamsModel,
+            searchResultsCollection: this.options.searchResultsCollection,
             el: this.$el.find('#right-column'),
             mediator: this.mediator
         }).render();

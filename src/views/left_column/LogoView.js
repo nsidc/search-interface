@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../../templates/left_column/logo_nsidc.html';

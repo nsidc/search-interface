@@ -1,11 +1,8 @@
-/* jshint esversion: 6 */
-
 import $ from 'jquery';
 import JSONResults from './JSONResults';
 import * as UtilityFunctions from './utility_functions';
 
-class NsidcOpenSearchResponse {
-    getBoundingBoxFrom(xml) {
+function getBoundingBoxFrom(xml) {
         var bboxes, boxObj, boxArr;
 
         bboxes = $(xml).filterNode('georss:box'); //$(xml).find('georss\\:box, box');
@@ -26,7 +23,7 @@ class NsidcOpenSearchResponse {
         return boxArr;
     }
 
-    getDateRangeFrom(xml) {
+function getDateRangeFrom(xml) {
         var dates, rangeObj, rangeArr, dateRegex = new RegExp('(.*)\/(.*)');
 
         dates = $(xml).filterNode('dc:date');
@@ -46,19 +43,19 @@ class NsidcOpenSearchResponse {
         return rangeArr;
     }
 
-    getDataUrlsFrom(xml) {
+function getDataUrlsFrom(xml) {
         var links, linkArr = [];
         links = $(xml).find('link[rel=download-data]');
 
         _.each(links, function (link) {
-            var linkObj = this.getLinkObj(link);
+            var linkObj = getLinkObj(link);
             linkArr.push(linkObj);
         });
 
         return linkArr;
     }
 
-    getLinkObj(linkXml) {
+function getLinkObj(linkXml) {
         var linkObj, link = $(linkXml);
 
         if(link.length > 0) {
@@ -71,7 +68,7 @@ class NsidcOpenSearchResponse {
         return linkObj;
     }
 
-    getSortedArray(xml, selector) {
+function getSortedArray(xml, selector) {
         var arr = UtilityFunctions.getArrayFromjQueryArrayTextContents($(xml).filterNode(selector));
         if(arr !== undefined) {
             arr = arr.sort();
@@ -79,7 +76,7 @@ class NsidcOpenSearchResponse {
         return _.uniq(arr);
     }
 
-    processOsEntries(entryXml) {
+function processOsEntries(entryXml) {
         var results = [];
 
         entryXml.find('entry').each(function () {
@@ -90,19 +87,19 @@ class NsidcOpenSearchResponse {
                 authoritativeId: entry.filterNode('nsidc:authoritativeId').text(),
                 dataUrl: entry.find('link[rel=enclosure]').attr('href'),
                 catalogUrl: entry.find('link[rel=describedBy]').attr('href'),
-                boundingBoxes: this.getBoundingBoxFrom(this),
-                dateRanges: this.getDateRangeFrom(this),
+                boundingBoxes: getBoundingBoxFrom(this),
+                dateRanges: getDateRangeFrom(this),
                 updated: entry.find('updated').text(),
                 summary: UtilityFunctions.removeWhitespace(UtilityFunctions.removeTags(entry.filterNode('summary').text())),
                 author: UtilityFunctions.getArrayFromjQueryArrayTextContents(entry.filterNode('author')),
-                parameters: this.getSortedArray(this, 'dif:Detailed_Variable'),
-                keywords: this.getSortedArray(this, 'dif:Keyword'),
-                dataFormats: this.getSortedArray(this, 'dif:Distribution'),
-                dataUrls: this.getDataUrlsFrom(this),
-                orderDataUrl: this.getLinkObj(entry.find('link[rel=order-data]')),
-                externalDataUrl: this.getLinkObj(entry.find('link[rel=external-data]')),
-                supportingPrograms: this.getSortedArray(this, 'nsidc:supportingProgram'),
-                dataCenterNames: this.getSortedArray(this, 'nsidc:dataCenter')
+                parameters: getSortedArray(this, 'dif:Detailed_Variable'),
+                keywords: getSortedArray(this, 'dif:Keyword'),
+                dataFormats: getSortedArray(this, 'dif:Distribution'),
+                dataUrls: getDataUrlsFrom(this),
+                orderDataUrl: getLinkObj(entry.find('link[rel=order-data]')),
+                externalDataUrl: getLinkObj(entry.find('link[rel=external-data]')),
+                supportingPrograms: getSortedArray(this, 'nsidc:supportingProgram'),
+                dataCenterNames: getSortedArray(this, 'nsidc:dataCenter')
             };
             results.push(entryObj);
         });
@@ -110,10 +107,11 @@ class NsidcOpenSearchResponse {
         return results;
     }
 
+class NsidcOpenSearchResponse {
     fromXml(xml, osParameters) {
         let entryXml = $($.parseXML(xml)),
             jsonOptions = {
-                results: this.processOsEntries(entryXml),
+                results: processOsEntries(entryXml),
                 totalCount: parseInt(entryXml.filterNode('os:totalResults').text(), 10),
                 currentIndex: parseInt(entryXml.filterNode('os:startIndex').text(), 10),
                 itemsPerPage: parseInt(entryXml.filterNode('os:itemsPerPage').text(), 10),

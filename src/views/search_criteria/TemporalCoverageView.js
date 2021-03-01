@@ -1,20 +1,8 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
+import $ from 'jquery';
+import { getDaysInMonth, isValid, parse, toDate } from 'date-fns';
 import InputViewBase from '../InputViewBase';
 import viewTemplate from '../../templates/search_criteria/temporal_search.html';
-
-// define(['views/InputViewBase',
-//         'text!templates/search_criteria/temporal_search.html',
-//         'lib/mediator_mixin'],
-//         function (InputViewBase,
-//                   temporalTemplate,
-//                   mediatorMixin) {
-//   var TemporalCoverageView,
-//       dateStatus,
-//       datepickerOptions,
-//       dateIsValid;
-//
 
 // https://github.com/nsidc/bootstrap-datepicker/blob/nsidc/docs/options.rst
 const datepickerOptions = {
@@ -49,8 +37,6 @@ const dateStatus = {
 
 class TemporalCoverageView extends InputViewBase {
 
-
-
     get events() {
         return {
             'blur .combo-box-input': 'onBlurInput',
@@ -65,19 +51,20 @@ class TemporalCoverageView extends InputViewBase {
 
     initialize(options) {
         this.mediator = options.mediator;
-      this.bindEvents(this.mediator);
-      if (options.useEdbDateRange === true) {
-        this.requestDateRange();
-      }
+        this.bindEvents(this.mediator);
+        if(options.useEdbDateRange === true) {
+            this.requestDateRange();
+        }
     }
 
     requestDateRange(datepickerOptions) {
-      let trigger = this.mediatorTrigger;
+      let trigger = this.mediator.trigger;
 
       // only make the request if we don't have the start date and end date
       if (datepickerOptions.startDate === null && datepickerOptions.endDate === null) {
         $.ajax({
           dataType: 'json',
+            // eslint-disable-next-line no-undef
           url: window.location.origin + '/api/dataset/metadata/dateRange',
           success: function (data) {
             trigger('dateRangeRequestComplete', data);
@@ -138,7 +125,7 @@ class TemporalCoverageView extends InputViewBase {
       return dateStatus.VALID_DATES;
     }
 
-    isValid() {
+    isValidDateRange() {
       let startDate = this.getInputField('start-date'),
           endDate = this.getInputField('end-date'),
           rangeValid,
@@ -152,36 +139,24 @@ class TemporalCoverageView extends InputViewBase {
              (rangeValid || onlyOneDateEntered);
     }
 
-    // partial start-dates are handled nicely by moment, but we need to fix
-    // missing end date info manually
+    // Fix missing end date info manually.
+    // Assumes at least a year value was entered.
     adjustEndDate(date, inputString) {
-      let year = date.year(),
-          month,
+      let month,
           day,
           rYearOnly = /^[0-9]{4}\-?$/,
-          rYearMonthOnly = /^[0-9]{4}\-[0-9]{1,2}\-?$/,
-          partialEntered = false;
+          rYearMonthOnly = /^[0-9]{4}\-[0-9]{1,2}\-?$/;
 
       // user typed in just '2014', give them '2014-12-31'
       if (inputString.match(rYearOnly)) {
-        partialEntered = true;
-        month = 11; // in moment, 0 is January, 11 is December
-        day = 31;
+          date.setMonth(11); // 0 is January, 11 is December
+          date.setDate(31); // day is set relative to the first of December
 
       // user typed in just '2014-04', give them '2014-04-30'
       } else if (inputString.match(rYearMonthOnly)) {
-        partialEntered = true;
-        month = date.month();
-        day = date.daysInMonth();
-      }
-
-      // don't create new date object if user typed in '2014-04-02'
-      if (partialEntered) {
-        date = moment({
-          year: year,
-          month: month,
-          day: day
-        });
+        month = date.getMonth();
+        day = getDaysInMonth(date);
+        date.setDate(day);
       }
 
       return date;
@@ -193,45 +168,41 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     onAppHome() {
-      $('div.start-date').tipsy('hide');
-      $('input#start-date').tipsy('hide');
-      $('input#end-date').tipsy('hide');
+      // $('div.start-date').tipsy('hide');
+      // $('input#start-date').tipsy('hide');
+      // $('input#end-date').tipsy('hide');
       this.render();
     }
 
     // convert date format to YYYY-MM-DD, fill in full date if just year or year
     // and month is given
-    // TODO: May need to update this to manually fix "bad" dates rather than throwing
-    // it to "moment", as this functionality is deprecated and may be removed.
     formatDateInput(target) {
       let id = target.id,
           value = target.value,
-          date = moment.utc(value),
+          date = toDate(value),
           newDateValue;
+      const dateFormat = 'yyyy-MM-dd';
 
-      // if the date is invalid, try parsing it with a given format; in Firefox
-      //   30.0, Moment.js 2.5.1 can't parse 950-01-01 without the format
-      //   string, causing an error message to be displayed when a 3 digit year
-      //   is selected from the datepicker
-      if (!date.isValid()) {
-        date = moment.utc(value, 'YYYY-MM-DD');
+      // TODO: What is an appropriate reference date?
+      // if the date is invalid, try parsing it with a given format
+      if (!isValid(date)) {
+        date = parse(value, dateFormat, datepickerOptions.startDate);
       }
 
-      if (id === 'end-date') {
+      if (id === 'end-date' && isValid(date)) {
         date = this.adjustEndDate(date, value);
       }
 
-      newDateValue = date.format('YYYY-MM-DD');
+      newDateValue = toDate(date);
 
-      // if the date is invalid, moment.format() returns 'Invalid date'
-      if (newDateValue !== 'Invalid date') {
+      if (isValid(newDateValue)) {
         this.setInputField(id, newDateValue);
       }
 
     }
 
     updateDateErrorDisplay() {
-     if (this.isValid()) {
+     if (this.isValidDateRange()) {
         this.hideAllDateErrors();
       } else {
         this.showDateError(this.getDateError());
@@ -285,7 +256,7 @@ class TemporalCoverageView extends InputViewBase {
     // in this view, the date inputs are valid if they are empty or if they
     // contain a date in the yyyy-mm-dd format
     dateIsValid(date) {
-        return date === '' || moment(date, 'YYYY-MM-DD').isValid();
+        return date === '' || isValid(date);
     }
 }
 

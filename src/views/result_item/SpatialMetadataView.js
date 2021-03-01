@@ -1,8 +1,6 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import round from '../../lib/utility_functions';
+import * as UtilityFunctions from '../../lib/utility_functions';
 import sprintf from 'voca/sprintf';
 import SpatialThumbnailView from './SpatialThumbnailView';
 import viewTemplate from '../../templates/result_item/spatial_metadata.html';
@@ -112,7 +110,7 @@ class SpatialMetadataView extends Backbone.View {
         boundingBoxes = boundingBoxes.slice(0, 6);
         _.each(boundingBoxes, function (box) {
           _.each(box, function (coordinate, property) {
-            box[property] = round(coordinate, 2);
+            box[property] = UtilityFunctions.round(coordinate, 2);
           });
         });
         this.$el.html(_.template(viewTemplate)());
@@ -126,14 +124,14 @@ class SpatialMetadataView extends Backbone.View {
         this.$el.html(_.template(noDataViewTemplate)());
       }
 
-      if (this.options.mapThumbnail) {
+      if (this.options.config.mapThumbnail) {
         new SpatialThumbnailView({
           el: this.$el.find('.leaflet-map'),
           model: this.model,
-          thumbnailBounds: this.options.thumbnailBounds,
-          mapThumbnailShading: this.options.mapThumbnailShading,
-          mapProjection: this.options.mapProjection,
-          mapPixelSize: this.options.mapPixelSize
+          mapThumbnailBounds: this.options.config.mapThumbnailBounds,
+          mapThumbnailShading: this.options.config.mapThumbnailShading,
+          mapProjection: this.options.config.mapProjection,
+          mapPixelSize: this.options.config.mapPixelSize
         }).render();
       }
 

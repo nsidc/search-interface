@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import SpatialCoverageCompassView from './SpatialCoverageCompassView';
 import SpatialCoverageTextView from './SpatialCoverageTextView';
@@ -9,7 +7,7 @@ class SpatialCoverageView extends Backbone.View {
 
     get events() {
         return {
-            'click #spatial-search-box': 'toggleCompassView'
+            //'click #spatial-search-box': 'toggleCompassView'
         };
     }
 
@@ -26,12 +24,12 @@ class SpatialCoverageView extends Backbone.View {
             model: this.model,
             mediator: this.mediator
         }).render();
-        this.spatialCoverageCompassView = new SpatialCoverageCompassView({
-            options: this.options,
-            el: this.$el.find('#compass-container'),
-            model: this.model,
-            mediator: this.mediator
-        }).render();
+        // this.spatialCoverageCompassView = new SpatialCoverageCompassView({
+        //     options: this.options,
+        //     el: this.$el.find('#compass-container'),
+        //     model: this.model,
+        //     mediator: this.mediator
+        // }).render();
 
             // this.spatialCoverageView = objectFactory.createInstance('SpatialCoverageTextView', {
             //     el: this.$el.find('#spatial-search-box'),

@@ -2,6 +2,7 @@
   "name": "search-interface",
   "description": "NSIDC data search interface",
   "version": "3.0.0",
+  "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "https://github.com/nsidc/search-interface.git"
@@ -17,17 +18,23 @@
     "test": "echo \"No tests exist!\" "
   },
   "dependencies": {
-    "backbone": "~1.4.0",
-    "bootstrap": "~4.6.0",
+    "OpenSearchlight": "git+https://github.com/nsidc/OpenSearchlight.git#soac-62",
+    "backbone": "^1.4.0",
+    "bootstrap": "^4.6.0",
     "bootstrap-datepicker": "^1.9.0",
-    "jquery": "~3.5.1",
-    "leaflet": "~1.7.1",
+    "date-fns": "^2.17.0",
+    "jquery": "^3.5.1",
+    "leaflet": "^1.7.1",
     "node-gyp": "^7.0.0",
     "npm": "^6.14.5",
     "ol": "^6.5.0",
-    "proj4": "~2.6.3",
-    "underscore": "~1.11.0",
-    "voca": "^1.4.0"
+    "popper.js": "^1.16.1",
+    "proj4": "^2.6.3",
+    "tippy.js": "^6.3.0",
+    "typeahead.js": "git+https://github.com/twitter/typeahead.js.git",
+    "underscore": "^1.12.0",
+    "voca": "^1.4.0",
+    "xregexp": "^5.0.1"
   },
   "devDependencies": {
     "css-loader": "^4.3.0",
@@ -51,6 +58,7 @@
     "karma-moment": "0.1.0",
     "karma-sinon": "1.0.5",
     "karma-spec-reporter": "0.0.32",
+    "npx": "^10.2.2",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "sinon": "9.0.2",

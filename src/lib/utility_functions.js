@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import $ from 'jquery';
 
@@ -77,12 +75,12 @@ export function removeTags(html) {
 }
 
 export function isFloat(number) {
-      var matches = /^(\-)?(\d*)(\.\d*)?$/.exec(number);
+      const matches = /^(\-)?(\d*)(\.\d*)?$/.exec(number);
       return matches ? true : false;
 }
 
 export function removeEmptyElementsFromArray(array) {
-      var tempArray = [];
+      const tempArray = [];
       _.each(array, function (element) {
         if (element !== '') {
           tempArray.push(element);
@@ -94,21 +92,21 @@ export function removeEmptyElementsFromArray(array) {
 
 export function round(number, precision) {
       precision = Math.abs(parseInt(precision, 10)) || 0;
-      var coefficient = Math.pow(10, precision);
+      const coefficient = Math.pow(10, precision);
       return Math.round(number * coefficient) / coefficient;
 }
 
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
-    var results = [],
-        removeTags = exports.removeTags,
-        removeWhitespace = exports.removeWhitespace;
+    let results = [],
+        removeTags = this.removeTags,
+        removeWhitespace = this.removeWhitespace;
 
     if (jQueryArray.text() === '') {
       return undefined;
     }
 
     _.each(jQueryArray, function (element) {
-      var text = $(element).text();
+      let text = $(element).text();
       if (text && text.length > 0) {
         results.push(removeWhitespace(removeTags(text)));
       }
@@ -118,7 +116,7 @@ export function getArrayFromjQueryArrayTextContents(jQueryArray) {
 }
 
 export function osGeoBoxToNsewObj(osGeoBox) {
-    var bboxArray, cardinals, coords = {};
+    let bboxArray, cardinals, coords = {};
 
     if (osGeoBox === undefined || osGeoBox === '') {
       return '';
@@ -142,11 +140,11 @@ export function nsewObjToIdentifier(coords) {
 }
 
 export function osGeoBoxToIdentifier(osGeoBox) {
-    return exports.nsewObjToIdentifier(exports.osGeoBoxToNsewObj(osGeoBox));
+    return this.nsewObjToIdentifier(this.osGeoBoxToNsewObj(osGeoBox));
 }
 
 export function osGeoBoxFromIdentifier(identifier) {
-    var geoBox, bboxArray = [], coords = {},
+    let geoBox, bboxArray = [], coords = {},
         cardinals = ['north', 'south', 'east', 'west'];
 
     if (identifier === undefined) {
@@ -154,7 +152,7 @@ export function osGeoBoxFromIdentifier(identifier) {
     }
 
     bboxArray = identifier.split(/,?\ *[NSEW]:/);
-    bboxArray = exports.removeEmptyElementsFromArray(bboxArray);
+    bboxArray = this.removeEmptyElementsFromArray(bboxArray);
     if (bboxArray.length === 1) {
       return '';
     }
@@ -168,6 +166,6 @@ export function osGeoBoxFromIdentifier(identifier) {
 }
 
 export function nsewObjFromIdentifier(identifier) {
-    return exports.osGeoBoxToNsewObj(exports.osGeoBoxFromIdentifier(identifier));
+    return this.osGeoBoxToNsewObj(this.osGeoBoxFromIdentifier(identifier));
 }
 

@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import FacetsView from './FacetsView';
@@ -29,9 +27,10 @@ class LeftColumnView extends Backbone.View {
     render() {
         this.$el.html(_.template(viewTemplate)());
 
-        if(this.options.facets) {
+        if(this.options.config.features.facets) {
             new FacetsView({
                 el: this.$el.find('#facets'),
+                mediator: this.mediator,
                 facetsCollection: this.options.facetsCollection,
                 searchParamsModel: this.options.searchParamsModel
             }).render();

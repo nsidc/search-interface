@@ -4,15 +4,27 @@
 
 Note: Arctic Data Explorer (ADE) has been decommissioned.
 
+TODO:
+OpenSearchlight needs additional config so that it builds when `npm install`-ing
+from Github. 
+Current workaround to produce `dist` content:
+    cd node_modules/OpenSearchlight
+    npm install
+    grunt --force
+
+Note that `dist` output current has a version number attached. Need something
+generic to import.
+
 An Opensearch-based single page search interface.
 
 ### OPS Configuration Information
 
-The portal is a Javascript app being served via `nginx`
-(http://wiki.nginx.org/Main).
-Configuration files are located at `/etc/nginx`.
-The portal code is being served from `/opt/nsidc_search`, which is where
-the artifact deploys when the VM is provisioned.
+The portal is a Javascript app deployed as a bundle using Webpack.
+The production instance of the app is loaded into a Drupal context
+(i.e. HTML document managed by Drupal).
+
+
+### On dev VM
 
 `nginx` is running as a service, and can be stopped/started/etc using the
 system `service` command, e.g., `service nginx restart`.

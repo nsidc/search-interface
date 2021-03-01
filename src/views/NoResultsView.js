@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../templates/no_results.html';

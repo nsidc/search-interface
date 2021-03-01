@@ -1,15 +1,8 @@
-/* jshint esversion: 6 */
-
 import _ from 'underscore';
 import JSONFacets from './JSONFacets';
 
-class FacetsResponse {
-    //define(['lib/JSONFacets'], function (JSONFacets) {
-    constructor(config) {
-        this.nameMap = config.nameMap;
-    }
 
-    parseFacets(entryXml, nameMap) {
+function parseFacets(entryXml, nameMap) {
         let facets = [];
 
         entryXml.filterNode('nsidc:facet').each(function () {
@@ -17,15 +10,15 @@ class FacetsResponse {
 
             facets.push({
                 id: entry.attr('name'),
-                name: this.getName(this.fetchXmlName(entry), nameMap),
-                values: this.getValues(entry)
+                name: getName(fetchXmlName(entry), nameMap),
+                values: getValues(entry)
             });
         });
 
         return facets;
     }
 
-    formatName(name) {
+function formatName(name) {
         let parsedName = [],
             nameArr = name.replace('facet_', '').split('_');
 
@@ -34,30 +27,30 @@ class FacetsResponse {
         });
 
         return parsedName.join(' ');
-    }
+}
 
-    getName(name, nameMap) {
+function getName(name, nameMap) {
         if(nameMap && _.has(nameMap, name)) {
             return nameMap[name];
         }
         else {
-            return this.formatName(name);
+            return formatName(name);
         }
-    }
+}
 
     //Create a HTML 4 compliant id that works in JQuery:
     //HTML 4: ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number
     // of letters, digits ([0-9]), hyphens ('-'), underscores ('_'), colons (':'), and periods ('.').
     //JQuery has problems with : and . so remove those as well
-    generateId(name) {
+function generateId(name) {
         return name.replace(/ /g, '_').replace(/\|/g, '--')
         .replace(/</g, 'lt').replace(/>/g, 'gt').replace(/\+/g, 'plus').replace(/[^a-zA-Z0-9_-]/g, '')
         .replace(/^([^a-zA-Z])/g, 'a$1');
     }
 
-    getValueNames(el) {
+function getValueNames(el) {
         let fullName = el.attr('name'),
-            id = this.generateId(fullName),
+            id = generateId(fullName),
             names = fullName.split(/\s*\|\s*/),
             longName = names[0].trim().length > 0 ? names[0] : names[1],
             shortName = names[1] ? names[1] : names[0];
@@ -70,27 +63,31 @@ class FacetsResponse {
         };
     }
 
-    getValues(facetNode) {
+function getValues(facetNode) {
         let values = [];
 
         facetNode.filterNode('nsidc:facet_value').each(function () {
-            values.push(_.extend(this.getValueNames($(this)), {
+            values.push(_.extend(getValueNames($(this)), {
                 count: $(this).attr('hits')
             }));
         });
 
         return values;
-    }
+}
 
-    fetchXmlName(facetNode) {
+function fetchXmlName(facetNode) {
         return facetNode.attr('name');
-    }
+}
 
+class FacetsResponse {
+    constructor(config) {
+        this.nameMap = config.nameMap;
+    }
     fromXml(xml, osParameters) {
         let entryXml = $($.parseXML(xml)), jsonOptions;
 
         jsonOptions = {
-            facets: this.parseFacets(entryXml, this.nameMap),
+            facets: parseFacets(entryXml, this.nameMap),
             keyword: osParameters.osSearchTerms,
             startDate: osParameters.osDtStart,
             endDate: osParameters.osDtEnd,

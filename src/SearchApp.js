@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import * as config from './config/appConfig';
@@ -9,31 +7,27 @@ import FacetsCollection from './collections/FacetsCollection';
 import OpenSearchProvider from './lib/OpenSearchProvider';
 import SearchParamsModel from './models/SearchParamsModel';
 import SearchResultsCollection from './collections/SearchResultsCollection';
-// import criteriaAppender from './lib/criteriaAppender';
+import * as criteriaAppender from './lib/criteriaAppender';
 
 class SearchApp extends Backbone.Router {
     preinitialize() {
         this.routes = {
-            '': 'index',
             '*path': 'doRoute'
         };
     }
 
     initialize(params) {
-        // TODO take environment into account for some config properties?
-        // example from SOAC:
-        // if(process.env.APPLICATION_ENVIRONMENT === 'development') {
-        //     this.urlConfig = config.urls.development;
-        // }
-        // else {
-        //     this.urlConfig = config.urls.production;
-        // }
         this.config = config.appConfig;
+        this.openSearchOptions = config.openSearchOptions;
 
-        // TODO retrofit object factory stuff?
-        // bootstrap the object factory
-        // objectFactory.setConfig(iocConfig);
-        this.openSearchOptions = this.config.openSearchOptions;
+        // OpenSearch endpoint depends on environment
+        if(process.env.APPLICATION_ENVIRONMENT === 'development') {
+            this.openSearchOptions.osProvider = config.urls.development;
+        }
+        else {
+            this.openSearchOptions.osProvider = config.urls.production;
+        }
+
         this.displayHomePageOnCancel = true;
 
         // Property names are a regular expression string,
@@ -69,18 +63,24 @@ class SearchApp extends Backbone.Router {
         // routing should happen to the routeHandlerProperties object.
         //this.route('*path', 'doRoute');
 
-        this.openSearchProvider = new OpenSearchProvider({ mediator: this.mediator });
+        _.extend(OpenSearchProvider.prototype, this.mediator);
+        this.openSearchProvider = new OpenSearchProvider({
+        });
+
         this.searchParamsModel = new SearchParamsModel({
             mediator: this.mediator,
             openSearchOptions: this.openSearchOptions
         });
-        this.searchResults = new SearchResultsCollection({
+        this.searchResultsCollection = new SearchResultsCollection({
             mediator: this.mediator,
-            provider: this.openSearchProvider
+            provider: this.openSearchProvider,
+            osDefaultParameters: this.openSearchOptions
         });
-        this.facets = new FacetsCollection({
+        this.facetsCollection = new FacetsCollection({
+            config: this.config,
             mediator: this.mediator,
-            provider: this.openSearchProvider
+            provider: this.openSearchProvider,
+            osDefaultParameters: this.openSearchOptions
         });
 
         if(params.el === 'undefined') {
@@ -102,12 +102,14 @@ class SearchApp extends Backbone.Router {
         });
 
         // Initialize the view framework
-        this.currentView = new BaseView({
+        this.homeView = new BaseView({
             el: this.el,
             config: this.config,
-            model: new SearchParamsModel({mediator: this.mediator}),
+            searchParamsModel: this.searchParamsModel,
+            searchResultsCollection: this.searchResultsCollection,
+            facetsCollection: this.facetsCollection,
             mediator: this.mediator
-        });
+        }).render();
     }
 
     isItemsPerPageEnabled() {
@@ -125,24 +127,6 @@ class SearchApp extends Backbone.Router {
         mediator.on('app:home', this.onAppHome, this);
     }
 
-    index() {
-        // this.currentView = new HomeContentView({
-        //     //baseView: this.baseView,
-        //     el: this.el,
-        //     mediator: this.mediator
-        // });
-        // TODO: Hide facets, etc.
-        this.currentView.render();
-        // Create an initial view and update the page
-        // this.mainView = objectFactory.createInstance('MainView', {
-        //     el: jQuery(params.el),
-        //     searchResultsCollection: this.searchResults,
-        //     facetsCollection: this.facets,
-        //     searchParamsModel: this.searchParamsModel
-        // }).render();
-
-    }
-
     // put together a a query from the URL parameters.
     // Order of URL segments shouldn't matter.
     doRoute(path) {
@@ -154,6 +138,7 @@ class SearchApp extends Backbone.Router {
         }
 
         if((path === null || path === '') && this.isHomePageEnabled()) {
+            this.homeView.render();
             this.mediator.trigger('app:home');
             return;
         }
@@ -177,7 +162,7 @@ class SearchApp extends Backbone.Router {
                 facetFilters = JSON.parse(decodeURIComponent(propValue));
             }
             else if(_.contains(['keywords', 'author', 'title', 'sensor', 'parameter', 'sortKeys'], propName)) {
-                searchOptions[propName] = fromEncodedString(decodeURI(propValue)).asArray();
+                searchOptions[propName] = fromEncodedString(decodeURI(propValue));
             }
             else {
                 searchOptions[propName] = propValue;
@@ -210,8 +195,7 @@ class SearchApp extends Backbone.Router {
     }
 
     addCurrentUrlToNavigationHistory() {
-        const url = 'blah/blah/blah';
-        //var url = criteriaAppender.generateUrl(this.routeHandlerProperties, this.searchResults);
+        let url = criteriaAppender.generateUrl(this.routeHandlerProperties, this.searchResultsCollection);
         this.navigate(url);
     }
 }
