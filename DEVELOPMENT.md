@@ -18,7 +18,6 @@ also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
   modernized or replaced. Note that OpenSearchlight is in the open source
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
-  
 * The acceptance and unit test environments need to be updated, and the
   old `Grunt` tasks should be replaced with `npm` tasks. Preferred test suite
   tools are Mocha, Chai, Sinon, and Jest.
@@ -29,6 +28,9 @@ also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
   of Leaflet used to generate those images (the overlay image is "zoomed in").
 * Apropos of the previous two items: Unless there's a technical reason
   to use *both* Leaflet and OpenLayers, pick one!
+* It appears that OpenLayers is pointing to an outdated Mapserver
+  installation. The spatial search widget should be retrieving its base layer
+  from the NSIDC GeoServer instance, or some other reliable OGC endpoint.
 * The `tipsy` tooltip package is no longer being updated. I installed `tippy`
   in an effort to use something more current, as well as to move away from
   another `jQuery` dependency. The tooltips have been updated for the facet
