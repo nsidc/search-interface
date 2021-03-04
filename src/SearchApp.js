@@ -11,6 +11,9 @@ import * as criteriaAppender from './lib/criteriaAppender';
 
 class SearchApp extends Backbone.Router {
     preinitialize() {
+        // Set up routing. Using this form instead of the object literal to make
+        // it harder to change the routing table - right now any changes to the
+        // routing should happen to the routeHandlerProperties object.
         this.routes = {
             '*path': 'doRoute'
         };
@@ -20,12 +23,15 @@ class SearchApp extends Backbone.Router {
         this.config = config.appConfig;
         this.openSearchOptions = config.openSearchOptions;
 
-        // OpenSearch endpoint depends on environment
+        // Endpoints depend on environment
+        // TODO: This could certainly be more elegant...
         if(process.env.APPLICATION_ENVIRONMENT === 'development') {
             this.openSearchOptions.osProvider = config.urls.development;
+            this.config.temporalCoverageView.provider = config.urls.development;
         }
         else {
             this.openSearchOptions.osProvider = config.urls.production;
+            this.config.temporalCoverageView.provider = config.urls.development;
         }
 
         this.displayHomePageOnCancel = true;
@@ -58,15 +64,15 @@ class SearchApp extends Backbone.Router {
         this.routeHandlerProperties = this.properties;
         this.mediator = _.extend({}, Backbone.Events);
 
-        // Set up routing. Using this form instead of the object literal to make
-        // it harder to change the routing table - right now any changes to the
-        // routing should happen to the routeHandlerProperties object.
-        //this.route('*path', 'doRoute');
-
         _.extend(OpenSearchProvider.prototype, this.mediator);
         this.openSearchProvider = new OpenSearchProvider({
         });
 
+        // This appears to be bootstrapping a model instance, rather than
+        // letting the SearchResultsCollection handle model creation
+        // (compare to FacetsCollection). My guess is that the collection
+        // should be handling some of the functionality currently dealt with
+        // in the model. (JAC 2021-03-02)
         this.searchParamsModel = new SearchParamsModel({
             mediator: this.mediator,
             openSearchOptions: this.openSearchOptions

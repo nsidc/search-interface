@@ -1,11 +1,49 @@
-**NOTE**: The Arctic Data Explorer (ADE) has been decommissioned.
-Although there are still references to it throughout this project,
-they can be removed.
+## TODO
 
-TODO
-Figure out how to build with OpenSearchlight. -- just leave in `contrib`? 
-Everything else should be loaded via npm.
- 
+Modifications to create a webpack-bundled artifact are not yet complete. Refer
+also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
+* The Arctic Data Explorer (ADE) has been decommissioned, and
+  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
+  The remaining references to ADE should be removed.
+* Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
+  an open source project owned by NSIDC. That project also needs to be migrated
+  from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
+  code exists in branch `soac-62`. **The srch-28 branch of search-interface is
+  running off of the OpenSearchlight branch soac-62, and uses a source file
+  rather than a "built" file.** (See the `git` reference to
+  OpenSearchlight in `package.json` and the `import` statement in
+  `OpenSearchProvider.js`.). **This is not an acceptable long-term
+  approach for a production application.** OpenSearchlight needs to be
+  modernized or replaced. Note that OpenSearchlight is in the open source
+  arena, but since we haven't been actively maintaining it I'm guessing
+  there isn't a huge pool of current users.
+* The acceptance and unit test environments need to be updated, and the
+  old `Grunt` tasks should be replaced with `npm` tasks. Preferred test suite
+  tools are Mocha, Chai, Sinon, and Jest.
+* The Spatial Selection widget is not currently working. OpenLayers has
+  been updated to the latest version in `package.json`, but the related
+  code hasn't been modernized yet.
+* The map thumbnails aren't being rendered correctly after updating the version
+  of Leaflet used to generate those images (the overlay image is .
+* The `tipsy` tooltip package is no longer being updated. I installed `tippy`
+  in an effort to use something more current, as well as to move away from
+  another `jQuery` dependency. The tooltips have been updated for the facet
+  lists on the left side of the UI, but still need to be reinstated for the
+  time fields.
+* An updated `typeahead` package is now installed, but the existing code
+  apparently needs some modification before it'll work.
+* The `datepicker` widget still needs to be updated.
+* Styling in general needs to be cleaned up. Moving to the most recent
+  version of `Bootstrap.css` resulted in some dramatic changes; the
+  application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
+  we want to use.
+* The app still had a reference to "Crazy Egg Metrics." Are these still being
+  maintained/used?
+  
+### Longer term TODO
+* Move to ES20xx or Typescript.
+* Rewrite using React components?
+
 ## Git workflow
 
 Development on this project uses
@@ -71,6 +109,10 @@ plugin.
 
         npm test
 
+## Configuration
+
+Host and endpoints for development, integration and production are configured in
+`src/config/appConfig.js`.
 
 ## Build
 
@@ -137,7 +179,14 @@ To run against services on qa:
 ./run_local_webserver.rb 8081 qa_proxies
 ```
 
-## Running the acceptance tests locally
+## Dependencies for unit and acceptance tests
+
+* Ruby
+* Rubygems and bundler
+
+Install the ruby gems: `bundle install`
+
+## Running the acceptance tests locally (TODO: Update to use npm tasks for testing)
 
 Prerequisites
 

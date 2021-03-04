@@ -1,3 +1,4 @@
+import * as Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../../templates/search_criteria/spatial_coverage_text.html';
 
@@ -31,22 +32,21 @@ class SpatialCoverageTextView extends Backbone.View {
         this.render();
     }
 
-    // render(text)
-    render() {
-        this.$el.html(_.template(viewTemplate)({presetText: 'blah blah blah', identifierView: ''}));
+    render(text) {
+        this.$el.html(_.template(viewTemplate)({presetText: this.options.config.spatialText, identifierView: ''}));
 
         // If the model is set to the defaults and we are trying to set the default identifier, override the text value.
         // Otherwise, leave the text alone.
         // TODO: Keep in sync with results collection rather than passing in text to render
-        // if (this.model.isSetToDefaults() && (this.model.asIdentifier() === text || text === undefined)) {
-        //   text = '';
-        // }
-        //
-        // if (text === undefined) {
-        //   text = this.model.asIdentifier();
-        // }
-        //
-        // this.$el.html(template({ identifierView: text, presetText: this.options.presetText }));
+        if (this.model.isSetToDefaults() && (this.model.asIdentifier() === text || text === undefined)) {
+          text = '';
+        }
+
+        if (text === undefined) {
+          text = this.model.asIdentifier();
+        }
+
+        this.$el.html(_.template(viewTemplate)({ identifierView: text, presetText: this.options.presetText }));
         return this;
     }
 

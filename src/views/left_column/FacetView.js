@@ -31,9 +31,9 @@ class FacetView extends Backbone.View {
     }
 
     readOptions(options) {
-        this.scrollThreshold = options.scrollThreshold;
-        this.selectedFacets = options.selectedFacets;
-        this.facetResetButton = options.facetResetButton;
+        this.scrollThreshold = options.config.scrollThreshold;
+        this.selectedFacets = options.config.selectedFacets;
+        this.facetResetButton = options.config.facetResetButton;
         this.mediator = options.mediator;
     }
 
@@ -79,7 +79,7 @@ class FacetView extends Backbone.View {
                 checked: ''
             };
 
-            if(this.selectedFacets.indexOf(value.fullName) !== -1) {
+            if(this.selectedFacets && this.selectedFacets.indexOf(value.fullName) !== -1) {
                 facetValues.checked = 'checked';
             }
 
@@ -154,18 +154,14 @@ class FacetView extends Backbone.View {
 
     // This code originally attempted to use el.offsetWidth and el.scrollWidth
     // to determine if the facet label overflowed its container. That approach
-    // doesn't seem to be working. The content always, by definition, fits its
-    // container because the browser applies whatever overflow strategy is
-    // defined in the page styles. What we need is a DOM attribute that lets us
-    // know whether the overflow strategy is being applied for a particular
-    // element. I can't find such an indicator.
+    // doesn't seem to be working here.
     // TODO: ellipsis check seems to work in production. Why not here?
     //
     // For now, just show a tooltip on every facet.
     addTooltips() {
         _.each(this.$('.facetListItem'), function (el) {
             const s = el.querySelector('.shortName');
-            const usingEllipsis = el.offsetWidth < el.scrollWidth;
+            // const usingEllipsis = el.offsetWidth < el.scrollWidth;
             tippy('#' + el.id, {
                 content: s.innerText
             });
@@ -193,10 +189,7 @@ class FacetView extends Backbone.View {
         this.$('.divider').remove();
         $listItems = this.$('li').remove();
         $listItems = _.sortBy($listItems, function (li) {
-            var id,
-                val;
-
-            id = $(li).attr('id');
+            let val;
 
             val = _.find(values, function (value) {
                 return value.id === $(li).attr('id');
@@ -218,9 +211,10 @@ class FacetView extends Backbone.View {
             this.$('ul').prepend($selected);
         }
 
+        // TODO: Apply to tippy tooltips.
         // remove leftover tooltips; the jQuery selector is globally scoped
         // because tipsy adds a div near the top of the DOM
-        $('.tipsy').remove();
+        //$('.tipsy').remove();
     }
 
     scrollToTop() {

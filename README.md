@@ -2,33 +2,27 @@
 
 # NSIDC Search Portal
 
-Note: Arctic Data Explorer (ADE) has been decommissioned.
-
-TODO:
-OpenSearchlight needs additional config so that it builds when `npm install`-ing
-from Github. 
-Current workaround to produce `dist` content:
-    cd node_modules/OpenSearchlight
-    npm install
-    grunt --force
-
-Note that `dist` output current has a version number attached. Need something
-generic to import.
-
 An Opensearch-based single page search interface.
+
+## TODO:
+
+Branch `srch-28` represents work in progress to switch from `RequireJS` to
+ES6-style code structure, including the use of `npm` and `webpack` to manage
+dependencies and build a deployable artifact (i.e. bundle). See
+[`DEVELOPMENT.md`](DEVELOPMENT.md) for additional details regarding the work
+remaining to finish this effort.
 
 ### OPS Configuration Information
 
-The portal is a Javascript app deployed as a bundle using Webpack.
-The production instance of the app is loaded into a Drupal context
-(i.e. HTML document managed by Drupal).
-
+Upon completion of `soac-28` and related stories, the portal will be deployed by loading a
+bundle created by Webpack into a Drupal context (i.e. including the bundle in an HTML document
+managed by Drupal).
 
 ### On dev VM
 
-`nginx` is running as a service, and can be stopped/started/etc using the
-system `service` command, e.g., `service nginx restart`.
-
+Run a standalone version of the application by building a VM using the `soac-webapp-vm` configuration.
+The application is served by `nginx` running as a service on the VM.
+`nginx` can be stopped/started/etc using the system `service` command, e.g., `service nginx restart`.
 
 `nginx` writes logfiles by default to `/var/log/nginx`; all logs should be in
 this folder.
@@ -36,7 +30,6 @@ this folder.
 ### Prerequisites:
 
 * [Node](http://nodejs.org/) (includes [npm](https://www.npmjs.org/))
-* [Grunt](http://gruntjs.org) - `sudo npm install -g grunt-cli`
 * Install the ruby gems - `bundle install`
 * Install the npm modules - `npm install`
 

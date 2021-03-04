@@ -1,5 +1,5 @@
 import _ from 'underscore';
-//import Bloodhound from 'typeahead.js/dist/bloodhound';
+import Bloodhound from 'typeahead.js/dist/bloodhound.min';
 import 'typeahead.js/dist/typeahead.bundle';
 import InputViewBase from '../InputViewBase';
 import SearchTerms from '../../lib/SearchTerms';

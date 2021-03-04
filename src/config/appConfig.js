@@ -1,14 +1,17 @@
 export const urls = {
     development: {
         openSearchHost: 'https://nsidc.org',
+        dateRangeHost: 'https://nsidc.org',
         port: 80
     },
     integration: {
         openSearchHost: 'https://integration.dss.apps.int.nsidc.org',
+        dateRangeHost: 'https://nsidc.org',
         port: 10680
     },
     production: {
         openSearchHost: 'https://nsidc.org/',
+        dateRangeHost: 'https://nsidc.org',
         port: 80
     },
 };
@@ -55,44 +58,46 @@ export const appConfig = {
             'updated,,desc': 'Last Updated (newest to oldest)'
         },
 
-        // facets
-        facets: true,
+        // auto-suggest settings
+        // TODO re-enable auto-suggest
+        autoSuggestEnabled: false,
+        autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
+
+        // home page
+        homePage: true,
+    },
+
+    facets: {
+        enabled: true,
         facetResetButton: true,
         facetNames: {
             facet_sponsored_program: 'Program'
         },
         itemsPerFacet: 11,
         scrollThreshold: 15,
+    },
+
+    searchCriteriaView: {
+        searchButtonText: 'Search',
 
         // reset link
         reset: 'home',
-
-        // auto-suggest settings
-        autoSuggestEnabled: true,
-        autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
-
-        // home page
-        homePage: true,
-
-        // search criteria, calendar widget
-        useEdbDateRange: true
     },
 
-    detailsView: {
+    temporalCoverageView: {
+        provider: {},
+        useEdbDateRange: true,
+        dateRangeQuery: '/api/dataset/metadata/dateRange'
+    },
+
+    spatialCoverageView: {
+        spatialText: 'N:90, S:-90, E:180, W:-180',
         map: {view: 'GLOBAL'},
         projections: {
             northView: true,
             southView: true,
             globalView: true
         }
-    },
-
-    searchCriteriaView: {
-        searchButtonText: 'Search',
-    },
-
-    spatialCoverageTextView: {
-        spatialText: 'N:90, S:-90, E:180, W:-180'
     },
 
     // map thumbnail in results

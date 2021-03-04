@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import FacetsResponse from './FacetsResponse';
 import NsidcOpenSearchResponse from './NsidcOpenSearchResponse';
-import OpenSearchlight from 'OpenSearchlight/dist/OpenSearchlight-0.4.0';
+import OpenSearchlight from 'OpenSearchlight/src/OpenSearchlight';
 import SearchTerms from './SearchTerms';
 import {appConfig} from '../config/appConfig';
 import {openSearchOptions} from '../config/appConfig';
@@ -103,7 +103,7 @@ OpenSearchProvider.prototype.successHandle = function(jqXhr, options) {
     let response;
 
     if(options.contentType.indexOf('facets') !== -1) {
-      response = new FacetsResponse(appConfig.features.facetNames);
+      response = new FacetsResponse(appConfig.facets.facetNames);
     }
     else {
       response = new NsidcOpenSearchResponse();

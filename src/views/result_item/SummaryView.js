@@ -1,4 +1,5 @@
 import * as Backbone from 'backbone';
+import _ from 'underscore';
 import DetailsSectionView from './DetailsSectionView';
 import viewTemplate from '../../templates/result_item/summary.html';
 

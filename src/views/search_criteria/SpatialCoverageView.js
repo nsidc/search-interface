@@ -1,3 +1,4 @@
+import * as Backbone from 'backbone';
 import _ from 'underscore';
 import SpatialCoverageCompassView from './SpatialCoverageCompassView';
 import SpatialCoverageTextView from './SpatialCoverageTextView';
@@ -19,38 +20,26 @@ class SpatialCoverageView extends Backbone.View {
     render() {
         this.$el.html(_.template(viewTemplate)());
         this.spatialCoverageTextView = new SpatialCoverageTextView({
-            options: this.options,
+            config: this.options.config,
             el: this.$el.find('#spatial-search-box'),
             model: this.model,
             mediator: this.mediator
         }).render();
-        // this.spatialCoverageCompassView = new SpatialCoverageCompassView({
-        //     options: this.options,
-        //     el: this.$el.find('#compass-container'),
-        //     model: this.model,
-        //     mediator: this.mediator
-        // }).render();
 
-            // this.spatialCoverageView = objectFactory.createInstance('SpatialCoverageTextView', {
-            //     el: this.$el.find('#spatial-search-box'),
-            //     model: this.model
-            // });
-            //
-            // this.compassView = objectFactory.createInstance('SpatialCoverageCompassView', {
-            //     el: this.$el.find('#compass-container'),
-            //     model: this.model,
-            //     map: this.options.map,
-            //     features: this.options.features
-            // }).render();
-
-        //this.spatialCoverageView.render(text);
+        this.spatialCoverageCompassView = new SpatialCoverageCompassView({
+            config: this.options.config,
+            el: this.$el.find('#compass-container'),
+            model: this.model,
+            mediator: this.mediator,
+            // map: this.options.map,
+        }).render();
 
         return this;
     }
 
     toggleCompassView() {
-        this.compassView.toggleVisibility();
-        var compassInput = document.getElementById('spatial-options');
+        this.spatialCoverageCompassView.toggleVisibility();
+        const compassInput = document.getElementById('spatial-options');
         if(compassInput) {
             compassInput.focus();
         }

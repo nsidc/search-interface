@@ -59,7 +59,7 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
     isSetToDefaults() {
-        var n = this.get('north') === this.get('northDefault'),
+        const n = this.get('north') === this.get('northDefault'),
             s = this.get('south') === this.get('southDefault'),
             e = this.get('east') === this.get('eastDefault'),
             w = this.get('west') === this.get('westDefault');
@@ -97,16 +97,16 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
     setFromOpenSearchString(string) {
-        var bboxArray, cardinals = ['west', 'south', 'east', 'north'];
+        const cardinals = ['west', 'south', 'east', 'north'];
 
-        bboxArray = string.split(',');
+        const bboxArray = string.split(',');
         _.each(bboxArray, function (coordinate, i) {
             this.set(cardinals[i], parseFloat(coordinate));
         }, this);
     }
 
     setFromIdentifier(identifier) {
-        var coords;
+        let coords;
 
         identifier = identifier.split(' ').join('');
 
@@ -152,7 +152,7 @@ class GeoBoundingBox extends Backbone.Model {
     bboxDisplayOrder() {
         // return the values in 'display order' N, S, E, W
         // TODO [MHS, 2012-10-11]  push this functionality in to the view.
-        var coordinates = [
+        let coordinates = [
             parseFloat(this.getNorth()),
             parseFloat(this.getSouth()),
             parseFloat(this.getEast()),
@@ -171,7 +171,7 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
     asIdentifier() {
-        var cardinals = ['N', 'S', 'E', 'W'];
+        const cardinals = ['N', 'S', 'E', 'W'];
         return _.map(_.zip(cardinals, this.bboxDisplayOrder()),
             function (each) {
                 return each.join(':');
@@ -193,7 +193,7 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
     isValid(boundingBox) {
-        var isValid = true,
+        let isValid = true,
             errors = GeoBoundingBox.prototype.bboxErrors(boundingBox);
 
         _.each(errors, function (error) {
@@ -206,7 +206,7 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
     bboxErrors(boundingBox) {
-        var north, south, east, west,
+        let north, south, east, west,
             northFloat, southFloat, eastFloat, westFloat,
             isFloat = UtilityFunctions.isFloat, coords;
 
@@ -289,11 +289,12 @@ class GeoBoundingBox extends Backbone.Model {
 
     getCoordsFromUrlPart(urlPart) {
         // parsing the URL piece =>  'N:1,S:2,E:3,W:4'
-        var coords = {}, box = {},
+        let coords = {}, box = {},
             cardinals = ['north', 'south', 'east', 'west'];
         box = urlPart.split(',');
+        let thisBbox = this;
         _.each(box, function (coordinate, index) {
-            coords[cardinals[index]] = this.numberPart(coordinate);
+            coords[cardinals[index]] = thisBbox.numberPart(coordinate);
         });
         return coords;
     }

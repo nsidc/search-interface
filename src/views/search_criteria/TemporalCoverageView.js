@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import $ from 'jquery';
-import { getDaysInMonth, isValid, parse, toDate } from 'date-fns';
+import { format, getDaysInMonth, isValid, parse, toDate } from 'date-fns';
 import InputViewBase from '../InputViewBase';
 import viewTemplate from '../../templates/search_criteria/temporal_search.html';
 
@@ -52,205 +52,205 @@ class TemporalCoverageView extends InputViewBase {
     initialize(options) {
         this.mediator = options.mediator;
         this.bindEvents(this.mediator);
-        if(options.useEdbDateRange === true) {
+        this.config = options.config;
+        if(this.config.useEdbDateRange === true) {
             this.requestDateRange();
         }
     }
 
-    requestDateRange(datepickerOptions) {
-      let trigger = this.mediator.trigger;
+    requestDateRange() {
+        let trigger = this.mediator.trigger;
 
-      // only make the request if we don't have the start date and end date
-      if (datepickerOptions.startDate === null && datepickerOptions.endDate === null) {
-        $.ajax({
-          dataType: 'json',
-            // eslint-disable-next-line no-undef
-          url: window.location.origin + '/api/dataset/metadata/dateRange',
-          success: function (data) {
-            trigger('dateRangeRequestComplete', data);
-          }
-        });
-      }
+        // only make the request if we don't have the start date and end date
+        if(datepickerOptions.startDate === null && datepickerOptions.endDate === null) {
+            $.ajax({
+                dataType: 'json',
+                // eslint-disable-next-line no-undef
+                // TODO: Consider port
+                url: this.config.provider.dateRangeHost + this.config.dateRangeQuery,
+                success: function (data) {
+                    trigger('dateRangeRequestComplete', data);
+                }
+            });
+        }
     }
 
     highlightInvalidInput(elements) {
-      _.each(elements, function (elementID) {
-        $(elementID).addClass('highlighting');
-      });
+        _.each(elements, function (elementID) {
+            $(elementID).addClass('highlighting');
+        });
     }
 
     removeHighlighting(elements) {
-      _.each(elements, function (elementID) {
-        $(elementID).removeClass('highlighting');
-      });
+        _.each(elements, function (elementID) {
+            $(elementID).removeClass('highlighting');
+        });
     }
 
     showDateError(dateError) {
-      // display only one error at a time
-      this.hideAllDateErrors();
+        // display only one error at a time
+        this.hideAllDateErrors();
 
-      // if the error has an associated input element, highlight the element
-      this.$(dateError.element).attr('title', dateError.message).tipsy('show');
-      this.$(dateError.element).focus();
-      this.highlightInvalidInput(dateError.highlightElements);
+        // if the error has an associated input element, highlight the element
+        // TODO: Replace tipsy with tippy (already done for Facets)
+        this.$(dateError.element).attr('title', dateError.message).tipsy('show');
+        this.$(dateError.element).focus();
+        this.highlightInvalidInput(dateError.highlightElements);
     }
 
     hideDateError(dateError) {
-      this.$(dateError.element).tipsy('hide');
-      this.removeHighlighting(dateError.highlightElements);
+        this.$(dateError.element).tipsy('hide');
+        this.removeHighlighting(dateError.highlightElements);
     }
 
     hideAllDateErrors() {
-      _.each(dateStatus, function (value) {
-        this.hideDateError(value);
-      }, this);
+        _.each(dateStatus, function (value) {
+            this.hideDateError(value);
+        }, this);
     }
 
     getDateError() {
-      let startDate = this.getInputField('start-date'),
-          endDate = this.getInputField('end-date');
+        let startDate = this.getInputField('start-date'),
+            endDate = this.getInputField('end-date');
 
-      if (!this.dateIsValid(startDate)) {
-        return dateStatus.BAD_FORMAT_START;
-      }
+        if(!this.dateIsValid(startDate)) {
+            return dateStatus.BAD_FORMAT_START;
+        }
 
-      if (!this.dateIsValid(endDate)) {
-        return dateStatus.BAD_FORMAT_END;
-      }
+        if(!this.dateIsValid(endDate)) {
+            return dateStatus.BAD_FORMAT_END;
+        }
 
-      if (startDate > endDate && startDate.length > 0 && endDate.length > 0) {
-        return dateStatus.BAD_DATE_RANGE;
-      }
+        if(startDate > endDate && startDate.length > 0 && endDate.length > 0) {
+            return dateStatus.BAD_DATE_RANGE;
+        }
 
-      return dateStatus.VALID_DATES;
+        return dateStatus.VALID_DATES;
     }
 
     isValidDateRange() {
-      let startDate = this.getInputField('start-date'),
-          endDate = this.getInputField('end-date'),
-          rangeValid,
-          onlyOneDateEntered;
+        let startDate = this.getInputField('start-date'),
+            endDate = this.getInputField('end-date'),
+            rangeValid,
+            onlyOneDateEntered;
 
-      rangeValid = startDate <= endDate;
-      onlyOneDateEntered = startDate.length === 0 || endDate.length === 0;
+        rangeValid = startDate <= endDate;
+        onlyOneDateEntered = startDate.length === 0 || endDate.length === 0;
 
-      return this.dateIsValid(startDate) &&
-             this.dateIsValid(endDate) &&
-             (rangeValid || onlyOneDateEntered);
+        return this.dateIsValid(startDate) &&
+            this.dateIsValid(endDate) &&
+            (rangeValid || onlyOneDateEntered);
     }
 
     // Fix missing end date info manually.
     // Assumes at least a year value was entered.
     adjustEndDate(date, inputString) {
-      let month,
-          day,
-          rYearOnly = /^[0-9]{4}\-?$/,
-          rYearMonthOnly = /^[0-9]{4}\-[0-9]{1,2}\-?$/;
+        const rYearOnly = /^[0-9]{4}\-?$/;
+        const rYearMonthOnly = /^[0-9]{4}\-[0-9]{1,2}\-?$/;
 
-      // user typed in just '2014', give them '2014-12-31'
-      if (inputString.match(rYearOnly)) {
-          date.setMonth(11); // 0 is January, 11 is December
-          date.setDate(31); // day is set relative to the first of December
+        // user typed in just '2014', give them '2014-12-31'
+        if(inputString.match(rYearOnly)) {
+            date.setMonth(11); // 0 is January, 11 is December
+            date.setDate(31); // day is set relative to the first of December
+        }
+        // user typed in just '2014-04', give them '2014-04-30'
+        else if(inputString.match(rYearMonthOnly)) {
+            date.setDate(getDaysInMonth(date));
+        }
 
-      // user typed in just '2014-04', give them '2014-04-30'
-      } else if (inputString.match(rYearMonthOnly)) {
-        month = date.getMonth();
-        day = getDaysInMonth(date);
-        date.setDate(day);
-      }
-
-      return date;
+        return date;
     }
 
     onBlurInput(e) {
-      this.formatDateInput(e.target);
-      this.updateDateErrorDisplay();
+        this.formatDateInput(e.target);
+        this.updateDateErrorDisplay();
     }
 
     onAppHome() {
-      // $('div.start-date').tipsy('hide');
-      // $('input#start-date').tipsy('hide');
-      // $('input#end-date').tipsy('hide');
-      this.render();
+        // $('div.start-date').tipsy('hide');
+        // $('input#start-date').tipsy('hide');
+        // $('input#end-date').tipsy('hide');
+        this.render();
     }
 
     // convert date format to YYYY-MM-DD, fill in full date if just year or year
     // and month is given
     formatDateInput(target) {
-      let id = target.id,
-          value = target.value,
-          date = toDate(value),
-          newDateValue;
-      const dateFormat = 'yyyy-MM-dd';
+        let id = target.id,
+            value = target.value,
+            date = toDate(value),
+            newDateValue;
+        const dateFormat = 'yyyy-MM-dd';
 
-      // TODO: What is an appropriate reference date?
-      // if the date is invalid, try parsing it with a given format
-      if (!isValid(date)) {
-        date = parse(value, dateFormat, datepickerOptions.startDate);
-      }
+        // TODO: What is an appropriate reference date?
+        // if the date is invalid, try parsing it with a given format
+        if(!isValid(date)) {
+            date = parse(value, dateFormat, datepickerOptions.startDate);
+        }
 
-      if (id === 'end-date' && isValid(date)) {
-        date = this.adjustEndDate(date, value);
-      }
+        if(id === 'end-date' && isValid(date)) {
+            date = this.adjustEndDate(date, value);
+        }
 
-      newDateValue = toDate(date);
+        newDateValue = toDate(date);
 
-      if (isValid(newDateValue)) {
-        this.setInputField(id, newDateValue);
-      }
+        if(isValid(newDateValue)) {
+            this.setInputField(id, newDateValue);
+        }
 
     }
 
     updateDateErrorDisplay() {
-     if (this.isValidDateRange()) {
-        this.hideAllDateErrors();
-      } else {
-        this.showDateError(this.getDateError());
-      }
+        if(this.isValidDateRange()) {
+            this.hideAllDateErrors();
+        }
+        else {
+            this.showDateError(this.getDateError());
+        }
     }
 
     render(startDate, endDate) {
-      //let tipsyOptions = {gravity: 'nw', trigger: 'manual', opacity: 1, className: 'temporal', html: true};
+        //let tipsyOptions = {gravity: 'nw', trigger: 'manual', opacity: 1, className: 'temporal', html: true};
 
-      if (startDate === undefined) {
-        startDate = '';
-      }
-      if (endDate === undefined) {
-        endDate = '';
-      }
+        if(startDate === undefined) {
+            startDate = '';
+        }
+        if(endDate === undefined) {
+            endDate = '';
+        }
 
-      this.$el.html(_.template(viewTemplate)({ startDate: startDate, endDate: endDate }));
-      // this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
+        this.$el.html(_.template(viewTemplate)({startDate: startDate, endDate: endDate}));
+        // this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
 
-      // this.$('div.start-date').tipsy(tipsyOptions);
-      // this.$('input#start-date').tipsy(tipsyOptions);
-      // this.$('input#end-date').tipsy(tipsyOptions);
+        // this.$('div.start-date').tipsy(tipsyOptions);
+        // this.$('input#start-date').tipsy(tipsyOptions);
+        // this.$('input#end-date').tipsy(tipsyOptions);
 
-      //this.setupDatepicker(datepickerOptions);
+        //this.setupDatepicker(datepickerOptions);
 
-      return this;
+        return this;
     }
 
     setupDatepicker(datepickerOptions) {
-      this.$('.start-date').datepicker('destroy');
-      this.$('.end-date').datepicker('destroy');
+        this.$('.start-date').datepicker('destroy');
+        this.$('.end-date').datepicker('destroy');
 
-      this.$('.start-date').datepicker(datepickerOptions);
-      this.$('.end-date').datepicker(_.extend({
-        defaultDay: 'last',
-        defaultMonth: 11
-      }, datepickerOptions));
+        this.$('.start-date').datepicker(datepickerOptions);
+        this.$('.end-date').datepicker(_.extend({
+            defaultDay: 'last',
+            defaultMonth: 11
+        }, datepickerOptions));
     }
 
     onDateRangeRequestComplete(data, datepickerOptions) {
-      var today = moment().format('YYYY-MM-DD'),
-          startDate = moment.utc(data.start_date).format('YYYY-MM-DD'),
-          endDate = moment.utc(data.end_date).format('YYYY-MM-DD');
+        const today = new Date();
+        const startDate = format(data.start_date, 'yyyy-MM-dd');
+        const endDate = format(data.end_date,'yyyy-MM-dd');
 
-      datepickerOptions.startDate = startDate;
-      datepickerOptions.endDate = today > endDate ? today : endDate;
+        datepickerOptions.startDate = startDate;
+        datepickerOptions.endDate = today > endDate ? today : endDate;
 
-      this.setupDatepicker(datepickerOptions);
+        this.setupDatepicker(datepickerOptions);
     }
 
     // in this view, the date inputs are valid if they are empty or if they

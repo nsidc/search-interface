@@ -27,10 +27,11 @@ class LeftColumnView extends Backbone.View {
     render() {
         this.$el.html(_.template(viewTemplate)());
 
-        if(this.options.config.features.facets) {
+        if(this.options.config.facets) {
             new FacetsView({
                 el: this.$el.find('#facets'),
                 mediator: this.mediator,
+                config: this.options.config.facets,
                 facetsCollection: this.options.facetsCollection,
                 searchParamsModel: this.options.searchParamsModel
             }).render();

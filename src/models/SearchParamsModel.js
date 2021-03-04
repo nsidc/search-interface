@@ -1,13 +1,12 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 import * as UtilityFunctions from '../lib/utility_functions';
 
 class SearchParamsModel extends Backbone.Model {
     initialize(options) {
         this.mediator = options.mediator;
         this.openSearchOptions = options.openSearchOptions;
-        this.set('pageNumber', 1);
-        this.set('itemsPerPage', this.openSearchOptions.osItemsPerPage);
         this.setParamsFromDefaults();
         this.bindEvents();
     }

@@ -12,7 +12,7 @@ class FacetsCollection extends Backbone.Collection {
         if(options !== undefined) {
             this.mediator = options.mediator;
             this.osDefaultParameters = options.osDefaultParameters;
-            this.facetsEnabled = options.config.features.facets;
+            this.facetsEnabled = options.config.facets.enabled;
             this.provider = options.provider;
             this.bindEvents(this.mediator);
         }

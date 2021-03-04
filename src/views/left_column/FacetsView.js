@@ -14,12 +14,13 @@ class FacetsView extends Backbone.View {
 
     initialize(options) {
         this.options = options;
+        this.config = options.config;
         this.mediator = options.mediator;
     }
 
     collapse(event) {
         const id = event.target.id,
-            shownFacets = this.options.itemsPerFacet - 1;
+            shownFacets = this.config.itemsPerFacet - 1;
 
         this.$('ul#' + id).children(':gt(' + shownFacets + ')').addClass('hidden');
         this.$('a#' + id + '.facetExpand').removeClass('hidden');
@@ -46,6 +47,7 @@ class FacetsView extends Backbone.View {
                 new FacetView({
                     el: this.$('.facet').eq(index),
                     mediator: this.mediator,
+                    config: this.config,
                     model: facet,
                     selectedFacets: facetFilters
                 }).render();

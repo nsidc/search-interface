@@ -17,13 +17,13 @@ class HeaderView extends Backbone.View {
     }
 
     render() {
-        let model = this.options.searchParamsModel;
         this.$el.html(_.template(viewTemplate));
         this.searchCriteriaView = new SearchCriteriaView({
             el: this.$el.find('#search-criteria'),
             config: this.options.config,
             mediator: this.mediator,
-            model: model
+            model: this.options.searchParamsModel,
+            collection: this.options.searchResultsCollection
         });
         this.searchCriteriaView.render();
         return this;

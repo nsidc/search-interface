@@ -4,22 +4,6 @@ import $ from 'jquery';
 import SpatialSelectionUtilities from '../../lib/spatial_selection_map/SpatialSelectionUtilities';
 import viewTemplate from '../../templates/search_criteria/compass.html';
 
-// define(['models/GeoBoundingBox',
-//        'lib/mediator_mixin',
-//        'lib/OpenLayerMap',
-//        'text!templates/search_criteria/compass.html',
-//        'lib/spatial_selection_map/SpatialSelectionUtilities'],
-//        function (GeoBoundingBox, mediatorMixin, OpenLayerMap, compassTemplate, SpatialSelectionUtilities) {
-//
-//   var template, SpatialCoverageCompassView,
-//       bboxErrors = GeoBoundingBox.prototype.bboxErrors,
-//       cornerErrors = GeoBoundingBox.prototype.cornerErrors,
-//       errorList = GeoBoundingBox.errors,
-//       isValid = GeoBoundingBox.prototype.isValid,
-//       isValidCornerPoints = GeoBoundingBox.prototype.isValidCornerPoints,
-//       defaultMapProjection,
-//       currentMapProjection;
-
 class SpatialCoverageCompassView extends Backbone.View {
 
     get events() {
@@ -43,9 +27,8 @@ class SpatialCoverageCompassView extends Backbone.View {
         // TODO [MB 05-31-13]
         // set defaultMapProjection without making sure config.map is defined,
         // probably using the factory
-        // defaultMapProjection = this.options.map.view;
-        //const defaultMapProjection = this.options.map ? this.options.map.view : 'GLOBAL';
-        // const currentMapProjection = defaultMapProjection;
+        this.defaultMapProjection = this.options.config.map ? this.options.config.map.view : 'GLOBAL';
+        this.currentMapProjection = this.defaultMapProjection;
 
         this.hide();
         this.bindEvents(this.mediator);
@@ -57,12 +40,12 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     bindEvents(mediator) {
-        //this.model.on('change', this.onModelChange, this);
+        this.model.on('change', this.onModelChange, this);
         mediator.on('search:initiated', this.onSearchInitiated, this);
         mediator.on('map:clearSelection', this.mapSelectionCleared, this);
         mediator.on('map:changeBoundingBox', this.mapBoundingBoxChanged, this);
         mediator.on('map:changeCoordinates', this.mapCoordinatesChanged, this);
-        //mediator.on('map:changeSize', this.mapSizeChanged, this);
+        // mediator.on('map:changeSize', this.mapSizeChanged, this);
         mediator.on('map:click', this.clearSpatialSelection, this);
     }
 
@@ -88,17 +71,17 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     updateTextInputsFromModel() {
-        let coordinates;
-            // north = this.model.getNorth(),
-            // south = this.model.getSouth(),
-            // east = this.model.getEast(),
-            // west = this.model.getWest();
+        let coordinates,
+            north = this.model.getNorth(),
+            south = this.model.getSouth(),
+            east = this.model.getEast(),
+            west = this.model.getWest();
 
         coordinates = [
-            // parseFloat(north),
-            // parseFloat(south),
-            // parseFloat(east),
-            // parseFloat(west)
+            parseFloat(north),
+            parseFloat(south),
+            parseFloat(east),
+            parseFloat(west)
         ];
         _.each(coordinates, function (element, index, list) {
             list[index] = this.formatCoordinate(element);
@@ -124,25 +107,15 @@ class SpatialCoverageCompassView extends Backbone.View {
 
     render() {
         this.$el.html(_.template(viewTemplate)({
-            northValue: 'north',
-            southValue: 'south',
-            eastValue: 'east',
-            westValue: 'west',
-            polarEnabled: true,
-            northView: 'fake north',
-            southView: 'fake south',
-            globalView: 'fake global'
+          northValue: this.model.getNorth(),
+          southValue: this.model.getSouth(),
+          eastValue: this.model.getEast(),
+          westValue: this.model.getWest(),
+          polarEnabled: this.isPolarEnabled(),
+          northView: this.options.config.projections.northView,
+          southView: this.options.config.projections.southView,
+          globalView: this.options.config.projections.globalView
         }));
-        // this.$el.html(template({
-        //   northValue: this.model.getNorth(),
-        //   southValue: this.model.getSouth(),
-        //   eastValue: this.model.getEast(),
-        //   westValue: this.model.getWest(),
-        //   polarEnabled: this.isPolarEnabled(),
-        //   northView: this.options.features.projections.northView,
-        //   southView: this.options.features.projections.southView,
-        //   globalView: this.options.features.projections.globalView
-        // }));
 
         this.selectDefaultMapView();
 
@@ -157,8 +130,8 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     isPolarEnabled() {
-        return this.options.features &&
-            (this.options.features.projections.northView || this.options.features.projections.southView);
+        return this.options.config &&
+            (this.options.config.projections.northView || this.options.config.projections.southView);
     }
 
     formatCoordinate(coordinate) {
@@ -293,8 +266,7 @@ class SpatialCoverageCompassView extends Backbone.View {
 
     hideAllBboxErrors() {
         let elements;
-
-        _.each(errorList, function (value, key) {
+        _.each(this.model.errors, function (value, key) {
             elements = this.getBboxErrorElementIDs(key);
             this.hideBboxErrorByIDpair(elements);
         }, this);
@@ -338,13 +310,13 @@ class SpatialCoverageCompassView extends Backbone.View {
                 west: this.west()
             };
 
-        //userBboxErrors = bboxErrors(userBbox);
+        userBboxErrors = this.model.bboxErrors(userBbox);
         this.hideAllBboxErrors();
 
-        // if(!isValid(userBbox)) {
-        //     this.showBboxErrors(userBboxErrors);
-        //     return false;
-        // }
+        if(!this.model.isValid(userBbox)) {
+            this.showBboxErrors(userBboxErrors);
+            return false;
+        }
 
         return true;
     }
@@ -360,8 +332,8 @@ class SpatialCoverageCompassView extends Backbone.View {
 
         this.hideAllBboxErrors();
 
-        if(!isValidCornerPoints(cornersBox)) {
-            errors = cornerErrors(cornersBox);
+        if(!this.model.isValidCornerPoints(cornersBox)) {
+            errors = this.model.cornerErrors(cornersBox);
             this.showBboxErrors(errors);
             return false;
         }

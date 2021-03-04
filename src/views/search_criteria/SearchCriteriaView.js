@@ -37,11 +37,10 @@ class SearchCriteriaView extends InputViewBase {
         }
 
         this.bindEvents(this.mediator);
-        //_.bindAll(this);
     }
 
     bindEvents(mediator) {
-        //this.options.searchResultsCollection.on('reset', this.onSearchResultsReset, this);
+        this.options.collection.on('reset', this.onSearchResultsReset, this);
         mediator.on('search:clearParams', this.onSearchClearParams, this);
         mediator.on('search:example', this.onExampleSearch, this);
     }
@@ -104,12 +103,12 @@ class SearchCriteriaView extends InputViewBase {
     }
 
     onSearchResultsReset() {
-        this.keywordsView.setSearchTermField(this.options.searchResultsCollection);
+        this.keywordsView.setSearchTermField(this.options.collection);
         this.temporalCoverageView.render(
-          this.options.searchResultsCollection.getStartDate(),
-          this.options.searchResultsCollection.getEndDate()
+          this.options.collection.getStartDate(),
+          this.options.collection.getEndDate()
         );
-        this.spatialCoverageView.render(this.options.searchResultsCollection.getOsGeoBbox().split(',').join(', '));
+        this.spatialCoverageView.render(this.options.collection.getOsGeoBbox().split(',').join(', '));
     }
 
     onKeyPressedInInput(event) {
@@ -140,26 +139,25 @@ class SearchCriteriaView extends InputViewBase {
         this.keywordsView = new KeywordsView({
             el: this.$el.find('#keywords-container'),
             mediator: this.mediator,
-            autoSuggestEnabled: this.options.config.searchCriteriaView.autoSuggestEnabled,
-            autoSuggestPath: this.options.config.searchCriteriaView.autoSuggestPath
+            autoSuggestEnabled: this.options.config.features.autoSuggestEnabled,
+            autoSuggestPath: this.options.config.features.autoSuggestPath
         }).render();
 
         this.spatialCoverageView = new SpatialCoverageView({
             el: this.$el.find('#spatial-container'),
+            mediator: this.mediator,
             model: this.geoBoundingBoxModel,
             map: this.options.map,
-            features: this.options.features,
-            mediator: this.mediator
+            config: this.options.config.spatialCoverageView,
         }).render();
 
         this.temporalCoverageView = new TemporalCoverageView({
             el: this.$el.find('#temporal-container'),
             mediator: this.mediator,
-            model: this.model
-
+            model: this.model,
+            config: this.options.config.temporalCoverageView
         }).render();
 
-        // TODO: is "reset" here referring to the reset setting in appConfig?
         if (this.options.reset !== 'off') {
           this.$el.find('#reset-search').css('display', 'initial');
         }
