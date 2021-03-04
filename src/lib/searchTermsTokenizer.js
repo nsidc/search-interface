@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import $ from 'jquery';
 import XRegExp from 'xregexp';
 
 class SearchTermsTokenizer {

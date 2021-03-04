@@ -1,6 +1,6 @@
 import _ from 'underscore';
+import $ from 'jquery';
 import JSONFacets from './JSONFacets';
-
 
 function parseFacets(entryXml, nameMap) {
         let facets = [];

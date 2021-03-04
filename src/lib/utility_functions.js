@@ -79,7 +79,7 @@ export function isFloat(number) {
       return matches ? true : false;
 }
 
-export function removeEmptyElementsFromArray(array) {
+function removeEmptyElementsFromArray(array) {
       const tempArray = [];
       _.each(array, function (element) {
         if (element !== '') {
@@ -97,9 +97,7 @@ export function round(number, precision) {
 }
 
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
-    let results = [],
-        removeTags = this.removeTags,
-        removeWhitespace = this.removeWhitespace;
+    let results = [];
 
     if (jQueryArray.text() === '') {
       return undefined;
@@ -115,7 +113,7 @@ export function getArrayFromjQueryArrayTextContents(jQueryArray) {
     return results;
 }
 
-export function osGeoBoxToNsewObj(osGeoBox) {
+function osGeoBoxToNsewObj(osGeoBox) {
     let bboxArray, cardinals, coords = {};
 
     if (osGeoBox === undefined || osGeoBox === '') {
@@ -140,7 +138,7 @@ export function nsewObjToIdentifier(coords) {
 }
 
 export function osGeoBoxToIdentifier(osGeoBox) {
-    return this.nsewObjToIdentifier(this.osGeoBoxToNsewObj(osGeoBox));
+    return nsewObjToIdentifier(osGeoBoxToNsewObj(osGeoBox));
 }
 
 export function osGeoBoxFromIdentifier(identifier) {
@@ -152,7 +150,7 @@ export function osGeoBoxFromIdentifier(identifier) {
     }
 
     bboxArray = identifier.split(/,?\ *[NSEW]:/);
-    bboxArray = this.removeEmptyElementsFromArray(bboxArray);
+    bboxArray = removeEmptyElementsFromArray(bboxArray);
     if (bboxArray.length === 1) {
       return '';
     }
@@ -164,8 +162,3 @@ export function osGeoBoxFromIdentifier(identifier) {
     geoBox = [coords.west, coords.south, coords.east, coords.north].join(',');
     return (geoBox === ',,,' ? '' : geoBox);
 }
-
-export function nsewObjFromIdentifier(identifier) {
-    return this.osGeoBoxToNsewObj(this.osGeoBoxFromIdentifier(identifier));
-}
-

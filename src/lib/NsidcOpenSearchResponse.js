@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import _ from 'underscore';
 import JSONResults from './JSONResults';
 import * as UtilityFunctions from './utility_functions';
 

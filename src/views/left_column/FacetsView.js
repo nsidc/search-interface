@@ -1,5 +1,6 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 import FacetView from './FacetView';
 import viewTemplate from '../../templates/left_column/facet.html';
 
