@@ -1,8 +1,12 @@
 import _ from 'underscore';
 import $ from 'jquery';
-import { format, getDaysInMonth, isValid, parse, toDate } from 'date-fns';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import { endOfMonth, endOfYear, format, getDaysInMonth, isValid, parse, parseISO, toDate } from 'date-fns';
 import InputViewBase from '../InputViewBase';
 import viewTemplate from '../../templates/search_criteria/temporal_search.html';
+import 'bootstrap-datepicker';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
 
 // https://github.com/nsidc/bootstrap-datepicker/blob/nsidc/docs/options.rst
 const datepickerOptions = {
@@ -42,6 +46,10 @@ class TemporalCoverageView extends InputViewBase {
             'blur .combo-box-input': 'onBlurInput',
             'change .combo-box-input': 'onBlurInput'
         };
+    }
+
+    get template() {
+        return _.template(viewTemplate);
     }
 
     bindEvents(mediator) {
@@ -93,19 +101,21 @@ class TemporalCoverageView extends InputViewBase {
 
         // if the error has an associated input element, highlight the element
         // TODO: Replace tipsy with tippy (already done for Facets)
-        this.$(dateError.element).attr('title', dateError.message).tipsy('show');
+        this.$(dateError.element).attr('title', dateError.message).get(0)._tippy.show();
         this.$(dateError.element).focus();
         this.highlightInvalidInput(dateError.highlightElements);
     }
 
     hideDateError(dateError) {
-        this.$(dateError.element).tipsy('hide');
+        this.$(dateError.element).get(0)._tippy.hide();
         this.removeHighlighting(dateError.highlightElements);
     }
 
     hideAllDateErrors() {
         _.each(dateStatus, function (value) {
-            this.hideDateError(value);
+            if (value.element !== null) {
+              this.hideDateError(value);
+            }
         }, this);
     }
 
@@ -150,12 +160,14 @@ class TemporalCoverageView extends InputViewBase {
 
         // user typed in just '2014', give them '2014-12-31'
         if(inputString.match(rYearOnly)) {
-            date.setMonth(11); // 0 is January, 11 is December
-            date.setDate(31); // day is set relative to the first of December
+            date = endOfYear(date);
+            // date.setMonth(11); // 0 is January, 11 is December
+            // date.setDate(31); // day is set relative to the first of December
         }
         // user typed in just '2014-04', give them '2014-04-30'
         else if(inputString.match(rYearMonthOnly)) {
-            date.setDate(getDaysInMonth(date));
+            date = endOfMonth(date);
+            // date.setDate(getDaysInMonth(date));
         }
 
         return date;
@@ -167,9 +179,9 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     onAppHome() {
-        // $('div.start-date').tipsy('hide');
-        // $('input#start-date').tipsy('hide');
-        // $('input#end-date').tipsy('hide');
+        $('div.start-date').hide();
+        $('input#start-date').hide();
+        $('input#end-date').hide();
         this.render();
     }
 
@@ -178,15 +190,11 @@ class TemporalCoverageView extends InputViewBase {
     formatDateInput(target) {
         let id = target.id,
             value = target.value,
-            date = toDate(value),
             newDateValue;
         const dateFormat = 'yyyy-MM-dd';
 
         // TODO: What is an appropriate reference date?
-        // if the date is invalid, try parsing it with a given format
-        if(!isValid(date)) {
-            date = parse(value, dateFormat, datepickerOptions.startDate);
-        }
+        let date = parse(value, dateFormat, datepickerOptions.startDate);
 
         if(id === 'end-date' && isValid(date)) {
             date = this.adjustEndDate(date, value);
@@ -202,15 +210,18 @@ class TemporalCoverageView extends InputViewBase {
 
     updateDateErrorDisplay() {
         if(this.isValidDateRange()) {
+            console.log('whiz');
             this.hideAllDateErrors();
         }
         else {
+            console.log('bang');
             this.showDateError(this.getDateError());
         }
     }
 
     render(startDate, endDate) {
-        //let tipsyOptions = {gravity: 'nw', trigger: 'manual', opacity: 1, className: 'temporal', html: true};
+        let tippyOptions = {placement: 'top-start', trigger: 'manual', allowHTML: true};
+        // className: 'temporal', 
 
         if(startDate === undefined) {
             startDate = '';
@@ -219,14 +230,16 @@ class TemporalCoverageView extends InputViewBase {
             endDate = '';
         }
 
-        this.$el.html(_.template(viewTemplate)({startDate: startDate, endDate: endDate}));
-        // this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
+        this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
 
         // this.$('div.start-date').tipsy(tipsyOptions);
         // this.$('input#start-date').tipsy(tipsyOptions);
         // this.$('input#end-date').tipsy(tipsyOptions);
+        tippy('div.start-date', { ...tippyOptions, content: dateStatus.BAD_DATE_RANGE.message });
+        tippy('input#start-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_START.message });
+        tippy('input#end-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_END.message });
 
-        //this.setupDatepicker(datepickerOptions);
+        this.setupDatepicker(datepickerOptions);
 
         return this;
     }
@@ -256,7 +269,10 @@ class TemporalCoverageView extends InputViewBase {
     // in this view, the date inputs are valid if they are empty or if they
     // contain a date in the yyyy-mm-dd format
     dateIsValid(date) {
-        return date === '' || isValid(date);
+        const parsed = parse(date, 'yyyy-MM-dd', new Date());
+        // console.log(`${date} => ${format(parsed, 'yyyy-MM-dd')}`);
+        console.log(`${date} -=> ${parsed}`);
+        return date === '' || isValid(parsed);
     }
 }
 
