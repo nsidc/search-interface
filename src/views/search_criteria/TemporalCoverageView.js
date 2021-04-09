@@ -2,7 +2,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
-import { endOfMonth, endOfYear, format, getDaysInMonth, isValid, parse, parseISO, toDate } from 'date-fns';
+import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid, parse } from 'date-fns';
 import InputViewBase from '../InputViewBase';
 import viewTemplate from '../../templates/search_criteria/temporal_search.html';
 import 'bootstrap-datepicker';
@@ -100,7 +100,6 @@ class TemporalCoverageView extends InputViewBase {
         this.hideAllDateErrors();
 
         // if the error has an associated input element, highlight the element
-        // TODO: Replace tipsy with tippy (already done for Facets)
         this.$(dateError.element).attr('title', dateError.message).get(0)._tippy.show();
         this.$(dateError.element).focus();
         this.highlightInvalidInput(dateError.highlightElements);
@@ -152,27 +151,6 @@ class TemporalCoverageView extends InputViewBase {
             (rangeValid || onlyOneDateEntered);
     }
 
-    // Fix missing end date info manually.
-    // Assumes at least a year value was entered.
-    adjustEndDate(date, inputString) {
-        const rYearOnly = /^[0-9]{4}\-?$/;
-        const rYearMonthOnly = /^[0-9]{4}\-[0-9]{1,2}\-?$/;
-
-        // user typed in just '2014', give them '2014-12-31'
-        if(inputString.match(rYearOnly)) {
-            date = endOfYear(date);
-            // date.setMonth(11); // 0 is January, 11 is December
-            // date.setDate(31); // day is set relative to the first of December
-        }
-        // user typed in just '2014-04', give them '2014-04-30'
-        else if(inputString.match(rYearMonthOnly)) {
-            date = endOfMonth(date);
-            // date.setDate(getDaysInMonth(date));
-        }
-
-        return date;
-    }
-
     onBlurInput(e) {
         this.formatDateInput(e.target);
         this.updateDateErrorDisplay();
@@ -185,59 +163,68 @@ class TemporalCoverageView extends InputViewBase {
         this.render();
     }
 
-    // convert date format to YYYY-MM-DD, fill in full date if just year or year
-    // and month is given
+    // Parse and convert the date entered in the input field to a valid Date.
+    // If a partial (but valid) date has been entered, fill in the rest
+    // appropriately, depending on whether its the start or end date.
     formatDateInput(target) {
         let id = target.id,
             value = target.value,
             newDateValue;
-        const dateFormat = 'yyyy-MM-dd';
 
-        // TODO: What is an appropriate reference date?
-        let date = parse(value, dateFormat, datepickerOptions.startDate);
+        // Date formats to try, along with functions to use if the date entered
+        // is partial. E.g., if `1969` is entered for the start date, call the
+        // `startOfYear` function to get a valid date of 1969-01-01. Or if
+        // `2012-08` is entered for the end-date, use the `endOfMonth` function
+        // to get a full valid date of `2012-08-31`.
+        const dateFormats = [
+            ['yyyy-MM-dd', _.identity, _.identity],
+            ['yyyy-MM', startOfMonth, endOfMonth],
+            ['yyyy', startOfYear, endOfYear]
+        ];
 
-        if(id === 'end-date' && isValid(date)) {
-            date = this.adjustEndDate(date, value);
+        const dates = _.map(dateFormats,
+            function ([format, startFn, endFn]) {
+                return (id === 'start-date' ?
+                    startFn(parse(value, format, new Date())) :
+                    endFn(parse(value, format, new Date())))
+            });
+        const validDates = _.filter(dates, isValid);
+
+        if (_.size(validDates) > 0) {
+            newDateValue = _.first(validDates);
+        } else {
+            newDateValue = dates[0];
         }
-
-        newDateValue = toDate(date);
 
         if(isValid(newDateValue)) {
-            this.setInputField(id, newDateValue);
+            let formattedDate = format(newDateValue, 'yyyy-MM-dd');
+            this.setInputField(id, formattedDate);
+            this.$(`.${id}`).datepicker('update', newDateValue);
         }
-
     }
 
     updateDateErrorDisplay() {
         if(this.isValidDateRange()) {
-            console.log('whiz');
             this.hideAllDateErrors();
         }
         else {
-            console.log('bang');
             this.showDateError(this.getDateError());
         }
     }
 
     render(startDate, endDate) {
-        let tippyOptions = {placement: 'top-start', trigger: 'manual', allowHTML: true};
-        // className: 'temporal', 
-
-        if(startDate === undefined) {
-            startDate = '';
-        }
-        if(endDate === undefined) {
-            endDate = '';
-        }
+        startDate = startDate || '';
+        endDate = endDate || '';
 
         this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
 
-        // this.$('div.start-date').tipsy(tipsyOptions);
-        // this.$('input#start-date').tipsy(tipsyOptions);
-        // this.$('input#end-date').tipsy(tipsyOptions);
+        let tippyOptions = {placement: 'top-start', trigger: 'manual', allowHTML: true};
         tippy('div.start-date', { ...tippyOptions, content: dateStatus.BAD_DATE_RANGE.message });
         tippy('input#start-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_START.message });
         tippy('input#end-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_END.message });
+        _.forEach(['div.start-date', 'input#start-date', 'input#end-date'], function (id) {
+            this.$(id).addClass('temporal');
+        }, this);
 
         this.setupDatepicker(datepickerOptions);
 
@@ -270,8 +257,6 @@ class TemporalCoverageView extends InputViewBase {
     // contain a date in the yyyy-mm-dd format
     dateIsValid(date) {
         const parsed = parse(date, 'yyyy-MM-dd', new Date());
-        // console.log(`${date} => ${format(parsed, 'yyyy-MM-dd')}`);
-        console.log(`${date} -=> ${parsed}`);
         return date === '' || isValid(parsed);
     }
 }

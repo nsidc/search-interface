@@ -64,6 +64,8 @@
     "sinon": "9.0.2",
     "style-loader": "^1.3.0",
     "stylelint": "13.6.1",
+    "typescript": "^4.2.4",
+    "typescript-language-server": "^0.5.1",
     "url-loader": "^4.1.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
