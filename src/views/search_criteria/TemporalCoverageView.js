@@ -8,16 +8,36 @@ import viewTemplate from '../../templates/search_criteria/temporal_search.html';
 import 'bootstrap-datepicker';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
 
+
+function toValue(dayCompletion, monthDayCompletion, date) {
+    const dateFormats = [
+        ['yyyy-MM-dd', _.identity],
+        ['yyyy-MM', dayCompletion],
+        ['yyyy', monthDayCompletion]
+    ];
+
+    const dates = _.map(dateFormats,
+        function ([format, completion]) {
+            let parsed = completion(parse(date, format, new Date()));
+            return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate(), 0, 0, 0);
+        });
+
+    return _.first(_.filter(dates, isValid)) || _.first(dates);
+}
+
+function toDisplay(date) {
+    return format(date, 'yyyy-MM-dd');
+}
+
 // https://github.com/nsidc/bootstrap-datepicker/blob/nsidc/docs/options.rst
 const datepickerOptions = {
-    minViewMode: 'days',
     autoclose: true,
-    format: 'yyyy-mm-dd',
-    startView: 'decade',
-    showOnFocus: false,
-    fillAsYouGo: true,
+    immediateUpdates: true,
     startDate: null, // filled in once the catalog-services request is complete
-    endDate: null
+    endDate: null,
+    startView: 'years',
+    minViewMode: 'days',
+    showOnFocus: false,
 };
 
 const dateStatus = {
@@ -43,8 +63,8 @@ class TemporalCoverageView extends InputViewBase {
 
     get events() {
         return {
-            'blur .combo-box-input': 'onBlurInput',
-            'change .combo-box-input': 'onBlurInput'
+            'blur .combo-box-input': 'updateDateDisplay',
+            'change .combo-box-input': 'updateDateDisplay'
         };
     }
 
@@ -119,14 +139,14 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     getDateError() {
-        let startDate = this.getInputField('start-date'),
-            endDate = this.getInputField('end-date');
+        let startDate = this.$('.start-date').datepicker('getDate');
+        let endDate = this.$('.end-date').datepicker('getDate');
 
-        if(!this.dateIsValid(startDate)) {
+        if(!isValid(startDate)) {
             return dateStatus.BAD_FORMAT_START;
         }
 
-        if(!this.dateIsValid(endDate)) {
+        if(!isValid(endDate)) {
             return dateStatus.BAD_FORMAT_END;
         }
 
@@ -138,22 +158,16 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     isValidDateRange() {
-        let startDate = this.getInputField('start-date'),
-            endDate = this.getInputField('end-date'),
-            rangeValid,
-            onlyOneDateEntered;
-
-        rangeValid = startDate <= endDate;
-        onlyOneDateEntered = startDate.length === 0 || endDate.length === 0;
-
-        return this.dateIsValid(startDate) &&
-            this.dateIsValid(endDate) &&
-            (rangeValid || onlyOneDateEntered);
-    }
-
-    onBlurInput(e) {
-        this.formatDateInput(e.target);
-        this.updateDateErrorDisplay();
+        let startDateValue = this.getInputField('start-date');
+        let endDateValue = this.getInputField('end-date');
+        let startDate = _.partial(toValue, startOfMonth, startOfYear)(startDateValue);
+        let endDate = _.partial(toValue, endOfMonth, endOfYear)(endDateValue);
+        console.log(startDateValue, endDateValue, startDate, endDate);
+        let ivdr = (startDateValue && !endDateValue && isValid(startDate)) ||
+            (!startDateValue && endDateValue && isValid(endDate)) ||
+            (isValid(startDate) && isValid(endDate) && startDate <= endDate);
+        console.log(ivdr);
+        return ivdr;
     }
 
     onAppHome() {
@@ -163,47 +177,13 @@ class TemporalCoverageView extends InputViewBase {
         this.render();
     }
 
-    // Parse and convert the date entered in the input field to a valid Date.
-    // If a partial (but valid) date has been entered, fill in the rest
-    // appropriately, depending on whether its the start or end date.
-    formatDateInput(target) {
-        let id = target.id,
-            value = target.value,
-            newDateValue;
-
-        // Date formats to try, along with functions to use if the date entered
-        // is partial. E.g., if `1969` is entered for the start date, call the
-        // `startOfYear` function to get a valid date of 1969-01-01. Or if
-        // `2012-08` is entered for the end-date, use the `endOfMonth` function
-        // to get a full valid date of `2012-08-31`.
-        const dateFormats = [
-            ['yyyy-MM-dd', _.identity, _.identity],
-            ['yyyy-MM', startOfMonth, endOfMonth],
-            ['yyyy', startOfYear, endOfYear]
-        ];
-
-        const dates = _.map(dateFormats,
-            function ([format, startFn, endFn]) {
-                return (id === 'start-date' ?
-                    startFn(parse(value, format, new Date())) :
-                    endFn(parse(value, format, new Date())))
-            });
-        const validDates = _.filter(dates, isValid);
-
-        if (_.size(validDates) > 0) {
-            newDateValue = _.first(validDates);
-        } else {
-            newDateValue = dates[0];
+    updateDateDisplay(e) {
+        let id = e.target.id;
+        const date = this.$(`.${id}`).datepicker('getDate');
+        if (isValid(date)) {
+            this.setInputField(id, format(date, 'yyyy-MM-dd'));
         }
-
-        if(isValid(newDateValue)) {
-            let formattedDate = format(newDateValue, 'yyyy-MM-dd');
-            this.setInputField(id, formattedDate);
-            this.$(`.${id}`).datepicker('update', newDateValue);
-        }
-    }
-
-    updateDateErrorDisplay() {
+        
         if(this.isValidDateRange()) {
             this.hideAllDateErrors();
         }
@@ -235,11 +215,20 @@ class TemporalCoverageView extends InputViewBase {
         this.$('.start-date').datepicker('destroy');
         this.$('.end-date').datepicker('destroy');
 
-        this.$('.start-date').datepicker(datepickerOptions);
-        this.$('.end-date').datepicker(_.extend({
+        this.$('.start-date').datepicker({ ...datepickerOptions, ...{
+            format: {
+                toValue: _.partial(toValue, startOfMonth, startOfYear),
+                toDisplay
+            }
+        }}); 
+        this.$('.end-date').datepicker({ ...datepickerOptions, ...{
+            format: {
+                toValue: _.partial(toValue, endOfMonth, endOfYear),
+                toDisplay
+            },
             defaultDay: 'last',
             defaultMonth: 11
-        }, datepickerOptions));
+        }});
     }
 
     onDateRangeRequestComplete(data, datepickerOptions) {
@@ -251,13 +240,6 @@ class TemporalCoverageView extends InputViewBase {
         datepickerOptions.endDate = today > endDate ? today : endDate;
 
         this.setupDatepicker(datepickerOptions);
-    }
-
-    // in this view, the date inputs are valid if they are empty or if they
-    // contain a date in the yyyy-mm-dd format
-    dateIsValid(date) {
-        const parsed = parse(date, 'yyyy-MM-dd', new Date());
-        return date === '' || isValid(parsed);
     }
 }
 
