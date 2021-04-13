@@ -1,11 +1,6 @@
 import 'tippy.js/dist/tippy.css'
-
-// import 'bootstrap-datepicker';
-// import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
-
 import { Datepicker } from 'vanillajs-datepicker';
 import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
-
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid, parse } from 'date-fns';
 import _ from 'underscore';
 import $ from 'jquery';
@@ -19,7 +14,7 @@ import viewTemplate from '../../templates/search_criteria/temporal_search.html';
  * (if necessary) using the provided completion functions. The resulting date
  * object is passed to the datepicker as its selected date.
  */
-function toValue(element, dayCompletion, monthDayCompletion, date) {
+function toValue(dayCompletion, monthDayCompletion, date) {
     const dateFormats = [
         ['yyyy-MM-dd', _.identity],
         ['yyyy-MM', dayCompletion],
@@ -29,12 +24,10 @@ function toValue(element, dayCompletion, monthDayCompletion, date) {
     const dates = _.map(dateFormats,
         function ([format, completion]) {
             let parsed = completion(parse(date, format, new Date()));
-            let adjustedDate = new Date(parsed.getUTCFullYear(), parsed.getUTCMonth(), parsed.getUTCDate());
-            return adjustedDate;
+            return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
         });
 
     let completedDate = _.first(_.filter(dates, isValid)) || _.first(dates);
-    console.log(`toValue: ${completedDate}`);
     return completedDate;
 }
 
@@ -44,23 +37,31 @@ function toValue(element, dayCompletion, monthDayCompletion, date) {
  */
 function toDisplay(date) {
     date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    console.log(date);
     return format(date, 'yyyy-MM-dd');
 }
 
-// https://github.com/nsidc/bootstrap-datepicker/blob/nsidc/docs/options.rst
+// https://mymth.github.io/vanillajs-datepicker/#/options
+// buttonClass is `btn` for integration with Bootstrap styles
+// minDate & maxDate filled in once the catalog-services request is complete
 const datepickerOptions = {
-    autoclose: true,
-    immediateUpdates: false,
-    startDate: null, // filled in once the catalog-services request is complete
-    endDate: null,
-    startView: 'decade',
-    minViewMode: 'days',
+    autohide: true,
+    buttonClass: 'btn',
+    minDate: null, 
+    maxDate: null,
+    startView: 2,
+    minViewMode: 0,
     showOnFocus: false,
+    showOnClick: false
+};
+
+// https://kabbouchi.github.io/tippyjs-v4-docs/all-options/
+const tippyOptions = { 
+    placement: 'top-start', 
+    trigger: 'manual', 
+    allowHTML: true
 };
 
 const dateStatus = {
-    VALID_DATES: {element: null},
     BAD_FORMAT_START: {
         element: 'input#start-date',
         highlightElements: ['input#start-date'],
@@ -93,12 +94,13 @@ class TemporalCoverageView extends InputViewBase {
         return _.template(viewTemplate);
     }
 
-    // get events() {
-    //     return {
-    //         'blur .combo-box-input': 'updateDateDisplay',
-    //         'change .combo-box-input': 'updateDateDisplay'
-    //     };
-    // }
+    get events() {
+        return {
+            'click .add-on': 'showDatepicker',
+            'blur .combo-box-input': 'updateDateDisplay',
+            'change .combo-box-input': 'updateDateDisplay'
+        };
+    }
 
     bindEvents(mediator) {
       mediator.on('app:home', this.onAppHome, this);
@@ -115,8 +117,8 @@ class TemporalCoverageView extends InputViewBase {
     requestDateRange() {
         let trigger = this.mediator.trigger;
 
-        // only make the request if we don't have the start date and end date
-        if(datepickerOptions.startDate === null && datepickerOptions.endDate === null) {
+        // only make the request if we don't have the min and max dates
+        if(datepickerOptions.minDate === null && datepickerOptions.maxDate === null) {
             $.ajax({
                 dataType: 'json',
                 // eslint-disable-next-line no-undef
@@ -131,11 +133,11 @@ class TemporalCoverageView extends InputViewBase {
 
     onDateRangeRequestComplete(data, datepickerOptions) {
         const today = new Date();
-        const startDate = format(data.start_date, 'yyyy-MM-dd');
-        const endDate = format(data.end_date,'yyyy-MM-dd');
+        const minDate = format(data.start_date, 'yyyy-MM-dd');
+        const maxDate = format(data.end_date,'yyyy-MM-dd');
 
-        datepickerOptions.startDate = startDate;
-        datepickerOptions.endDate = today > endDate ? today : endDate;
+        datepickerOptions.minDate = minDate;
+        datepickerOptions.maxDate = today > maxDate ? today : maxDate;
 
         this.setupDatepicker(datepickerOptions);
     }
@@ -146,10 +148,9 @@ class TemporalCoverageView extends InputViewBase {
 
         this.$el.html(this.template({ startDate: startDate, endDate: endDate }));
 
-        let tippyOptions = {placement: 'top-start', trigger: 'manual', allowHTML: true};
-        tippy('div.start-date', { ...tippyOptions, content: dateStatus.BAD_DATE_RANGE.message });
-        tippy('input#start-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_START.message });
-        tippy('input#end-date', { ...tippyOptions, content: dateStatus.BAD_FORMAT_END.message });
+        tippy('div.start-date', _.extend({}, tippyOptions, { content: dateStatus.BAD_DATE_RANGE.message }));
+        tippy('input#start-date', _.extend({}, tippyOptions, { content: dateStatus.BAD_FORMAT_START.message }));
+        tippy('input#end-date', _.extend({}, tippyOptions, { content: dateStatus.BAD_FORMAT_END.message }));
         _.forEach(['div.start-date', 'input#start-date', 'input#end-date'], function (id) {
             this.$(id).addClass('temporal');
         }, this);
@@ -160,52 +161,43 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     setupDatepicker(datepickerOptions) {
-        this.$('.start-date').datepicker('destroy');
-        this.$('.end-date').datepicker('destroy');
+        if (this.startDatepicker) {
+            this.startDatepicker.destroy();
+        }
+        if (this.endDatepicker) {
+            this.endDatepicker.destroy();
+        }
 
-        const startInput = document.querySelector('input[id="start-date"]');
-        const startDatepicker = new Datepicker(startInput, {
-            buttonClass: 'btn',
-        });
+        const startInput = $('input#start-date').get(0);
+        this.startDatepicker = new Datepicker(startInput, _.extend({}, 
+            datepickerOptions, {
+                format: {
+                    toValue: _.partial(toValue, startOfMonth, startOfYear),
+                    toDisplay
+                }
+            }
+        ));
 
-        const endInput = document.querySelector('input[id="end-date"]');
-        const endDatepicker = new Datepicker(endInput, {
-            buttonClass: 'btn',
-        });
-        
-        // this.$('.start-date').datepicker({
-        //     ...datepickerOptions,
-        //     defaultViewDate: new Date(),
-        //     format: {
-        //         toValue: _.partial(toValue, '.start-date', startOfMonth, startOfYear),
-        //         toDisplay
-        //     }
-        // });
-        // $('.start-date').datepicker().on('changeDate', function(e) {
-        //     console.log('changed to: ', e.date);
-        // });
-
-        // this.$('.end-date').datepicker({
-        //     ...datepickerOptions,
-        //     defaultViewDate: endOfYear(new Date()),
-        //     format: {
-        //         toValue: _.partial(toValue, '.end-date', startOfMonth, startOfYear),
-        //         toDisplay
-        //     }
-        // });
+        const endInput = $('input#end-date').get(0);
+        this.endDatepicker = new Datepicker(endInput, _.extend({},
+            datepickerOptions, {
+                format: {
+                   toValue: _.partial(toValue, endOfMonth, endOfYear),
+                   toDisplay
+                }
+            }
+        ));
     }
 
-    updateDateDisplay(e) {
-        console.log('on:');
-        console.log(e);
-        let id = e.target.id;
-        this.$(`.${id}`).datepicker('update');
-        // const date = this.$(`.${id}`).datepicker('getUTCDate');
-        // let formattedDate = format(date, 'yyyy-MM-dd');
-        // if (isValid(date)) {
-        //     this.setInputField(id, formattedDate);
-        // }
+    showDatepicker(e) {
+        if (e.target.parentElement.classList.contains('start-date')) {
+            this.startDatepicker.show();
+        } else if (e.target.parentElement.classList.contains('end-date')) {
+            this.endDatepicker.show();
+        }
+    }
 
+    updateDateDisplay() {
         let [valid, errors] = this.validate();
         this.hideAllDateErrors();
         if(!valid) {
@@ -216,12 +208,8 @@ class TemporalCoverageView extends InputViewBase {
     validate() {
       let startText = this.getInputField('start-date');
       let endText = this.getInputField('end-date');
-      // let startDate = _.partial(toValue, startOfMonth, startOfYear)(startText);
-      // let endDate = _.partial(toValue, endOfMonth, endOfYear)(endText);
-      let startDate = this.$('.start-date').datepicker('getUTCDate');
-      let endDate = this.$('.end-date').datepicker('getUTCDate');
-
-      console.log(`Trying to validate:\n (${startText}) ?= (${startDate})\n (${endText}) ?= (${endDate})`);
+      let startDate = this.startDatepicker.getDate();
+      let endDate = this.endDatepicker.getDate();
 
       let valid = true;
       let errors = [];
@@ -241,23 +229,16 @@ class TemporalCoverageView extends InputViewBase {
           errors.push(dateStatus.BAD_DATE_RANGE);
       }
 
-      console.log(`The attempted validation results: (${valid})`);
-      console.log(`The attempted validation errors: (${errors})`);
-
       return [valid, errors];
     }
 
     hideAllDateErrors() {
         _.each(dateStatus, function (value) {
-            if (value.element !== null) {
-              this.hideDateError(value);
-            }
+            this.hideDateError(value);
         }, this);
     }
 
     showDateError(dateError) {
-        console.log(dateError);
-        // if the error has an associated input element, highlight the element
         this.$(dateError.element).attr('title', dateError.message).get(0)._tippy.show();
         this.$(dateError.element).focus();
         this.highlightInvalidInput(dateError.highlightElements);
