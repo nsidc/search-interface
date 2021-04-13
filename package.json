@@ -33,6 +33,7 @@
     "tippy.js": "^6.3.0",
     "typeahead.js": "git+https://github.com/twitter/typeahead.js.git",
     "underscore": "^1.12.0",
+    "vanillajs-datepicker": "^1.1.4",
     "voca": "^1.4.0",
     "xregexp": "^5.0.1"
   },

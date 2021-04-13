@@ -1,6 +1,11 @@
 import 'tippy.js/dist/tippy.css'
-import 'bootstrap-datepicker';
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
+
+// import 'bootstrap-datepicker';
+// import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
+
+import { Datepicker } from 'vanillajs-datepicker';
+import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
+
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid, parse } from 'date-fns';
 import _ from 'underscore';
 import $ from 'jquery';
@@ -10,11 +15,11 @@ import viewTemplate from '../../templates/search_criteria/temporal_search.html';
 
 
 /**
- * Attempts to parse manually-entered dates, completing them with a month or day 
- * (if necessary) using the provided completion functions. This function is
- * passed to and used by the datepicker components.
+ * Attempts to parse manually-entered dates, completing them with a month or day
+ * (if necessary) using the provided completion functions. The resulting date
+ * object is passed to the datepicker as its selected date.
  */
-function toValue(dayCompletion, monthDayCompletion, date) {
+function toValue(element, dayCompletion, monthDayCompletion, date) {
     const dateFormats = [
         ['yyyy-MM-dd', _.identity],
         ['yyyy-MM', dayCompletion],
@@ -24,19 +29,22 @@ function toValue(dayCompletion, monthDayCompletion, date) {
     const dates = _.map(dateFormats,
         function ([format, completion]) {
             let parsed = completion(parse(date, format, new Date()));
-            let adjustedDate = new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate(), 0, 0, 0));
-            console.log(`toValue adjustedDate: ${adjustedDate}`);
+            let adjustedDate = new Date(parsed.getUTCFullYear(), parsed.getUTCMonth(), parsed.getUTCDate());
             return adjustedDate;
         });
 
-    return _.first(_.filter(dates, isValid)) || _.first(dates);
+    let completedDate = _.first(_.filter(dates, isValid)) || _.first(dates);
+    console.log(`toValue: ${completedDate}`);
+    return completedDate;
 }
 
 /**
- * Formats a valid Date as a textual representation, e.g., 2010-03-31. This
- * function is passed to and used by the datepicker components.
+ * Formats a valid Date as a textual representation, e.g., 2010-03-31 for
+ * display in the datepicker input field.
  */
 function toDisplay(date) {
+    date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+    console.log(date);
     return format(date, 'yyyy-MM-dd');
 }
 
@@ -85,12 +93,12 @@ class TemporalCoverageView extends InputViewBase {
         return _.template(viewTemplate);
     }
 
-    get events() {
-        return {
-            'blur .combo-box-input': 'updateDateDisplay',
-            'change .combo-box-input': 'updateDateDisplay'
-        };
-    }
+    // get events() {
+    //     return {
+    //         'blur .combo-box-input': 'updateDateDisplay',
+    //         'change .combo-box-input': 'updateDateDisplay'
+    //     };
+    // }
 
     bindEvents(mediator) {
       mediator.on('app:home', this.onAppHome, this);
@@ -155,31 +163,49 @@ class TemporalCoverageView extends InputViewBase {
         this.$('.start-date').datepicker('destroy');
         this.$('.end-date').datepicker('destroy');
 
-        this.$('.start-date').datepicker({ ...datepickerOptions, ...{
-            format: {
-                toValue: _.partial(toValue, startOfMonth, startOfYear),
-                toDisplay
-            }
-            /* TODO: Default to today */
-        }}); 
-        this.$('.end-date').datepicker({ ...datepickerOptions, ...{
-            format: {
-                toValue: _.partial(toValue, endOfMonth, endOfYear),
-                toDisplay
-            },
-            /* TODO: Default to end of year */
-            defaultDay: 'last',
-            defaultMonth: 11
-        }});
+        const startInput = document.querySelector('input[id="start-date"]');
+        const startDatepicker = new Datepicker(startInput, {
+            buttonClass: 'btn',
+        });
+
+        const endInput = document.querySelector('input[id="end-date"]');
+        const endDatepicker = new Datepicker(endInput, {
+            buttonClass: 'btn',
+        });
+        
+        // this.$('.start-date').datepicker({
+        //     ...datepickerOptions,
+        //     defaultViewDate: new Date(),
+        //     format: {
+        //         toValue: _.partial(toValue, '.start-date', startOfMonth, startOfYear),
+        //         toDisplay
+        //     }
+        // });
+        // $('.start-date').datepicker().on('changeDate', function(e) {
+        //     console.log('changed to: ', e.date);
+        // });
+
+        // this.$('.end-date').datepicker({
+        //     ...datepickerOptions,
+        //     defaultViewDate: endOfYear(new Date()),
+        //     format: {
+        //         toValue: _.partial(toValue, '.end-date', startOfMonth, startOfYear),
+        //         toDisplay
+        //     }
+        // });
     }
 
     updateDateDisplay(e) {
+        console.log('on:');
+        console.log(e);
         let id = e.target.id;
-        const date = this.$(`.${id}`).datepicker('getDate');
-        if (isValid(date)) {
-            this.setInputField(id, format(date, 'yyyy-MM-dd'));
-        }
-        
+        this.$(`.${id}`).datepicker('update');
+        // const date = this.$(`.${id}`).datepicker('getUTCDate');
+        // let formattedDate = format(date, 'yyyy-MM-dd');
+        // if (isValid(date)) {
+        //     this.setInputField(id, formattedDate);
+        // }
+
         let [valid, errors] = this.validate();
         this.hideAllDateErrors();
         if(!valid) {
@@ -190,12 +216,12 @@ class TemporalCoverageView extends InputViewBase {
     validate() {
       let startText = this.getInputField('start-date');
       let endText = this.getInputField('end-date');
-      let startDate = _.partial(toValue, startOfMonth, startOfYear)(startText);
-      let endDate = _.partial(toValue, endOfMonth, endOfYear)(endText);
-      let startD = this.$('.start-date').datepicker('getDate');
-      let endD = this.$('.end-date').datepicker('getDate');
+      // let startDate = _.partial(toValue, startOfMonth, startOfYear)(startText);
+      // let endDate = _.partial(toValue, endOfMonth, endOfYear)(endText);
+      let startDate = this.$('.start-date').datepicker('getUTCDate');
+      let endDate = this.$('.end-date').datepicker('getUTCDate');
 
-      console.log(`Trying to validate:\n (${startText}) (${endText})\n (${startDate}) (${endDate})\n (${startD}) (${endD})`);
+      console.log(`Trying to validate:\n (${startText}) ?= (${startDate})\n (${endText}) ?= (${endDate})`);
 
       let valid = true;
       let errors = [];
@@ -217,7 +243,7 @@ class TemporalCoverageView extends InputViewBase {
 
       console.log(`The attempted validation results: (${valid})`);
       console.log(`The attempted validation errors: (${errors})`);
-      
+
       return [valid, errors];
     }
 
