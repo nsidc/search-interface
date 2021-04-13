@@ -4,10 +4,11 @@
   actually an outdated package; should be using @popperjs/core.
 - Replaced jquery/tipsy with tippy as a bridge. Eventually should go with React
   components (everest-ui currently uses react-tooltip).
-- Finished integration of the TemporalCoverageView with the datepicker. We continue
-  to use bootstrap-datepicker, but may switch to another at some point since it 
-  appears to be unmaintained.
 - Switched to tippy.js in the TemporalCoverageView.
+- Finished integration of the TemporalCoverageView with the datepicker. We switched
+  to use vanillajs-datepicker due to the unsupported status of the old datepicker.
+  In addition, the vanillajs datepicker ended up being simpler to do various
+  integrations with validations, etc.
 - Added a template() method to the temporal coverage view to render & set the View
   object's element.
 - Switched to the date-fns package to parse, validate, and format date time strings.
