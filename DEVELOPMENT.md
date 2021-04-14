@@ -34,11 +34,10 @@ also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
 * The `tipsy` tooltip package is no longer being updated. I installed `tippy`
   in an effort to use something more current, as well as to move away from
   another `jQuery` dependency. The tooltips have been updated for the facet
-  lists on the left side of the UI, but still need to be reinstated for the
-  time fields.
+  lists on the left side of the UI, but have been reinstated for the
+  date/time fields.
 * An updated `typeahead` package is now installed, but the existing code
   apparently needs some modification before it'll work.
-* The `datepicker` widget still needs to be updated.
 * Styling in general needs to be cleaned up. Moving to the most recent
   version of `Bootstrap.css` resulted in some dramatic changes; the
   application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
