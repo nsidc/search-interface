@@ -1,9 +1,12 @@
-import * as Backbone from 'backbone';
+import Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
-import SpatialSelectionUtilities from '../../lib/spatial_selection_map/SpatialSelectionUtilities';
+
+import SearchMap from '../../lib/SearchMap';
+import * as mapConstants from '../../lib/spatial_selection_map/constants';
 import viewTemplate from '../../templates/search_criteria/compass.html';
 
+// TODO: What about articles indicating Backbone & ES classes don't play well together?
 class SpatialCoverageCompassView extends Backbone.View {
 
     get events() {
@@ -45,7 +48,7 @@ class SpatialCoverageCompassView extends Backbone.View {
         mediator.on('map:clearSelection', this.mapSelectionCleared, this);
         mediator.on('map:changeBoundingBox', this.mapBoundingBoxChanged, this);
         mediator.on('map:changeCoordinates', this.mapCoordinatesChanged, this);
-        // mediator.on('map:changeSize', this.mapSizeChanged, this);
+        mediator.on('map:changeSize', this.mapSizeChanged, this);
         mediator.on('map:click', this.clearSpatialSelection, this);
     }
 
@@ -94,15 +97,16 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     initMap() {
-        // this.map = new OpenLayerMap({
-        //     mapContainerEl: this.$el.find('#map-container')
-        // }, SpatialSelectionUtilities.PROJECTION_NAMES[defaultMapProjection]);
+        this.map = new SearchMap(
+            { mapContainerEl: this.$el.find('#map-container') },
+            mapConstants.PROJECTION_NAMES[this.defaultMapProjection]
+        );
     }
 
     selectDefaultMapView() {
-        // var projection = this.getProjectionIdentifierByName(defaultMapProjection),
-        //     selectMapViewElementID = '#spatial_srid_' + projection;
-        // $(selectMapViewElementID).click();
+        var projection = this.getProjectionIdentifierByName(this.defaultMapProjection),
+            selectMapViewElementID = '#spatial_srid_' + projection;
+        $(selectMapViewElementID).click();
     }
 
     render() {
@@ -350,7 +354,7 @@ class SpatialCoverageCompassView extends Backbone.View {
         this.bboxErrorsInitialRender();
         this.clearCorners();
         this.mapSelectionCleared();
-        this.clearMap(SpatialSelectionUtilities.PROJECTION_NAMES[this.currentMapProjection]);
+        this.clearMap(mapConstants.PROJECTION_NAMES[this.currentMapProjection]);
     }
 
     reset() {
@@ -424,17 +428,17 @@ class SpatialCoverageCompassView extends Backbone.View {
 
     northProjectionClicked() {
         this.currentMapProjection = 'EASE_GRID_NORTH';
-        this.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_NORTH);
+        this.changeProjection(mapConstants.PROJECTION_NAMES.EASE_GRID_NORTH);
     }
 
     globalProjectionClicked() {
         this.currentMapProjection = 'GLOBAL';
-        this.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.GLOBAL);
+        this.changeProjection(mapConstants.PROJECTION_NAMES.GLOBAL);
     }
 
     southProjectionClicked() {
         this.currentMapProjection = 'EASE_GRID_SOUTH';
-        this.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_SOUTH);
+        this.changeProjection(mapConstants.PROJECTION_NAMES.EASE_GRID_SOUTH);
     }
 
     showCorners() {
@@ -456,12 +460,12 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     changeProjection(newProjection) {
-        if(newProjection === SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_NORTH ||
-            newProjection === SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_SOUTH) {
+        if(newProjection === mapConstants.PROJECTION_NAMES.EASE_GRID_NORTH ||
+            newProjection === mapConstants.PROJECTION_NAMES.EASE_GRID_SOUTH) {
             this.clearCorners();
             this.showCorners();
         }
-        else if(newProjection === SpatialSelectionUtilities.PROJECTION_NAMES.GLOBAL) {
+        else if(newProjection === mapConstants.PROJECTION_NAMES.GLOBAL) {
             this.mapSelectionCleared();
             this.showNSEW();
         }

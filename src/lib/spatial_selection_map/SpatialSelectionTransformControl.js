@@ -1,34 +1,35 @@
-define(['lib/mediator_mixin'], function (mediatorMixin) {
+import OpenLayers from 'ol';
 
-  var SpatialSelectionTransformControl = OpenLayers.Class(OpenLayers.Control.TransformFeature, {
-    defaultOptions : {
-      renderIntent: 'transform'
-    },
+import mediatorMixin from '../mediator_mixin';
 
-    initialize : function (selectionLayer, options) {
-      this.rotate = false;
-      this.selectionLayer = selectionLayer;
+var SpatialSelectionTransformControl = OpenLayers.Class(OpenLayers.Control.TransformFeature, {
+  defaultOptions : {
+    renderIntent: 'transform'
+  },
 
-      this.options = OpenLayers.Util.extend(
-        options, this.defaultOptions
-      );
-      OpenLayers.Control.TransformFeature.prototype.initialize.apply(
-        this, arguments
-      );
+  initialize : function (selectionLayer, options) {
+    this.rotate = false;
+    this.selectionLayer = selectionLayer;
 
-      this.bindEvents();
-    },
+    this.options = OpenLayers.Util.extend(
+      options, this.defaultOptions
+    );
+    OpenLayers.Control.TransformFeature.prototype.initialize.apply(
+      this, arguments
+    );
 
-    bindEvents : function () {
-      this.events.register('transformcomplete', this, this.onSelectionDone);
-    },
+    this.bindEvents();
+  },
 
-    onSelectionDone : function (evt) {
-      this.mediator.trigger('map:selectionDone', evt.feature.geometry);
-    }
-  });
+  bindEvents : function () {
+    this.events.register('transformcomplete', this, this.onSelectionDone);
+  },
 
-  _.extend(SpatialSelectionTransformControl.prototype, mediatorMixin);
-
-  return SpatialSelectionTransformControl;
+  onSelectionDone : function (evt) {
+    this.mediator.trigger('map:selectionDone', evt.feature.geometry);
+  }
 });
+
+_.extend(SpatialSelectionTransformControl.prototype, mediatorMixin);
+
+export default SpatialSelectionTransformControl;

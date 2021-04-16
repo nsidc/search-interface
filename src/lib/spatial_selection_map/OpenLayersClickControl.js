@@ -1,40 +1,42 @@
-define(['lib/mediator_mixin'], function (mediatorMixin) {
+import _ from 'underscore';
 
-  /*
-  * Click control to capture clicks on the map. If the transform control is active
-  * then a click will deactivate the transform control and activate the selection
-  * control.
-  */
-  var ClickControl = OpenLayers.Class(OpenLayers.Control, {
-    defaultHandlerOptions: {
-      'single': true,
-      'double': false,
-      'pixelTolerance': 0,
-      'stopSingle': false,
-      'stopDouble': false
-    },
+import OpenLayers from 'ol';
 
-    initialize: function () {
-      this.handlerOptions = OpenLayers.Util.extend(
-        {}, this.defaultHandlerOptions
-      );
-      OpenLayers.Control.prototype.initialize.apply(
-        this, arguments
-      );
-      this.handler = new OpenLayers.Handler.Click(
-        this,
-        {
-          'click': function (e) {
-            this.mediatorTrigger('map:click', e);
-          }
-        },
-        this.handlerOptions
-      );
-    }
-  });
+import mediatorMixin from '../mediator_mixin';
 
-  _.extend(ClickControl.prototype, mediatorMixin);
+/*
+* Click control to capture clicks on the map. If the transform control is active
+* then a click will deactivate the transform control and activate the selection
+* control.
+*/
+var ClickControl = OpenLayers.Class(OpenLayers.Control, {
+  defaultHandlerOptions: {
+    'single': true,
+    'double': false,
+    'pixelTolerance': 0,
+    'stopSingle': false,
+    'stopDouble': false
+  },
 
-  return ClickControl;
-
+  initialize: function () {
+    this.handlerOptions = OpenLayers.Util.extend(
+      {}, this.defaultHandlerOptions
+    );
+    OpenLayers.Control.prototype.initialize.apply(
+      this, arguments
+    );
+    this.handler = new OpenLayers.Handler.Click(
+      this,
+      {
+        'click': function (e) {
+          this.mediatorTrigger('map:click', e);
+        }
+      },
+      this.handlerOptions
+    );
+  }
 });
+
+_.extend(ClickControl.prototype, mediatorMixin);
+
+export default ClickControl;

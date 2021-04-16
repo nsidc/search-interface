@@ -1,32 +1,33 @@
-define(['lib/mediator_mixin'], function (mediatorMixin) {
+import OpenLayers from 'ol';
 
-  var SpatialSelectionControl = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
-    defaultHandlerOptions : {
-      irregular: true
-    },
+import mediatorMixin from '../mediator_mixin';
 
-    initialize : function (selectionLayer, handler) {
-      this.selectionLayer = selectionLayer;
-      this.handler = handler;
+var SpatialSelectionControl = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
+  defaultHandlerOptions : {
+    irregular: true
+  },
 
-      this.handlerOptions = OpenLayers.Util.extend(
-        {}, this.defaultHandlerOptions
-      );
-      OpenLayers.Control.DrawFeature.prototype.initialize.apply(
-        this, arguments
-      );
+  initialize : function (selectionLayer, handler) {
+    this.selectionLayer = selectionLayer;
+    this.handler = handler;
 
-      this.bindEvents();
-    },
+    this.handlerOptions = OpenLayers.Util.extend(
+      {}, this.defaultHandlerOptions
+    );
+    OpenLayers.Control.DrawFeature.prototype.initialize.apply(
+      this, arguments
+    );
 
-    bindEvents : function () {
-      this.events.register('featureadded', this, function () {
-        this.mediatorTrigger('map:selectionMade');
-      });
-    }
-  });
+    this.bindEvents();
+  },
 
-  _.extend(SpatialSelectionControl.prototype, mediatorMixin);
-
-  return SpatialSelectionControl;
+  bindEvents : function () {
+    this.events.register('featureadded', this, function () {
+      this.mediatorTrigger('map:selectionMade');
+    });
+  }
 });
+
+_.extend(SpatialSelectionControl.prototype, mediatorMixin);
+
+export default SpatialSelectionControl;
