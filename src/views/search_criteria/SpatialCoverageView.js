@@ -1,5 +1,7 @@
-import * as Backbone from 'backbone';
+import Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
+
 import SpatialCoverageCompassView from './SpatialCoverageCompassView';
 import SpatialCoverageTextView from './SpatialCoverageTextView';
 import viewTemplate from '../../templates/search_criteria/spatial_search.html';
@@ -8,7 +10,7 @@ class SpatialCoverageView extends Backbone.View {
 
     get events() {
         return {
-            //'click #spatial-search-box': 'toggleCompassView'
+            'click #spatial-search-box': 'toggleCompassView'
         };
     }
 
@@ -31,7 +33,7 @@ class SpatialCoverageView extends Backbone.View {
             el: this.$el.find('#compass-container'),
             model: this.model,
             mediator: this.mediator,
-            // map: this.options.map,
+            map: this.options.map,
         }).render();
 
         return this;
@@ -39,10 +41,7 @@ class SpatialCoverageView extends Backbone.View {
 
     toggleCompassView() {
         this.spatialCoverageCompassView.toggleVisibility();
-        const compassInput = document.getElementById('spatial-options');
-        if(compassInput) {
-            compassInput.focus();
-        }
+        $('spatial-options').focus();
     }
 }
 

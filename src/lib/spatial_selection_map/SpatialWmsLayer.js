@@ -1,23 +1,22 @@
-define([], function () {
+import OpenLayers from 'ol';
 
-  var SpatialWmsLayer = OpenLayers.Class(OpenLayers.Layer.WMS, {
+var SpatialWmsLayer = OpenLayers.Class(OpenLayers.Layer.WMS, {
 
-    defaultOptions : {
-      format: 'image/png'
-    },
+  defaultOptions : {
+    format: 'image/png'
+  },
 
-    initialize : function (name, layer, options, wrapDateLine) {
+  initialize : function (name, layer, options, wrapDateLine) {
 
-      this.name = name;
-      this.layer = layer;
-      this.options = OpenLayers.Util.extend(options, this.defaultOptions);
-      this.wrapDateLine = wrapDateLine;
-      OpenLayers.Layer.WMS.prototype.initialize.apply(
-        this, arguments
-      );
+    this.name = name;
+    this.layer = layer;
+    this.options = OpenLayers.Util.extend(options, this.defaultOptions);
+    this.wrapDateLine = wrapDateLine;
+    OpenLayers.Layer.WMS.prototype.initialize.apply(
+      this, arguments
+    );
 
-    }
-  });
-
-  return SpatialWmsLayer;
+  }
 });
+
+export default SpatialWmsLayer;

@@ -1,40 +1,41 @@
-define(['lib/mediator_mixin'], function (mediatorMixin) {
+import OpenLayers from 'ol';
 
-  var SpatialSelectionLayer = OpenLayers.Class(OpenLayers.Layer.Vector, {
-    defaultOptions : {
-      displayInLayerSwitcher: false
-    },
+import mediatorMixin from '../mediator_mixin';
 
-    initialize : function (name, options) {
-      this.name = name;
-      this.options = OpenLayers.Util.extend(options, this.defaultOptions);
-      OpenLayers.Layer.Vector.prototype.initialize.apply(
-        this, arguments
-      );
+var SpatialSelectionLayer = OpenLayers.Class(OpenLayers.Layer.Vector, {
+  defaultOptions : {
+    displayInLayerSwitcher: false
+  },
 
-      this.bindEvents();
-    },
+  initialize : function (name, options) {
+    this.name = name;
+    this.options = OpenLayers.Util.extend(options, this.defaultOptions);
+    OpenLayers.Layer.Vector.prototype.initialize.apply(
+      this, arguments
+    );
 
-    bindEvents : function () {
-      this.events.register('sketchstarted', this, this.onClearSelection);
+    this.bindEvents();
+  },
 
-      this.events.register('sketchmodified', this, this.onSelectionDone);
+  bindEvents : function () {
+    this.events.register('sketchstarted', this, this.onClearSelection);
 
-      this.events.register('sketchcomplete', this, this.onSelectionDone);
-    },
+    this.events.register('sketchmodified', this, this.onSelectionDone);
 
-    onClearSelection : function () {
-      this.mediatorTrigger('map:clearSelection');
-    },
+    this.events.register('sketchcomplete', this, this.onSelectionDone);
+  },
 
-    onSelectionDone : function (evt) {
-      if (this.name !== 'Layer for Bboxes Crossing the Date Line') {
-        this.mediatorTrigger('map:selectionDone', evt.feature.geometry);
-      }
+  onClearSelection : function () {
+    this.mediatorTrigger('map:clearSelection');
+  },
+
+  onSelectionDone : function (evt) {
+    if (this.name !== 'Layer for Bboxes Crossing the Date Line') {
+      this.mediatorTrigger('map:selectionDone', evt.feature.geometry);
     }
-  });
-
-  _.extend(SpatialSelectionLayer.prototype, mediatorMixin);
-
-  return SpatialSelectionLayer;
+  }
 });
+
+_.extend(SpatialSelectionLayer.prototype, mediatorMixin);
+
+export default SpatialSelectionLayer;
