@@ -63,6 +63,8 @@ SRCH-??
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
 
+  TODO: Julia to review this and make sure we can push this to future development.
+
 SRCH-??
 -------
 * The Arctic Data Explorer (ADE) has been decommissioned, and
@@ -73,7 +75,10 @@ SRCH-??
 SRCH-??
 -------
 * The app still had a reference to "Crazy Egg Metrics." Are these still being
-  maintained/used?
+maintained/used?
+
+  TODO: Are there any Drupal metrics we need to care about?
+  TODO: Can we get rid of the crazy egg thingy
 
 SRCH-??
 -------
@@ -92,7 +97,7 @@ SRCH-??
 SRCH-??
 -------
 * Update documentation (e.g. README and DEVELOPMENT files; software architecture diagrams)
-  
+
 ### Longer term TODO
 * Move to ES20xx or Typescript.
 * Rewrite using React components?
@@ -280,7 +285,7 @@ skipped for now because they are failing intermittently.  Need to investigate.**
 Run the unit tests using Karma in HeadlessChrome with `grunt
 karma`. Test code is located in `spec/`, written in
 [Jasmine 1.3](http://jasmine.github.io/1.3/introduction.html) along with
-[Sinon](http://sinonjs.org/). 
+[Sinon](http://sinonjs.org/).
 
 Note that running these tests locally may result in failure. If so, try running
 the unit tests in a browser (discussed below).  Make sure unit tests pass in the
