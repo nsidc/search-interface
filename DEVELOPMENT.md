@@ -2,11 +2,11 @@
 
 * Resolve all Dependabot security updates.
 
-  Read up on how to find why a dependency is installed
-  Upgraded to npm v7, which has an `explain` subcommand
-  Ran `npm audit fix` to get non-breaking fixes automatically applied
-  Investigated npx -- why does npm audit suggest downgrading to v3?
-  Added `audit.txt` file with latest `npm audit` output
+  1. Read up on how to find why a dependency is installed
+  2. Upgraded to npm v7, which has an `explain` subcommand
+  3. Ran `npm audit fix` to get non-breaking fixes automatically applied
+  4. Investigated npx -- why does npm audit suggest downgrading to v3?
+  5. Added `audit.txt` file with latest `npm audit` output
 
 * The app still has a reference to "Crazy Egg Metrics." Determine if these
   are still needed, and if so, get rid of the dependency. Are there Drual or other
