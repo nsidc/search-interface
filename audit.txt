@@ -4,44 +4,20 @@ postcss  7.0.0 - 8.2.9
 Severity: moderate
 Regular Expression Denial of Service - https://npmjs.com/advisories/1693
 fix available via `npm audit fix --force`
-Will install css-loader@5.2.6, which is a breaking change
+Will install stylelint@9.3.0, which is a breaking change
 node_modules/postcss
   autoprefixer  9.0.0 - 9.8.6
   Depends on vulnerable versions of postcss
   node_modules/autoprefixer
-  css-loader  2.0.0 - 4.3.0
-  Depends on vulnerable versions of postcss
-  node_modules/css-loader
-  icss-utils  4.0.0 - 4.1.1
-  Depends on vulnerable versions of postcss
-  node_modules/icss-utils
-    postcss-modules-local-by-default  2.0.0 - 4.0.0-rc.4
-    Depends on vulnerable versions of icss-utils
-    Depends on vulnerable versions of postcss
-    node_modules/postcss-modules-local-by-default
-    postcss-modules-values  2.0.0 - 4.0.0-rc.5
-    Depends on vulnerable versions of icss-utils
-    Depends on vulnerable versions of postcss
-    node_modules/postcss-modules-values
   postcss-less  3.0.0 - 3.1.4
   Depends on vulnerable versions of postcss
   node_modules/postcss-less
     stylelint  >=9.4.0
     Depends on vulnerable versions of postcss
     Depends on vulnerable versions of postcss-less
-    Depends on vulnerable versions of postcss-reporter
     Depends on vulnerable versions of postcss-sass
     Depends on vulnerable versions of sugarss
     node_modules/stylelint
-  postcss-modules-extract-imports  2.0.0
-  Depends on vulnerable versions of postcss
-  node_modules/postcss-modules-extract-imports
-  postcss-modules-scope  2.0.0 - 2.2.0
-  Depends on vulnerable versions of postcss
-  node_modules/postcss-modules-scope
-  postcss-reporter  6.0.0 - 6.0.1
-  Depends on vulnerable versions of postcss
-  node_modules/postcss-reporter
   postcss-safe-parser  4.0.0 - 4.0.2
   Depends on vulnerable versions of postcss
   node_modules/postcss-safe-parser
@@ -65,7 +41,7 @@ node_modules/ws
   Depends on vulnerable versions of ws
   node_modules/webpack-dev-server
 
-17 moderate severity vulnerabilities
+10 moderate severity vulnerabilities
 
 To address issues that do not require attention, run:
   npm audit fix

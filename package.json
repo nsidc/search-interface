@@ -41,7 +41,7 @@
     "xregexp": "^5.0.1"
   },
   "devDependencies": {
-    "css-loader": "^4.3.0",
+    "css-loader": "^5.2.6",
     "eslint": "^7.18.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -67,7 +67,7 @@
     "sass-loader": "^10.1.1",
     "sinon": "9.0.2",
     "style-loader": "^1.3.0",
-    "stylelint": "13.6.1",
+    "stylelint": "^13.6.1",
     "typescript": "^4.2.4",
     "typescript-language-server": "^0.5.1",
     "url-loader": "^4.1.1",
