@@ -55,16 +55,6 @@ node_modules/postcss
   Depends on vulnerable versions of postcss
   node_modules/sugarss
 
-ua-parser-js  0.7.14 - 0.7.23
-Severity: high
-Regular Expression Denial of Service - https://npmjs.com/advisories/1679
-fix available via `npm audit fix --force`
-Will install karma@6.3.3, which is a breaking change
-node_modules/ua-parser-js
-  karma  5.0.0 - 5.2.3
-  Depends on vulnerable versions of ua-parser-js
-  node_modules/karma
-
 ws  5.0.0 - 7.4.5
 Severity: moderate
 Regular Expression Denial of Service - https://npmjs.com/advisories/1748
@@ -75,7 +65,7 @@ node_modules/ws
   Depends on vulnerable versions of ws
   node_modules/webpack-dev-server
 
-19 vulnerabilities (17 moderate, 2 high)
+17 moderate severity vulnerabilities
 
 To address issues that do not require attention, run:
   npm audit fix
