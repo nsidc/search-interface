@@ -18,16 +18,19 @@
     "start": "NODE_ENV=development webpack-dev-server --progress",
     "test": "echo \"No tests exist!\" "
   },
+  "engines":{
+    "node": "^14.0.0",
+    "npm": "^7.0.0"
+  },
   "dependencies": {
-    "OpenSearchlight": "git+https://github.com/nsidc/OpenSearchlight.git#soac-62",
     "backbone": "^1.4.0",
     "bootstrap": "^4.6.0",
     "date-fns": "^2.17.0",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
     "node-gyp": "^7.0.0",
-    "npm": "^7.15.1",
     "ol": "^6.5.0",
+    "OpenSearchlight": "git+https://github.com/nsidc/OpenSearchlight.git#soac-62",
     "popper.js": "^1.16.1",
     "proj4": "^2.6.3",
     "tippy.js": "^6.3.0",
@@ -60,7 +63,6 @@
     "karma-moment": "0.1.0",
     "karma-sinon": "1.0.5",
     "karma-spec-reporter": "0.0.32",
-    "npx": "^10.2.2",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "sinon": "9.0.2",

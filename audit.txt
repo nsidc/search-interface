@@ -1,93 +1,5 @@
 # npm audit report
 
-cryptiles  <=4.1.1
-Severity: high
-Insufficient Entropy - https://npmjs.com/advisories/1464
-Depends on vulnerable versions of boom
-fix available via `npm audit fix --force`
-Will install npx@3.0.0, which is a breaking change
-node_modules/cryptiles
-  hawk  0.0.6 - 6.0.2
-  Depends on vulnerable versions of boom
-  Depends on vulnerable versions of cryptiles
-  Depends on vulnerable versions of hoek
-  Depends on vulnerable versions of sntp
-  node_modules/hawk
-    request  2.16.0 - 2.83.0 || 2.85.0 - 2.86.0
-    Depends on vulnerable versions of hawk
-    node_modules/npx/node_modules/request
-      npm  <=6.14.12 || 7.0.0-beta.0 - 7.4.3
-      Depends on vulnerable versions of hosted-git-info
-      Depends on vulnerable versions of request
-      node_modules/npx/node_modules/npm
-        npx  >=4.0.0
-        Depends on vulnerable versions of libnpx
-        Depends on vulnerable versions of npm
-        node_modules/npx
-
-hoek  <=4.2.0 || 5.0.0 - 5.0.2
-Severity: moderate
-Prototype Pollution - https://npmjs.com/advisories/566
-fix available via `npm audit fix --force`
-Will install npx@3.0.0, which is a breaking change
-node_modules/hoek
-  boom  <=3.1.2
-  Depends on vulnerable versions of hoek
-  node_modules/boom
-    cryptiles  <=4.1.1
-    Depends on vulnerable versions of boom
-    node_modules/cryptiles
-      hawk  0.0.6 - 6.0.2
-      Depends on vulnerable versions of boom
-      Depends on vulnerable versions of cryptiles
-      Depends on vulnerable versions of hoek
-      Depends on vulnerable versions of sntp
-      node_modules/hawk
-        request  2.16.0 - 2.83.0 || 2.85.0 - 2.86.0
-        Depends on vulnerable versions of hawk
-        node_modules/npx/node_modules/request
-          npm  <=6.14.12 || 7.0.0-beta.0 - 7.4.3
-          Depends on vulnerable versions of hosted-git-info
-          Depends on vulnerable versions of request
-          node_modules/npx/node_modules/npm
-            npx  >=4.0.0
-            Depends on vulnerable versions of libnpx
-            Depends on vulnerable versions of npm
-            node_modules/npx
-  sntp  0.0.0 || 0.1.1 - 2.0.0
-  Depends on vulnerable versions of hoek
-  node_modules/sntp
-
-hosted-git-info  <2.8.9 || >=3.0.0 <3.0.8
-Severity: moderate
-Regular Expression Denial of Service - https://npmjs.com/advisories/1677
-fix available via `npm audit fix --force`
-Will install npx@3.0.0, which is a breaking change
-node_modules/npx/node_modules/hosted-git-info
-  npm  <=6.14.12 || 7.0.0-beta.0 - 7.4.3
-  Depends on vulnerable versions of hosted-git-info
-  Depends on vulnerable versions of request
-  node_modules/npx/node_modules/npm
-    npx  >=4.0.0
-    Depends on vulnerable versions of libnpx
-    Depends on vulnerable versions of npm
-    node_modules/npx
-
-npm  <=6.14.12 || 7.0.0-beta.0 - 7.4.3
-Severity: high
-Symlink reference outside of node_modules - https://npmjs.com/advisories/1436
-Global node_modules Binary Overwrite - https://npmjs.com/advisories/1437
-Sensitive Data Exposure - https://npmjs.com/advisories/1543
-Depends on vulnerable versions of hosted-git-info
-Depends on vulnerable versions of request
-fix available via `npm audit fix --force`
-Will install npx@3.0.0, which is a breaking change
-node_modules/npx/node_modules/npm
-  npx  >=4.0.0
-  Depends on vulnerable versions of libnpx
-  Depends on vulnerable versions of npm
-  node_modules/npx
-
 postcss  7.0.0 - 8.2.9
 Severity: moderate
 Regular Expression Denial of Service - https://npmjs.com/advisories/1693
@@ -163,23 +75,7 @@ node_modules/ws
   Depends on vulnerable versions of ws
   node_modules/webpack-dev-server
 
-yargs-parser  <=13.1.1 || 14.0.0 - 15.0.0 || 16.0.0 - 18.1.1
-Prototype Pollution - https://npmjs.com/advisories/1500
-fix available via `npm audit fix --force`
-Will install npx@3.0.0, which is a breaking change
-node_modules/libnpx/node_modules/yargs-parser
-  yargs  4.0.0-alpha1 - 12.0.5 || 14.1.0 || 15.0.0 - 15.2.0
-  Depends on vulnerable versions of yargs-parser
-  node_modules/libnpx/node_modules/yargs
-    libnpx  <=10.2.3 || >=11.0.0
-    Depends on vulnerable versions of yargs
-    node_modules/libnpx
-      npx  >=4.0.0
-      Depends on vulnerable versions of libnpx
-      Depends on vulnerable versions of npm
-      node_modules/npx
-
-31 vulnerabilities (4 low, 21 moderate, 6 high)
+19 vulnerabilities (17 moderate, 2 high)
 
 To address issues that do not require attention, run:
   npm audit fix
