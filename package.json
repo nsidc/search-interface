@@ -15,10 +15,10 @@
     "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
     "postversion": "./tag.sh",
-    "start": "NODE_ENV=development webpack-dev-server --progress",
+    "start": "NODE_ENV=development webpack serve --progress",
     "test": "echo \"No tests exist!\" "
   },
-  "engines":{
+  "engines": {
     "node": "^14.0.0",
     "npm": "^7.0.0"
   },
