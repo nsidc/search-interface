@@ -84,6 +84,9 @@ const config = {
   },
   resolve: {
     alias: {
+      // This alias exists because of a 'problem' with npm, webpack 5, and the
+      // vanillajs-datepicker package. See 'A Tale of Exports and Imports' in
+      // DEVELOPMENT.md for the details.
       'vjs-datepicker': path.resolve(__dirname, 'node_modules/vanillajs-datepicker/dist/css')
     }
   }

@@ -1,5 +1,6 @@
 import 'tippy.js/dist/tippy.css'
 import { Datepicker } from 'vanillajs-datepicker';
+// See 'A Tale of Exports and Imports' in DEVELOPMENT.md:
 import 'vjs-datepicker/datepicker-bs4.css';
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid, parse } from 'date-fns';
 import _ from 'underscore';

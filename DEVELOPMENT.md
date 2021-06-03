@@ -399,3 +399,41 @@ to include `--trace-warnings`. For example:
 If acceptance tests are failing with a warning about an invalid Xvnc password,
 run `vncpasswd` on the machine running the tests and set a dummy password
 (password value doesn't matter).
+
+### A Tale of Exports and Imports
+
+Apparently NodeJS has added a new thing in package.json called "exports". A package author can use this section to declare what things are exported for use, and a map to where they are located in the package directory.
+
+Webpack 5 now enforces this--if you attempt to import something which is not declared as exported from the package it is in, the import will fail. A package which omits the "exports" section defaults to everything being exported / importable. A package which includes the "exports" section only exports things listed, nothing else.
+
+This has the following side-effect:
+* Your code imports "foo" from package X
+* Your code imports "bar" from package Y
+* Package X has no "exports" section because the author(s) didn't know about this new feature
+* Package Y does have an exports section, but it does not export "bar" (possibly because they didn't understand this new feature)
+* Using webpack 4 is no problem, both imports work
+* Upgrading to webpack to v5 results in the import of "foo" succeeding and the import of "bar" failing
+
+In our case we were successfully importing CSS from vanillajs-datepicker, but when upgrading webpack to v5, the build started raising a new error indicating that the CSS could not be imported because the package (vanillajs-datepicker) did not export it.
+
+A workaround in the webpack config which bypasses the export / import rules:
+
+```
+resolve: {
+  alias: {
+    'vjs-datepicker': path.resolve(__dirname, 'node_modules/vanillajs-datepicker/dist/css')
+  }
+}
+```
+
+which allows the import of this form to work (currently used in `TemporalCoverageView`):
+
+```
+import 'vjs-datepicker/datepicker-bs4.css';
+```
+
+If / when the vanillajs-datepicker package updates their exports to export this CSS, we can change the import back to:
+
+```
+import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
+```
