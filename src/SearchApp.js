@@ -115,7 +115,7 @@ class SearchApp extends Backbone.Router {
             searchResultsCollection: this.searchResultsCollection,
             facetsCollection: this.facetsCollection,
             mediator: this.mediator
-        }).render();
+        });
     }
 
     isItemsPerPageEnabled() {
@@ -207,4 +207,3 @@ class SearchApp extends Backbone.Router {
 }
 
 export default SearchApp;
-

@@ -1,10 +1,7 @@
-define(
-  [],
-  function () {
-    var Mediator = function () {};
+import _ from 'underscore';
 
-    _.extend(Mediator.prototype, Backbone.Events);
+var Mediator = function () {};
 
-    return Mediator;
-  }
-);
+_.extend(Mediator.prototype, Backbone.Events);
+
+export default Mediator;

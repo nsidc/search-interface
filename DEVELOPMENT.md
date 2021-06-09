@@ -3,9 +3,53 @@
 Modifications to create a webpack-bundled artifact are not yet complete. Refer
 also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
 
-* The Arctic Data Explorer (ADE) has been decommissioned, and
-  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
-  The remaining references to ADE should be removed.
+SRCH-63
+-------
+* The Spatial Selection widget is not currently working. OpenLayers has
+  been updated to the latest version in `package.json`, but the related
+  code hasn't been modernized yet.
+
+SRCH-64
+-------
+* The map thumbnails aren't being rendered correctly after updating the version
+  of Leaflet used to generate those images (the overlay image is "zoomed in").
+
+SRCH-??
+-------
+* Apropos of the previous two items: Unless there's a technical reason
+  to use *both* Leaflet and OpenLayers, pick one!
+
+SRCH-??
+-------
+* It appears that OpenLayers is pointing to an outdated Mapserver
+  installation. The spatial search widget should be retrieving its base layer
+  from the NSIDC GeoServer instance, or some other reliable OGC endpoint.
+
+SRCH-65
+-------
+* An updated `typeahead` package is now installed, but the existing code
+  apparently needs some modification before it'll work.
+
+SRCH-??
+-------
+* The acceptance and unit test environments need to be updated, and the
+  old `Grunt` tasks should be replaced with `npm` tasks. Preferred test suite
+  tools are Mocha, Chai, Sinon, and Jest.
+
+SRCH-66
+-------
+* The `tipsy` tooltip package is no longer being updated. I installed `tippy`
+  in an effort to use something more current, as well as to move away from
+  another `jQuery` dependency. The tooltips have been updated for the facet
+  lists on the left side of the UI, but have been reinstated for the
+  date/time fields.
+* Styling in general needs to be cleaned up. Moving to the most recent
+  version of `Bootstrap.css` resulted in some dramatic changes; the
+  application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
+  we want to use.
+
+SRCH-??
+-------
 * Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
   an open source project owned by NSIDC. That project also needs to be migrated
   from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
@@ -18,37 +62,35 @@ also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
   modernized or replaced. Note that OpenSearchlight is in the open source
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
-* The acceptance and unit test environments need to be updated, and the
-  old `Grunt` tasks should be replaced with `npm` tasks. Preferred test suite
-  tools are Mocha, Chai, Sinon, and Jest.
-* The Spatial Selection widget is not currently working. OpenLayers has
-  been updated to the latest version in `package.json`, but the related
-  code hasn't been modernized yet.
-* The map thumbnails aren't being rendered correctly after updating the version
-  of Leaflet used to generate those images (the overlay image is "zoomed in").
-* Apropos of the previous two items: Unless there's a technical reason
-  to use *both* Leaflet and OpenLayers, pick one!
-* It appears that OpenLayers is pointing to an outdated Mapserver
-  installation. The spatial search widget should be retrieving its base layer
-  from the NSIDC GeoServer instance, or some other reliable OGC endpoint.
-* The `tipsy` tooltip package is no longer being updated. I installed `tippy`
-  in an effort to use something more current, as well as to move away from
-  another `jQuery` dependency. The tooltips have been updated for the facet
-  lists on the left side of the UI, but have been reinstated for the
-  date/time fields.
-* An updated `typeahead` package is now installed, but the existing code
-  apparently needs some modification before it'll work.
-* Styling in general needs to be cleaned up. Moving to the most recent
-  version of `Bootstrap.css` resulted in some dramatic changes; the
-  application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
-  we want to use.
+
+SRCH-??
+-------
+* The Arctic Data Explorer (ADE) has been decommissioned, and
+  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
+  The remaining references to ADE should be removed.
+
+
+SRCH-??
+-------
 * The app still had a reference to "Crazy Egg Metrics." Are these still being
   maintained/used?
+
+SRCH-??
+-------
 * Improve `estlint` configuration and tackle lint errors.
+
+SRCH-??
+-------
 * Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
   (Use `npm start` to run a local server.)
+
+SRCH-??
+-------
 * The webpack configuration (and probably the code structure) need additional
   refinement in order to reduce the size of the bundled application.
+
+SRCH-??
+-------
 * Update documentation (e.g. README and DEVELOPMENT files; software architecture diagrams)
   
 ### Longer term TODO
