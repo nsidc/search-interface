@@ -1,73 +1,11 @@
-## Development Tasks
+## Future Development tasks
 
-* [X] Resolve all Dependabot security updates.
+* The webpack configuration (and probably the code structure) need additional
+  refinement in order to reduce the size of the bundled application.
 
-  1. Read up on how to find why a dependency is installed
-  2. Upgraded to npm v7, which has an `explain` subcommand
-  3. Ran `npm audit fix` to get non-breaking fixes automatically applied
-  4. Investigated npx -- why does npm audit suggest downgrading to v3?
-  5. Added `audit.txt` file with latest `npm audit` output
+* Move to ES20xx or Typescript.
 
-* [X] The app still has a reference to "Crazy Egg Metrics." Determine if these
-  are still needed, and if so, get rid of the dependency. Are there Drual or other
-  metrics we need to use?
-
-  It appears there is no longer reference to Crazy Egg Metrics in the app.
-
-* (SRCH-72) The `tipsy` tooltip package is no longer being updated. We're
-  now using `tippy` in an effort to use something more current, as well as to
-  move away from another `jQuery` dependency. The tooltips have been updated for
-  the facet lists on the left side of the UI, but have been reinstated for the
-  date/time fields.
-
-* (SRCH-65) An updated `typeahead` package is now installed, but the existing code
-  apparently needs some modification before it'll work.
-
-* (SRCH-63) Upgrade Spatial Search to use OpenLayers v6.x. OpenLayers has
-  been updated to the latest version in `package.json`. Becuase of the major
-  API change in OpenLayers, I've disabled all functionality and am
-  rebuilding it incrementally. This work is broken down into these tasks.
-  Note that OpenLayersMap is now SearchMap.
-
-  * Verify we are getting the base layer from the correct NSIDC Geoserver
-    endpoint.
-  * Use all relevant values from the lib.spatial_selection_map.constants module
-    when creating the map.
-  * Solve problem with initial update that is required to show map.
-  * Add projection change functionality
-  * Add zoom bar
-  * Add polar warning icons
-  * Add map click functionality to trigger mediator
-  * Add spatial selection (box-drawing) layer
-  * Add transform control
-  * Add toolbar
-  * Add mouse position control
-  * Add event bindings in SearchMap
-  * Add custom SpatialWmsLayer equivalent (wrap)
-
-* (SRCH-64) Convert the map thumbnails to use OpenLayers to render the static
-  map image.
-
-* (SRCH-66) Styling in general needs to be cleaned up. Moving to the most recent
-  version of `Bootstrap.css` resulted in some dramatic changes; the
-  application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
-  we want to use.
-
-### TODO: Create one or more JIRA issues for these:
-
-    * [ ] Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
-      (Use `npm start` to run a local server.)
-    * [ ] Replace `Grunt` tasks with `npm` tasks.
-    * [ ] Update to use preferred test suite tools: Mocha, Chai, Sinon, and Jest.
-    * [ ] Convert tests, code, and config away from require and use ES6 modules &
-      imports.
-
-* Deploy to the acceptance and integration test environments.
-
-* [Note: doing this task as part of other tasks] Improve `eslint`
-  configuration and resolve remaining lint errors.
-
-* Update documentation (e.g. README and DEVELOPMENT files; software architecture diagrams)
+* Rewrite using React components?
 
 * Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
   an open source project owned by NSIDC. That project also needs to be migrated
@@ -82,20 +20,13 @@
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
 
-  TODO: Julia to review this and make sure we can push this to Future Development.
+  Q: Can Julia to review this and make sure we can push this to Future Development?
+  A: Tentatively, we think the answer is yes.
 
 * The Arctic Data Explorer (ADE) has been decommissioned, and
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
   The remaining references to ADE should be removed.
-
   TODO: Future Development?
-
-## Future Development tasks
-
-* The webpack configuration (and probably the code structure) need additional
-  refinement in order to reduce the size of the bundled application.
-* Move to ES20xx or Typescript.
-* Rewrite using React components?
 
 ## Git workflow
 

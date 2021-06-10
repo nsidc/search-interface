@@ -15,8 +15,11 @@
 - Unified the TemporalCoverageView's adjustEndDate and formatDateInput into one
   method. Using the date-fns package, it now parses *and* completes
   partially-entered dates in the input elements. The behavior remains unchanged.
-
-## 3.0.0 (2020-07-17)
+- Internal updates:
+    + Added npm script to generate code documentation.
+    + Improved code formatting & linting
+    + All JavaScript packages are now all managed by npm
+    + The build and other tasks are now handled by npm scripts
 
 - Update node.js and Javascript package versions.
 - Switch from Jade to Pug for HTML templates (Jade was renamed).
