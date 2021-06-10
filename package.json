@@ -12,7 +12,7 @@
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "clean": "rm -rf ./dist/*",
-    "doc": "jsdoc -d doc src/lib/Map.js",
+    "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
     "postversion": "./tag.sh",
     "start": "NODE_ENV=development webpack-dev-server --progress",

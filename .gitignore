@@ -44,4 +44,4 @@ root.dir
 # end vagrant-nsidc
 
 .vscode/
-doc/
+docs/
