@@ -1,6 +1,7 @@
 import 'tippy.js/dist/tippy.css'
 import { Datepicker } from 'vanillajs-datepicker';
-import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
+// See 'A Tale of Exports and Imports' in DEVELOPMENT.md:
+import 'vjs-datepicker/datepicker-bs4.css';
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid, parse } from 'date-fns';
 import _ from 'underscore';
 import $ from 'jquery';
@@ -46,7 +47,7 @@ function toDisplay(date) {
 const datepickerOptions = {
     autohide: true,
     buttonClass: 'btn',
-    minDate: null, 
+    minDate: null,
     maxDate: null,
     startView: 2,
     minViewMode: 0,
@@ -55,9 +56,9 @@ const datepickerOptions = {
 };
 
 // https://kabbouchi.github.io/tippyjs-v4-docs/all-options/
-const tippyOptions = { 
-    placement: 'top-start', 
-    trigger: 'manual', 
+const tippyOptions = {
+    placement: 'top-start',
+    trigger: 'manual',
     allowHTML: true
 };
 
@@ -169,7 +170,7 @@ class TemporalCoverageView extends InputViewBase {
         }
 
         const startInput = $('input#start-date').get(0);
-        this.startDatepicker = new Datepicker(startInput, _.extend({}, 
+        this.startDatepicker = new Datepicker(startInput, _.extend({},
             datepickerOptions, {
                 format: {
                     toValue: _.partial(toValue, startOfMonth, startOfYear),

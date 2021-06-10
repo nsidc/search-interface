@@ -1,55 +1,73 @@
-## TODO
+## Development Tasks
 
-Modifications to create a webpack-bundled artifact are not yet complete. Refer
-also to the notes in SOAC-62 (a clone of SRCH-28). Remaining work includes:
+* Resolve all Dependabot security updates.
 
-SRCH-63
--------
-* The Spatial Selection widget is not currently working. OpenLayers has
-  been updated to the latest version in `package.json`, but the related
-  code hasn't been modernized yet.
+  1. Read up on how to find why a dependency is installed
+  2. Upgraded to npm v7, which has an `explain` subcommand
+  3. Ran `npm audit fix` to get non-breaking fixes automatically applied
+  4. Investigated npx -- why does npm audit suggest downgrading to v3?
+  5. Added `audit.txt` file with latest `npm audit` output
 
-SRCH-64
--------
-* The map thumbnails aren't being rendered correctly after updating the version
-  of Leaflet used to generate those images (the overlay image is "zoomed in").
+* The app still has a reference to "Crazy Egg Metrics." Determine if these
+  are still needed, and if so, get rid of the dependency. Are there Drual or other
+  metrics we need to use?
 
-SRCH-??
--------
-* Apropos of the previous two items: Unless there's a technical reason
-  to use *both* Leaflet and OpenLayers, pick one!
+* Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
+  (Use `npm start` to run a local server.)
 
-SRCH-??
--------
-* It appears that OpenLayers is pointing to an outdated Mapserver
-  installation. The spatial search widget should be retrieving its base layer
-  from the NSIDC GeoServer instance, or some other reliable OGC endpoint.
+* Replace `Grunt` tasks with `npm` tasks.
 
-SRCH-65
--------
+* Update to use preferred test suite tools: Mocha, Chai, Sinon, and Jest.
+
+* Convert tests, code, and config away from require and use ES6 modules &
+  imports.
+
+* (SRCH-63) Upgrade Spatial Search to use OpenLayers v6.x. OpenLayers has
+  been updated to the latest version in `package.json`. Becuase of the major
+  API change in OpenLayers, I've disabled all functionality and am
+  rebuilding it incrementally. This work is broken down into these tasks.
+  Note that OpenLayersMap is now SearchMap.
+
+  * Verify we are getting the base layer from the correct NSIDC Geoserver
+    endpoint.
+  * Use all relevant values from the lib.spatial_selection_map.constants module
+    when creating the map.
+  * Solve problem with initial update that is required to show map.
+  * Add projection change functionality
+  * Add zoom bar
+  * Add polar warning icons
+  * Add map click functionality to trigger mediator
+  * Add spatial selection (box-drawing) layer
+  * Add transform control
+  * Add toolbar
+  * Add mouse position control
+  * Add event bindings in SearchMap
+  * Add custom SpatialWmsLayer equivalent (wrap)
+
+* (SRCH-64) Convert the map thumbnails to use OpenLayers to render the static
+  map image.
+
 * An updated `typeahead` package is now installed, but the existing code
   apparently needs some modification before it'll work.
 
-SRCH-??
--------
-* The acceptance and unit test environments need to be updated, and the
-  old `Grunt` tasks should be replaced with `npm` tasks. Preferred test suite
-  tools are Mocha, Chai, Sinon, and Jest.
-
-SRCH-66
--------
-* The `tipsy` tooltip package is no longer being updated. I installed `tippy`
-  in an effort to use something more current, as well as to move away from
-  another `jQuery` dependency. The tooltips have been updated for the facet
-  lists on the left side of the UI, but have been reinstated for the
+* (SRCH-66) The `tipsy` tooltip package is no longer being updated. We're
+  now using `tippy` in an effort to use something more current, as well as to
+  move away from another `jQuery` dependency. The tooltips have been updated for
+  the facet lists on the left side of the UI, but have been reinstated for the
   date/time fields.
+
 * Styling in general needs to be cleaned up. Moving to the most recent
   version of `Bootstrap.css` resulted in some dramatic changes; the
   application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
   we want to use.
 
-SRCH-??
--------
+* Deploy to the acceptance and integration test environments.
+
+* [Note: doing this task as part of other tasks] Improve `eslint`
+  configuration and resolve remaining lint errors.
+
+* Update documentation (e.g. README and DEVELOPMENT files; software architecture diagrams)
+
 * Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
   an open source project owned by NSIDC. That project also needs to be migrated
   from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
@@ -63,42 +81,18 @@ SRCH-??
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
 
-  TODO: Julia to review this and make sure we can push this to future development.
+  TODO: Julia to review this and make sure we can push this to Future Development.
 
-SRCH-??
--------
 * The Arctic Data Explorer (ADE) has been decommissioned, and
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
   The remaining references to ADE should be removed.
 
+  TODO: Future Development?
 
-SRCH-??
--------
-* The app still had a reference to "Crazy Egg Metrics." Are these still being
-maintained/used?
+## Future Development tasks
 
-  TODO: Are there any Drupal metrics we need to care about?
-  TODO: Can we get rid of the crazy egg thingy
-
-SRCH-??
--------
-* Improve `estlint` configuration and tackle lint errors.
-
-SRCH-??
--------
-* Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
-  (Use `npm start` to run a local server.)
-
-SRCH-??
--------
 * The webpack configuration (and probably the code structure) need additional
   refinement in order to reduce the size of the bundled application.
-
-SRCH-??
--------
-* Update documentation (e.g. README and DEVELOPMENT files; software architecture diagrams)
-
-### Longer term TODO
 * Move to ES20xx or Typescript.
 * Rewrite using React components?
 
@@ -405,3 +399,41 @@ to include `--trace-warnings`. For example:
 If acceptance tests are failing with a warning about an invalid Xvnc password,
 run `vncpasswd` on the machine running the tests and set a dummy password
 (password value doesn't matter).
+
+### A Tale of Exports and Imports
+
+Apparently NodeJS has added a new thing in package.json called "exports". A package author can use this section to declare what things are exported for use, and a map to where they are located in the package directory.
+
+Webpack 5 now enforces this--if you attempt to import something which is not declared as exported from the package it is in, the import will fail. A package which omits the "exports" section defaults to everything being exported / importable. A package which includes the "exports" section only exports things listed, nothing else.
+
+This has the following side-effect:
+* Your code imports "foo" from package X
+* Your code imports "bar" from package Y
+* Package X has no "exports" section because the author(s) didn't know about this new feature
+* Package Y does have an exports section, but it does not export "bar" (possibly because they didn't understand this new feature)
+* Using webpack 4 is no problem, both imports work
+* Upgrading to webpack to v5 results in the import of "foo" succeeding and the import of "bar" failing
+
+In our case we were successfully importing CSS from vanillajs-datepicker, but when upgrading webpack to v5, the build started raising a new error indicating that the CSS could not be imported because the package (vanillajs-datepicker) did not export it.
+
+A workaround in the webpack config which bypasses the export / import rules:
+
+```
+resolve: {
+  alias: {
+    'vjs-datepicker': path.resolve(__dirname, 'node_modules/vanillajs-datepicker/dist/css')
+  }
+}
+```
+
+which allows the import of this form to work (currently used in `TemporalCoverageView`):
+
+```
+import 'vjs-datepicker/datepicker-bs4.css';
+```
+
+If / when the vanillajs-datepicker package updates their exports to export this CSS, we can change the import back to:
+
+```
+import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
+```
