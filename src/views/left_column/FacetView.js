@@ -1,8 +1,10 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
+
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+
 import ClearFacetLinkView from './ClearFacetLinkView';
 import dividerTemplate from '../../templates/li-divider.html';
 import filterTemplate from '../../templates/left_column/facet-filter-input.html';
@@ -134,7 +136,6 @@ class FacetView extends Backbone.View {
         this.mediator.trigger('facet:clearLinkTrigger');
         this.sortFacets();
         this.scrollToTop();
-        this.addTooltips();
     }
 
     updateCounts() {
@@ -152,20 +153,13 @@ class FacetView extends Backbone.View {
         });
     }
 
-    // This code originally attempted to use el.offsetWidth and el.scrollWidth
-    // to determine if the facet label overflowed its container. That approach
-    // doesn't seem to be working here.
-    // TODO: ellipsis check seems to work in production. Why not here?
-    //
-    // For now, just show a tooltip on every facet.
     addTooltips() {
-        _.each(this.$('.facetListItem'), function (el) {
-            const s = el.querySelector('.shortName');
-            // const usingEllipsis = el.offsetWidth < el.scrollWidth;
-            tippy('#' + el.id, {
-                content: s.innerText
-            });
-        }, this);
+        tippy('.facetListItem label span.shortName', {
+            content: (reference) => reference.getAttribute('data-long-name'),
+            onShow: (instance) =>
+                (instance.reference.offsetWidth < instance.reference.scrollWidth) ||
+                (instance.reference.innerText !== instance.reference.getAttribute('data-long-name'))
+        });
     }
 
     clearFilterInput() {
@@ -210,11 +204,6 @@ class FacetView extends Backbone.View {
             this.$('ul').prepend($(this.templates.divider()));
             this.$('ul').prepend($selected);
         }
-
-        // TODO: Apply to tippy tooltips.
-        // remove leftover tooltips; the jQuery selector is globally scoped
-        // because tipsy adds a div near the top of the DOM
-        //$('.tipsy').remove();
     }
 
     scrollToTop() {

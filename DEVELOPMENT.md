@@ -1,6 +1,6 @@
 ## Development Tasks
 
-* Resolve all Dependabot security updates.
+* [X] Resolve all Dependabot security updates.
 
   1. Read up on how to find why a dependency is installed
   2. Upgraded to npm v7, which has an `explain` subcommand
@@ -8,19 +8,20 @@
   4. Investigated npx -- why does npm audit suggest downgrading to v3?
   5. Added `audit.txt` file with latest `npm audit` output
 
-* The app still has a reference to "Crazy Egg Metrics." Determine if these
+* [X] The app still has a reference to "Crazy Egg Metrics." Determine if these
   are still needed, and if so, get rid of the dependency. Are there Drual or other
   metrics we need to use?
 
-* Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
-  (Use `npm start` to run a local server.)
+  It appears there is no longer reference to Crazy Egg Metrics in the app.
 
-* Replace `Grunt` tasks with `npm` tasks.
+* (SRCH-72) The `tipsy` tooltip package is no longer being updated. We're
+  now using `tippy` in an effort to use something more current, as well as to
+  move away from another `jQuery` dependency. The tooltips have been updated for
+  the facet lists on the left side of the UI, but have been reinstated for the
+  date/time fields.
 
-* Update to use preferred test suite tools: Mocha, Chai, Sinon, and Jest.
-
-* Convert tests, code, and config away from require and use ES6 modules &
-  imports.
+* (SRCH-65) An updated `typeahead` package is now installed, but the existing code
+  apparently needs some modification before it'll work.
 
 * (SRCH-63) Upgrade Spatial Search to use OpenLayers v6.x. OpenLayers has
   been updated to the latest version in `package.json`. Becuase of the major
@@ -47,19 +48,19 @@
 * (SRCH-64) Convert the map thumbnails to use OpenLayers to render the static
   map image.
 
-* An updated `typeahead` package is now installed, but the existing code
-  apparently needs some modification before it'll work.
-
-* (SRCH-66) The `tipsy` tooltip package is no longer being updated. We're
-  now using `tippy` in an effort to use something more current, as well as to
-  move away from another `jQuery` dependency. The tooltips have been updated for
-  the facet lists on the left side of the UI, but have been reinstated for the
-  date/time fields.
-
-* Styling in general needs to be cleaned up. Moving to the most recent
+* (SRCH-66) Styling in general needs to be cleaned up. Moving to the most recent
   version of `Bootstrap.css` resulted in some dramatic changes; the
   application CSS will need to be reconciled with whatever parts of `Bootstrap.css`
   we want to use.
+
+### TODO: Create one or more JIRA issues for these:
+
+    * [ ] Decommission `config/local_webserver_config.yaml` and `run_local_webserver.rb`.
+      (Use `npm start` to run a local server.)
+    * [ ] Replace `Grunt` tasks with `npm` tasks.
+    * [ ] Update to use preferred test suite tools: Mocha, Chai, Sinon, and Jest.
+    * [ ] Convert tests, code, and config away from require and use ES6 modules &
+      imports.
 
 * Deploy to the acceptance and integration test environments.
 
