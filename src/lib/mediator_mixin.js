@@ -4,11 +4,12 @@ import debug from "debug";
 // All objects using this mixin have access to this shared mediator
 var sharedMediator;
 var mediatorMixin = {},
-  initializeMediator;
+    initializeMediator;
 
 // Initialize the single shared instance of a Mediator
 if (!sharedMediator) {
   debug.log("Initializing mediator_mixin:sharedMediator");
+
   sharedMediator = new Mediator();
 }
 
