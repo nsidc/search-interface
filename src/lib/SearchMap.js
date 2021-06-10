@@ -1,4 +1,3 @@
-import _ from "underscore";
 import $ from "jquery";
 
 import { Image } from "ol/layer";
@@ -138,6 +137,5 @@ function blueMarbleLayer() {
 }
 
 Object.assign(SearchMap.prototype, mediator_mixin);
-// SearchMap.prototype = _.extend(SearchMap.prototype, mediator_mixin);
 
 export default SearchMap;
