@@ -60,7 +60,7 @@ export const appConfig = {
 
         // auto-suggest settings
         // TODO re-enable auto-suggest
-        autoSuggestEnabled: false,
+        autoSuggestEnabled: true,
         autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
 
         // home page

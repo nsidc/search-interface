@@ -421,13 +421,13 @@ div {
 // auto-suggest dropdown
 $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
-.tt-dropdown-menu {
+.tt-menu {
   @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
   background: #fff;
   border: 1px solid rgba(0, 0, 0, .2);
   padding-left: 10px;
   padding-top: 5px;
-  width: $header-keyword-input-width + $header-keyword-input-text-padding;
+  width: $header-keyword-input-width;
 }
 
 .tt-cursor {

@@ -114,7 +114,8 @@ class SearchApp extends Backbone.Router {
             searchParamsModel: this.searchParamsModel,
             searchResultsCollection: this.searchResultsCollection,
             facetsCollection: this.facetsCollection,
-            mediator: this.mediator
+            mediator: this.mediator,
+            osProvider: this.openSearchOptions.osProvider
         });
     }
 
@@ -133,11 +134,12 @@ class SearchApp extends Backbone.Router {
         mediator.on('app:home', this.onAppHome, this);
     }
 
-    // put together a a query from the URL parameters.
+    // put together a query from the URL parameters.
     // Order of URL segments shouldn't matter.
     doRoute(path) {
         let searchOptions = {},
           facetFilters = {};
+
         searchOptions.pageNumber = 1;
         if(this.isItemsPerPageEnabled()) {
             searchOptions.itemsPerPage = this.openSearchOptions.osItemsPerPage;

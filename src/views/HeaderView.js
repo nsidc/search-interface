@@ -23,7 +23,8 @@ class HeaderView extends Backbone.View {
             config: this.options.config,
             mediator: this.mediator,
             model: this.options.searchParamsModel,
-            collection: this.options.searchResultsCollection
+            collection: this.options.searchResultsCollection,
+            osProvider: this.options.osProvider,
         });
         this.searchCriteriaView.render();
         return this;

@@ -1,6 +1,8 @@
 import _ from 'underscore';
-import Bloodhound from 'typeahead.js/dist/bloodhound.min';
-import 'typeahead.js/dist/typeahead.bundle';
+
+import Bloodhound from 'corejs-typeahead/dist/bloodhound.min';
+import 'corejs-typeahead/dist/typeahead.bundle';
+
 import InputViewBase from '../InputViewBase';
 import SearchTerms from '../../lib/SearchTerms';
 import viewTemplate from '../../templates/search_criteria/keywords.html';
@@ -11,7 +13,8 @@ class KeywordsView extends InputViewBase {
         this.bindEvents(this.mediator);
         this.autoSuggestEnabled = options.autoSuggestEnabled;
         this.autoSuggestPath = options.autoSuggestPath;
-        this.source = options.source;
+        this.source = options.source || 'NSIDC';  // TODO: Get this from config
+        this.osProvider = options.osProvider;
     }
 
     bindEvents(mediator) {
@@ -58,14 +61,14 @@ class KeywordsView extends InputViewBase {
     setupAutoSuggest() {
         let phrases;
 
-        // http://twitter.github.io/typeahead.js/examples/#bloodhound
-        // https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md#options
+        // https://github.com/corejavascript/typeahead.js/blob/master/doc/bloodhound.md
         phrases = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('suggestion'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            limit: 10,
             remote: {
-                url: this.autoSuggestPath + this.source, // OpenSearch Suggestion url
+                // TODO: Use the port # ... ?
+                url: this.osProvider.openSearchHost + this.autoSuggestPath + this.source, // OpenSearch Suggestion url
+                wildcard: '%QUERY',
                 filter: this.parseOpenSearchSuggestions
             }
         });
@@ -74,15 +77,17 @@ class KeywordsView extends InputViewBase {
 
         phrases.initialize();
 
-        // https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md#options
+        // https://github.com/corejavascript/typeahead.js/blob/master/doc/jquery_typeahead.md#options
         this.$el.find('#keyword').typeahead({
             highlight: true,
             hint: false,
-            minLength: 1
+            minLength: 1,
         }, {
             name: 'phrases',
             displayKey: 'suggestion',
-            source: phrases.ttAdapter()
+            source: phrases,
+            limit: 10,
+            async: true,
         });
     }
 
@@ -94,14 +99,9 @@ class KeywordsView extends InputViewBase {
     // returns: a datum that can be used by Bloodhound and $.typeahead to
     // present suggestions to the user
     parseOpenSearchSuggestions(parsedResponse) {
-        // var prefix = parsedResponse[0];
         let suggestions = parsedResponse[1];
-        // var descriptions = parsedResponse[2];
-        // var queryUrls = parsedResponse[3];
 
-        return _.map(suggestions, function (suggestion) {
-            return {suggestion: suggestion};
-        });
+        return _.map(suggestions, (suggestion) => { return { suggestion }});
     }
 
     render() {

@@ -70,7 +70,8 @@ class BaseView extends Backbone.View {
             facetsCollection: this.options.facetsCollection,
             el: this.$el.find('.search-header'),
             config: this.options.config,
-            mediator: this.mediator
+            mediator: this.mediator,
+            osProvider: this.options.osProvider,
         }).render();
 
         new HomeContentView({
