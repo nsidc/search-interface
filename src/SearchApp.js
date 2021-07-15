@@ -1,6 +1,6 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import * as config from './config/appConfig';
+import { environmentUrls } from './config/appConfig';
 import BaseView from './views/BaseView';
 import {fromEncodedString} from './lib/SearchTerms';
 import FacetsCollection from './collections/FacetsCollection';
@@ -24,15 +24,9 @@ class SearchApp extends Backbone.Router {
         this.openSearchOptions = config.openSearchOptions;
 
         // Endpoints depend on environment
-        // TODO: This could certainly be more elegant...
-        if(process.env.APPLICATION_ENVIRONMENT === 'development') {
-            this.openSearchOptions.osProvider = config.urls.development;
-            this.config.temporalCoverageView.provider = config.urls.development;
-        }
-        else {
-            this.openSearchOptions.osProvider = config.urls.production;
-            this.config.temporalCoverageView.provider = config.urls.development;
-        }
+        let envUrls = environmentUrls(process.env.APPLICATION_ENVIRONMENT);
+        this.openSearchOptions.osProvider = envUrls;
+        this.config.temporalCoverageView.provider = envUrls;
 
         this.displayHomePageOnCancel = true;
 

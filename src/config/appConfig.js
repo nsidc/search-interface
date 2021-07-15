@@ -1,4 +1,9 @@
-export const urls = {
+const urls = {
+    unknown: {
+        openSearchHost: '',
+        dateRangeHost: '',
+        port: 666
+    },
     development: {
         openSearchHost: 'https://nsidc.org',
         dateRangeHost: 'https://nsidc.org',
@@ -15,6 +20,15 @@ export const urls = {
         port: 80
     },
 };
+
+export function environmentUrls(environment) {
+    const valid = ['development', 'integration', 'production'];
+    if (valid.includes(environment)) {
+        return urls[environment];
+    } else {
+        return urls['unknown'];
+    }
+}
 
 // Values consistent across all environments
 export const openSearchOptions = {
