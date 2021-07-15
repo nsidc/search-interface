@@ -1,12 +1,16 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 import { environmentUrls } from './config/appConfig';
+
+import * as config from './config/appConfig';
+>>>>>>> SRCH-65-typeahead
 import BaseView from './views/BaseView';
-import {fromEncodedString} from './lib/SearchTerms';
+import { decodedQueryParameter } from './lib/utility_functions';
 import FacetsCollection from './collections/FacetsCollection';
 import OpenSearchProvider from './lib/OpenSearchProvider';
 import SearchParamsModel from './models/SearchParamsModel';
 import SearchResultsCollection from './collections/SearchResultsCollection';
+import SearchTerms from './lib/SearchTerms';
 import * as criteriaAppender from './lib/criteriaAppender';
 
 class SearchApp extends Backbone.Router {
@@ -164,7 +168,8 @@ class SearchApp extends Backbone.Router {
                 facetFilters = JSON.parse(decodeURIComponent(propValue));
             }
             else if(_.contains(['keywords', 'author', 'title', 'sensor', 'parameter', 'sortKeys'], propName)) {
-                searchOptions[propName] = fromEncodedString(decodeURI(propValue));
+                let decodedPropValue = decodedQueryParameter(decodeURI(propValue));
+                searchOptions[propName] = new SearchTerms(decodedPropValue).asArray();
             }
             else {
                 searchOptions[propName] = propValue;

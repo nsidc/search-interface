@@ -97,6 +97,24 @@ function removeEmptyElementsFromArray(array) {
   return tempArray;
 }
 
+/*
+ * Decodes a URI and form-encoded string (encoded via 
+ * ' ' => '+'). All '+' characters will be replaced
+ * with a ' ' and the result will be URI-decoded.
+ *
+ * TODO: Add unit tests
+ *
+ * @param {*} encodedValue: A URI and form-encoded string
+ * @returns {*} A string that has been unencoded
+ *
+ */
+export function decodedQueryParameter(encodedValue) {
+  return decodeURIComponent(
+    encodedValue.replace(/\+/g, "%20")
+  );
+  // return new SearchTerms(termsString).asArray();
+}
+
 export function round(number, precision) {
   precision = Math.abs(parseInt(precision, 10)) || 0;
   const coefficient = Math.pow(10, precision);
