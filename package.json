@@ -7,9 +7,10 @@
     "type": "git",
     "url": "https://github.com/nsidc/search-interface.git"
   },
-  "main": "index.js",
+  "files": ["dist/**", "LICENSE", "README.md" ],
+  "main": "dist/index.bundle.js",
   "scripts": {
-    "build": "webpack --mode=production",
+    "build:prod": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "clean": "rm -rf ./dist/*",
     "doc": "jsdoc -c jsdoc-conf.json",
