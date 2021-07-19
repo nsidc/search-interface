@@ -138,7 +138,7 @@ export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   return results;
 }
 
-function osGeoBoxToNsewObj(osGeoBox) {
+export function osGeoBoxToNsewObj(osGeoBox) {
   let bboxArray,
     cardinals,
     coords = {};

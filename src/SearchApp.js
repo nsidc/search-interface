@@ -3,7 +3,6 @@ import _ from 'underscore';
 import { environmentUrls } from './config/appConfig';
 
 import * as config from './config/appConfig';
->>>>>>> SRCH-65-typeahead
 import BaseView from './views/BaseView';
 import { decodedQueryParameter } from './lib/utility_functions';
 import FacetsCollection from './collections/FacetsCollection';

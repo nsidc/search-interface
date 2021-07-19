@@ -1,0 +1,26 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:os="http://a9.com/-/spec/opensearch/1.1/" xmlns:dif="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:nsidc="http://nsidc.org/ns/opensearch/1.1/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/" xmlns:georss="http://www.georss.org/georss">
+  <title>NSIDC facets results</title>
+  <updated>2013-10-21T09:59:01.063-06:00</updated>
+  <author>
+    <name>nsidc.org</name>
+    <email>nsidc@nsidc.org</email>
+    <uri>http://nsidc.org</uri>
+  </author>
+  <id>http://integration.nsidc.org/api/dataset/2/Facets?searchTerms=&amp;title=&amp;parameters=&amp;sensors=&amp;authors=&amp;spatial=-180.0,45.0,180.0,90.0&amp;startDate=&amp;endDate=&amp;startIndex=1&amp;count=25&amp;source=ADE&amp;facetFilters=</id>
+  <link href="http://integration.nsidc.org/api/dataset/2/Facets?searchTerms=&amp;title=&amp;parameters=&amp;sensors=&amp;authors=&amp;spatial=-180.0,45.0,180.0,90.0&amp;startDate=&amp;endDate=&amp;startIndex=1&amp;count=25&amp;source=ADE&amp;facetFilters=" rel="self"/>
+  <link href="http://integration.nsidc.org/api/dataset/2/OpenSearchDescription" rel="search" type="application/opensearchdescription+xml"/>
+  <os:totalResults>2</os:totalResults>
+  <os:query role="request" nsidc:source="ADE" count="25" startIndex="1" nsidc:facets="true" geo:box="-180.0,45.0,180.0,90.0"/>
+  <nsidc:facet name="facet_data_center">
+    <nsidc:facet_value name="UCAR NCAR - Earth Observing Laboratory / Computing, Data, and Software Facility" hits="1622"/>
+    <nsidc:facet_value name="National Snow and Ice Data Center" hits="528"/>
+    <nsidc:facet_value name="NSF Arctic Data Center" hits="495"/>
+    <nsidc:facet_value name="NOAA National Oceanographic Data Center" hits="56"/>
+    <nsidc:facet_value name="Norwegian Meteorological Institute" hits="51"/>
+  </nsidc:facet>
+  <nsidc:facet name="facet_spatial_coverage">
+    <nsidc:facet_value name="Northern Hemisphere" hits="2438"/>
+    <nsidc:facet_value name="Global" hits="223"/>
+    <nsidc:facet_value name="Equatorial" hits="149"/>
+  </nsidc:facet>
+</feed>

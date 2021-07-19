@@ -1,0 +1,21 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/">
+  <ShortName>NSIDC Service</ShortName>
+  <Description>
+    This is the opensearch description document that describes how to query our server for data set level information.
+  </Description>
+  <Url type="application/atom+xml" template="api/dataset/2/OpenSearch?searchTerms={searchterms?}"/>
+  <Query role="example" searchTerms="Sea Ice"/>
+  <Image height="16" width="16" type="image/jpeg">http://nsidc.org/favicon.ico</Image>
+  <Image height="60" width="75" type="image/jpeg">http://nsidc.org/images/logo_nsidc_76x60.jpg</Image>
+  <Contact>nsidc@nsidc.org</Contact>
+  <Tags>
+    nsidc.org opensearch search data set geospatial temporal parameter
+  </Tags>
+  <LongName>data set level OpenSearch interface for nsidc.org</LongName>
+  <Attribution>&#169; 2011 National Snow and Ice Data Center.</Attribution>
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+  <Language>en-us</Language>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+</OpenSearchDescription>

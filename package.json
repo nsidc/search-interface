@@ -31,6 +31,7 @@
     "jest-codemods": "^0.23.1",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
+    "node-debug2": "file:../../tools/vscode-node-debug2",
     "node-gyp": "^8.1.0",
     "ol": "^6.5.0",
     "popper.js": "^1.16.1",
