@@ -140,7 +140,8 @@ class SearchCriteriaView extends InputViewBase {
             el: this.$el.find('#keywords-container'),
             mediator: this.mediator,
             autoSuggestEnabled: this.options.config.features.autoSuggestEnabled,
-            autoSuggestPath: this.options.config.features.autoSuggestPath
+            autoSuggestPath: this.options.config.features.autoSuggestPath,
+            osProvider: this.options.osProvider,
         }).render();
 
         this.spatialCoverageView = new SpatialCoverageView({
