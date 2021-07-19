@@ -112,7 +112,6 @@ export function decodedQueryParameter(encodedValue) {
   return decodeURIComponent(
     encodedValue.replace(/\+/g, "%20")
   );
-  // return new SearchTerms(termsString).asArray();
 }
 
 export function round(number, precision) {
