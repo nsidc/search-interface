@@ -1,5 +1,5 @@
 {
-  "name": "search-interface",
+  "name": "@nsidc/search-interface",
   "description": "NSIDC data search interface",
   "version": "3.0.0",
   "license": "GPL-3.0-only",
@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/nsidc/search-interface.git"
   },
-  "files": ["dist/**", "LICENSE", "README.md" ],
+  "files": ["dist", "COPYING", "CHANGELOG", "LICENSE", "README.md" ],
   "main": "dist/index.bundle.js",
   "scripts": {
     "build:prod": "webpack --mode=production",

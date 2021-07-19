@@ -44,7 +44,7 @@ jobs:
           name: Publish to npmjs.org
           command: |
             echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" >> ~/.npmrc
-            npm publish
+            npm --access public publish
 
 workflows:
   version: 2
