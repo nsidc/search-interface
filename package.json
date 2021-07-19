@@ -14,6 +14,7 @@
     "LICENSE",
     "README.md"
   ],
+  "files": ["dist/**", "LICENSE", "README.md" ],
   "main": "dist/index.bundle.js",
   "scripts": {
     "build:prod": "webpack --mode=production",
