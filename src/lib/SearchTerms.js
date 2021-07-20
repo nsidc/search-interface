@@ -2,8 +2,11 @@ import _ from "underscore";
 import SearchTermsTokenizer from "./searchTermsTokenizer";
 
 class SearchTerms {
-  // Constructor for a SearchTerms. Param:
-  // * inputString - an input string from the search form
+  /*
+   * Constructor for SearchTerms
+   *
+   * @param {*} inputString: string to tokenize into discrete terms
+   */
   constructor(inputString) {
     this.tokenizer = new SearchTermsTokenizer();
 
@@ -47,14 +50,6 @@ class SearchTerms {
   tokenizeInputString(inputStr) {
     return this.tokenizer.tokenize(inputStr);
   }
-}
-
-// TODO [IT, 2013-05-013]: This has no unit tests
-export function fromEncodedString(encodedTermsString) {
-  let termsString = decodeURIComponent(
-    encodedTermsString.replace(/\+/g, "%20")
-  );
-  return new SearchTerms(termsString).asArray();
 }
 
 export default SearchTerms;
