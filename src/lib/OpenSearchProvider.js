@@ -22,9 +22,10 @@ function OpenSearchProvider() {
    *    - nothing
    */
   this.requestJSON = function (options) {
-    // TODO add port
-    options.osParameters.osdd =
-      openSearchOptions.osProvider.openSearchHost + openSearchOptions.osdd;
+    options.osParameters.osdd = 
+      openSearchOptions.osProvider.port == 80 ?
+      `${openSearchOptions.osProvider.openSearchHost}${openSearchOptions.osdd}` :
+      `${openSearchOptions.osProvider.openSearchHost}:${openSearchOptions.osProvider.port}${openSearchOptions.osdd}`;
 
     let onSuccess = function (jqXhr) {
       OpenSearchProvider.prototype.successHandle(jqXhr, options);

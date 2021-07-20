@@ -20,8 +20,7 @@
   arena, but since we haven't been actively maintaining it I'm guessing
   there isn't a huge pool of current users.
 
-  Q: Can Julia to review this and make sure we can push this to Future Development?
-  A: Tentatively, we think the answer is yes.
+  [This can be pushed off until 2022 sustainment](https://github.com/nsidc/search-interface/pull/65#discussion_r672579884)
 
 * The Arctic Data Explorer (ADE) has been decommissioned, and
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
