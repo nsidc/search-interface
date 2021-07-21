@@ -35,7 +35,7 @@ Development on this project uses
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 2. Stage your changes (`git add`)
-3. Commit your JSHint-compliant and test-passing changes (just run `grunt`) with a
+3. Commit your ESLint-compliant and test-passing changes (just run `npm run lint` and `npm test`) with a
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
 4. Push to the branch (`git push -u origin my-new-feature`)
@@ -74,7 +74,7 @@ plugin.
 
 3. Build the application artifacts into the `dist` directory:
 
-        npm run build
+        npm run build:prod # Build a bundle packaged for production environment
         npm run build:dev  # Build with source maps for development environment
                            # Update environment-dependent URL configurations in
                            # `src/config/appConfig.js` as needed.
@@ -228,18 +228,16 @@ so, follow these steps:
 * point your browser to
   [localhost:8081/_SpecRunner.html](localhost:8081/_SpecRunner.html)
 
-## JSHint
+## ESLint
 
-Run with `grunt jshint`. Run automatically whenever a JavaScript file is changed
-with `grunt watch:jshint`.
+Run once with `npm run lint`. Run automatically whenever a JavaScript file is changed
+with `npm run lint:watch`.
 
-JSHint is configured in `.jshintrc`, a JSON file containing a list of options
+ESLint is configured in `.eslintrc.json`, a JSON file containing a list of options
 and allowed global variables.
 
-* [Official documentation for JSHint configuration options](http://www.jshint.com/docs/options/)
-* [Grunt task for JSHint](http://www.github.com/gruntjs/grunt-contrib-jshint)
-* [JSHint in Emacs with flycheck](https://github.com/flycheck/flycheck)
-* [plugins to run JSHint in various editors and IDEs](http://www.jshint.com/install/#plugins)
+* [Official documentation for ESLint configuration ](https://eslint.org/docs/user-guide/configuring/)
+* [plugins to run ESLint in various editors and IDEs](https://eslint.org/docs/user-guide/integrations#editors)
 
 ## RuboCop
 
