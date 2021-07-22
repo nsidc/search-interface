@@ -23,7 +23,7 @@
     "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
     "lint:watch": "npx esw -w ./src/",
-    "test": "echo \"No tests exist!\" ",
+    "test": "jest -w ./src",
     "release": "release-it"
   },
   "engines": {
