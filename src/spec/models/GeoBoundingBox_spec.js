@@ -1,5 +1,4 @@
-define(['models/GeoBoundingBox'],
-        function (GeoBoundingBox) {
+import GeoBoundingBox from '../../models/GeoBoundingBox';
 
   describe('GeoBoundingBox', function () {
 
@@ -190,7 +189,7 @@ define(['models/GeoBoundingBox'],
     describe('valid bounding boxes', function () {
 
       beforeEach(function () {
-        jasmine.addMatchers({
+        expect.extend({
           toBeValidBoundingBox: function () {
             return {
               compare: function(actual) {
@@ -258,7 +257,7 @@ define(['models/GeoBoundingBox'],
 
     describe('Valid corner point box inputs', function () {
       beforeEach(function () {
-        jasmine.addMatchers({
+        expect.extend({
           toBeValidCornerPointsBox: function () {
             return {
               compare: function(actual) {
@@ -345,4 +344,3 @@ define(['models/GeoBoundingBox'],
     });
 
   });
-});

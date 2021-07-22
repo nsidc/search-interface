@@ -23,7 +23,8 @@
     "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
     "lint:watch": "npx esw -w ./src/",
-    "test": "jest -w ./src",
+    "test": "jest ./src",
+    "test:watch": "jest -w ./src",
     "release": "release-it"
   },
   "engines": {
@@ -45,6 +46,7 @@
     }
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.14.8",
     "@j-ulrich/release-it-regex-bumper": "^2.0.0",
     "OpenSearchlight": "https://github.com/nsidc/OpenSearchlight.git#soac-62",
     "auto-changelog": "^2.3.0",
@@ -66,8 +68,8 @@
     "http-server": "^0.12.3",
     "jasmine-core": "^3.7.0",
     "jasmine-sinon": "0.4.0",
-    "jest-cli": "^27.0.6",
     "jest": "^27.0.6",
+    "jest-cli": "^27.0.6",
     "jsdoc": "^3.6.7",
     "karma": "^6.3.3",
     "karma-chrome-launcher": "3.1.0",

@@ -1,5 +1,4 @@
-define(['models/FacetModel'],
-  function (FacetModel) {
+import FacetModel from '../../models/FacetModel';
 
   describe('Facet Model', function () {
     var model;
@@ -67,4 +66,3 @@ define(['models/FacetModel'],
       });
     });
   });
-});
