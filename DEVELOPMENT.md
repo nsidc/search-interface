@@ -16,6 +16,37 @@
 * (Future Development)[#future-development]
 
 # Git Workflow
+=======
+## Future Development tasks
+
+* The webpack configuration (and probably the code structure) need additional
+  refinement in order to reduce the size of the bundled application.
+
+* Move to ES20xx or Typescript.
+
+* Rewrite using React components?
+
+* Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
+  an open source project owned by NSIDC. That project also needs to be migrated
+  from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
+  code exists in branch `soac-62`. **The srch-28 branch of search-interface is
+  running off of the OpenSearchlight branch soac-62, and uses a source file
+  rather than a "built" file.** (See the `git` reference to
+  OpenSearchlight in `package.json` and the `import` statement in
+  `OpenSearchProvider.js`.). **This is not an acceptable long-term
+  approach for a production application.** OpenSearchlight needs to be
+  modernized or replaced. Note that OpenSearchlight is in the open source
+  arena, but since we haven't been actively maintaining it I'm guessing
+  there isn't a huge pool of current users.
+
+  [This can be pushed off until 2022 sustainment](https://github.com/nsidc/search-interface/pull/65#discussion_r672579884)
+
+* The Arctic Data Explorer (ADE) has been decommissioned, and
+  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
+  The remaining references to ADE should be removed.
+  TODO: Future Development?
+
+## Git workflow
 
 Development on this project uses
 [the GitHub Flow](https://guides.github.com/introduction/flow/index.html):
