@@ -1,0 +1,67 @@
+version: 2
+
+setup: &setup
+  working_directory: ~/search-interface
+  docker:
+    - image: node:6.10.2
+
+jobs:
+  test:
+    <<: *setup
+    steps:
+      - checkout
+      - restore_cache:
+          key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      # - run:
+      #     name: Lint
+      #     command: npm run lint
+      # - run:
+      #     name: Test
+      #     command: npm test
+      # - store_test_results:
+      #     path: test-reports/
+      # - store_artifacts:
+      #     path: test-coverage/
+      #     key: tc
+      - save_cache:
+          key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - "~/search-interface/node_modules"
+      - persist_to_workspace:
+          root: ~/search-interface
+          paths:
+            - .
+
+  build-and-deploy:
+    <<: *setup
+    steps:
+      - attach_workspace:
+          at: ~/search-interface
+      - deploy:
+          name: Publish to npmjs.org
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" >> ~/.npmrc
+            npm --access public publish
+
+workflows:
+  version: 2
+
+  test-and-deploy-some:
+    jobs:
+      - test:
+          filters:
+            tags:
+               only: /.*/
+
+      - build-and-deploy:
+          context: org-global
+          requires:
+            - test
+          filters:
+            # branches:
+            #   ignore: /.*/
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*(\.[\-a-zA-Z0-9]+)?$/

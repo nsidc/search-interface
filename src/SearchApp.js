@@ -1,8 +1,7 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
-import { environmentUrls } from './config/appConfig';
 
-import * as config from './config/appConfig';
+import { appConfig, openSearchOptions, environmentUrls } from './config/appConfig';
 import BaseView from './views/BaseView';
 import { decodedQueryParameter } from './lib/utility_functions';
 import FacetsCollection from './collections/FacetsCollection';
@@ -23,8 +22,8 @@ class SearchApp extends Backbone.Router {
     }
 
     initialize(params) {
-        this.config = config.appConfig;
-        this.openSearchOptions = config.openSearchOptions;
+        this.config = appConfig;
+        this.openSearchOptions = openSearchOptions;
 
         // Endpoints depend on environment
         let envUrls = environmentUrls(process.env.APPLICATION_ENVIRONMENT);
