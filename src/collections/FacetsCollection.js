@@ -1,4 +1,4 @@
-import * as Backbone from 'backbone';
+import Backbone from 'backbone';
 import _ from 'underscore';
 import FacetModel from '../models/FacetModel';
 
