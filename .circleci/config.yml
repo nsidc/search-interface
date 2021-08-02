@@ -15,6 +15,9 @@ jobs:
       - run:
           name: Install dependencies
           command: npm install
+      - run:
+          name: Check package audit
+          command: npx check-audit
       # - run:
       #     name: Lint
       #     command: npm run lint
