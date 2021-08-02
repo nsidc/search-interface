@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/nsidc/search-interface.svg)](https://travis-ci.org/nsidc/search-interface)
 
+[![NSIDC](https://circleci.com/gh/nsidc/search-interface.svg?style=svg)](https://circleci.com/gh/nsidc/search-interface)
+
 # NSIDC Search Portal
 
 An Opensearch-based single page search interface.
