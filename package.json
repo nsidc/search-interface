@@ -79,6 +79,7 @@
     "karma-moment": "0.1.0",
     "karma-sinon": "1.0.5",
     "karma-spec-reporter": "0.0.32",
+    "npm-audit-resolver": "^2.3.1",
     "leaflet": "^1.7.1",
     "node-gyp": "^8.1.0",
     "ol": "^6.6.1",
