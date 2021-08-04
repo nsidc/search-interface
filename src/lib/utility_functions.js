@@ -52,7 +52,7 @@ export function removeWhitespace(str) {
   if (str === undefined || str === "") {
     return undefined;
   } else {
-    return $.trim(str.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/gm, " "));
+    return (str.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/gm, " ")).trim();
   }
 }
 
@@ -123,7 +123,7 @@ export function round(number, precision) {
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   let results = [];
 
-  if (jQueryArray.text() === "") {
+  if ($.type(jQueryArray) !== "array") {
     return undefined;
   }
 

@@ -42,17 +42,6 @@ describe('UtilityFunctions', function () {
     });
   });
 
-  describe('.nsewObjFromIdentifier', function () {
-    it('returns an object with coordinates matching the passed west, south, east, and north values', function () {
-      expect(UtilityFunctions.nsewObjFromIdentifier('N:90,S:45,E:180,W:-180')).toEqual({
-        north: '90',
-        south: '45',
-        east: '180',
-        west: '-180'
-      });
-    });
-  });
-
   describe('.osGeoBoxFromIdentifier', function () {
     it('converts a bounding box URL identifier to an osGeoBox', function () {
       expect(UtilityFunctions.osGeoBoxFromIdentifier('N:90,S:45,E:180,W:-180')).toBe('-180,45,180,90');
@@ -107,9 +96,9 @@ describe('UtilityFunctions', function () {
   });
 
   it('gets an array containing the text from a jQuery array', function () {
-    var html = '<div class="test">first text</div><div class="test">second text</div>';
+    var html = $.parseHTML('<div class="test">first text</div><div class="test">second text</div>');
 
-    expect(UtilityFunctions.getArrayFromjQueryArrayTextContents($(html))).toEqual(['first text', 'second text']);
+    expect(UtilityFunctions.getArrayFromjQueryArrayTextContents(html)).toEqual(['first text', 'second text']);
   });
 
   it('Should escape &#<>()\'" characters', function () {
@@ -123,39 +112,18 @@ describe('UtilityFunctions', function () {
   });
 
   describe('float validation', function () {
-
-    beforeEach(function () {
-
-      expect.extend({
-        toBeValidFloat: function () {
-          return {
-            compare: function(actual) {
-              var notText = this.isNot ? ' not' : '',
-                number = actual;
-
-              this.message = function () {
-                return 'Expected ' + number + notText + ' to be a valid float';
-              };
-
-              return {pass: UtilityFunctions.isFloat(number)};
-            }
-          };
-        }
-      });
-    });
-
     it('accepts valid numbers', function () {
-      expect('-180.0').toBeValidFloat();
-      expect('2').toBeValidFloat();
-      expect('2893.28938912').toBeValidFloat();
+      expect(UtilityFunctions.isFloat('-180.0')).toBeTruthy();
+      expect(UtilityFunctions.isFloat('2')).toBeTruthy();
+      expect(UtilityFunctions.isFloat('2893.28938912')).toBeTruthy()
     });
 
     it('rejects strings that are not valid numbers', function () {
       // JSHint does not like symbols so instead using unicode to generate the degree symbol
       var unicodeDegreeSymbol = '\u00B0';
-      expect('38' + unicodeDegreeSymbol + '53\'23"N').not.toBeValidFloat();
-      expect('90f').not.toBeValidFloat();
-      expect('--90').not.toBeValidFloat();
+      expect(UtilityFunctions.isFloat('38' + unicodeDegreeSymbol + '53\'23"N')).toBeFalsy();
+      expect(UtilityFunctions.isFloat('90f')).toBeFalsy();
+      expect(UtilityFunctions.isFloat('--90')).toBeFalsy();
     });
   });
 });

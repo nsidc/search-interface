@@ -15,7 +15,7 @@ describe('Mediator', function () {
   it('re-broadcasts events triggered upon it', function () {
     var mediator = new Mediator(),
         payload = { data: 'data' },
-        mockEventHandler = sinon.stub();
+        mockEventHandler = jest.fn()
 
     // arrange
     mediator.on('eventName', mockEventHandler);
