@@ -25,13 +25,13 @@ jobs:
           name: Test
           command: npx jest src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
           environment:
-            JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
-          path: reports/junit
+          path: reports/junit/
       - store_artifacts:
-          path: reports/junit
+          path: reports/junit/
       - store_artifacts:
-          path: reports/coverage
+          path: reports/coverage/
       - save_cache:
           key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
