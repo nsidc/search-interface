@@ -18,9 +18,9 @@ jobs:
       - run:
           name: Check package audit
           command: npx check-audit
-      # - run:
-      #     name: Lint
-      #     command: npm run lint
+      - run:
+          name: Lint
+          command: npx lint "./src/collections"
       - run:
           name: Test
           command: npx jest src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
