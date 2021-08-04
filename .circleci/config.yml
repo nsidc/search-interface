@@ -20,7 +20,7 @@ jobs:
           command: npx check-audit
       - run:
           name: Lint
-          command: npx lint "./src/collections"
+          command: npx eslint -o reports/lint/lint.xml -f junit "./src/collections"
       - run:
           name: Test
           command: npx jest src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
@@ -28,6 +28,8 @@ jobs:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
           path: reports/junit/
+      - store_artifacts:
+          path: reports/lint/
       - store_artifacts:
           path: reports/junit/
       - store_artifacts:
