@@ -1,5 +1,8 @@
+import Backbone from 'backbone';
+
 import FacetsCollection from '../../collections/FacetsCollection';
 import JSONFacets from '../../lib/JSONFacets';
+import Mediator from '../../lib/Mediator';
 
 describe('FacetResultsCollection', function () {
   var facets, facetsCollection,
@@ -35,6 +38,7 @@ describe('FacetResultsCollection', function () {
   });
 
   describe('Server calls', function () {
+    let spy;
     var provider,
       fakeSearchParamsModel,
       FakeOpenSearchProvider = function () {
@@ -47,79 +51,85 @@ describe('FacetResultsCollection', function () {
 
     beforeEach(function () {
       fakeSearchParamsModel = new Backbone.Model({keyword : 'ice'});
-      fakeSearchParamsModel.setFacetFilters = sinon.spy();
+      fakeSearchParamsModel.setFacetFilters = jest.fn();
 
       provider = new FakeOpenSearchProvider();
 
-      facetsCollection = new FacetsCollection({
+      facetsCollection = new FacetsCollection(null, {
         provider: provider,
         osDefaultParameters: osDefaults,
         facets: facets,
         facetsEnabled: true
       });
 
-      sinon.spy(provider, 'requestJSON');
+      spy = jest.spyOn(provider, 'requestJSON');
     });
 
     afterEach(function () {
-      provider.requestJSON.restore();
+      spy.mockRestore()
     });
 
     it('makes a facet request for search initiated event', function () {
       facetsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.mock.calls.length).toEqual(1);
-      expect(provider.requestJSON.getCall(0)[0].osParameters.osSearchTerms).toEqual('ice');
-      expect(provider.requestJSON.getCall(0)[0].osFacetFilters).not.toBeDefined();
+      expect(spy).toHaveBeenCalled();
+      expect(spy.mock.calls[0][0].osParameters.osSearchTerms).toEqual('ice');
+      expect(spy.mock.calls[0][0].osFacetFilters).not.toBeDefined();
     });
 
     it('makes a facet request for search datacenters only event (for dynamic counts on home page)', function () {
       facetsCollection.onDatacentersOnly(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.mock.calls.length).toEqual(1);
-      expect(provider.requestJSON.getCall(0)[0].osParameters.osSearchTerms).toEqual('ice');
-      expect(provider.requestJSON.getCall(0)[0].osFacetFilters).not.toBeDefined();
+      expect(spy).toHaveBeenCalled();
+      expect(spy.mock.calls[0][0].osParameters.osSearchTerms).toEqual('ice');
+      expect(spy.mock.calls[0][0].osFacetFilters).not.toBeDefined();
     });
 
     it('uses facet filters for refined search event', function () {
       fakeSearchParamsModel.set('facetFilters', {facetParameter: ['Albedo', 'Ice Extent']});
       facetsCollection.onRefinedSearch(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.getCall(0)[0].osParameters.osSearchTerms).toEqual('ice');
-      expect(provider.requestJSON.getCall(0)[0].osParameters.osFacetFilters).toEqual({facetParameter: ['Albedo', 'Ice Extent']});
+      expect(spy.mock.calls[0][0].osParameters.osSearchTerms).toEqual('ice');
+      expect(spy.mock.calls[0][0].osParameters.osFacetFilters).toEqual({facetParameter: ['Albedo', 'Ice Extent']});
     });
 
     describe('Server responses and processing', function () {
-      var fakeMediator;
+      var fakeMediator = {
+        on: jest.fn(),
+        trigger: jest.fn()
+      };
 
       beforeEach(function () {
-        fakeMediator = sinon.stub(facetsCollection, 'mediatorTrigger');
+        facetsCollection.mediator = fakeMediator;
       });
 
       afterEach(function () {
-        facetsCollection.mediatorTrigger.restore();
+        fakeMediator.on.mockRestore();
+        fakeMediator.trigger.mockRestore();
       });
 
       it('triggers the facets returned event', function () {
         facetsCollection.onSearchInitiated(fakeSearchParamsModel);
-        expect(fakeMediator.mock.calls.length).toEqual(1);
-        expect(fakeMediator.getCall(0)[0]).toEqual('search:facetsReturned');
+
+        expect(fakeMediator.trigger).toHaveBeenCalled();
+        expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsReturned');
       });
 
       it('triggers the facets refined event when facets are refined', function () {
-
         facetsCollection.onRefinedSearch(fakeSearchParamsModel);
-        expect(fakeMediator.mock.calls.length).toEqual(1);
-        expect(fakeMediator.getCall(0)[0]).toEqual('search:facetsRefined');
+
+        expect(fakeMediator.trigger).toHaveBeenCalled();
+        expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsRefined');
       });
 
       it('triggers a refined search after the first facet request from the url is complete', function () {
         var facetFilters = { data_center: ['nsidc', 'cisl'] };
 
         facetsCollection.onSearchUrlParams(fakeSearchParamsModel, facetFilters);
-        expect(fakeMediator.mock.calls.length).toEqual(2);
-        expect(fakeMediator.getCall(0)[0]).toEqual('search:facetsReturned');
-        expect(fakeMediator.getCall(1)[0]).toEqual('search:refinedSearch');
+
+        expect(fakeMediator.trigger).toHaveBeenCalledTimes(2);
+        expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsReturned');
+        expect(fakeMediator.trigger.mock.calls[1][0]).toEqual('search:refinedSearch');
       });
 
       it('counts the facet values in the response', function () {
@@ -134,8 +144,9 @@ describe('FacetResultsCollection', function () {
             json = new JSONFacets({facets: facets});
 
         facetsCollection.onUrlParamsFacetsData(json, fakeSearchParamsModel, facetFilters);
-        expect(fakeMediator.mock.calls.length).toEqual(1);
-        expect(fakeMediator.getCall(0)[0]).toEqual('search:initiated');
+
+        expect(fakeMediator.trigger).toHaveBeenCalled();
+        expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:initiated');
       });
     });
   });

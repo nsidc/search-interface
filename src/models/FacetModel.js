@@ -3,7 +3,8 @@ import _ from 'underscore';
 
 class FacetModel extends Backbone.Model {
 
-    initialize() {
+    constructor(attributes, options) {
+        super(attributes, options);
         const values = this.get('values');
         _.each(values, function (param) {
             param.selected = false;
@@ -13,8 +14,8 @@ class FacetModel extends Backbone.Model {
     }
 
     bindEvents() {
-        this.mediator.on('model:toggleFacet', this.toggleSelectedFacet, this);
-        this.mediator.on('model:clearSelectedFacet', this.clearFacetSelected, this);
+      this.mediator?.on('model:toggleFacet', this.toggleSelectedFacet, this);
+      this.mediator?.on('model:clearSelectedFacet', this.clearFacetSelected, this);
     }
 
     clearFacetSelected(facet) {

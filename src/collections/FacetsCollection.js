@@ -8,21 +8,20 @@ class FacetsCollection extends Backbone.Collection {
       return FacetModel;
     }
 
-    initialize(options) {
-        if(options !== undefined) {
-            this.mediator = options.mediator;
-            this.osDefaultParameters = options.osDefaultParameters;
-            this.facetsEnabled = options.config.facets.enabled;
-            this.provider = options.provider;
-            this.bindEvents(this.mediator);
-        }
+    constructor(models, options) {
+      super(models, options);
+      this.mediator = options?.mediator;
+      this.osDefaultParameters = options?.osDefaultParameters;
+      this.facetsEnabled = options?.facetsEnabled;
+      this.provider = options?.provider;
+      this.bindEvents(this.mediator);
     }
 
     bindEvents() {
-      this.mediator.on('search:initiated', this.onSearchInitiated, this);
-      this.mediator.on('search:refinedSearch', this.onRefinedSearch, this);
-      this.mediator.on('search:datacentersOnly', this.onDatacentersOnly, this);
-      this.mediator.on('search:urlParams', this.onSearchUrlParams, this);
+      this.mediator?.on('search:initiated', this.onSearchInitiated, this);
+      this.mediator?.on('search:refinedSearch', this.onRefinedSearch, this);
+      this.mediator?.on('search:datacentersOnly', this.onDatacentersOnly, this);
+      this.mediator?.on('search:urlParams', this.onSearchUrlParams, this);
     }
 
     onSearchInitiated(model) {
@@ -84,7 +83,7 @@ class FacetsCollection extends Backbone.Collection {
       this.reset(json.getFacets());
 
       if (this.countFacetValues(json.getFacets()) > 0) {
-        this.mediator.trigger('search:facetsReturned');
+        this.mediator?.trigger('search:facetsReturned');
       }
     }
 
@@ -102,11 +101,12 @@ class FacetsCollection extends Backbone.Collection {
           }
         });
       });
-      this.mediator.trigger('search:facetsRefined');
+
+      this.mediator?.trigger('search:facetsRefined');
     }
 
     onDatacentersOnlyFacetsData(json) {
-      this.mediator.trigger('search:datacentersReturned', json.getFacet('facet_data_center'));
+      this.mediator?.trigger('search:datacentersReturned', json.getFacet('facet_data_center'));
     }
 
     onUrlParamsFacetsData(json, model, facetFilters) {
