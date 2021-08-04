@@ -7,6 +7,7 @@
 dist/
 local_config.yaml
 root.dir
+reports
 
 # /
 /.Xauthority*
