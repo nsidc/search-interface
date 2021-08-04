@@ -17,96 +17,96 @@
 *    - itemsPerPage : number of result entries on a page of results
 *    - keyword : the keyword(s) used to create this result set
 */
-var JSONResults = function (init) {
-  var results = init.results,
-    totalCount = init.totalCount,
-    firstPageLink = init.firstPageLink,
-    previousPageLink = init.previousPageLink,
-    nextPageLink = init.nextPageLink,
-    lastPageLink = init.lastPageLink,
-    currentIndex = init.currentIndex,
-    itemsPerPage = init.itemsPerPage,
-    keyword = init.keyword,
-    authorTerms = init.authorTerms,
-    parameterTerms = init.parameterTerms,
-    sensorTerms = init.sensorTerms,
-    titleTerms = init.titleTerms,
-    startDate = init.startDate,
-    endDate = init.endDate,
-    sortKeys = init.sortKeys,
-    geoBoundingBox = init.geoBoundingBox,
-    facetFilters = init.facetFilters;
+export default class JSONResults {
+  constructor(init) {
+    this.results = init?.results,
+    this.totalCount = init?.totalCount,
+    this.firstPageLink = init?.firstPageLink,
+    this.previousPageLink = init?.previousPageLink,
+    this.nextPageLink = init?.nextPageLink,
+    this.lastPageLink = init?.lastPageLink,
+    this.currentIndex = init?.currentIndex,
+    this.itemsPerPage = init?.itemsPerPage,
+    this.keyword = init?.keyword,
+    this.authorTerms = init?.authorTerms,
+    this.parameterTerms = init?.parameterTerms,
+    this.sensorTerms = init?.sensorTerms,
+    this.titleTerms = init?.titleTerms,
+    this.startDate = init?.startDate,
+    this.endDate = init?.endDate,
+    this.sortKeys = init?.sortKeys,
+    this.geoBoundingBox = init?.geoBoundingBox,
+    this.facetFilters = init?.facetFilters;
+  }
 
-  this.getResults = function () {
-    return results;
+  getResults() {
+    return this.results;
   };
 
-  this.getGeoBoundingBox = function () {
-    return geoBoundingBox;
+  getGeoBoundingBox() {
+    return this.geoBoundingBox;
   };
 
-  this.getTotalCount = function () {
-    return totalCount;
+  getTotalCount() {
+    return this.totalCount;
   };
 
-  this.getCurrentIndex = function () {
-    return currentIndex;
+  getCurrentIndex() {
+    return this.currentIndex;
   };
 
-  this.getItemsPerPage = function () {
-    return itemsPerPage;
+  getItemsPerPage() {
+    return this.itemsPerPage;
   };
 
-  this.getFirstPageLink = function () {
-    return firstPageLink;
+  getFirstPageLink() {
+    return this.firstPageLink;
   };
 
-  this.getPreviousPageLink = function () {
-    return previousPageLink;
+  getPreviousPageLink() {
+    return this.previousPageLink;
   };
 
-  this.getNextPageLink = function () {
-    return nextPageLink;
+  getNextPageLink() {
+    return this.nextPageLink;
   };
-  this.getLastPageLink = function () {
-    return lastPageLink;
-  };
-
-  this.getKeyword = function () {
-    return keyword;
+  getLastPageLink() {
+    return this.lastPageLink;
   };
 
-  this.getAuthorTerms = function () {
-    return authorTerms;
+  getKeyword() {
+    return this.keyword;
   };
 
-  this.getParameterTerms = function () {
-    return parameterTerms;
+  getAuthorTerms() {
+    return this.authorTerms;
   };
 
-  this.getSensorTerms = function () {
-    return sensorTerms;
+  getParameterTerms() {
+    return this.parameterTerms;
   };
 
-  this.getTitleTerms = function () {
-    return titleTerms;
+  getSensorTerms() {
+    return this.sensorTerms;
   };
 
-  this.getStartDate = function () {
-    return startDate;
+  getTitleTerms() {
+    return this.titleTerms;
   };
 
-  this.getEndDate = function () {
-    return endDate;
+  getStartDate() {
+    return this.startDate;
   };
 
-  this.getSortKeys = function () {
-    return sortKeys;
+  getEndDate() {
+    return this.endDate;
   };
 
-  this.getFacetFilters = function () {
-    return facetFilters;
+  getSortKeys() {
+    return this.sortKeys;
+  };
+
+  getFacetFilters() {
+    return this.facetFilters;
   };
 };
-
-return JSONResults;

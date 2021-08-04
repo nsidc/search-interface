@@ -1,7 +1,8 @@
+import Backbone from 'backbone';
+
 import SearchResultsCollection from '../../collections/SearchResultsCollection';
 import JSONResults from '../../lib/JSONResults';
 import OpenSearchProvider from '../../lib/OpenSearchProvider';
-import objectFactory from '../../lib/objectFactory';
 import Mediator from '../../lib/Mediator';
 
 describe('SearchResultsCollection', function () {
@@ -9,15 +10,13 @@ describe('SearchResultsCollection', function () {
   var FakeOpenSearchProvider,
       FakeOpenSearchResponse = function () {},
       provider,
+      spy,
       osDefaults = { osUrlEndPoint: 'some.fake.url/somewhere',
                     osSearchTerms: 'default terms',
                     osdd: 'fake osdd',
                     osGeoBbox: { lonMin: -180, latMin: 45, lonMax: 180, latMax: 90} },
       resultsCollection,
       fakeSearchParamsModel;
-
-
-  objectFactory.setConfig({ dependencies: { 'OpenSearchResponse': FakeOpenSearchResponse } });
 
   FakeOpenSearchProvider = function () {
       this.requestJSON = function (options) {
@@ -61,11 +60,19 @@ describe('SearchResultsCollection', function () {
   });
 
   describe('Initial load has a collection', function () {
+    var fakeMediator = { 
+      on: jest.fn(),
+      trigger: jest.fn()
+    };
 
     beforeEach(function () {
-      var mediator = sinon.stub(new Mediator());
-      resultsCollection.setMediator(mediator);
+      resultsCollection.mediator = fakeMediator;
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
+    });
+
+    afterEach(function () {
+      fakeMediator.on.mockRestore();
+      fakeMediator.trigger.mockRestore();
     });
 
     it('result contains at least one value', function () {
@@ -98,38 +105,54 @@ describe('SearchResultsCollection', function () {
   });
 
   describe('Server responses and processing', function () {
-    var fakeMediator;
+    var fakeMediator = { 
+      on: jest.fn(),
+      trigger: jest.fn()
+    };
 
     beforeEach(function () {
-      fakeMediator = sinon.stub(resultsCollection, 'mediatorTrigger');
+      resultsCollection.mediator = fakeMediator;
     });
 
     afterEach(function () {
-      resultsCollection.mediatorTrigger.restore();
+      fakeMediator.on.mockRestore();
+      fakeMediator.trigger.mockRestore();
     });
 
     it('triggers the datasets returned event', function () {
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
-      expect(fakeMediator.mock.calls.length).toEqual(2);
-      expect(fakeMediator.getCall(0)[0]).toEqual('search:complete');
-      expect(fakeMediator.getCall(1)[0]).toEqual('search:fullSearchComplete');
+
+      expect(fakeMediator.trigger).toHaveBeenCalledTimes(3);
+      expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:complete');
+      expect(fakeMediator.trigger.mock.calls[1][0]).toEqual('search:success');
+      expect(fakeMediator.trigger.mock.calls[2][0]).toEqual('search:fullSearchComplete');
     });
 
     it('triggers the datasets refined event when facets are refined', function () {
       resultsCollection.onRefinedSearch(fakeSearchParamsModel);
-      expect(fakeMediator.mock.calls.length).toEqual(2);
-      expect(fakeMediator.getCall(0)[0]).toEqual('search:complete');
-      expect(fakeMediator.getCall(1)[0]).toEqual('search:refinedSearchComplete');
+
+      expect(fakeMediator.trigger).toHaveBeenCalledTimes(3);
+      expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:complete');
+      expect(fakeMediator.trigger.mock.calls[1][0]).toEqual('search:success');
+      expect(fakeMediator.trigger.mock.calls[2][0]).toEqual('search:refinedSearchComplete');
     });
   });
 
   describe('Changing to page 2 generates updated collection', function () {
+    var fakeMediator = { 
+      on: jest.fn(),
+      trigger: jest.fn()
+    };
 
     beforeEach(function () {
-      var mediator = sinon.stub(new Mediator());
       fakeSearchParamsModel.set({pageNumber: 2});
-      resultsCollection.setMediator(mediator);
+      resultsCollection.mediator = fakeMediator;
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
+    });
+
+    afterEach(function () {
+      fakeMediator.on.mockRestore();
+      fakeMediator.trigger.mockRestore();
     });
 
     it('result contains at least one value', function () {
@@ -151,7 +174,7 @@ describe('SearchResultsCollection', function () {
       // there are multiple events triggered by the model when an attribute is changed: 'change', and 'change:<attribute_name>'.
 
       // arrange
-      sinon.stub(provider, 'requestJSON');
+      let spy = jest.spyOn(provider, 'requestJSON');
 
       // act
       fakeSearchParamsModel.set({pageNumber: 9});
@@ -161,19 +184,21 @@ describe('SearchResultsCollection', function () {
       expect(provider.requestJSON.mock.calls.length).toEqual(1);
 
       // cleanup
-      provider.requestJSON.restore();
+      spy.mockRestore();
 
     });
   });
 
 
   describe('searchParam model updates are correctly translated to the provider', function () {
+    let spy;
+
     beforeEach(function () {
-      sinon.stub(provider, 'requestJSON');
+      spy = jest.spyOn(provider, 'requestJSON');
     });
 
     afterEach(function () {
-      provider.requestJSON.restore();
+      spy.mockRestore();
     });
 
     it('Should translate keyword to osSearchTerms when provided', function () {
@@ -182,42 +207,42 @@ describe('SearchResultsCollection', function () {
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
       // assert
-      expect(provider.requestJSON.firstCall[0].osParameters.osSearchTerms).toBe('test');
+      expect(spy.mock.calls[0][0].osParameters.osSearchTerms).toBe('test');
     });
 
     it('Should translate keyword to osAuthor when author is provided', function () {
       fakeSearchParamsModel.set({author: 'testauthor'});
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.firstCall[0].osParameters.osAuthor).toBe('testauthor');
+      expect(spy.mock.calls[0][0].osParameters.osAuthor).toBe('testauthor');
     });
 
     it('Should translate keyword to osParameter when parameter is provided', function () {
       fakeSearchParamsModel.set({parameter: 'testparameter'});
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.firstCall[0].osParameters.osParameter).toBe('testparameter');
+      expect(spy.mock.calls[0][0].osParameters.osParameter).toBe('testparameter');
     });
 
     it('Should translate keyword to osParameter when parameter is provided', function () {
       fakeSearchParamsModel.set({parameter: 'testparameter'});
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.firstCall[0].osParameters.osParameter).toBe('testparameter');
+      expect(spy.mock.calls[0][0].osParameters.osParameter).toBe('testparameter');
     });
 
     it('Should translate keyword to osSensor when sensor is provided', function () {
       fakeSearchParamsModel.set({sensor: 'testsensor'});
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.firstCall[0].osParameters.osSensor).toBe('testsensor');
+      expect(spy.mock.calls[0][0].osParameters.osSensor).toBe('testsensor');
     });
 
     it('Should translate keyword to osTitle when title is provided', function () {
       fakeSearchParamsModel.set({title: 'testtitle'});
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
-      expect(provider.requestJSON.firstCall[0].osParameters.osTitle).toBe('testtitle');
+      expect(spy.mock.calls[0][0].osParameters.osTitle).toBe('testtitle');
     });
 
     it('Should translate dates to corresponding os terms when provided', function () {
@@ -226,8 +251,8 @@ describe('SearchResultsCollection', function () {
       resultsCollection.onSearchInitiated(fakeSearchParamsModel);
 
       // assert
-      expect(provider.requestJSON.firstCall[0].osParameters.osDtStart).toBe('2001-01-01');
-      expect(provider.requestJSON.firstCall[0].osParameters.osDtEnd).toBe('2002-12-31');
+      expect(spy.mock.calls[0][0].osParameters.osDtStart).toBe('2001-01-01');
+      expect(spy.mock.calls[0][0].osParameters.osDtEnd).toBe('2002-12-31');
     });
   });
 
@@ -236,9 +261,12 @@ describe('SearchResultsCollection', function () {
 
     it('Updated search information is available through getters', function () {
       // arrange
-      var fakeJson,
-          mediator = sinon.stub(new Mediator());
-      resultsCollection.setMediator(mediator);
+      var fakeJson;
+      var mediator = {
+        on: jest.fn(),
+        trigger: jest.fn()
+      };
+      resultsCollection.mediator = mediator;
 
       fakeJson = new JSONResults(
         { keyword: 'test keyword',
@@ -266,40 +294,46 @@ describe('SearchResultsCollection', function () {
         resultsCollection;
 
     beforeEach(function () {
-      var mediator = sinon.stub(new Mediator());
+      var mediator = {
+        on: jest.fn(),
+        trigger: jest.fn()
+      };
 
       resultsCollection = new SearchResultsCollection({
         osDefaultParameters: defaultParams,
         searchParamsModel: new Backbone.Model()
       });
 
-      resultsCollection.setMediator(mediator);
+      resultsCollection.mediator = mediator;
     });
 
-
     it('Should use Model information, when it is provided rather than the defaults', function () {
-      // arrange
-      var jsonStub = sinon.stub(new JSONResults({}));
-      jsonStub.getGeoBoundingBox.returns('stubbed Box');
-      // act
-      resultsCollection.onNewSearchResultData(jsonStub);
-      // assert
+      jest.mock('../../lib/JSONResults');
+      let jsonResults = new JSONResults(jest.fn());
+      jsonResults.getGeoBoundingBox = jest.fn();
+      jsonResults.getGeoBoundingBox.mockReturnValue('stubbed Box');
+
+      resultsCollection.onNewSearchResultData(jsonResults);
+
       expect(resultsCollection.getGeoBoundingBox()).toBe('stubbed Box');
+      jest.unmock('../../lib/JSONResults');
     });
 
 
     describe('changing search parameters', function () {
-      var osProviderStub, defaultBbox;
+      var defaultBbox;
 
       beforeEach(function () {
-        osProviderStub = sinon.stub(new OpenSearchProvider());
         defaultBbox = '-180,45,180,90';
         resultsCollection = new SearchResultsCollection({
           osDefaultParameters: defaultParams,
           searchParamsModel: new Backbone.Model(),
-          provider: osProviderStub,
+          provider: { requestJSON: jest.fn() },
           geoBoundingBox: defaultBbox
         });
+      });
+
+      afterEach(function () {
       });
 
       it('Should not change geobox parameters if another parameter changes', function () {
@@ -318,7 +352,7 @@ describe('SearchResultsCollection', function () {
         // act
         resultsCollection.onSearchInitiated(newModel);
         // assert
-        expect(osProviderStub.requestJSON[0][0].osParameters.geoBoundingBox).toBe(updatedGeoBbox);
+        expect(resultsCollection.provider.requestJSON.mock.calls[0][0].osParameters.geoBoundingBox).toBe(updatedGeoBbox);
       });
     });
 

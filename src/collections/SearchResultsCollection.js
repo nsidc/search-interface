@@ -22,8 +22,8 @@ class SearchResultsCollection extends Backbone.Collection {
     }
 
     bindEvents() {
-      this.mediator.on('search:initiated', this.onSearchInitiated, this);
-      this.mediator.on('search:refinedSearch', this.onRefinedSearch, this);
+      this.mediator?.on('search:initiated', this.onSearchInitiated, this);
+      this.mediator?.on('search:refinedSearch', this.onRefinedSearch, this);
     }
 
     onSearchInitiated(model) {
@@ -181,14 +181,14 @@ class SearchResultsCollection extends Backbone.Collection {
 
     onSearchInitiatedSuccess(json) {
       this.onNewSearchResultData(json);
-      this.mediator.trigger('search:success');
-      this.mediator.trigger('search:fullSearchComplete');
+      this.mediator?.trigger('search:success');
+      this.mediator?.trigger('search:fullSearchComplete');
     }
 
     onSearchRefinedSuccess (json) {
       this.onNewSearchResultData(json);
-      this.mediator.trigger('search:success');
-      this.mediator.trigger('search:refinedSearchComplete');
+      this.mediator?.trigger('search:success');
+      this.mediator?.trigger('search:refinedSearchComplete');
     }
 
     onNewSearchResultData (json) {
@@ -209,16 +209,16 @@ class SearchResultsCollection extends Backbone.Collection {
       this.facetFilters = json.getFacetFilters();
 
       if (this.totalResultsCount === 0) {
-        this.mediator.trigger('search:noResults');
+        this.mediator?.trigger('search:noResults');
       } else {
-        this.mediator.trigger('search:complete');
+        this.mediator?.trigger('search:complete');
       }
     }
 
     onErrorResponse  (errorXHR) {
       if (errorXHR.statusText !== 'abort') {
         this.reset();
-        this.mediator.trigger('search:error');
+        this.mediator?.trigger('search:error');
       }
     }
 

@@ -94,7 +94,7 @@ describe('FacetResultsCollection', function () {
     });
 
     describe('Server responses and processing', function () {
-      var fakeMediator = {
+      var fakeMediator = { 
         on: jest.fn(),
         trigger: jest.fn()
       };
