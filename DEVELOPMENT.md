@@ -1,22 +1,22 @@
 # Contents
 
-* (Git Workflow)[#git-workflow]
-* (Installation)[#installation]
-* (Configuration)[#configuration]
-* (Running on a VM)[#running-on-a-vm]
-* (Running the Linter)[#running-the-linter]
-* (Unit Tests)[#unit-tests]
-* (Running the Acceptance Tests Locally)[#running-the-acceptance-tests-locally]
-* (Git Hooks)[#git-hooks]
-* (Releasing a New Version)[#releasing-a-new-version]
-* (NSIDC Continuous Integration)[#nsidc-continuous-integration]
-* (CircleCI Continuous Integration)[#circleci-continuous-integration]
-* (Development Notes)[#development-notes]
-* (Other Gotchas)[#other-gotchas]
-* (Future Development)[#future-development]
+* [Git Workflow](#git-workflow)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Running on a VM](#running-on-a-vm)
+* [Running the Linter](#running-the-linter)
+* [Unit Tests](#unit-tests)
+* [Running the Acceptance Tests Locally](#running-the-acceptance-tests-locally)
+* [Git Hooks](#git-hooks)
+* [Releasing a New Version](#releasing-a-new-version)
+* [NSIDC Continuous Integration](#nsidc-continuous-integration)
+* [CircleCI Continuous Integration](#circleci-continuous-integration)
+* [Development Notes](#development-notes)
+* [Other Gotchas](#other-gotchas)
+* [Future Development](#future-development)
 
 # Git Workflow
-=======
+
 ## Future Development tasks
 
 * The webpack configuration (and probably the code structure) need additional
@@ -405,7 +405,7 @@ If / when the vanillajs-datepicker package updates their exports to export this 
 import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
 ```
 
-## Future Development 
+## Future Development
 
 These do not yet have tickets in JIRA:
 
@@ -436,4 +436,3 @@ These do not yet have tickets in JIRA:
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
   The remaining references to ADE should be removed.
   TODO: Future Development?
-
