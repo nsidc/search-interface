@@ -255,6 +255,8 @@
   }
 }
 
+#map-container { margin: 10px; }
+
 #spatial-compass {
   text-align: center;
 
@@ -308,6 +310,7 @@
   text-align: center;
 }
 
+// TODO: Needed?
 // Style the OpenLayers map
 .openlayers-map {
   img {

@@ -3,11 +3,11 @@
 <div class="mapProjection">
   Choose view :
 <% if (northView) { %>
-  <input type="radio" name="spatial_radio" id="spatial_srid_north" value="EASE_GRID_NORTH" class="projection" /> North Polar
+  <input type="radio" name="spatial_radio" id="spatial_srid_north" value="NORTHERN_HEMI" class="projection" /> North Polar
 <% } %>
   <input type="radio" name="spatial_radio" id="spatial_srid_global" value="GLOBAL" class="projection" /> Global
 <% if (southView) { %>
-  <input type="radio" name="spatial_radio" id="spatial_srid_south" value="EASE_GRID_SOUTH" class="projection" /> South Polar
+  <input type="radio" name="spatial_radio" id="spatial_srid_south" value="SOUTHERN_HEMI" class="projection" /> South Polar
 <% } %>
 </div>
 <div id="map-container"></div>

@@ -6,7 +6,6 @@ import SearchMap from '../../lib/SearchMap';
 import * as mapConstants from '../../lib/spatial_selection_map/constants';
 import viewTemplate from '../../templates/search_criteria/compass.html';
 
-// TODO: What about articles indicating Backbone & ES classes don't play well together?
 class SpatialCoverageCompassView extends Backbone.View {
 
     get events() {
@@ -48,7 +47,6 @@ class SpatialCoverageCompassView extends Backbone.View {
         mediator.on('map:clearSelection', this.mapSelectionCleared, this);
         mediator.on('map:changeBoundingBox', this.mapBoundingBoxChanged, this);
         mediator.on('map:changeCoordinates', this.mapCoordinatesChanged, this);
-        mediator.on('map:changeSize', this.mapSizeChanged, this);
         mediator.on('map:click', this.clearSpatialSelection, this);
     }
 
@@ -98,7 +96,7 @@ class SpatialCoverageCompassView extends Backbone.View {
 
     initMap() {
         this.map = new SearchMap(
-            { mapContainerEl: this.$el.find('#map-container') },
+            { mapContainerId: 'map-container' },
             mapConstants.PROJECTION_NAMES[this.defaultMapProjection]
         );
     }
@@ -369,6 +367,7 @@ class SpatialCoverageCompassView extends Backbone.View {
     toggleVisibility() {
         this.$el.toggleClass('hidden');
         this.$el.css('display', '');
+        this.map.render();
     }
 
     hide() {
@@ -427,8 +426,8 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     northProjectionClicked() {
-        this.currentMapProjection = 'EASE_GRID_NORTH';
-        this.changeProjection(mapConstants.PROJECTION_NAMES.EASE_GRID_NORTH);
+        this.currentMapProjection = 'NORTHERN_HEMI';
+        this.changeProjection(mapConstants.PROJECTION_NAMES.NORTHERN_HEMI);
     }
 
     globalProjectionClicked() {
@@ -437,8 +436,8 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     southProjectionClicked() {
-        this.currentMapProjection = 'EASE_GRID_SOUTH';
-        this.changeProjection(mapConstants.PROJECTION_NAMES.EASE_GRID_SOUTH);
+        this.currentMapProjection = 'SOUTHERN_HEMI';
+        this.changeProjection(mapConstants.PROJECTION_NAMES.SOUTHERN_HEMI);
     }
 
     showCorners() {
@@ -460,8 +459,8 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     changeProjection(newProjection) {
-        if(newProjection === mapConstants.PROJECTION_NAMES.EASE_GRID_NORTH ||
-            newProjection === mapConstants.PROJECTION_NAMES.EASE_GRID_SOUTH) {
+        if(newProjection === mapConstants.PROJECTION_NAMES.NORTHERN_HEMI ||
+            newProjection === mapConstants.PROJECTION_NAMES.SOUTHERN_HEMI) {
             this.clearCorners();
             this.showCorners();
         }
@@ -473,10 +472,10 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     getProjectionIdentifierByName(projectionName) {
-        if(projectionName === 'EASE_GRID_NORTH') {
+        if(projectionName === 'NORTHERN_HEMI') {
             return 'north';
         }
-        else if(projectionName === 'EASE_GRID_SOUTH') {
+        else if(projectionName === 'SOUTHERN_HEMI') {
             return 'south';
         }
         return 'global';

@@ -401,13 +401,13 @@ describe('Spatial Coverage Compass View (box with 4 directions)', function () {
     });
 
     it('should show the corner boxes and hide the nsew when polar selected', function () {
-      view.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_NORTH);
+      view.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.NORTHERN_HEMI);
       expect(view.$el.find('#spatialInput_corners')).not.toHaveClass('hidden');
       expect(view.$el.find('#spatialInput_nsew')).toHaveClass('hidden');
     });
 
     it('should hide the corner boxes and show the nsew when global selected', function () {
-      view.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.EASE_GRID_NORTH);
+      view.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.NORTHERN_HEMI);
       view.changeProjection(SpatialSelectionUtilities.PROJECTION_NAMES.GLOBAL);
       expect(view.$el.find('#spatialInput_corners')).toHaveClass('hidden');
       expect(view.$el.find('#spatialInput_nsew')).not.toHaveClass('hidden');

@@ -1,9 +1,11 @@
+import { Projection } from 'ol/proj';
+
 function mapSettingsFactory(
   boundsArr,
   resolutionBase,
   maxResolution,
   minZoomLevels,
- width,
+  width,
   height,
   minHeight,
   marginTop,
@@ -31,26 +33,28 @@ function mapSettingsFactory(
   };
 }
 
-// the URL to the NSIDC map server and tile cache server
-//dev MAP_SERVER = 'https://integration.nsidc.org/api/ogc/';
-//test MAP_SERVER = 'https://staging.nsidc.org/api/ogc/';
-//prod MAP_SERVER = 'https://nsidc.org/api/ogc/';
-export const MAP_SERVER = "https://nsidc.org/api/ogc/";
-
-// the string used to identify the NSIDC map server WMS layer
-export const WMS_LAYER_NAME = "NSIDC WMS";
+// NASA GIBS:
+// ----------
+// Capabilities:
+// https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0
+// https://gibs.earthdata.nasa.gov/wms/epsg3413/best/wms.cgi?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0
+// https://gibs.earthdata.nasa.gov/wms/epsg3031/best/wms.cgi?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0
+//
+// Layer:
+// BlueMarble_NextGeneration
+// Example:
+// https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=BlueMarble_NextGeneration&STYLES=&FORMAT=image%2Fpng&TRANSPARENT=true&HEIGHT=256&WIDTH=256&TIME=2018-10-01&CRS=EPSG:4326&BBOX=-90,-180,90,180
+//
+const GIBS_BASE_URL = "https://gibs.earthdata.nasa.gov/";
+export const MAP_SERVER = GIBS_BASE_URL;
 
 // this maps the epsg code values to the OpenLayers Projection objects
 // Initialize projections. Apparently need to do something here as well as in the
 // constructor in order to get these things to play nice. ?????
 export const SRID_PROJECTION = {
-  // '3408': new OpenLayers.Projection('EPSG:3408'),
-  // '3409': new OpenLayers.Projection('EPSG:3409'),
-  // '3410': new OpenLayers.Projection('EPSG:3410'),
-  // '3411': new OpenLayers.Projection('EPSG:3411'),
-  // '3412': new OpenLayers.Projection('EPSG:3412'),
-  // '3413': new OpenLayers.Projection('EPSG:3413'),
-  // '4326': new OpenLayers.Projection('EPSG:4326')
+  '4326': new Projection('EPSG:4326'),
+  '3413': new Projection('EPSG:3413'),
+  '3031': new Projection('EPSG:3031')
 };
 
 //Global projects have the north and south pole represented by the entire top of the
@@ -70,149 +74,42 @@ export const POLE_VALUES = {
   },
 };
 
-/*Map settings, each of the following needs to be set for each srid
- *extent - the max extent of the map (lowest zoom)
- *maxResolution - maximum resolution - this is the resolution at the most zoomed out level.
- *                Usually set to max extent / image width
- *tileSize - The size of tiles that OpenLayers should request,
- *           usually equal to the size of the map for smaller maps.
- *numZoomLevels - Number of zoom levels, could switch to minResolution and
- *                this value would be calculated or explicit list of resolutions
- *width - Width of the image (and containing div)
- *height - Height of the image (and containing div)
- *marginTop - top margin for the containing div.
- *marginBottom - bottom margin for the containg div.
- *layer - layer to fetch from the WMS client for this layer.
- *map - For mapserver layers the map file the layer is defined in.
- *smallPanZoom - true to display the smaller pan/zoom widget, false for the large one.
+/*
+ * Map settings, each of the following needs to be set for each srid
+ *
+ *   extent          the max extent of the map (lowest zoom)
+ *   width           Width of the image (and containing div)
+ *   height          Height of the image (and containing div)
+ *   layer           layer to fetch from the WMS client for this layer.
+ *   map             For mapserver layers the map file the lay x defined in.
  *
  */
 export const MAP_SETTINGS = {
-  // Cylindrical Equidistant global
-  //'4326': mapSettingsFactory([-180.0000, -90.0000, 180.0000, 90.0000], 360, 0.72, // 360deg div by 500px of image width (or 180/250)
-  //12, 500, 250, 270, 10, 10, 10, 'blue_marble_07', 'nsidc_ogc_global', false),
-  // Azimuthal Equal-Area North or ease.*north in dropdown
-  //'3408': mapSettingsFactory([-9010277, -9010277, 9010277, 9010277], 18020554, 54607.7394, //18020554/330,
-  //12, 330, 330, 350, 10, 120, 10, 'blue_marble_07_circle', 'nsidc_ogc_north', false),
-  // Azimuthal Equal-Area South or ease.*south in dropdown
-  //'3409': mapSettingsFactory([-9010277, -9010277, 9010277, 9010277], 18020554, 54607.7394, //18020554/330,
-  //12, 330, 330, 350, 10, 120, 10, 'blue_marble_01_circle', 'nsidc_ogc_south', false),
-  // Cylindrical Equidistant global
-  4326: mapSettingsFactory(
-    [-180.0, -90.0, 180.0, 90.0],
-    360,
-    0.72, // 360deg div by 500px of image width (or 180/250)
-    12,
-    650,
-    325,
-    325,
-    10,
-    10,
-    10,
-    "blue_marble_07",
-    "nsidc_ogc_global",
-    false
-  ),
-  // Azimuthal Equal-Area North or ease.*north in dropdown
-  3408: mapSettingsFactory(
-    [-9010277, -9010277, 9010277, 9010277],
-    18020554,
-    54607.7394, //18020554/330,
-    12,
-    435,
-    435,
-    435,
-    10,
-    120,
-    10,
-    "blue_marble_07_circle",
-    "nsidc_ogc_north",
-    false
-  ),
-  // Azimuthal Equal-Area South or ease.*south in dropdown
-  3409: mapSettingsFactory(
-    [-9010277, -9010277, 9010277, 9010277],
-    18020554,
-    54607.7394, //18020554/330,
-    12,
-    435,
-    435,
-    435,
-    10,
-    120,
-    10,
-    "blue_marble_01_circle",
-    "nsidc_ogc_south",
-    false
-  ),
-  // Azimuthal Equal-Area global or ease.*global in dropdown
-  3410: mapSettingsFactory(
-    [-17334193.54, -7344784.825, 17334193.54, 7344784.825],
-    34668387.08,
-    69336.7742, //34668387.08/500
-    12,
-    500,
-    212,
-    350,
-    10,
-    10,
-    10,
-    "blue_marble_01",
-    "nsidc_ogc_global",
-    true
-  ),
-  // Polar Stereographic Ellipsoid North or polar stereo.*north in drop down
-  3411: mapSettingsFactory(
-    [-12400000, -12400000, 12400000, 12400000],
-    24800000,
-    75151.5152, // 24800000/330
-    12,
-    330,
-    330,
-    350,
-    10,
-    10,
-    10,
-    "blue_marble_07_circle",
-    "nsidc_ogc_north",
-    false
-  ),
-  // Polar Stereographic Ellipsoid south or polar stereo.*south in dropdown
-  3412: mapSettingsFactory(
-    [-12400000, -12400000, 12400000, 12400000],
-    24800000,
-    75151.5152, // 24800000/330
-    12,
-    330,
-    330,
-    350,
-    10,
-    10,
-    10,
-    "blue_marble_01_circle",
-    "nsidc_ogc_south",
-    false
-  ),
-  //WGS84 Polar Stereographic Ellipsoid North or polar stereo.*north in drop down
-  3413: mapSettingsFactory(
-    [-12400000, -12400000, 12400000, 12400000],
-    24800000,
-    75151.5152, // 24800000/330
-    12,
-    330,
-    330,
-    350,
-    10,
-    10,
-    10,
-    "blue_marble_07_circle",
-    "nsidc_ogc_north",
-    false
-  ),
+    4326: {
+        extent: [-180.0, -90.0, 180.0, 90.0],
+        width: 650,
+        height: 325,
+        layer: "BlueMarble_NextGeneration",
+        mapConfig: "wms/epsg4326/best/wms.cgi",
+    },
+    3413: {
+        extent: [-12400000, -12400000, 12400000, 12400000],
+        width: 330,
+        height: 330,
+        layer: "BlueMarble_NextGeneration",
+        mapConfig: "wms/epsg3413/best/wms.cgi",
+    },
+    3031: {
+        extent: [-12400000, -12400000, 12400000, 12400000],
+        width: 330,
+        height: 330,
+        layer: "BlueMarble_NextGeneration",
+        mapConfig: "wms/epsg3031/best/wms.cgi",
+    },
 };
 
 export const PROJECTION_NAMES = {
   GLOBAL: "4326",
-  EASE_GRID_NORTH: "3408",
-  EASE_GRID_SOUTH: "3409",
+  NORTHERN_HEMI: "3408",
+  SOUTHERN_HEMI: "3409",
 };
