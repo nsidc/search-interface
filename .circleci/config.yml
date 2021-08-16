@@ -43,6 +43,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/search-interface
+      - build:
+          name: Build package
+          command: npm run build
       - deploy:
           name: Publish to npmjs.org
           command: |
