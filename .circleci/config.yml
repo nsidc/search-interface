@@ -45,7 +45,7 @@ jobs:
           at: ~/search-interface
       - build:
           name: Build package
-          command: npm run build
+          command: npm run build:prod
       - deploy:
           name: Publish to npmjs.org
           command: |
