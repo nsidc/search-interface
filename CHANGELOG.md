@@ -1,4 +1,4 @@
-## UNRELEASED
+## Version 3.0.2-2
 
 - Popper.js installed to get rid of bootstrap peer-dependency complaint. This is
   actually an outdated package; should be using @popperjs/core.
