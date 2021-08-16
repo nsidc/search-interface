@@ -27,7 +27,7 @@ const config = {
       title: "NSIDC Data Search",
       inject: true,
       template: require("html-webpack-template"),
-      appMountId: "main-content",
+      appMountId: "search-app",
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
