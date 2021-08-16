@@ -14,7 +14,7 @@ jobs:
           key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - run:
           name: Check package audit
           command: npx check-audit
