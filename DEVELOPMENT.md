@@ -233,7 +233,7 @@ Currently included hooks (and the tasks they run) are:
 
 To release a new version of the search app, run:
 
-    $ npx run release
+    $ npm run release
 
 You will be prompted to select the next version (bump the patch,
 minor, major version numbers, or create a prerelease). The `CHANGELOG.md`
@@ -405,7 +405,7 @@ If / when the vanillajs-datepicker package updates their exports to export this 
 import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
 ```
 
-## Future Development 
+## Future Development
 
 These do not yet have tickets in JIRA:
 
@@ -436,4 +436,3 @@ These do not yet have tickets in JIRA:
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
   The remaining references to ADE should be removed.
   TODO: Future Development?
-
