@@ -43,10 +43,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/search-interface
-      - package:
+      - run:
           name: Build package
           command: npm run build:prod
-      - deploy:
+      - run:
           name: Publish to npmjs.org
           command: |
             echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" >> ~/.npmrc
