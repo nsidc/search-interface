@@ -233,7 +233,7 @@ Currently included hooks (and the tasks they run) are:
 
 To release a new version of the search app, run:
 
-    $ npx run release
+    $ npm run release
 
 You will be prompted to select the next version (bump the patch,
 minor, major version numbers, or create a prerelease). The `CHANGELOG.md`
