@@ -7,7 +7,7 @@ import SearchApp from './SearchApp';
 
 function webapp() {
     new SearchApp({
-        el: $('#main-content')
+        el: $('#search-app')
     });
     Backbone.history.start();
 }
