@@ -2,6 +2,13 @@ body {
   background: none;
   color: $body-color;
   width: 100%;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 0.8125em;
+  line-height: 1.5;
+  margin: 0 auto;
+  text-align: left;
 }
 
 #container {

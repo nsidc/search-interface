@@ -6,11 +6,11 @@ import $ from "jquery";
 
 // Add a utility method to jQuery to allow us to find XML nodes quickly and efficiently.
 // See http://www.steveworkman.com/html5-2/javascript/2011/improving-javascript-xml-node-finding-performance-by-2000/
-// $.fn.filterNode = function (name) {
-//   return this.find("*").filter(function () {
-//     return this.nodeName === name;
-//   });
-// };
+$.fn.filterNode = function (name) {
+  return this.find("*").filter(function () {
+    return this.nodeName === name;
+  });
+};
 
 export function toInitialCaps(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -98,7 +98,7 @@ function removeEmptyElementsFromArray(array) {
 }
 
 /*
- * Decodes a URI and form-encoded string (encoded via 
+ * Decodes a URI and form-encoded string (encoded via
  * ' ' => '+'). All '+' characters will be replaced
  * with a ' ' and the result will be URI-decoded.
  *
@@ -123,9 +123,10 @@ export function round(number, precision) {
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   let results = [];
 
-  if ($.type(jQueryArray) !== "array") {
-    return undefined;
-  }
+  // TODO: Fix this check which no longer works with jquery
+  // if ($.isArray(jQueryArray) !== "array") {
+  //   return undefined;
+  // }
 
   _.each(jQueryArray, function (element) {
     let text = $(element).text();

@@ -1,101 +1,282 @@
-import $ from "jquery";
+import _ from 'underscore';
 
-import Map from "ol/Map";
-import View from "ol/View";
-import Image from "ol/layer/Image";
-import ImageWMS from "ol/source/ImageWMS";
+import 'ol/ol.css';
+import Feature from 'ol/Feature';
+import MousePosition from 'ol/control/MousePosition';
+import Polygon from 'ol/geom/Polygon';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import { Draw } from 'ol/interaction';
+import { ZoomSlider } from 'ol/control';
+import { getTransform } from 'ol/proj';
+import { shiftKeyOnly } from 'ol/events/condition';
+import { toStringHDMS } from 'ol/coordinate';
 
-import mediator_mixin from "./mediator_mixin";
-import * as mapConstants from "./spatial_selection_map/constants";
+import {
+    createBaseLayers,
+    createOpenLayersMap,
+    createViews,
+    initializeProjections,
+    multisegmentBoxFromExtent,
+    resizeMapContainer,
+    setVisibility,
+} from './spatial_selection_map/utility';
+
+import { DEFAULT_LAYER_TITLE } from './spatial_selection_map/constants';
+
+const round2 = (n) => Math.round(n * 100) / 100;
 
 /** A visual map that provides multiple projections & spatial selection. */
-class SearchMap {
-  /**
-   * Creates a visual Map using the given spatial reference id.
-   *
-   * @param {*} options Info about the element that will contain this map; must specify:
-   *                    mapContainerId
-   *
-   * @param {*} srid The initial projection to show
-   */
-  constructor(options, srid) {
-    this.options = options;
+export default class SearchMap {
+    // Mediator instance to send and receive application-events.
+    mediator;
 
-    this.srid = srid;
-    this.defaultSrid = srid;
-    this.north = this.south = this.east = this.west = null;
-    this.polygonString = null;
-    this.controls = {};
-    this.mapContainerId = options.mapContainerId;
+    // Object whose keys map each base layer title to a corresponding
+    // OpenLayers View object.
+    viewMap;
 
-    this.createOpenLayersMap(this.srid);
-  }
+    // OpenLayers LayerGroup containing an Layer for each base layer.
+    baseLayerMap;
 
-  /**
-   * Render a new map to the div according to the projection that the user has selected
-   * from the search page radio boxes or the config popup dropdown list. Calling the
-   * function a second time with a different projection will reset the map.
-   *
-   * @param {*} srid The projection to show
-   */
-  createOpenLayersMap(srid) {
-    this.map = new Map({
-      target: this.mapContainerId,
-      // layers: [ blueMarbleLayer() ],
-      view: new View({
-        center: [ 0, 0],
-        extent: [-180.0, -90.0, 180.0, 90.0],
-        projection: "EPSG:4326",
-        zoom: 1,
-      }),
-    });
+    // OpenLayers Map object that displays the current layer & view.
+    map;
 
-    this.map.addLayer(blueMarbleLayer());
+    //  OpenLayers Layer for the extent drawn by the user.
+    extentLayer;
 
-    this.resizeMapContainer(this.srid,
-                            mapConstants.MAP_SETTINGS[srid].width,
-                            mapConstants.MAP_SETTINGS[srid].height);
-  }
+    /**
+     * Creates a visual Map using the given spatial reference id.
+     *
+     * @param {*} options Info about the element that will contain this map; must specify:
+     *                    mapContainerId
+     */
+    constructor(options) {
+        initializeProjections();
+        this.mediator = options.mediator;
 
-  /**
-   * Update the style to support the layout of the new map
-   *
-   * @param {*} srid
-   * @param {*} mapWidth
-   * @param {*} mapHeight
-   */
-  resizeMapContainer(srid, mapWidth, mapHeight) {
-    $("#" + this.mapContainerId).css({
-      width: mapWidth,
-      height: mapHeight,
-    });
-    this.map.updateSize();
-  }
+        this.viewMap = createViews();
+        let currentView = this.viewMap[DEFAULT_LAYER_TITLE];
 
-  render() {
-    this.map.updateSize();
-  }
+        this.baseLayerMap = createBaseLayers();
+        let currentLayer = this.baseLayerMap[DEFAULT_LAYER_TITLE];
+        setVisibility(this.baseLayerMap, DEFAULT_LAYER_TITLE);
+
+        this.map = createOpenLayersMap(options.mapContainerId,
+                                       _.values(this.baseLayerMap),
+                                       currentLayer,
+                                       currentView);
+
+        this.addZoomControl();
+        this.addMousePositionControl();
+        this.addExtentDrawingInteraction();
+
+        this.bindEvents();
+    }
+
+    /**
+     *  Add a zoom slider control to the map
+     */
+    addZoomControl() {
+        let zoomControl = new ZoomSlider();
+        this.map.addControl(zoomControl);
+    }
+
+    /**
+     *  Add a control to the map which continuously displays the
+     *  geographic coordinates of the mouse.
+     */
+    addMousePositionControl() {
+        const mousePositionControl = new MousePosition({
+            coordinateFormat: (xy) => toStringHDMS(xy, 0),
+            projection: 'EPSG:4326',
+            placeholder: 'Mouse is not over map',
+        });
+        this.map.addControl(mousePositionControl);
+    }
+
+    /**
+     *  Add a new Draw interaction to allow the user to draw an extent
+     *  for spatial selection.
+     */
+    addExtentDrawingInteraction() {
+        let draw = new Draw({
+            type: 'Circle',
+            condition: shiftKeyOnly,
+            geometryFunction: _.bind(this.extentGeometry, this),
+        });
+        this.map.addInteraction(draw);
+
+        draw.on('drawstart', _.bind(this.extentDrawStarted, this));
+        draw.on('drawend', _.bind(this.extentDrawEnded, this));
+    }
+
+    /**
+     *  A callback function provided to the OpenLayers Draw
+     *  interaction. It populates the provided OpenLayers geometry
+     *  object (creates one if not provided) with coordinates that
+     *  accurately represent the current extent in the given
+     *  projection.
+     *
+     *  If the current projection is the global projection, the polygon
+     *  will be the four corner of the extent as derived from th west,
+     *  south, east, and west bounding box.
+     *
+     *  If the current projection is a polar projection, the polygon
+     *  is determined by:
+     *    * projecting the currently-drawn extent to lon/lat
+     *      coordinates
+     *    * finding the west, south, east, and north boundaries
+     *    * creating a polygon with many segments on each side of the
+     *      extent.
+     *    * converting that polygon to the current polar projection
+     *  This has the effect of rendering an arc of longitude /
+     *  latitude values in a polar projection.
+     */
+    extentGeometry(coordinates, geometry, projection) {
+        if (!geometry) {
+            geometry = new Polygon([]);
+        }
+
+        // Get projection-specific functions
+        let toGlobal = getTransform(projection.getCode(), 'EPSG:4326');
+        let coordinatesFn;
+        if (projection.getCode() === 'EPSG:4326') {
+            coordinatesFn =_.bind(this.globalCoordinatesFromExtent, this);
+        } else {
+            coordinatesFn = _.bind(this.polarCoordinatesFromExtent, this, projection.getCode());
+        };
+
+        // Using the two points provided in the arguments, find the
+        // lon/lat boundaries defined by the points.
+        let a = toGlobal(coordinates[0]),
+            b = toGlobal(coordinates[1]);
+        let west = round2(Math.min(a[0], b[0])),
+            south = round2(Math.min(a[1], b[1])),
+            east = round2(Math.max(a[0], b[0])),
+            north = round2(Math.max(a[1], b[1]));
+
+        geometry.setCoordinates([coordinatesFn(west, south, east, north)]);
+        this.publishExtent(west, south, east, north);
+
+        return geometry;
+    }
+
+    // TODO
+    globalCoordinatesFromExtent(west, south, east, north) {
+        return [[west, south], [east, south], [east, north], [west, north], [west, south]];
+    }
+
+    // TODO
+    polarCoordinatesFromExtent(projection, west, south, east, north) {
+        let box = multisegmentBoxFromExtent(west, south, east, north);
+        let globalToPolar = getTransform('EPSG:4326', projection);
+        return _.chunk(globalToPolar(box), 2);
+    }
+
+    // TODO
+    globalGeometryFromPolarExtent(fromProjection, flatCoordinates) {
+        let polarToGlobal = getTransform(fromProjection, 'EPSG:4326');
+        let gc = _.chunk(polarToGlobal(flatCoordinates), 2);
+
+        // Simplify the coordinates to just the corners
+        let geometry = new Polygon([gc]);
+        let e = geometry.getExtent();
+        geometry.setCoordinates([this.globalCoordinatesFromExtent(e[0], e[1], e[2], e[3])]);
+
+        return geometry;
+    }
+
+    // TODO
+    polarGeometryFromGlobalExtent(projection, extent) {
+        return new Polygon(
+            [this.polarCoordinatesFromExtent(projection, extent[0], extent[1], extent[2], extent[3])]
+        );
+    }
+
+    /**
+     *  When starting to draw a new extent, clear the old extent.
+     */
+    extentDrawStarted() {
+        if (!this.extentLayer) return;  // Guard clause
+
+        this.map.removeLayer(this.extentLayer);
+        this.extentLayer.dispose();
+        this.extentLayer = null;
+    }
+
+    /**
+     *  After the user has drawn an extent, create a polygonal feature
+     *  to show the user's selection.
+     */
+    extentDrawEnded(event) {
+        let geometry = event.feature.getGeometry().clone();
+        this.extentLayer = new VectorLayer({
+            source: new VectorSource({ features: [
+                new Feature({geometry})
+            ] }),
+        });
+
+        this.map.addLayer(this.extentLayer)
+    }
+
+    /**
+     *  Trigger mediator event for the current extent so that other
+     *  application components can respond.
+     */
+    publishExtent(west, south, east, north) {
+        let extent = { west, south, east, north };
+        this.mediator.trigger('map:changeBoundingBox', _.clone(extent));
+    }
+
+    // TODO: Docs
+    // TODO
+    bindEvents() {
+        // this.mediatorBind('map:selectionMade', this.toggleModify, this);
+        // this.mediatorBind('map:selectionDone', this.doneDrawingSelectBox, this);
+        // this.mediatorBind('map:changePolarCoords', this.changeLatLonCorner, this);
+        // this.mediatorBind('map:changeGlobalCoords', this.changeLatLonBoundary, this);
+        // this.mediatorBind('map:clearSelection', this.clearSpatialSelection, this);
+        // this.mediatorBind('map:click', this.clickHandler, this);
+        // this.mediatorBind('map:reset', this.resetMap, this);
+    }
+
+    /**
+     *  Changes the map to the view with the specified view title.
+     */
+    switchView(viewTitle) {
+        let currentProjection = this.map.getView().getProjection();
+        let currentLayer = this.baseLayerMap[viewTitle];
+        setVisibility(this.baseLayerMap, viewTitle);
+
+        let view = this.viewMap[viewTitle];
+        this.map.setView(view);
+
+        this.reprojectExtent(currentProjection, view.getProjection());
+
+        resizeMapContainer(this.map, currentLayer.get('width'), currentLayer.get('height'));
+    }
+
+    // TODO
+    reprojectExtent(fromProjection, toProjection) {
+        if (!this.extentLayer) return;
+
+        let geometry;
+        if (toProjection.getCode() === 'EPSG:4326') {
+            let coords = _.clone(this.extentLayer.getSource().getFeatures()[0].getGeometry().flatCoordinates);
+            geometry = this.globalGeometryFromPolarExtent(fromProjection, coords);
+        } else {
+            let coords = _.clone(this.extentLayer.getSource().getFeatures()[0].getGeometry().getExtent());
+            geometry = this.polarGeometryFromGlobalExtent(toProjection, coords);
+        }
+
+        this.extentLayer.getSource().clear();
+        this.extentLayer.getSource().addFeature(new Feature({ geometry }));
+    }
+
+    /**
+     *  Sets the size of the map to trigger a rendering of this view.
+     */
+    render() {
+        this.map.updateSize();
+    }
 }
-
-/**
- * Create an OpenLayers layer that displays the Blue Marble background image
- *
- * @return {ol.layer.Image} the new layer
- */
-function blueMarbleLayer() {
-  // TODO: Do we need to handle the 'wrap' case that creates a custom SpatialWmsLayer?
-  return new Image({
-    extent: [-180.0, -90.0, 180.0, 90.0],
-    source: new ImageWMS({
-      url: 'https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi',
-      params: { 'LAYERS': 'BlueMarble_NextGeneration' },
-      ratio: 1,
-      hidpi: false,
-      serverType: "geoserver",
-    }),
-  });
-}
-
-Object.assign(SearchMap.prototype, mediator_mixin);
-
-export default SearchMap;

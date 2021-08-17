@@ -5,6 +5,7 @@ import { appConfig, openSearchOptions, environmentUrls } from './config/appConfi
 import BaseView from './views/BaseView';
 import { decodedQueryParameter } from './lib/utility_functions';
 import FacetsCollection from './collections/FacetsCollection';
+import Mediator from "./lib/Mediator";
 import OpenSearchProvider from './lib/OpenSearchProvider';
 import SearchParamsModel from './models/SearchParamsModel';
 import SearchResultsCollection from './collections/SearchResultsCollection';
@@ -58,12 +59,13 @@ class SearchApp extends Backbone.Router {
         };
 
         this.routeHandlerProperties = this.properties;
-        this.mediator = _.extend({}, Backbone.Events);
+        this.mediator = new Mediator();
 
         _.extend(OpenSearchProvider.prototype, this.mediator);
         this.openSearchProvider = new OpenSearchProvider({
         });
 
+        // TODO
         // This appears to be bootstrapping a model instance, rather than
         // letting the SearchResultsCollection handle model creation
         // (compare to FacetsCollection). My guess is that the collection
@@ -78,7 +80,7 @@ class SearchApp extends Backbone.Router {
             provider: this.openSearchProvider,
             osDefaultParameters: this.openSearchOptions
         });
-        this.facetsCollection = new FacetsCollection({
+        this.facetsCollection = new FacetsCollection(null, {
             config: this.config,
             mediator: this.mediator,
             provider: this.openSearchProvider,

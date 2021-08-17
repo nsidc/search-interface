@@ -9,6 +9,9 @@ $header-font-size: 12px;
 
   &.btn-group {
     font-size: $header-font-size;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
 
     button {
       font-family: $default-font-family;
@@ -25,6 +28,7 @@ $header-font-size: 12px;
     &.btn-group {
       font-size: $header-font-size;
       vertical-align: baseline;
+      display: inline-block;
     }
 
     &.results-count {

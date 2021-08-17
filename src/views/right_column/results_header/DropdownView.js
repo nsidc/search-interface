@@ -1,7 +1,9 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// TODO: Fully replace the bootstrap dropdown with a basic dropdown or
+// simple component.
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import mainTemplate from '../../../templates/right_column/results_header/dropdown_view.html';
 import optionTemplate from '../../../templates/right_column/results_header/dropdown_option.html';
 import dividerTemplate from '../../../templates/li-divider.html';

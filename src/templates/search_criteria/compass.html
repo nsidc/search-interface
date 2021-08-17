@@ -18,20 +18,6 @@
     <span class="compassInput" id="eastInput">E&nbsp;<input id="east"  type="text" value="<%= eastValue  %>"></span>
     <span class="compassInput" id="southInput">S&nbsp;<input id="south" type="text" value="<%= southValue %>"></span>
   </div>
-  <% if (polarEnabled) { %>
-  <div id="spatialInput_corners" class="geospatialInputFieldsCorners">
-    <div class="upperLeftCoordinate">
-      <h4 class="coordinateLabel">Upper Left</h4>
-      <span class="cornerLabel cornerInput">Lat:&nbsp;<input type="text" id="upperLeftLat" class="compassInput"></span>
-      <span class="cornerLabel cornerInput">Lon:&nbsp;<input type="text" id="upperLeftLon" class="compassInput"></span>
-    </div>
-    <div class="lowerRightCoordinate">
-      <h4 class="coordinateLabel">Lower Right</h4>
-      <span class="cornerLabel cornerInput">Lat:&nbsp;<input type="text" id="lowerRightLat" class="compassInput"></span>
-      <span class="cornerLabel cornerInput">Lon:&nbsp;<input type="text" id="lowerRightLon" class="compassInput"></span>
-    </div>
-  </div>
-  <% } %>
   <div id="primary-actions">
     <button id="submit-coordinates" class="submit-coordinates blue-shade">Apply &amp; Close Window</button>
     <button class="reset-coordinates btn">Reset</button>
@@ -53,20 +39,5 @@
   </div>
   <div class="alert" id="bbox-error-westOutOfRange">
     <i class="icon-info-sign pull-left"></i><div class="message">The West longitude must be between -180.0 and 180.0 degrees.</div>
-  </div>
-  <div class="alert" id="bbox-error-upperLeftLatOutOfRange">
-    <i class="icon-info-sign pull-left"></i><div class="message">The upper left latitude must be between -90.0 and 90.0 degrees.</div>
-  </div>
-  <div class="alert" id="bbox-error-upperLeftLonOutOfRange">
-    <i class="icon-info-sign pull-left"></i><div class="message">The upper left longitude must be between -180.0 and 180.0 degrees.</div>
-  </div>
-  <div class="alert" id="bbox-error-lowerRightLatOutOfRange">
-    <i class="icon-info-sign pull-left"></i><div class="message">The lower right latitude must be between -90.0 and 90.0 degrees.</div>
-  </div>
-  <div class="alert" id="bbox-error-lowerRightLonOutOfRange">
-    <i class="icon-info-sign pull-left"></i><div class="message">The lower right longitude must be between -180.0 and 180.0 degrees.</div>
-  </div>
-  <div class="alert" id="bbox-error-selectionCrossesPole">
-    <i class="icon-info-sign pull-left"></i><div class="message">When drawing a bounding box that crosses the pole, the coordinates are adjusted to a global projection causing the coordinates to be slightly different than what you entered.</div>
   </div>
 </div>

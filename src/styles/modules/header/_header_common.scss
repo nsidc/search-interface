@@ -255,7 +255,7 @@
   }
 }
 
-#map-container { margin: 10px; }
+#map-container { margin: auto; }
 
 #spatial-compass {
   text-align: center;
@@ -421,6 +421,44 @@ div {
   }
 }
 
+/**
+ * The zoomslider in the second map shall be placed between the zoom-in and
+ * zoom-out buttons.
+ */
+#map-container .ol-zoom .ol-zoom-out {
+  margin-top: 200px;
+}
+
+#map-container .ol-zoomslider {
+  background-color: rgba(0, 30, 156, 0.25);
+  /*
+  Zoom control top: 0.5em
+  Zoom control padding: 2px
+  Zoom in button margin top: 1px
+  Zoom in button height: font size 1.14em * 1.375 height
+  */
+  top: calc(0.5em + 2px + 1px + 1.14 * 1.375em);
+}
+
+#map-container .ol-touch .ol-zoom .ol-zoom-out {
+  margin-top: 212px;
+}
+
+#map-container .ol-touch .ol-zoomslider {
+  top: 2.75em;
+}
+
+#map-container .ol-zoom-in.ol-has-tooltip:hover [role=tooltip],
+#map-container .ol-zoom-in.ol-has-tooltip:focus [role=tooltip] {
+  top: 3px;
+}
+
+#map-container .ol-zoom-out.ol-has-tooltip:hover [role=tooltip],
+#map-container .ol-zoom-out.ol-has-tooltip:focus [role=tooltip] {
+  top: 232px;
+}
+
+
 // auto-suggest dropdown
 $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
@@ -444,4 +482,12 @@ $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
     background: $auto-suggest-highlight-color;
   }
 
+}
+
+#map-container .ol-mouse-position {
+    top: unset;
+    bottom: 8px;
+    right: 8px;
+    position: absolute;
+    color: #ffa500;
 }

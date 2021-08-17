@@ -22,7 +22,7 @@ function OpenSearchProvider() {
    *    - nothing
    */
   this.requestJSON = function (options) {
-    options.osParameters.osdd = 
+    options.osParameters.osdd =
       openSearchOptions.osProvider.port == 80 ?
       `${openSearchOptions.osProvider.openSearchHost}${openSearchOptions.osdd}` :
       `${openSearchOptions.osProvider.openSearchHost}:${openSearchOptions.osProvider.port}${openSearchOptions.osdd}`;
