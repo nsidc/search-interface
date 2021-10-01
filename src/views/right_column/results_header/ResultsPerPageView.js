@@ -15,9 +15,7 @@ class ResultsPerPageView extends DropdownView {
     }
 
     render() {
-        DropdownView.prototype.render.call(this);
-        this.$el.prepend(this.template());
-
+        DropdownView.prototype.render.call(this, this.template());
         return this;
     }
 

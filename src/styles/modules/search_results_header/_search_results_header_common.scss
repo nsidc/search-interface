@@ -54,16 +54,20 @@ $header-font-size: 12px;
 
   }
 
-  // lining up the bootstrap dropdowns with the buttons that open them
+  // lining up the dropdowns
   .sort-results {
-    ul {
-      left: 44px;
-    }
+    display: inline-block;
   }
 
   .results-per-page {
-    ul {
-      left: 56px;
-    }
+    display: inline-block;
+  }
+
+  .ui-selectmenu-text {
+      display: unset;
+  }
+
+  .ui-selectmenu-button.ui-button {
+      width: unset;
   }
 }

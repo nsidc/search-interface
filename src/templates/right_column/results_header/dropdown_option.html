@@ -1,1 +1,4 @@
-<li class="dropdown-option"><a data-opensearch-value="<%= opensearchValue %>"><%= displayValue %></a></li>
+<option <%= selected ? 'selected' : '' %>
+        value="<%= opensearchValue %>">
+  <%= displayValue %>
+</option>
