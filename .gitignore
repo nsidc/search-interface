@@ -7,6 +7,7 @@
 dist/
 local_config.yaml
 root.dir
+reports
 
 # /
 /.Xauthority*
@@ -20,6 +21,7 @@ root.dir
 /src/index*.html
 /tmp
 /vendor/
+docs/
 
 \#*\#
 \.\#*
@@ -42,5 +44,7 @@ root.dir
 
 # end vagrant-nsidc
 
+# Local development configuration files
 .vscode/
-docs/
+.tmuxp.yaml
+.vimlocal

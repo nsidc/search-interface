@@ -1,7 +1,8 @@
-import * as Backbone from 'backbone';
+import Backbone from 'backbone';
 import _ from 'underscore';
-import { isDate } from 'date-fns';
+import { isDate, parse } from 'date-fns';
 import viewTemplate from '../../templates/result_item/temporal_metadata.html';
+
 
 class TemporalMetadataView extends Backbone.View {
     initialize(options) {
@@ -12,7 +13,7 @@ class TemporalMetadataView extends Backbone.View {
         let ranges = this.model.get('dateRanges');
 
         ranges = _.filter(ranges, function (range) {
-            return range.startDate && isDate(range.startDate);
+          return range.startDate && isDate(parse(range.startDate, 'yyyy-MM-dd', new Date()));
         }, this);
 
         if(ranges.length > 0 || this.forceRender) {

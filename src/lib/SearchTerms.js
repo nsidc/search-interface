@@ -5,20 +5,21 @@ class SearchTerms {
   /*
    * Constructor for SearchTerms
    *
-   * @param {*} inputString: string to tokenize into discrete terms
+   * @param {*} terms: array of terms or a string to tokenize into discrete terms
    */
-  constructor(inputString) {
+  constructor(terms) {
     this.tokenizer = new SearchTermsTokenizer();
 
-    if (inputString === "" || inputString === undefined) {
-      this.terms = [];
+    if (terms instanceof Array) {
+      this.terms = terms;
     } else {
-      this.terms = this.tokenizeInputString(inputString);
+      if (terms === "" || terms === undefined) {
+        this.terms = [];
+      } else {
+        this.terms = this.tokenizeInputString(terms);
+      }
     }
 
-    if (this.terms instanceof Array === false) {
-      throw new TypeError("Must construct SearchTerms with an array of terms");
-    }
     this.length = this.terms.length;
   }
 
@@ -27,7 +28,8 @@ class SearchTerms {
   }
 
   asArray() {
-    return _(this.terms).clone();
+    let foo = _(this.terms).clone();
+    return foo;
   }
 
   asInputString() {
@@ -39,7 +41,8 @@ class SearchTerms {
   }
 
   urlEncode() {
-    return encodeURIComponent(this.asInputString());
+    let quoted = this.asInputString()
+    return encodeURIComponent(quoted);
   }
 
   formEncode() {

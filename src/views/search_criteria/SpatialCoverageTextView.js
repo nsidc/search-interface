@@ -23,7 +23,7 @@ class SpatialCoverageTextView extends Backbone.View {
     initialize(options) {
         this.options = options;
         this.mediator = options.mediator;
-        //this.model.on('change', this.onModelChange, this);
+        this.model.on('change', this.onModelChange, this);
         this.mediator.on('search:resetBoundingBox', this.reset, this);
         this.mediator.on('app:home', this.reset, this);
     }
@@ -62,4 +62,3 @@ class SpatialCoverageTextView extends Backbone.View {
 }
 
 export default SpatialCoverageTextView;
-

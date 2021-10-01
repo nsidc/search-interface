@@ -1,10 +1,11 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery-ui/themes/base/all.css';
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/widgets/selectmenu';
 import mainTemplate from '../../../templates/right_column/results_header/dropdown_view.html';
 import optionTemplate from '../../../templates/right_column/results_header/dropdown_option.html';
-import dividerTemplate from '../../../templates/li-divider.html';
 
 // subclasses of DropdownView must define the following methods and properties:
 //
@@ -28,42 +29,44 @@ class DropdownView extends Backbone.View {
     get templates() {
         return {
             main: _.template(mainTemplate),
-            divider: _.template(dividerTemplate),
             option: _.template(optionTemplate)
         };
     }
 
-    get events() {
-        return {
-            'click .dropdown-menu a': 'onChangeSelection'
-        };
-    }
-
-    render() {
+    render(labelElement) {
         this.$el.html(this.templates.main({
+            labelElement,
             selectedOption: this.getSelectedOption(),
             buttonId: this.getButtonId()
         }));
         this.renderDropdown();
 
+        const dropdown = this.$el.find('select');
+        dropdown.selectmenu({
+            change: _.bind(this.onChangeSelection, this)
+        });
+
         return this;
     }
 
     renderDropdown() {
-        const $dropdown = this.$el.find('ul.dropdown-menu');
+        const selectedOption = this.getSelectedOption();
+        const $dropdown = this.$el.find('select');
 
         const dropdownOptionsHtml = _.map(this.dropdownOptions, function (value, key) {
+            let selected = (selectedOption === value);
             return this.templates.option({
+                selected,
                 displayValue: value,
                 opensearchValue: key
             });
-        }, this).join(this.templates.divider());
+        }, this);
 
         $dropdown.html(dropdownOptionsHtml);
     }
 
-    onChangeSelection(ev) {
-        const opensearchValue = $(ev.currentTarget).attr('data-opensearch-value');
+    onChangeSelection(event, ui) {
+        const opensearchValue = ui.item.value;
         this.updateParamsModel.call(this.model, opensearchValue);
         this.mediator.trigger('search:refinedSearch', this.model);
     }

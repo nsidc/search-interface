@@ -1,22 +1,22 @@
 # Contents
 
-* (Git Workflow)[#git-workflow]
-* (Installation)[#installation]
-* (Configuration)[#configuration]
-* (Running on a VM)[#running-on-a-vm]
-* (Running the Linter)[#running-the-linter]
-* (Unit Tests)[#unit-tests]
-* (Running the Acceptance Tests Locally)[#running-the-acceptance-tests-locally]
-* (Git Hooks)[#git-hooks]
-* (Releasing a New Version)[#releasing-a-new-version]
-* (NSIDC Continuous Integration)[#nsidc-continuous-integration]
-* (CircleCI Continuous Integration)[#circleci-continuous-integration]
-* (Development Notes)[#development-notes]
-* (Other Gotchas)[#other-gotchas]
-* (Future Development)[#future-development]
+* [Git Workflow](#git-workflow)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Running on a VM](#running-on-a-vm)
+* [Running the Linter](#running-the-linter)
+* [Unit Tests](#unit-tests)
+* [Running the Acceptance Tests Locally](#running-the-acceptance-tests-locally)
+* [Git Hooks](#git-hooks)
+* [Releasing a New Version](#releasing-a-new-version)
+* [NSIDC Continuous Integration](#nsidc-continuous-integration)
+* [CircleCI Continuous Integration](#circleci-continuous-integration)
+* [Development Notes](#development-notes)
+* [Other Gotchas](#other-gotchas)
+* [Future Development](#future-development)
 
 # Git Workflow
-=======
+
 ## Future Development tasks
 
 * The webpack configuration (and probably the code structure) need additional

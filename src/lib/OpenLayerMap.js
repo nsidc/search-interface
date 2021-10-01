@@ -814,6 +814,7 @@ OpenLayerMap.prototype.refreshMap = function () {
 //       points = points.concat(mapConstants.POLE_VALUES[toSrid].north);
 //     }
 //   } else if (containsSP) {
+
 //     if (mapConstants.POLE_VALUES[toSrid]) {
 //       points = points.concat(mapConstants.POLE_VALUES[toSrid].south);
 //     }

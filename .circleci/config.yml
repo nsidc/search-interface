@@ -18,17 +18,22 @@ jobs:
       - run:
           name: Check package audit
           command: npx check-audit
-      # - run:
-      #     name: Lint
-      #     command: npm run lint
-      # - run:
-      #     name: Test
-      #     command: npm test
-      # - store_test_results:
-      #     path: test-reports/
-      # - store_artifacts:
-      #     path: test-coverage/
-      #     key: tc
+      - run:
+          name: Lint
+          command: npx eslint -o reports/lint/lint.xml -f junit "./src/collections"
+      - run:
+          name: Test
+          command: npx jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: reports/junit/
+      - store_artifacts:
+          path: reports/lint/
+      - store_artifacts:
+          path: reports/junit/
+      - store_artifacts:
+          path: reports/coverage/
       - save_cache:
           key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:

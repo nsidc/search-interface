@@ -9,7 +9,7 @@ import { openSearchOptions } from "../config/appConfig";
 
 function OpenSearchProvider() {
   // TODO: remove event handling from provider?
-  this.on("search:cancel", this.onSearchCancel, this);
+  // this.on("search:cancel", this.onSearchCancel, this);
 
   /** Request a JSON-formatted data of a feed from the provider.
    *  parameters:
@@ -22,7 +22,7 @@ function OpenSearchProvider() {
    *    - nothing
    */
   this.requestJSON = function (options) {
-    options.osParameters.osdd = 
+    options.osParameters.osdd =
       openSearchOptions.osProvider.port == 80 ?
       `${openSearchOptions.osProvider.openSearchHost}${openSearchOptions.osdd}` :
       `${openSearchOptions.osProvider.openSearchHost}:${openSearchOptions.osProvider.port}${openSearchOptions.osdd}`;

@@ -22,12 +22,14 @@ class KeywordsView extends InputViewBase {
         mediator.on('search:initiated', this.closeAutoSuggest, this);
     }
 
-    getSearchTermArrayFromInput() {
-        return new SearchTerms(this.getInputField('keyword')).asArray();
+    getSearchTermsString() {
+        return this.getInputField('keyword');
     }
 
     getKeywords() {
-        return {keyword: this.getSearchTermArrayFromInput()};
+        return {
+            keyword: new SearchTerms(this.getInputField('keyword')).asArray()
+        };
     }
 
     setSearchTermField(resultsCollection) {

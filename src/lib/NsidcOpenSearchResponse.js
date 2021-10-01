@@ -74,9 +74,8 @@ function getLinkObj(linkXml) {
 }
 
 function getSortedArray(xml, selector) {
-  var arr = UtilityFunctions.getArrayFromjQueryArrayTextContents(
-    $(xml).filterNode(selector)
-  );
+  let filtered = $(xml).filterNode(selector);
+  var arr = UtilityFunctions.getArrayFromjQueryArrayTextContents(filtered);
   if (arr !== undefined) {
     arr = arr.sort();
   }
@@ -88,7 +87,9 @@ function processOsEntries(entryXml) {
 
   entryXml.find("entry").each(function () {
     var entryObj,
-      entry = $(this);
+        entry = $(this);
+
+    getSortedArray(this, "dif:Detailed_Variable");
 
     entryObj = {
       title: entry.filterNode("title").text(),
@@ -120,30 +121,29 @@ function processOsEntries(entryXml) {
 }
 
 class NsidcOpenSearchResponse {
-  fromXml(xml, osParameters) {
-    let entryXml = $($.parseXML(xml)),
-      jsonOptions = {
-        results: processOsEntries(entryXml),
-        totalCount: parseInt(entryXml.filterNode("os:totalResults").text(), 10),
-        currentIndex: parseInt(entryXml.filterNode("os:startIndex").text(), 10),
-        itemsPerPage: parseInt(
-          entryXml.filterNode("os:itemsPerPage").text(),
-          10
-        ),
-        keyword: osParameters.osSearchTerms,
-        authorTerms: osParameters.osAuthor,
-        parameterTerms: osParameters.osParameter,
-        sensorTerms: osParameters.osSensor,
-        titleTerms: osParameters.osTitle,
-        startDate: osParameters.osDtStart,
-        endDate: osParameters.osDtEnd,
-        sortKeys: osParameters.osSortKeys,
-        geoBoundingBox: osParameters.geoBoundingBox,
-        facetFilters: osParameters.osFacetFilters,
-      };
+    fromXml(xml, osParameters) {
+        let parsed = $.parseXML(xml);
+        let entryXml = $(parsed);
 
-    return new JSONResults(jsonOptions);
-  }
+        let jsonOptions = {
+            results: processOsEntries(entryXml),
+            totalCount: parseInt($(parsed).filterNode('os:totalResults').text(), 10),
+            currentIndex: parseInt($(parsed).filterNode('os:startIndex').text(), 10),
+            itemsPerPage: parseInt($(parsed).filterNode('os:itemsPerPage').text(), 10),
+            keyword: osParameters.osSearchTerms,
+            authorTerms: osParameters.osAuthor,
+            parameterTerms: osParameters.osParameter,
+            sensorTerms: osParameters.osSensor,
+            titleTerms: osParameters.osTitle,
+            startDate: osParameters.osDtStart,
+            endDate: osParameters.osDtEnd,
+            sortKeys: osParameters.osSortKeys,
+            geoBoundingBox: osParameters.geoBoundingBox,
+            facetFilters: osParameters.osFacetFilters,
+        };
+
+        return new JSONResults(jsonOptions);
+    }
 }
 
 export default NsidcOpenSearchResponse;

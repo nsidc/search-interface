@@ -52,7 +52,7 @@ export function removeWhitespace(str) {
   if (str === undefined || str === "") {
     return undefined;
   } else {
-    return $.trim(str.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/gm, " "));
+    return (str.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/gm, " ")).trim();
   }
 }
 
@@ -98,7 +98,7 @@ function removeEmptyElementsFromArray(array) {
 }
 
 /*
- * Decodes a URI and form-encoded string (encoded via 
+ * Decodes a URI and form-encoded string (encoded via
  * ' ' => '+'). All '+' characters will be replaced
  * with a ' ' and the result will be URI-decoded.
  *
@@ -123,9 +123,10 @@ export function round(number, precision) {
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   let results = [];
 
-  if (jQueryArray.text() === "") {
-    return undefined;
-  }
+  // TODO: Fix this check which no longer works with jquery
+  // if ($.isArray(jQueryArray) !== "array") {
+  //   return undefined;
+  // }
 
   _.each(jQueryArray, function (element) {
     let text = $(element).text();
@@ -137,7 +138,7 @@ export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   return results;
 }
 
-function osGeoBoxToNsewObj(osGeoBox) {
+export function osGeoBoxToNsewObj(osGeoBox) {
   let bboxArray,
     cardinals,
     coords = {};

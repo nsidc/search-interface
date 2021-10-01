@@ -1,4 +1,4 @@
-import * as Backbone from 'backbone';
+import Backbone from 'backbone';
 import _ from 'underscore';
 import viewTemplate from '../../templates/result_item/parameters.html';
 
@@ -8,11 +8,12 @@ const sectionTemplate = '<% _.each(data, function (p) { %>' +
 
 class ParametersView extends Backbone.View {
     render() {
-        let parameters = (this.model.get('parameters') || '');
-        this.$el.html(_.template(viewTemplate)());
-        this.$el.find('.parameters-section').append(_.template(sectionTemplate)({data: parameters}));
+      let parameters = (this.model.get('parameters') || '');
 
-        return this;
+      this.$el.html(_.template(viewTemplate)());
+      this.$el.find('.parameters-section').append(_.template(sectionTemplate)({data: parameters}));
+
+      return this;
     }
 }
 

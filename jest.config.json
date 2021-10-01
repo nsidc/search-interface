@@ -1,0 +1,6 @@
+{
+  "clearMocks": true,
+  "testRegex": "((\\.|/*.)(spec))\\.js?$",
+  "verbose": false,
+  "testEnvironment": "jsdom"
+}
