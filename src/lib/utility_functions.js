@@ -123,10 +123,9 @@ export function round(number, precision) {
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
   let results = [];
 
-  // TODO: Fix this check which no longer works with jquery
-  // if ($.isArray(jQueryArray) !== "array") {
-  //   return undefined;
-  // }
+  if (!$.isArray(jQueryArray)) {
+    return undefined;
+  }
 
   _.each(jQueryArray, function (element) {
     let text = $(element).text();
