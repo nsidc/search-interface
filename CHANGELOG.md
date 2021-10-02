@@ -1,4 +1,4 @@
-## UNRELEASED
+## Version 3.0.2-7
 
 - Update homepage link to learn more about the Cryosphere.
 

@@ -139,7 +139,7 @@ class SpatialThumbnailView extends Backbone.View {
 
         L.CRS.CustomZoom = L.extend({}, L.CRS['EPSG' + this.options.mapProjection], {
             scale: function (zoom) {
-                return this.options.mapPixelSize * Math.pow(2, zoom);
+                return this.options.mapPixelSize * Math.pow(2, zoom-1);
             }
         }, this);
 
