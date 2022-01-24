@@ -1,0 +1,8 @@
+---
+project: nsidc_search
+gitrepo: git@github.com:nsidc/search-interface.git
+
+vsphere:
+  template:
+    default: bionic64-nsidc-puppet6
+    ci: bionic64-docker-puppet6-jenkins2

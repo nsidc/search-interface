@@ -105,8 +105,8 @@ class BaseView extends Backbone.View {
         }).render();
 
         new AttributionView({
-            el: this.$el.find('#attribution'),
-        }).render();
+            el: this.$el.find('#attribution')
+        }).render(this.options.version);
 
         new LeftColumnView({
             searchParamsModel: this.options.searchParamsModel,

@@ -3,12 +3,6 @@ import _ from 'underscore';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// TODO: Do we need both projection images for nsidc search?
-// use require.context in webpack?
-// Or is "require" approach on line 119 good enough?
-//import img4326 from './../../images/map/map-projection-4326.png';
-//import img3857 from './../../images/map/map-projection-3857.png';
-
 // settings for all the drawn bounding boxes
 const bboxSettings = {
     clickable: false,
@@ -119,8 +113,7 @@ class SpatialThumbnailView extends Backbone.View {
         layers = [];
 
         const img = require('./../../images/map/map-projection-' + this.options.mapProjection + '.png');
-        layers.push(L.imageOverlay(img.default,
-            [[-90, -180], [90, 180]]));
+        layers.push(L.imageOverlay(img, [[-90, -180], [90, 180]]));
 
         _.each(this.model.get('boundingBoxes'), function (bbox) {
             addLayer(layers, bbox, _.extend({

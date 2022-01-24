@@ -25,6 +25,7 @@ class SearchApp extends Backbone.Router {
     initialize(params) {
         this.config = appConfig;
         this.openSearchOptions = openSearchOptions;
+        this.version = process.env.VERSION.replace(/"/g, '');
 
         // Endpoints depend on environment
         let envUrls = environmentUrls(process.env.APPLICATION_ENVIRONMENT);
@@ -108,6 +109,7 @@ class SearchApp extends Backbone.Router {
         // Initialize the view framework
         this.homeView = new BaseView({
             el: this.el,
+            version: this.version,
             config: this.config,
             searchParamsModel: this.searchParamsModel,
             searchResultsCollection: this.searchResultsCollection,

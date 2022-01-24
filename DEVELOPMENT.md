@@ -303,7 +303,7 @@ TODO
             * old, monolithic CSS files converted to Sass syntax still needing
               cleanup (break into smaller parts, put those parts in `modules/`)
 * `grunt sass:dev` generates `src/css/ade-search.css` and
-  `src/css/nsidc-search.css`, combining the project-specifc scss and the common
+  `src/css/nsidc-search.css`, combining the project-specific scss and the common
   files into one
 * `grunt sass:$PROJECT` generates `tmp/css/$PROJECT-search.css`; this is used by
   `grunt build:$PROJECT` (see the Build section)
@@ -329,7 +329,7 @@ In "Choose components" select the following:
 
 * Base CSS
     * Buttons
-* Componets
+* Components
     * Button groups and dropdowns
     * Alerts
 * JS Components
