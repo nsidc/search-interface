@@ -3,6 +3,7 @@ const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const util = require("util");
 const build_path = path.resolve(__dirname, "dist");
+const package_json_path = path.resolve(__dirname, 'package.json');
 const webpack = require("webpack");
 
 const devConfig = {
@@ -12,11 +13,15 @@ const devConfig = {
     }),
   ],
 
-  devtool: "cheap-module-source-map",
+  devtool: "cheap-module-source-map"
+};
 
-  devServer: {
-    contentBase: build_path,
-  },
+const prodConfig = {
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      APPLICATION_ENVIRONMENT: 'production'
+    })
+  ]
 };
 
 const config = {
@@ -25,9 +30,9 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "NSIDC Data Search",
-      inject: true,
-      template: require("html-webpack-template"),
-      appMountId: "search-app",
+      inject: 'body',
+      template: './public/index.html',
+      filename: 'index.html'
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -36,7 +41,7 @@ const config = {
       "window.$": "jquery",
     }),
     new webpack.EnvironmentPlugin({
-      APPLICATION_ENVIRONMENT: "production",
+      VERSION: JSON.stringify(require(package_json_path).version)
     }),
   ],
 
@@ -77,8 +82,7 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        loader: "url-loader",
-        options: {},
+        type: 'asset/inline'
       },
     ],
   },
@@ -95,13 +99,12 @@ const config = {
 module.exports = (env, argv) => {
   let mergedConfig = {};
 
-  if (argv.mode !== "production") {
+  if (argv.mode !== 'production') {
     console.log("Running in development environment...");
     mergedConfig = merge(devConfig, config);
   } else {
-    mergedConfig = config;
+    mergedConfig = merge(prodConfig, config);
   }
 
-  console.log("Plugins: " + util.inspect(mergedConfig.plugins));
   return mergedConfig;
 };
