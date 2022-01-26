@@ -24,22 +24,7 @@
     "lint": "npx eslint ./src/",
     "lint:watch": "npx esw -w ./src/",
     "test": "jest ./src",
-    "test:watch": "jest -w ./src",
-    "release": "release-it"
-  },
-  "release-it": {
-    "npm": {
-      "publish": false
-    },
-    "plugins": {
-      "@j-ulrich/release-it-regex-bumper": {
-        "out": {
-          "file": "CHANGELOG.md",
-          "search": "UNRELEASED",
-          "replace": "Version {{version}}"
-        }
-      }
-    }
+    "test:watch": "jest -w ./src"
   },
   "dependencies": {
     "backbone": "^1.4.0",
@@ -92,13 +77,12 @@
     "node-gyp": "^8.1.0",
     "npm-audit-resolver": "^2.3.1",
     "postcss": "^7.0.36",
-    "release-it": "^14.10.0",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.49.0",
     "sass-loader": "^12.4.0",
     "sinon": "^11.1.0",
     "style-loader": "^3.3.1",
-    "stylelint": "^13.6.1",
+    "stylelint": "^14.3.0",
     "typescript": "^4.2.4",
     "typescript-language-server": "^0.5.1",
     "url-loader": "^4.1.1",
