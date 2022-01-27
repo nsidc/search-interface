@@ -120,6 +120,9 @@ To run against services on qa:
 
 # Running on a VM
 
+TODO: /opt/nsidc_search is not being created/populated automatically during VM
+provisioning.
+
 Rsync the artifacts in `dist` to `vagrant@your-vm-name:/opt/nsidc-search`. For example:
 
     npm run build # or npm run build:dev

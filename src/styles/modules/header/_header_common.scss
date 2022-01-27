@@ -68,8 +68,20 @@
     @include box-shadow($search-criteria-box-shadow);
     float: left;
     height: 16px;
-    padding: 5px;
+    padding: 0;
     width: 16px;
+
+    &,
+    &:hover,
+    &:active {
+      cursor: pointer;
+      float: left;
+      height: 26px;
+      padding: 0;
+      position: relative;
+      top: 0;
+      width: 27px;
+    }
 
     &:before {
       background-image: url(img('globe-icon.png'));
@@ -78,11 +90,19 @@
       height: 16px;
       position: absolute;
       width: 16px;
+      left: 5px;
+      top: 5px;
     }
 
     &:hover {
       &:before {
         background-position: 0 -16px;
+      }
+    }
+
+    &:active {
+      &:before {
+        background-position: 0 0;
       }
     }
   }

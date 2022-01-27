@@ -11,6 +11,10 @@ body {
   text-align: left;
 }
 
+#search-app {
+ min-height: 750px;
+}
+
 #container {
   @include box-shadow(0 3px 5px #0f264c);
   clear: both;
