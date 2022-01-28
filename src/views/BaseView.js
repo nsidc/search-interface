@@ -85,7 +85,7 @@ class BaseView extends Backbone.View {
         new LoadingResultsView({
             resultsCollection: this.options.searchResultsCollection,
             searchParamsModel: this.options.searchParamsModel,
-            el : this.$el.find('#loading-results'),
+            el : this.$el.find('#progress-indicator'),
             mediator: this.mediator
         }).render();
 

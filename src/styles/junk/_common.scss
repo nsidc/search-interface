@@ -8,19 +8,27 @@
   }
 }
 
-.loading-results-ajax {
-  background-color: #fff;
-  color: #000;
-  font-size: 15px;
-  font-weight: bold;
-  height: 1200px;
-  left: 0%;
-  padding-top: 20px;
-  position: relative;
+#progress-indicator {
+  position: absolute;
+  top: 175px;
+  left: 35%;
+  width: 20em;
   text-align: center;
-  top: 0%;
-  vertical-align: middle;
-  width: 100%;
+
+  #loading-results {
+    background-color: #fff;
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    height: auto;
+    vertical-align: middle;
+  }
+
+  img {
+    height: 32px;
+    width: 32px;
+    padding: 10px;
+  }
 }
 
 #left-column {

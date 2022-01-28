@@ -4,7 +4,7 @@ import debug from "debug";
 // All objects using this mixin have access to this shared mediator
 var sharedMediator;
 var mediatorMixin = {},
-    initializeMediator;
+  initializeMediator;
 
 // Initialize the single shared instance of a Mediator
 if (!sharedMediator) {
@@ -45,7 +45,7 @@ mediatorMixin.setMediator = function (mediator) {
   this._bindEvents(this._mediator, this._events);
 };
 
-// Reset he mediator to the shared mediator
+// Reset the mediator to the shared mediator
 mediatorMixin.resetMediator = function () {
   this._mediator = sharedMediator;
 };

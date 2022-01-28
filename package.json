@@ -18,7 +18,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
-    "start": "NODE_ENV=development webpack serve --progress",
+    "start": "webpack serve --node-env development --no-client-overlay --progress",
     "clean": "rm -rf ./dist/*",
     "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
@@ -88,7 +88,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.45.1",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0",
+    "webpack-dev-server": "^4.7.3",
     "webpack-merge": "^5.8.0"
   }
 }

@@ -1,6 +1,4 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
-import viewTemplate from '../templates/loading_results_view_overlay.html';
 
 class LoadingResultsView extends Backbone.View {
 
@@ -18,6 +16,7 @@ class LoadingResultsView extends Backbone.View {
         mediator.on('search:urlParams', this.onSearchInitiated, this);
         mediator.on('search:fullSearchComplete', this.onSearchDatasetsReturned, this);
         mediator.on('search:facetsReturned', this.onSearchFacetsReturned, this);
+        mediator.on('search:refinedSearch', this.onSearchRefined, this);
         mediator.on('search:refinedSearchComplete', this.onSearchDatasetsReturned, this);
         mediator.on('search:noResults', this.hideLoadingResultsOverlay, this);
         mediator.on('search:error', this.hideLoadingResultsOverlay, this);
@@ -26,7 +25,6 @@ class LoadingResultsView extends Backbone.View {
       }
 
       render() {
-        this.$el.html(_.template(viewTemplate)());
         return this;
       }
 
@@ -46,15 +44,19 @@ class LoadingResultsView extends Backbone.View {
         this.checkSearchComplete();
       }
 
-      checkSearchComplete() {
+  onSearchRefined() {
+    this.showLoadingResultsOverlay("Filtering results...");
+  }
+
+  checkSearchComplete() {
         if (this.datasetsReturned && this.facetsReturned) {
           this.hideLoadingResultsOverlay();
         }
       }
 
-      showLoadingResultsOverlay() {
+      showLoadingResultsOverlay(msg = 'Performing Search...') {
         this.$el.removeClass('hidden');
-        this.$('#loading-results-text').text('Performing Search...');
+        this.$('#loading-results-text').text(msg);
       }
 
       hideLoadingResultsOverlay() {
@@ -66,7 +68,7 @@ class LoadingResultsView extends Backbone.View {
       }
 
       onSearchSuccess() {
-        this.$('#loading-results-text').text('Loading Results...');
+        this.showLoadingResultsOverlay("Loading results...");
       }
     }
 

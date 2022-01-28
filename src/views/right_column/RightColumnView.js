@@ -70,17 +70,14 @@ class RightColumnView extends Backbone.View {
 
     onSearchComplete() {
         this.show('#current-results');
-        this.hide('#filtering-results');
     }
 
     onSearchRefined() {
         this.hide('#current-results');
-        this.show('#filtering-results');
     }
 
     onAppHome() {
         this.hide('#current-results');
-        this.hide('#filtering-results');
     }
 }
 
