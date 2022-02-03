@@ -9,6 +9,7 @@ import VectorSource from 'ol/source/Vector';
 import { Draw } from 'ol/interaction';
 import { ZoomSlider } from 'ol/control';
 import { getTransform } from 'ol/proj';
+import { shiftKeyOnly } from 'ol/events/condition';
 import { toStringHDMS } from 'ol/coordinate';
 
 import {
@@ -100,6 +101,7 @@ export default class SearchMap {
     addExtentDrawingInteraction() {
         let draw = new Draw({
             type: 'Circle',
+            condition: shiftKeyOnly,
             geometryFunction: _.bind(this.extentGeometry, this),
         });
         this.map.addInteraction(draw);

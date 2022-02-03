@@ -1,8 +1,13 @@
 // rules for NSIDC-only selectors go here
 
+#results-body {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 #right-column {
   padding: 0 0 0 20px;
-  width: 100%;
+  width: $search-result-right-column-width;
 
   h2 {
     font-size: 1.5em;
@@ -14,59 +19,72 @@
 #results {
   .result-item {
     border-top: $result-item-border;
-    clear: left;
-    line-height: 1.1em;
-    margin-bottom: 2px;
-    position: relative;
-    word-wrap: break-word;
-    z-index: 0;
+
+    .result-item-body {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: left;
+      align-content: flex-start;
+      clear: left;
+      line-height: 1.1em;
+      margin: auto;
+      margin-left: 0;
+      margin-bottom: 2px;
+      position: relative;
+      word-wrap: break-word;
+      z-index: 0;
+      width: 95%;
+
+      // This will prevent extra padding in the spatial
+      // coverage div
+      .spatial-coverage {
+        word-wrap: normal;
+      }
+    }
 
     .dataset-title {
       font-size: 1.1em;
+
       > a {
         color: #1e4285;
       }
+
       margin: 12px 0 8px 0;
     }
 
-    // This will prevent extra padding in the spatial
-    // coverage div
-    .spatial-coverage {
-      word-wrap: normal;
-    }
-  }
 
-  // "Get Data" button
-  button {
-    &.access-data {
-      @include box-shadow(1px 2px 1px rgba(15, 38, 76, .4));
-      float: right;
-      font-size: 11px;
-      height: 23px;
-      line-height: normal;
-      margin-top: 10px;
-      padding: 0 0 3px;
-      width: 90px;
+    // "Get Data" button
+    button {
+      &.access-data {
+        @include box-shadow(1px 2px 1px rgba(15, 38, 76, .4));
+        float: right;
+        font-size: 11px;
+        height: 23px;
+        line-height: normal;
+        margin-top: 10px;
+        padding: 0 0 3px;
+        width: 90px;
 
-      .caret {
-        border-bottom-color: #fff;
-        border-top-color: #fff;
-        margin-left: 6px;
-        margin-top: 6px;
-      }
+        .caret {
+          border-bottom-color: #fff;
+          border-top-color: #fff;
+          margin-left: 6px;
+          margin-top: 6px;
+        }
 
-      &:hover {
-        @include background-image-gradient('#065084 0%, #83bce8 100%');
-        background-position: 0% 0%;
-      }
+        &:hover {
+          @include background-image-gradient('#065084 0%, #83bce8 100%');
+          background-position: 0% 0%;
+        }
 
-      // "no data link" button
-      &.no-data {
+        // "no data link" button
+        &.no-data {
 
-        background: #f7f7f7;
-        border-color: #ddd;
-        color: #444;
-        padding: 2px 8px 4px;
+          background: #f7f7f7;
+          border-color: #ddd;
+          color: #444;
+          padding: 2px 8px 4px;
+        }
       }
     }
   }
@@ -148,11 +166,6 @@
   }
 }
 
-.results-top-right {
-  float: right;
-  width: 100px;
-}
-
 .results-right {
   display: flex;
   flex-wrap: wrap;
@@ -182,8 +195,8 @@
 
 .supporting-programs {
   margin-top: 7px;
-  min-width: 104px;
-  position: absolute;
+  width: 50px;
+  justify-self: left;
 }
 
 .supporting-program-logo {
@@ -192,7 +205,6 @@
   background-position: left top;
   background-repeat: no-repeat;
   background-size: 32px 32px;
-  float: right;
   height: 32px;
   margin-right: 4px;
   width: 32px;

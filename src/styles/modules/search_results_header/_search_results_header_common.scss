@@ -5,7 +5,7 @@ $header-font-size: 12px;
 
 .results-header {
   margin: 15px 0 10px;
-  width: 100%;
+  width: $header-search-criteria-width;
 
   &.btn-group {
     font-size: $header-font-size;

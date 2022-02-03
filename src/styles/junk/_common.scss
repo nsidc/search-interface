@@ -35,25 +35,6 @@
   }
 }
 
-#left-column {
-  background: #f7f7f7;
-  padding: 20px 5px 10px 15px;
-  vertical-align: top;
-
-  #refine-search-container,
-  #narrow-results-container {
-    p {
-      margin-bottom: 0;
-      margin-top: 0;
-    }
-  }
-
-  #refine-search-container {
-    .add-space-top {
-      margin-top: 10px;
-    }
-  }
-}
 
 #search-error {
   background: #fff;

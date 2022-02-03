@@ -1,7 +1,13 @@
 // rules for NSIDC-only selectors go here
 
+#left-column {
+  background: #f7f7f7;
+  padding: 20px 5px 10px 15px;
+  vertical-align: top;
+  width: 210px;
+  min-width: 201px;
+}
 #facets {
-  width: 190px;
 
   .facet {
     border-bottom: 1px solid #ccc;

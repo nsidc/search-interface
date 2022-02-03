@@ -2,21 +2,21 @@
   @include box-shadow(0 2px 3px rgba(15, 38, 76, .4));
   background: $header-bg;
   background-position: $header-bg-position;
-  float: left;
   height: 115px;
   margin: 0;
   overflow: visible;
   position: relative;
   width: 100%;
+  min-width: 1050px;
   z-index: 1;
 
   #header-items {
     display: flex;
     align-content: space-between;
     justify-content: space-between;
-    width: 1000px;
+    width: 1050px;
     height: 100%;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     margin-top: 0;
   }
@@ -36,18 +36,6 @@
     text-align: center;
     vertical-align: middle;
     width: 120px;
-
-    // submit search button
-    &.find-data {
-      font-size: $find-data-font-size;
-      margin: 3px 10px 0 0;
-      vertical-align: bottom;
-    }
-
-    &.reset-search {
-      font-size: 12px;
-      width: 60px;
-    }
 
     &.submit-coordinates {
       font-size: 11px;
@@ -70,9 +58,7 @@
       &:hover {
         background: #eee;
       }
-
     }
-
   }
 
   .spatial-trigger {
@@ -124,7 +110,7 @@
   display: flex;
   align-content: space-between;
   justify-content: space-between;
-  margin: 1em 0;
+  margin: 1em auto;
   width: $header-search-criteria-width;
 
   input {
@@ -141,6 +127,20 @@
     }
   }
 
+  #search-buttons {
+    padding: 0.5em 0;
+    font-size: $find-data-font-size;
+
+    .find-data {
+      margin: 3px 10px 0 0;
+      width: 8em;
+    }
+
+    .reset-search {
+      margin: 3px 0 0 0;
+      width: 6em;
+    }
+  }
 }
 
 #search-form-fields {
@@ -154,9 +154,6 @@
   width: $header-keyword-container-width;
 }
 
-#search-buttons {
-  padding: 0.5em 0;
-}
 
 #keywords-container {
   float: left;
