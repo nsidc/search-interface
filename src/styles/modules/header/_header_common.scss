@@ -7,8 +7,19 @@
   margin: 0;
   overflow: visible;
   position: relative;
-  width: 1100px;
+  width: 100%;
   z-index: 1;
+
+  #header-items {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 1000px;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+  }
 
   input,
   .add-on,
@@ -110,10 +121,10 @@
 }
 
 #search-criteria {
-  float: right;
-  height: 100px;
-  margin: $header-search-criteria-margin;
-  padding: 0;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  margin: 1em 0;
   width: $header-search-criteria-width;
 
   input {
@@ -132,10 +143,24 @@
 
 }
 
+#search-form-fields {
+  height: 85px;
+  padding: 0.5em 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  width: $header-keyword-container-width;
+}
+
+#search-buttons {
+  padding: 0.5em 0;
+}
+
 #keywords-container {
   float: left;
   margin: 3px 0;
-  width: $header-keyword-container-width;
 
   .keyword-input-box {
     label {
@@ -147,10 +172,20 @@
     float: left;
     width: $header-keyword-input-width;
   }
+}
 
+#spatial-temporal-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 #temporal-box {
+
+  #start-date,
+  #end-date {
+    float: left;
+    width: 8em;
+  }
 
   .input-append {
     float: left;
@@ -165,7 +200,6 @@
       margin-left: 8px;
       margin-right: 2px;
     }
-
   }
 
   .add-on {
@@ -204,7 +238,6 @@
       position: absolute;
       top: 5px;
       width: 16px;
-
     }
 
     &:hover {
@@ -218,20 +251,7 @@
         background-position: 0 0;
       }
     }
-
   }
-
-}
-
-#temporal-container {
-  float: left;
-  margin: 15px 0 15px 50px;
-}
-
-#start-date,
-#end-date {
-  float: left;
-  width: 75px;
 }
 
 .combo-box-drop-down {
@@ -264,10 +284,6 @@
 }
 
 #spatial-container {
-  clear: both;
-  float: left;
-  margin: $header-spatial-container-margin;
-  width: $header-spatial-container-width;
 
   > label {
     display: none;
@@ -414,6 +430,7 @@ div {
 }
 
 #compass-container {
+  position: absolute;
   @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
   background: #fff;
   border: 1px solid #ccc;
@@ -434,6 +451,7 @@ div {
     input {
       height: auto;
       border: none;
+      box-shadow: none;
     }
     padding-bottom: 0.5em;
   }

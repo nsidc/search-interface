@@ -1,4 +1,8 @@
 
+* {
+  box-sizing: border-box
+}
+
 .data-set-details {
   img {
     &.image-icon {
@@ -35,7 +39,6 @@
   background: #f7f7f7;
   padding: 20px 5px 10px 15px;
   vertical-align: top;
-  width: 190px;
 
   #refine-search-container,
   #narrow-results-container {
@@ -49,11 +52,6 @@
     .add-space-top {
       margin-top: 10px;
     }
-  }
-
-  .spatial-coverage,
-  .temporal-coverage {
-    padding: 0 20px 0 10px;
   }
 }
 
@@ -134,31 +132,6 @@ span {
 
 .results-count-container {
   width: 210px;
-}
-
-.results-row {
-  line-height: 1.1em;
-  padding-bottom: 12px;
-
-  .temporal-coverage {
-    padding-bottom: 12px;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-}
-
-.spatial-row {
-  padding-bottom: 2px;
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-}
-
-.spatial-value {
-  @include inline-block;
 }
 
 .temporal-results {

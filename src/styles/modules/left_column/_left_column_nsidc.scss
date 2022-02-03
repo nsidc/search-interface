@@ -1,13 +1,12 @@
 // rules for NSIDC-only selectors go here
 
 #facets {
+  width: 190px;
 
   .facet {
-    @include inline-block;
-
     border-bottom: 1px solid #ccc;
     padding-bottom: 1em;
-    width: 100%;
+    width: inherit;
 
     &:last-child {
       border-bottom: 0;

@@ -33,7 +33,8 @@ class SpatialCoverageTextView extends Backbone.View {
     }
 
     render(text) {
-        this.$el.html(_.template(viewTemplate)({presetText: this.options.config.spatialText, identifierView: ''}));
+        var presetText = this.options.config.spatialText;
+        this.$el.html(_.template(viewTemplate)({presetText: presetText, identifierView: ''}));
 
         // If the model is set to the defaults and we are trying to set the default identifier, override the text value.
         // Otherwise, leave the text alone.
@@ -46,7 +47,7 @@ class SpatialCoverageTextView extends Backbone.View {
           text = this.model.asIdentifier();
         }
 
-        this.$el.html(_.template(viewTemplate)({ identifierView: text, presetText: this.options.presetText }));
+        this.$el.html(_.template(viewTemplate)({ identifierView: text, presetText: presetText}));
         return this;
     }
 

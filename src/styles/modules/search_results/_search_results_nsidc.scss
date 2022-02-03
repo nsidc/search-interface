@@ -1,6 +1,40 @@
 // rules for NSIDC-only selectors go here
 
+#right-column {
+  padding: 0 0 0 20px;
+  width: 100%;
+
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+    margin-top: 15px;
+  }
+}
+
 #results {
+  .result-item {
+    border-top: $result-item-border;
+    clear: left;
+    line-height: 1.1em;
+    margin-bottom: 2px;
+    position: relative;
+    word-wrap: break-word;
+    z-index: 0;
+
+    .dataset-title {
+      font-size: 1.1em;
+      > a {
+        color: #1e4285;
+      }
+      margin: 12px 0 8px 0;
+    }
+
+    // This will prevent extra padding in the spatial
+    // coverage div
+    .spatial-coverage {
+      word-wrap: normal;
+    }
+  }
 
   // "Get Data" button
   button {
@@ -103,6 +137,9 @@
 }
 
 .results-row {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
   line-height: 1.1em;
   padding-bottom: 7px;
 
@@ -117,14 +154,20 @@
 }
 
 .results-right {
-  float: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
   padding-bottom: 18px;
   width: 670px;
-}
 
-.value {
-  float: left;
-  width: 450px;
+  .label {
+    float: none;
+  }
+
+  .value {
+    width: 450px;
+  }
 }
 
 .summary {
