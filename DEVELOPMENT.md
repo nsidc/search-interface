@@ -17,37 +17,6 @@
 
 # Git Workflow
 
-## Future Development tasks
-
-* The webpack configuration (and probably the code structure) need additional
-  refinement in order to reduce the size of the bundled application.
-
-* Move to ES20xx or Typescript.
-
-* Rewrite using React components?
-
-* Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
-  an open source project owned by NSIDC. That project also needs to be migrated
-  from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
-  code exists in branch `soac-62`. **The srch-28 branch of search-interface is
-  running off of the OpenSearchlight branch soac-62, and uses a source file
-  rather than a "built" file.** (See the `git` reference to
-  OpenSearchlight in `package.json` and the `import` statement in
-  `OpenSearchProvider.js`.). **This is not an acceptable long-term
-  approach for a production application.** OpenSearchlight needs to be
-  modernized or replaced. Note that OpenSearchlight is in the open source
-  arena, but since we haven't been actively maintaining it I'm guessing
-  there isn't a huge pool of current users.
-
-  [This can be pushed off until 2022 sustainment](https://github.com/nsidc/search-interface/pull/65#discussion_r672579884)
-
-* The Arctic Data Explorer (ADE) has been decommissioned, and
-  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
-  The remaining references to ADE should be removed.
-  TODO: Future Development?
-
-## Git workflow
-
 Development on this project uses
 [the GitHub Flow](https://guides.github.com/introduction/flow/index.html):
 
@@ -61,42 +30,45 @@ Development on this project uses
 
 # Installation
 
+Quick start to run a local instance:
+
 1. Install node.js. (See: http://nodejs.org/, alternatively: [NVM](https://github.com/nvm-sh/nvm))
-2. Install dependencies for unit and acceptance tests:
 
-* Ruby
-* Rubygems and bundler
-
-3. Install the ruby gems: `bundle install`
-
-4. Install node modules:
+2. Install node modules:
 
         npm install
 
-5. Build the application artifacts into the `dist` directory:
+3. Start a local dev server at `http://localhost:8080`:
 
-        npm run build:prod # Build a bundle packaged for production environment
+        npm start
+
+By default, the local server with set the environment to `development`, and will
+use the production OpenSearch endpoints. See configuration in
+`src/config/appConfig.js`.
+
+## Additional installation steps for acceptance test environment
+
+**TO BE UPDATED** Unit and acceptance tests currently depend on Ruby. You will need to install:
+
+* Ruby (*version?*)
+* Rubygems and bundler
+
+Then install the ruby gems: `bundle install`
+
+## Build and Deploy
+
+1. Build the application artifacts into the `dist` directory:
+
+        npm run build # Build a bundle packaged for production environment
         npm run build:dev  # Build with source maps for development environment
                            # Update environment-dependent URL configurations in
                            # `src/config/appConfig.js` as needed.
 
-6. Remove old build artifacts from `dist`:
+2. Remove old build artifacts from `dist`:
 
         npm run clean
 
-7. Start a local dev server at `http://localhost:8080`:
-
-        npm start
-
-8. Run linter
-
-        npm run lint
-
-9. Run tests (currently does nothing!):
-
-        npm test
-
-# Configuration
+## Service Configuration **OBE?**
 
 Host and endpoints for development, integration and production are configured in
 `src/config/appConfig.js`.
@@ -120,8 +92,9 @@ To run against services on qa:
 
 # Running on a VM
 
-TODO: /opt/nsidc_search is not being created/populated automatically during VM
-provisioning.
+TODO: `/opt/nsidc_search` is not being created/populated automatically during VM
+provisioning. Workaround after creating VM: ssh to it and create
+`/opt/nsidc_search`, ensuring it's writable by user/group `vagrant`.
 
 Rsync the artifacts in `dist` to `vagrant@your-vm-name:/opt/nsidc-search`. For example:
 
@@ -136,7 +109,10 @@ system `service` command, e.g., `service nginx restart`.
 `nginx` writes logfiles by default to `/var/log/nginx`; all logs should be in
 this folder.
 
-## Running the Linter
+TODO: Add information about Drupal VM build. See `DEVELOPMENT.md` in the
+`soac-webapp` project.
+
+# Running the Linter
 
 Run once with `npm run lint`. Run automatically whenever a JavaScript file is changed
 with `npm run lint:watch`.
@@ -372,9 +348,15 @@ run `vncpasswd` on the machine running the tests and set a dummy password
 
 ### A Tale of Exports and Imports
 
-Apparently NodeJS has added a new thing in package.json called "exports". A package author can use this section to declare what things are exported for use, and a map to where they are located in the package directory.
+Apparently NodeJS has added a new thing in package.json called "exports". A
+package author can use this section to declare what things are exported for use,
+and a map to where they are located in the package directory.
 
-Webpack 5 now enforces this--if you attempt to import something which is not declared as exported from the package it is in, the import will fail. A package which omits the "exports" section defaults to everything being exported / importable. A package which includes the "exports" section only exports things listed, nothing else.
+Webpack 5 now enforces this--if you attempt to import something which is not
+declared as exported from the package it is in, the import will fail. A package
+which omits the "exports" section defaults to everything being exported /
+importable. A package which includes the "exports" section only exports things
+listed, nothing else.
 
 This has the following side-effect:
 * Your code imports "foo" from package X
@@ -384,7 +366,10 @@ This has the following side-effect:
 * Using webpack 4 is no problem, both imports work
 * Upgrading to webpack to v5 results in the import of "foo" succeeding and the import of "bar" failing
 
-In our case we were successfully importing CSS from vanillajs-datepicker, but when upgrading webpack to v5, the build started raising a new error indicating that the CSS could not be imported because the package (vanillajs-datepicker) did not export it.
+In our case we were successfully importing CSS from vanillajs-datepicker, but
+when upgrading webpack to v5, the build started raising a new error indicating
+that the CSS could not be imported because the package (vanillajs-datepicker)
+did not export it.
 
 A workaround in the webpack config which bypasses the export / import rules:
 
@@ -433,7 +418,8 @@ These do not yet have tickets in JIRA:
   there isn't a huge pool of current users.
 
   Q: Can Julia to review this and make sure we can push this to Future Development?
-  A: Tentatively, we think the answer is yes.
+  A: Tentatively, we think the answer is yes and that we
+  [can push this off until 2022 sustainment](https://github.com/nsidc/search-interface/pull/65#discussion_r672579884)
 
 * The Arctic Data Explorer (ADE) has been decommissioned, and
   some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
