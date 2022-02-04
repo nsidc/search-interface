@@ -42,7 +42,7 @@ Quick start to run a local instance:
 
         npm start
 
-By default, the local server with set the environment to `development`, and will
+By default, the local server will set the environment to `development`, and will
 use the production OpenSearch endpoints. See configuration in
 `src/config/appConfig.js`.
 
