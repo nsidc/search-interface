@@ -190,20 +190,22 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 
 # Git Hooks
 
-Our build server attempts to build the project with every revision, and it
+TODO: Ditch `Grunt`, use `npm`. See `CircleCI` section below.
+
+~~Our build server attempts to build the project with every revision, and it
 requires that linters and unit tests pass successfully. To protect yourself from
 the embarrassment of breaking the build, git hooks can be set up to run
-everything on your local box before you push.
+everything on your local box before you push.~~
 
-Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
+~~Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
 plugin. Running `grunt githooks` udpates files in your `.git/hooks/` so that the
 specific grunt tasks will be run at the given git events. This means if the
 githooks task configuration is ever changed, you will need to run `grunt
 githooks` again to update your hook scripts (and if a hook is removed the
 Gruntfile configuration, you may need to delete the old script from
-`.git/hooks/`).
+`.git/hooks/`).~~
 
-Currently included hooks (and the tasks they run) are:
+~~Currently included hooks (and the tasks they run) are:~~
 
 * `pre-commit`: `scsslint` and `jshint`
 * `pre-push`: `jasmine`
@@ -257,7 +259,7 @@ plugin.
 
 # CircleCI Continuous Integration
 
-TODO
+TODO: Add detail! See config in `.circleci/config.yml`
 
 # Development Notes
 
@@ -294,7 +296,7 @@ TODO
   (with additional rules that should be cleaned up in
   `config/scsslint-todo.yml`)
 
-### Bootstrap
+## Bootstrap
 
 We are using a customized version of Bootstrap to avoid conflicts with global
 NSIDC styles included via SSI. To add to the existing set of styles and scripts
