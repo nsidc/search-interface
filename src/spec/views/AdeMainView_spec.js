@@ -54,7 +54,7 @@ describe('Ade Main View', function () {
     // act
     adeMainView.render();
     // assert
-    expect($(el).find('#content').length).toEqual(1);
+    expect($(el).find('#search-content').length).toEqual(1);
   });
 
   describe('search:resetClear', function () {

@@ -50,7 +50,7 @@ class BaseView extends Backbone.View {
 
     onClearSearch() {
         this.removeContentExplanationMessage();
-        this.$el.find('#content').append(this.message({text: 'Your search has been reset.  Please perform a new search.'}));
+        this.$el.find('#search-content').append(this.message({text: 'Your search has been reset.  Please perform a new search.'}));
     }
 
     removeContentExplanationMessage() {

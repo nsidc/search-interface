@@ -61,13 +61,18 @@ $header-font-size: 12px;
 
   .results-per-page {
     display: inline-block;
+    margin-left: 1rem;
   }
 
-  .ui-selectmenu-text {
-      display: unset;
+  #results-per-page-button {
+    width: auto;
   }
+}
 
-  .ui-selectmenu-button.ui-button {
-      width: unset;
-  }
+.ui-selectmenu-button.ui-button {
+  width: unset;
+}
+
+ul#results-per-page-menu li.ui-menu-item div {
+  padding-left: 10px;
 }
