@@ -1,14 +1,19 @@
 // rules for NSIDC-only selectors go here
 
+// Ensure facet tooltips have white text.
+.tippy-content {
+  color: #fff;
+}
+
 #left-column {
   background: #f7f7f7;
   padding: 20px 5px 10px 15px;
   vertical-align: top;
   width: 210px;
-  min-width: 201px;
+  min-width: 210px;
 }
-#facets {
 
+#facets {
   .facet {
     border-bottom: 1px solid #ccc;
     padding-bottom: 1em;

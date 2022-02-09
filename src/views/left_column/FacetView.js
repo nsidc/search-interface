@@ -156,6 +156,7 @@ class FacetView extends Backbone.View {
     addTooltips() {
         tippy('.facetListItem label span.shortName', {
             content: (reference) => reference.getAttribute('data-long-name'),
+            placement: 'right',
             onShow: (instance) =>
                 (instance.reference.offsetWidth < instance.reference.scrollWidth) ||
                 (instance.reference.innerText !== instance.reference.getAttribute('data-long-name'))

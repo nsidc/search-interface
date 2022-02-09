@@ -33,6 +33,7 @@
 
   label {
     cursor: pointer;
+    width: 100%;
 
     .shortName {
       @include inline-block;
