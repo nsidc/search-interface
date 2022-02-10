@@ -20,6 +20,8 @@ a {
 .spatial-coverage {
   float: left;
   padding: 0 10px 15px 0;
+  width:170px;
+  min-width: 170px;
 
   &:hover {
     &:after {

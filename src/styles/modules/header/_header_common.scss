@@ -109,8 +109,9 @@
 #search-criteria {
   display: flex;
   align-content: space-between;
-  justify-content: space-between;
+  justify-content: left;
   margin: 1em auto;
+  margin-left: 0;
   width: $header-search-criteria-width;
 
   input {
@@ -128,17 +129,18 @@
   }
 
   #search-buttons {
-    padding: 0.5em 0;
+    padding: 0.5em 0 0.5em 1.5em;
+    width: auto;
     font-size: $find-data-font-size;
 
     .find-data {
       margin: 3px 10px 0 0;
-      width: 8em;
+      width: 7em;
     }
 
     .reset-search {
       margin: 3px 0 0 0;
-      width: 6em;
+      width: 5em;
     }
   }
 }
