@@ -32,6 +32,7 @@ $pagination-color-hover: #83bce8;
 
     &.current-page {
       color: $pagination-color-disabled;
+      cursor: default;
     }
   }
 
@@ -40,6 +41,7 @@ $pagination-color-hover: #83bce8;
 
     &.disabled {
       color: $pagination-color-disabled;
+      cursor: default;
 
       &:hover {
         color: $pagination-color-disabled;

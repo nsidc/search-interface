@@ -3,6 +3,68 @@
   box-sizing: border-box
 }
 
+.svg-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+.icon-pull-right {
+  float: right;
+}
+
+.icon-pull-left {
+  float: left;
+}
+
+@function icon($icon-name, $color) {
+  $icons: (
+    chevron-left: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#{$color}" stroke="#{$color}" viewBox="0 0 16 16"> <path stroke-width="2.5" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>',
+    chevron-right: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#{$color}" stroke="#{$color}" viewBox="0 0 16 16"> <path stroke-width="2.5" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>'
+  );
+
+  $icon: map-get($icons, $icon-name);
+  @return url('data:image/svg+xml,#{$icon}');
+}
+
+// Bootstrap icons (see also icon function above)
+.icon-chevron-left {
+  background-image: icon(chevron-left, black);
+
+  &.disabled {
+    background-image: icon(chevron-left, gray);
+  }
+}
+
+.icon-chevron-right {
+  background-image: icon(chevron-right, black);
+
+  &.disabled {
+    background-image: icon(chevron-right, gray);
+  }
+}
+
+.icon-remove {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" stroke="black" viewBox="0 0 16 16"><path stroke-width="1.5" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>');
+  &.svg-icon {
+    width: 1.8em;
+    height: 1.8em;
+  }
+}
+
+.icon-info-sign {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>');
+
+  &.svg-icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.7em;
+  }
+}
+
 .data-set-details {
   img {
     &.image-icon {
