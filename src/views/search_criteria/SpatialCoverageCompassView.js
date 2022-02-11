@@ -233,11 +233,7 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     hideAllBboxErrors() {
-        let elements;
-        _.each(this.model.errors, function (value, key) {
-            elements = this.getBboxErrorElementIDs(key);
-            this.hideBboxErrorByIDpair(elements);
-        }, this);
+        this.$el.find('div[id^=bbox-error-]').hide();
     }
 
     showBboxError(errorKey) {
@@ -343,6 +339,8 @@ class SpatialCoverageCompassView extends Backbone.View {
         this.south(this.model.get('southDefault'));
         this.east(this.model.get('eastDefault'));
         this.west(this.model.get('westDefault'));
+
+        this.mediator.trigger('map:reset');
     }
 
     northProjectionClicked() {
@@ -361,11 +359,7 @@ class SpatialCoverageCompassView extends Backbone.View {
     }
 
     changeProjection(newProjection) {
-        // TODO: use mediator
-        // this.mediator.trigger('map:reset', projection);
-        if (this.map) {
-            this.map.switchView(newProjection);
-        }
+        this.mediator.trigger('map:switchView', newProjection);
     }
 }
 

@@ -106,7 +106,7 @@ export default class SearchMap {
         });
         this.map.addInteraction(draw);
 
-        draw.on('drawstart', _.bind(this.extentDrawStarted, this));
+        draw.on('drawstart', _.bind(this.clearExtentLayer, this));
         draw.on('drawend', _.bind(this.extentDrawEnded, this));
     }
 
@@ -118,8 +118,8 @@ export default class SearchMap {
      *  projection.
      *
      *  If the current projection is the global projection, the polygon
-     *  will be the four corner of the extent as derived from th west,
-     *  south, east, and west bounding box.
+     *  will be the four corners of the extent as derived from the west,
+     *  south, east, and north bounding box values.
      *
      *  If the current projection is a polar projection, the polygon
      *  is determined by:
@@ -194,9 +194,9 @@ export default class SearchMap {
     }
 
     /**
-     *  When starting to draw a new extent, clear the old extent.
+     *  Clear the extent layer & remove it from the map if it exists
      */
-    extentDrawStarted() {
+    clearExtentLayer() {
         if (!this.extentLayer) return;  // Guard clause
 
         this.map.removeLayer(this.extentLayer);
@@ -231,13 +231,33 @@ export default class SearchMap {
     // TODO: Docs
     // TODO
     bindEvents() {
-        // this.mediatorBind('map:selectionMade', this.toggleModify, this);
-        // this.mediatorBind('map:selectionDone', this.doneDrawingSelectBox, this);
-        // this.mediatorBind('map:changePolarCoords', this.changeLatLonCorner, this);
-        // this.mediatorBind('map:changeGlobalCoords', this.changeLatLonBoundary, this);
-        // this.mediatorBind('map:clearSelection', this.clearSpatialSelection, this);
-        // this.mediatorBind('map:click', this.clickHandler, this);
-        // this.mediatorBind('map:reset', this.resetMap, this);
+        this.mediator.bind('map:changeGlobalCoords', this.changeLatLonBoundary, this);
+        this.mediator.bind('map:clearSelection', this.clearSpatialSelection, this);
+        this.mediator.bind('map:reset', this.reset, this);
+        this.mediator.bind('map:switchView', this.switchView, this);
+    }
+
+    /**
+     *
+     */
+    changeLatLonBoundary() {
+        console.log('SearchMap.changeLatLonBoundary');
+    }
+
+    /**
+     *
+     */
+    clearSpatialSelection() {
+        console.log('SearchMap.clearSpatialSelection');
+    }
+
+    /**
+     *
+     */
+    reset() {
+        this.clearExtentLayer();
+        let view = this.map.getView();
+        view.setZoom(view.getMinZoom());
     }
 
     /**
