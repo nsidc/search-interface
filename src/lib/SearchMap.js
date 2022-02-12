@@ -113,8 +113,7 @@ export default class SearchMap {
      *
      */
     addModeControl() {
-        const mc = new ModeControl(this.mediator);
-        this.map.getControls().extend([mc]);
+        this.map.getControls().extend([new ModeControl(this.mediator)]);
     }
 
     /**
