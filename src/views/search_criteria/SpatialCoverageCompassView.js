@@ -321,7 +321,7 @@ class SpatialCoverageCompassView extends Backbone.View {
                 west -= 360;
             }
 
-            this.mediator.trigger('map:changeGlobalCoords', north, west, south, east);
+            this.mediator.trigger('map:changeCoordinates', north, west, south, east);
         }
     }
 
