@@ -9,8 +9,9 @@ import VectorSource from 'ol/source/Vector';
 import { Draw } from 'ol/interaction';
 import { ZoomSlider } from 'ol/control';
 import { getTransform } from 'ol/proj';
-import { shiftKeyOnly } from 'ol/events/condition';
 import { toStringHDMS } from 'ol/coordinate';
+
+import ModeControl from './ModeControl';
 
 import {
     createBaseLayers,
@@ -25,6 +26,11 @@ import {
 import { DEFAULT_LAYER_TITLE } from './spatial_selection_map/constants';
 
 const round2 = (n) => Math.round(n * 100) / 100;
+
+const Mode = {
+    MapMode: 'MapMode',
+    BoundingBoxMode: 'BoundingBoxMode',
+};
 
 /** A visual map that provides multiple projections & spatial selection. */
 export default class SearchMap {
@@ -43,6 +49,13 @@ export default class SearchMap {
 
     //  OpenLayers Layer for the extent drawn by the user.
     extentLayer;
+
+    // The mode we're in: panning & manipulating the map, or drawing a
+    // bounding box.
+    mode;
+    // If we're in bounding box mode, drawInteraction is the
+    // OpenLayers Interaction object that controls it.
+    drawInteraction;
 
     /**
      * Creates a visual Map using the given spatial reference id.
@@ -66,9 +79,11 @@ export default class SearchMap {
                                        currentLayer,
                                        currentView);
 
+        this.mode = Mode.MapMode;
+
         this.addZoomControl();
         this.addMousePositionControl();
-        this.addExtentDrawingInteraction();
+        this.addModeControl();
 
         this.bindEvents();
     }
@@ -95,19 +110,32 @@ export default class SearchMap {
     }
 
     /**
+     *
+     */
+    addModeControl() {
+        this.map.getControls().extend([new ModeControl(this.mediator)]);
+    }
+
+    /**
      *  Add a new Draw interaction to allow the user to draw an extent
      *  for spatial selection.
      */
     addExtentDrawingInteraction() {
-        let draw = new Draw({
+        this.drawInteraction = new Draw({
             type: 'Circle',
-            condition: shiftKeyOnly,
             geometryFunction: _.bind(this.extentGeometry, this),
         });
-        this.map.addInteraction(draw);
+        this.map.addInteraction(this.drawInteraction);
 
-        draw.on('drawstart', _.bind(this.extentDrawStarted, this));
-        draw.on('drawend', _.bind(this.extentDrawEnded, this));
+        this.drawInteraction.on('drawstart', _.bind(this.clearExtentLayer, this));
+        this.drawInteraction.on('drawend', _.bind(this.extentDrawEnded, this));
+    }
+
+    /**
+     * Remove the drawing interaction when we've switched modes.
+     */
+    removeExtentDrawingInteraction() {
+        this.map.removeInteraction(this.drawInteraction);
     }
 
     /**
@@ -118,8 +146,8 @@ export default class SearchMap {
      *  projection.
      *
      *  If the current projection is the global projection, the polygon
-     *  will be the four corner of the extent as derived from th west,
-     *  south, east, and west bounding box.
+     *  will be the four corners of the extent as derived from the west,
+     *  south, east, and north bounding box values.
      *
      *  If the current projection is a polar projection, the polygon
      *  is determined by:
@@ -161,19 +189,25 @@ export default class SearchMap {
         return geometry;
     }
 
-    // TODO
+    /**
+     *
+     */
     globalCoordinatesFromExtent(west, south, east, north) {
         return [[west, south], [east, south], [east, north], [west, north], [west, south]];
     }
 
-    // TODO
+    /**
+     *
+     */
     polarCoordinatesFromExtent(projection, west, south, east, north) {
         let box = multisegmentBoxFromExtent(west, south, east, north);
         let globalToPolar = getTransform('EPSG:4326', projection);
         return _.chunk(globalToPolar(box), 2);
     }
 
-    // TODO
+    /**
+     *
+     */
     globalGeometryFromPolarExtent(fromProjection, flatCoordinates) {
         let polarToGlobal = getTransform(fromProjection, 'EPSG:4326');
         let gc = _.chunk(polarToGlobal(flatCoordinates), 2);
@@ -186,7 +220,9 @@ export default class SearchMap {
         return geometry;
     }
 
-    // TODO
+    /**
+     *
+     */
     polarGeometryFromGlobalExtent(projection, extent) {
         return new Polygon(
             [this.polarCoordinatesFromExtent(projection, extent[0], extent[1], extent[2], extent[3])]
@@ -194,9 +230,9 @@ export default class SearchMap {
     }
 
     /**
-     *  When starting to draw a new extent, clear the old extent.
+     *  Clear the extent layer & remove it from the map if it exists
      */
-    extentDrawStarted() {
+    clearExtentLayer() {
         if (!this.extentLayer) return;  // Guard clause
 
         this.map.removeLayer(this.extentLayer);
@@ -210,13 +246,16 @@ export default class SearchMap {
      */
     extentDrawEnded(event) {
         let geometry = event.feature.getGeometry().clone();
+        console.log(geometry);
         this.extentLayer = new VectorLayer({
             source: new VectorSource({ features: [
                 new Feature({geometry})
             ] }),
         });
 
-        this.map.addLayer(this.extentLayer)
+        this.map.addLayer(this.extentLayer);
+        this.mediator.trigger('map:extentDrawEnded');
+        this.toggleMode();
     }
 
     /**
@@ -228,16 +267,30 @@ export default class SearchMap {
         this.mediator.trigger('map:changeBoundingBox', _.clone(extent));
     }
 
-    // TODO: Docs
-    // TODO
+    /**
+     *
+     */
     bindEvents() {
-        // this.mediatorBind('map:selectionMade', this.toggleModify, this);
-        // this.mediatorBind('map:selectionDone', this.doneDrawingSelectBox, this);
-        // this.mediatorBind('map:changePolarCoords', this.changeLatLonCorner, this);
-        // this.mediatorBind('map:changeGlobalCoords', this.changeLatLonBoundary, this);
-        // this.mediatorBind('map:clearSelection', this.clearSpatialSelection, this);
-        // this.mediatorBind('map:click', this.clickHandler, this);
-        // this.mediatorBind('map:reset', this.resetMap, this);
+        this.mediator.bind('map:changeCoordinates', this.changeExtent, this);
+        this.mediator.bind('map:reset', this.reset, this);
+        this.mediator.bind('map:switchView', this.switchView, this);
+        this.mediator.bind('map:toggleMode', this.toggleMode, this);
+    }
+
+    /**
+     *
+     */
+    changeExtent(north, west, south, east) {
+        console.log('SearchMap.changeLatLonBoundary', north, west, south, east);
+    }
+
+    /**
+     *
+     */
+    reset() {
+        this.clearExtentLayer();
+        let view = this.map.getView();
+        view.setZoom(view.getMinZoom());
     }
 
     /**
@@ -256,7 +309,19 @@ export default class SearchMap {
         resizeMapContainer(this.map, currentLayer.get('width'), currentLayer.get('height'));
     }
 
-    // TODO
+    toggleMode() {
+        if (this.mode == Mode.MapMode) {
+            this.mode = Mode.BoundingBoxMode;
+            this.addExtentDrawingInteraction();
+        } else if (this.mode == Mode.BoundingBoxMode) {
+            this.mode = Mode.MapMode;
+            this.removeExtentDrawingInteraction();
+        }
+    }
+
+    /**
+     *
+     */
     reprojectExtent(fromProjection, toProjection) {
         if (!this.extentLayer) return;
 

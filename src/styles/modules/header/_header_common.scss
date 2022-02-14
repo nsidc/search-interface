@@ -307,7 +307,18 @@
     float: left;
     padding-top: 4px;
   }
+}
 
+#mode-toggle {
+    top: .5em;
+    left: 3em;
+}
+
+.toggle-active {
+    background-color: rgba(0, 255, 255, 1) !important;
+    button {
+        color: rgba(0, 255, 255, 1) !important;
+    }
 }
 
 .geospatialInputFieldsNsew {
