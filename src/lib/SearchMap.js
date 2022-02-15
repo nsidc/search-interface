@@ -6,8 +6,8 @@ import MousePosition from 'ol/control/MousePosition';
 import Polygon from 'ol/geom/Polygon';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { Draw } from 'ol/interaction';
-import { ZoomSlider } from 'ol/control';
+import { Draw, DragPan } from 'ol/interaction';
+import { Control, ZoomSlider } from 'ol/control';
 import { getTransform } from 'ol/proj';
 import { toStringHDMS } from 'ol/coordinate';
 
@@ -53,9 +53,14 @@ export default class SearchMap {
     // The mode we're in: panning & manipulating the map, or drawing a
     // bounding box.
     mode;
+    ModeControl;
+
     // If we're in bounding box mode, drawInteraction is the
     // OpenLayers Interaction object that controls it.
     drawInteraction;
+
+    // Built-in pan interaction
+    panInteraction;
 
     /**
      * Creates a visual Map using the given spatial reference id.
@@ -84,6 +89,15 @@ export default class SearchMap {
         this.addZoomControl();
         this.addMousePositionControl();
         this.addModeControl();
+        this.addExtentDrawingInteraction();
+        let pan;
+
+        this.map.getInteractions().forEach(function (interaction) {
+            if (interaction instanceof DragPan) {
+                pan = interaction;
+            }
+        }, this);
+        this.panInteraction = pan
 
         this.bindEvents();
     }
@@ -94,6 +108,10 @@ export default class SearchMap {
     addZoomControl() {
         let zoomControl = new ZoomSlider();
         this.map.addControl(zoomControl);
+    }
+
+    changeCursor(evt) {
+        document.body.style.cursor = (this.mode == Mode.MapMode) ? 'pointer' : 'crosshair';
     }
 
     /**
@@ -107,13 +125,18 @@ export default class SearchMap {
             placeholder: 'Mouse is not over map',
         });
         this.map.addControl(mousePositionControl);
+        this.map.getViewport().addEventListener('mouseover', _.bind(this.changeCursor, this), false);
+        this.map.getViewport().addEventListener('mouseout', function (evt) {
+            document.body.style.cursor = 'default';
+        }, false);
     }
 
     /**
      *
      */
     addModeControl() {
-        this.map.getControls().extend([new ModeControl(this.mediator)]);
+        this.ModeControl = new ModeControl(this.mediator)
+        this.map.getControls().extend([this.ModeControl]);
     }
 
     /**
@@ -123,19 +146,13 @@ export default class SearchMap {
     addExtentDrawingInteraction() {
         this.drawInteraction = new Draw({
             type: 'Circle',
+            freehand: true,
             geometryFunction: _.bind(this.extentGeometry, this),
         });
         this.map.addInteraction(this.drawInteraction);
 
         this.drawInteraction.on('drawstart', _.bind(this.clearExtentLayer, this));
         this.drawInteraction.on('drawend', _.bind(this.extentDrawEnded, this));
-    }
-
-    /**
-     * Remove the drawing interaction when we've switched modes.
-     */
-    removeExtentDrawingInteraction() {
-        this.map.removeInteraction(this.drawInteraction);
     }
 
     /**
@@ -312,11 +329,14 @@ export default class SearchMap {
     toggleMode() {
         if (this.mode == Mode.MapMode) {
             this.mode = Mode.BoundingBoxMode;
-            this.addExtentDrawingInteraction();
+            this.drawInteraction.setActive(true);
+            this.panInteraction.setActive(false);
         } else if (this.mode == Mode.BoundingBoxMode) {
             this.mode = Mode.MapMode;
-            this.removeExtentDrawingInteraction();
+            this.drawInteraction.setActive(false);
+            this.panInteraction.setActive(true);
         }
+        this.changeCursor();
     }
 
     /**
@@ -342,6 +362,10 @@ export default class SearchMap {
      *  Sets the size of the map to trigger a rendering of this view.
      */
     render() {
+        // This mode will get toggled from "Map" to "BoundingBox"
+        this.mode = Mode.MapMode;
+        this.ModeControl.resetToggle();
+        this.ModeControl.handleModeToggle();
         this.map.updateSize();
     }
 }
