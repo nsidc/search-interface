@@ -1,4 +1,4 @@
-[![NSIDC](https://circleci.com/gh/nsidc/search-interface.svg?style=shield&circle-token=7bed4ba6e1b72640be27b0b80a4a5b3d4622695c)](https://circleci.com/gh/nsidc/search-interface)
+[![CircleCI](https://circleci.com/gh/nsidc/search-interface.svg?style=shield&circle-token=7bed4ba6e1b72640be27b0b80a4a5b3d4622695c)](https://circleci.com/gh/nsidc/search-interface)
 
 # NSIDC Search Portal
 
