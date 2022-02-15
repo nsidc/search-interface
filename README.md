@@ -1,14 +1,12 @@
-[![Build Status](https://travis-ci.org/nsidc/search-interface.svg)](https://travis-ci.org/nsidc/search-interface)
-
-[![NSIDC](https://circleci.com/gh/nsidc/search-interface.svg?style=svg)](https://circleci.com/gh/nsidc/search-interface)
+[![NSIDC](https://circleci.com/gh/nsidc/search-interface.svg?style=shield&circle-token=7bed4ba6e1b72640be27b0b80a4a5b3d4622695c)](https://circleci.com/gh/nsidc/search-interface)
 
 # NSIDC Search Portal
 
 An Opensearch-based single page search interface.
 
-## TODO:
+## ES2015 (ES6) transition:
 
-Branch `srch-28` represents work in progress to switch from `RequireJS` to
+Branch `v4.0.0-rc` represents work in progress to switch from `RequireJS` to
 ES6-style code structure, including the use of `npm` and `webpack` to manage
 dependencies and build a deployable artifact (i.e. bundle). See
 [`DEVELOPMENT.md`](DEVELOPMENT.md) for additional details regarding the work
