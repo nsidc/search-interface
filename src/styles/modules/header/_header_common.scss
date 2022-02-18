@@ -312,7 +312,7 @@
 
 #mode-toggle {
     top: .5em;
-    left: 3em;
+    left: .5em;
 }
 
 .toggle-active {
@@ -484,8 +484,14 @@ div {
  * The zoomslider in the second map shall be placed between the zoom-in and
  * zoom-out buttons.
  */
+#map-container .ol-zoom {
+  position:absolute;
+  top: 40px;
+  left: .5em;
+}
+
 #map-container .ol-zoom .ol-zoom-out {
-  margin-top: 200px;
+  margin-top: 205px;
 }
 
 #map-container .ol-zoomslider {
@@ -496,7 +502,8 @@ div {
   Zoom in button margin top: 1px
   Zoom in button height: font size 1.14em * 1.375 height
   */
-  top: calc(0.5em + 2px + 1px + 1.14 * 1.375em);
+  top: calc(40px + 2px + 1px + 1.14 * 1.375em);
+  left: .5em;
 }
 
 #map-container .ol-touch .ol-zoom .ol-zoom-out {

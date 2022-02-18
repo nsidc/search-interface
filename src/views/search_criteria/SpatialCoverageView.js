@@ -40,8 +40,10 @@ class SpatialCoverageView extends Backbone.View {
     }
 
     toggleCompassView() {
-        this.spatialCoverageCompassView.toggleVisibility();
-        $('spatial-options').focus();
+        if (this.spatialCoverageCompassView) {
+            this.spatialCoverageCompassView.toggleVisibility();
+            $('spatial-options').focus();
+        }
     }
 }
 
