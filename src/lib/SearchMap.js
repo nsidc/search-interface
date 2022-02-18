@@ -7,7 +7,7 @@ import Polygon from 'ol/geom/Polygon';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Draw, DragPan } from 'ol/interaction';
-import { Control, ZoomSlider } from 'ol/control';
+import { ZoomSlider } from 'ol/control';
 import { getTransform } from 'ol/proj';
 import { toStringHDMS } from 'ol/coordinate';
 
@@ -59,7 +59,7 @@ export default class SearchMap {
     //drawInteraction;
 
     // Built-in pan interaction
-    panInteraction;
+    // panInteraction;
 
     /**
      * Creates a visual Map using the given spatial reference id.
@@ -109,6 +109,7 @@ export default class SearchMap {
         this.map.addControl(zoomControl);
     }
 
+    // eslint-disable-next-line no-unused-vars
     changeCursor(evt) {
         document.body.style.cursor = (this.mode == Mode.MapMode) ? 'pointer' : 'crosshair';
     }
@@ -125,6 +126,7 @@ export default class SearchMap {
         });
         this.map.addControl(mousePositionControl);
         this.map.getViewport().addEventListener('mouseover', _.bind(this.changeCursor, this), false);
+        // eslint-disable-next-line no-unused-vars
         this.map.getViewport().addEventListener('mouseout', function (evt) {
             document.body.style.cursor = 'default';
         }, false);
@@ -328,14 +330,9 @@ export default class SearchMap {
     toggleMode() {
         if (this.mode === Mode.MapMode) {
             this.mode = Mode.BoundingBoxMode;
-<<<<<<< HEAD
-            this.addExtentDrawingInteraction();
-        } else if (this.mode === Mode.BoundingBoxMode) {
-=======
             this.drawInteraction.setActive(true);
             this.panInteraction.setActive(false);
         } else if (this.mode == Mode.BoundingBoxMode) {
->>>>>>> v4.0.0-rc
             this.mode = Mode.MapMode;
             this.drawInteraction.setActive(false);
             this.panInteraction.setActive(true);
