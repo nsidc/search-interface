@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import Backbone from 'backbone';
 
 export default class Mediator {

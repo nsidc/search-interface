@@ -98,13 +98,13 @@ class SpatialCoverageCompassView extends Backbone.View {
 
     render() {
         this.$el.html(_.template(viewTemplate)({
-          northValue: this.model.getNorth(),
-          southValue: this.model.getSouth(),
-          eastValue: this.model.getEast(),
-          westValue: this.model.getWest(),
-          northView: this.options.config.projections.northView,
-          southView: this.options.config.projections.southView,
-          globalView: this.options.config.projections.globalView
+            northValue: this.model.getNorth(),
+            southValue: this.model.getSouth(),
+            eastValue: this.model.getEast(),
+            westValue: this.model.getWest(),
+            northView: this.options.config.projections.northView,
+            southView: this.options.config.projections.southView,
+            globalView: this.options.config.projections.globalView
         }));
 
         this.selectDefaultMapView();

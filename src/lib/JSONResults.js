@@ -18,95 +18,95 @@
 *    - keyword : the keyword(s) used to create this result set
 */
 export default class JSONResults {
-  constructor(init) {
-    this.results = init?.results,
-    this.totalCount = init?.totalCount,
-    this.firstPageLink = init?.firstPageLink,
-    this.previousPageLink = init?.previousPageLink,
-    this.nextPageLink = init?.nextPageLink,
-    this.lastPageLink = init?.lastPageLink,
-    this.currentIndex = init?.currentIndex,
-    this.itemsPerPage = init?.itemsPerPage,
-    this.keyword = init?.keyword,
-    this.authorTerms = init?.authorTerms,
-    this.parameterTerms = init?.parameterTerms,
-    this.sensorTerms = init?.sensorTerms,
-    this.titleTerms = init?.titleTerms,
-    this.startDate = init?.startDate,
-    this.endDate = init?.endDate,
-    this.sortKeys = init?.sortKeys,
-    this.geoBoundingBox = init?.geoBoundingBox,
-    this.facetFilters = init?.facetFilters;
-  }
+    constructor(init) {
+        this.results = init?.results,
+        this.totalCount = init?.totalCount,
+        this.firstPageLink = init?.firstPageLink,
+        this.previousPageLink = init?.previousPageLink,
+        this.nextPageLink = init?.nextPageLink,
+        this.lastPageLink = init?.lastPageLink,
+        this.currentIndex = init?.currentIndex,
+        this.itemsPerPage = init?.itemsPerPage,
+        this.keyword = init?.keyword,
+        this.authorTerms = init?.authorTerms,
+        this.parameterTerms = init?.parameterTerms,
+        this.sensorTerms = init?.sensorTerms,
+        this.titleTerms = init?.titleTerms,
+        this.startDate = init?.startDate,
+        this.endDate = init?.endDate,
+        this.sortKeys = init?.sortKeys,
+        this.geoBoundingBox = init?.geoBoundingBox,
+        this.facetFilters = init?.facetFilters;
+    }
 
-  getResults() {
-    return this.results;
-  };
+    getResults() {
+        return this.results;
+    }
 
-  getGeoBoundingBox() {
-    return this.geoBoundingBox;
-  };
+    getGeoBoundingBox() {
+        return this.geoBoundingBox;
+    }
 
-  getTotalCount() {
-    return this.totalCount;
-  };
+    getTotalCount() {
+        return this.totalCount;
+    }
 
-  getCurrentIndex() {
-    return this.currentIndex;
-  };
+    getCurrentIndex() {
+        return this.currentIndex;
+    }
 
-  getItemsPerPage() {
-    return this.itemsPerPage;
-  };
+    getItemsPerPage() {
+        return this.itemsPerPage;
+    }
 
-  getFirstPageLink() {
-    return this.firstPageLink;
-  };
+    getFirstPageLink() {
+        return this.firstPageLink;
+    }
 
-  getPreviousPageLink() {
-    return this.previousPageLink;
-  };
+    getPreviousPageLink() {
+        return this.previousPageLink;
+    }
 
-  getNextPageLink() {
-    return this.nextPageLink;
-  };
-  getLastPageLink() {
-    return this.lastPageLink;
-  };
+    getNextPageLink() {
+        return this.nextPageLink;
+    }
+    getLastPageLink() {
+        return this.lastPageLink;
+    }
 
-  getKeyword() {
-    return this.keyword;
-  };
+    getKeyword() {
+        return this.keyword;
+    }
 
-  getAuthorTerms() {
-    return this.authorTerms;
-  };
+    getAuthorTerms() {
+        return this.authorTerms;
+    }
 
-  getParameterTerms() {
-    return this.parameterTerms;
-  };
+    getParameterTerms() {
+        return this.parameterTerms;
+    }
 
-  getSensorTerms() {
-    return this.sensorTerms;
-  };
+    getSensorTerms() {
+        return this.sensorTerms;
+    }
 
-  getTitleTerms() {
-    return this.titleTerms;
-  };
+    getTitleTerms() {
+        return this.titleTerms;
+    }
 
-  getStartDate() {
-    return this.startDate;
-  };
+    getStartDate() {
+        return this.startDate;
+    }
 
-  getEndDate() {
-    return this.endDate;
-  };
+    getEndDate() {
+        return this.endDate;
+    }
 
-  getSortKeys() {
-    return this.sortKeys;
-  };
+    getSortKeys() {
+        return this.sortKeys;
+    }
 
-  getFacetFilters() {
-    return this.facetFilters;
-  };
-};
+    getFacetFilters() {
+        return this.facetFilters;
+    }
+}

@@ -31,7 +31,7 @@ class HeaderView extends Backbone.View {
     }
 
     onClickLogo() {
-      this.mediator.trigger('app:home');
+        this.mediator.trigger('app:home');
     }
 
 }

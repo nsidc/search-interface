@@ -1,5 +1,7 @@
 # Contents
 
+* [ES2015 Transition](#es2015-transition)
+* [Dependencies and Prerequisites](#dependencies-and-prerequisites)
 * [Git Workflow](#git-workflow)
 * [Installation](#installation)
 * [Configuration](#configuration)
@@ -15,6 +17,31 @@
 * [Other Gotchas](#other-gotchas)
 * [Future Development](#future-development)
 
+# ES2015 transition:
+
+Branch `v4.0.0-rc` represents the migration in progress from `Bower`,
+`Grunt` and `requirejs` to a structure following the ES2015 language
+specification, using `npm` to manage dependencies and `webpack` to build
+and bundle the application. The migration strategy was based on the "Treat
+everything like a method" option described by
+[Ben McCormick](https://benmccormick.org/2015/07/06/backbone-and-es6-classes-revisited).
+
+## Dependencies and prerequisites
+
+* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/))
+* An OpenSearch endpoint capable of receiving search queries and returning
+  search results and related facets.
+
+[Dataset Search Services](https://github.com/nsidc/dataset-search-services/)
+provides the OpenSearch endpoint in the NSIDC environment. See the DSS
+project to learn more about its dependencies, including Solr and Search Solr Tools.
+A local DSS, DSS running in a pre-production environment (e.g., `integration`,
+`qa`, or `staging`), or the production version of DSS may be used as the
+OpenSearch endpoint when running a local instance. 
+The OpenSearch endpoint is configured in `src/config/appConfig.js`.
+**Caveat:** The pre-production DSS instances aren't created with valid
+SSL certificates, so attempts to use those endpoints currently fail.
+
 # Git Workflow
 
 Development on this project uses
@@ -22,29 +49,31 @@ Development on this project uses
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 2. Stage your changes (`git add`)
-3. Commit your ESLint-compliant and test-passing changes (just run `npm run lint` and `npm test`) with a
+3. Commit your ESLint-compliant (`npm run lint`) and test-passing changes
+   (`npm test`) with a
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
-4. Push to the branch (`git push -u origin my-new-feature`)
-5. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
+6. Push to the branch (`git push -u origin my-new-feature`)
+7. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
 
 # Installation
 
 Quick start to run a local instance:
 
-1. Install node.js. (See: http://nodejs.org/, alternatively: [NVM](https://github.com/nvm-sh/nvm))
+1. Install [node.js](http://nodejs.org/) (Check out [NVM](https://github.com/nvm-sh/nvm)
+   if you need to move between versions of node for different projects.)
 
-2. Install node modules:
+3. Install node modules:
 
         npm install
 
-3. Start a local dev server at `http://localhost:8080`:
+4. Start a local dev server at `http://localhost:8080`:
 
         npm start
 
 By default, the local server will set the environment to `development`, and will
-use the production OpenSearch endpoints. See configuration in
-`src/config/appConfig.js`.
+use the production OpenSearch endpoints. See the OpenSearch endpoint configuration
+in `src/config/appConfig.js`.
 
 ## Additional installation steps for acceptance test environment
 
@@ -68,27 +97,19 @@ Then install the ruby gems: `bundle install`
 
         npm run clean
 
+### On dev VM
+
+Run a standalone version of the application by building a VM using the `soac-webapp-vm` configuration.
+The application is served by `nginx` running as a service on the VM.
+`nginx` can be stopped/started/etc using the system `service` command, e.g., `service nginx restart`.
+
+`nginx` writes logfiles by default to `/var/log/nginx`; all logs should be in
+this folder.
+
 ## Service Configuration **OBE?**
 
 Host and endpoints for development, integration and production are configured in
 `src/config/appConfig.js`.
-
-The external services used by the search portal are defined in
-`local_webserver_config.yaml`. `search_proxies` are the default choice, and
-contain endpoints for the services running on `localhost`. `integration_proxies`
-and `qa_proxies` are also defined.
-
-To run against services on integration:
-
-```bash
-./run_local_webserver.rb 8081 integration_proxies
-```
-
-To run against services on qa:
-
-```bash
-./run_local_webserver.rb 8081 qa_proxies
-```
 
 # Running on a VM
 
@@ -232,6 +253,12 @@ version tag to the origin repo.
 At this point the CircleCI job which creates the npm package and publishes it
 to npmjs.com will be triggered. Upon successful completion, the new package
 version will be available to install.
+
+### OPS Configuration Information
+
+Upon completion of `v4.0.0-rc` and related stories, the portal will be deployed
+by loading a bundle created by Webpack into a Drupal context (i.e. including the
+bundle in an HTML document managed by Drupal).
 
 # NSIDC Continuous Integration
 

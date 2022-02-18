@@ -40,11 +40,11 @@ class SpatialCoverageTextView extends Backbone.View {
         // Otherwise, leave the text alone.
         // TODO: Keep in sync with results collection rather than passing in text to render
         if (this.model.isSetToDefaults() && (this.model.asIdentifier() === text || text === undefined)) {
-          text = '';
+            text = '';
         }
 
         if (text === undefined) {
-          text = this.model.asIdentifier();
+            text = this.model.asIdentifier();
         }
 
         this.$el.html(_.template(viewTemplate)({ identifierView: text, presetText: presetText}));

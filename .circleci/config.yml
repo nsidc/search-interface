@@ -20,7 +20,7 @@ jobs:
           command: npx check-audit
       - run:
           name: Lint
-          command: npx eslint -o reports/lint/lint.xml -f junit "./src/collections"
+          command: npx eslint -o reports/lint/lint.xml -f junit "./src/"
       - run:
           name: Test
           command: npx jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
@@ -50,7 +50,7 @@ jobs:
           at: ~/search-interface
       - run:
           name: Build package
-          command: npm run build:prod
+          command: npm run build
       - run:
           name: Publish to npmjs.org
           command: |

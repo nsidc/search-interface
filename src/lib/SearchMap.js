@@ -35,27 +35,27 @@ const Mode = {
 /** A visual map that provides multiple projections & spatial selection. */
 export default class SearchMap {
     // Mediator instance to send and receive application-events.
-    mediator;
+    //mediator;
 
     // Object whose keys map each base layer title to a corresponding
     // OpenLayers View object.
-    viewMap;
+    //viewMap;
 
     // OpenLayers LayerGroup containing an Layer for each base layer.
-    baseLayerMap;
+    //baseLayerMap;
 
     // OpenLayers Map object that displays the current layer & view.
-    map;
+    //map;
 
     //  OpenLayers Layer for the extent drawn by the user.
-    extentLayer;
+    //extentLayer;
 
     // The mode we're in: panning & manipulating the map, or drawing a
     // bounding box.
-    mode;
+    //mode;
     // If we're in bounding box mode, drawInteraction is the
     // OpenLayers Interaction object that controls it.
-    drawInteraction;
+    //drawInteraction;
 
     /**
      * Creates a visual Map using the given spatial reference id.
@@ -75,9 +75,9 @@ export default class SearchMap {
         setVisibility(this.baseLayerMap, DEFAULT_LAYER_TITLE);
 
         this.map = createOpenLayersMap(options.mapContainerId,
-                                       _.values(this.baseLayerMap),
-                                       currentLayer,
-                                       currentView);
+            _.values(this.baseLayerMap),
+            currentLayer,
+            currentView);
 
         this.mode = Mode.MapMode;
 
@@ -172,7 +172,7 @@ export default class SearchMap {
             coordinatesFn =_.bind(this.globalCoordinatesFromExtent, this);
         } else {
             coordinatesFn = _.bind(this.polarCoordinatesFromExtent, this, projection.getCode());
-        };
+        }
 
         // Using the two points provided in the arguments, find the
         // lon/lat boundaries defined by the points.
@@ -310,10 +310,10 @@ export default class SearchMap {
     }
 
     toggleMode() {
-        if (this.mode == Mode.MapMode) {
+        if (this.mode === Mode.MapMode) {
             this.mode = Mode.BoundingBoxMode;
             this.addExtentDrawingInteraction();
-        } else if (this.mode == Mode.BoundingBoxMode) {
+        } else if (this.mode === Mode.BoundingBoxMode) {
             this.mode = Mode.MapMode;
             this.removeExtentDrawingInteraction();
         }

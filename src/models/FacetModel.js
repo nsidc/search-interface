@@ -14,8 +14,8 @@ class FacetModel extends Backbone.Model {
     }
 
     bindEvents() {
-      this.mediator?.on('model:toggleFacet', this.toggleSelectedFacet, this);
-      this.mediator?.on('model:clearSelectedFacet', this.clearFacetSelected, this);
+        this.mediator?.on('model:toggleFacet', this.toggleSelectedFacet, this);
+        this.mediator?.on('model:clearSelectedFacet', this.clearFacetSelected, this);
     }
 
     clearFacetSelected(facet) {

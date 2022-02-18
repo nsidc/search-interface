@@ -17,7 +17,7 @@ class SearchParamsModel extends Backbone.Model {
     // Returns an integer greater than zero
     sanitizePageNumber(input) {
         input = UtilityFunctions.toNumber(input, 'int',
-                           'Requested page number must be a number');
+            'Requested page number must be a number');
 
         if(input < 1) {
             throw new Error('Requested page number must be greater than 0');
@@ -171,92 +171,92 @@ class SearchParamsModel extends Backbone.Model {
     }
 
     setSortKeys(sortKeys, backboneOptions) {
-      this.set('sortKeys', sortKeys, backboneOptions);
+        this.set('sortKeys', sortKeys, backboneOptions);
     }
 
     // this model's geoBoundingBox is a string formatted for opensearch: $W,$S,$E,$N
     setGeoBoundingBox(geoBoundingBox, backboneOptions) {
-      if(geoBoundingBox === '' || geoBoundingBox === undefined) {
-        geoBoundingBox = this.openSearchOptions.osGeoBbox;
-      }
+        if(geoBoundingBox === '' || geoBoundingBox === undefined) {
+            geoBoundingBox = this.openSearchOptions.osGeoBbox;
+        }
 
-      this.set('geoBoundingBox', geoBoundingBox, backboneOptions);
+        this.set('geoBoundingBox', geoBoundingBox, backboneOptions);
     }
 
     // set the model's box using the 'identifier' string form: N:$N,S:$S,E:$E,W:$W
     setOsGeoBbox(geoBBAsURLPart, backboneOptions) {
-      const bbox = UtilityFunctions.osGeoBoxFromIdentifier(geoBBAsURLPart);
-      this.setGeoBoundingBox(bbox, backboneOptions);
+        const bbox = UtilityFunctions.osGeoBoxFromIdentifier(geoBBAsURLPart);
+        this.setGeoBoundingBox(bbox, backboneOptions);
     }
 
     setCriteria(criteria) {
 
-      // reset any data the model may have
-      this.resetCriteria();
+        // reset any data the model may have
+        this.resetCriteria();
 
-      _.each(criteria, function (value, propertyName) {
-        let mutatorFn = this[this.getMutatorName(propertyName)];
+        _.each(criteria, function (value, propertyName) {
+            let mutatorFn = this[this.getMutatorName(propertyName)];
 
-        if(mutatorFn !== undefined && typeof mutatorFn === 'function') {
-          mutatorFn.call(this, value);
-        }
-        else {
-          throw new Error('The parameter ' + propertyName + ' is not known.');
-        }
-      }, this);
+            if(mutatorFn !== undefined && typeof mutatorFn === 'function') {
+                mutatorFn.call(this, value);
+            }
+            else {
+                throw new Error('The parameter ' + propertyName + ' is not known.');
+            }
+        }, this);
 
-      return this;
+        return this;
     }
 
     removeSearchTerm(term) {
-      let searchTermFields = ['keyword', 'author', 'parameter', 'sensor', 'title'];
+        let searchTermFields = ['keyword', 'author', 'parameter', 'sensor', 'title'];
 
-      _.each(searchTermFields, function (field) {
-        let terms = this.get(field);
+        _.each(searchTermFields, function (field) {
+            let terms = this.get(field);
 
-        terms = typeof terms === 'string' ? [terms] : terms;
+            terms = typeof terms === 'string' ? [terms] : terms;
 
-        if(terms) {
-          terms.splice(_.indexOf(terms, term), 1);
+            if(terms) {
+                terms.splice(_.indexOf(terms, term), 1);
 
-          this.unset(field);
-          this.set(field, terms);
-        }
+                this.unset(field);
+                this.set(field, terms);
+            }
 
-      }, this);
+        }, this);
     }
 
     resetKeywords() {
-      this.set('keyword', this.openSearchOptions.osSearchTerms);
+        this.set('keyword', this.openSearchOptions.osSearchTerms);
     }
 
     resetAuthors() {
-      this.set('author', this.openSearchOptions.osAuthor);
+        this.set('author', this.openSearchOptions.osAuthor);
     }
 
     resetParameters() {
-      this.set('parameter', this.openSearchOptions.osParameter);
+        this.set('parameter', this.openSearchOptions.osParameter);
     }
 
     resetSensors() {
-      this.set('sensor', this.openSearchOptions.osSensor);
+        this.set('sensor', this.openSearchOptions.osSensor);
     }
 
     resetTitles() {
-      this.set('title', this.openSearchOptions.osTitle);
+        this.set('title', this.openSearchOptions.osTitle);
     }
 
     resetFacetFilters() {
-      this.set('facetFilters', this.openSearchOptions.osFacetFilters);
+        this.set('facetFilters', this.openSearchOptions.osFacetFilters);
     }
 
     resetSpatialCoverage() {
-      this.set('geoBoundingBox', this.openSearchOptions.osGeoBbox);
+        this.set('geoBoundingBox', this.openSearchOptions.osGeoBbox);
     }
 
     resetTemporalCoverage() {
-      this.set('startDate', this.openSearchOptions.osDtStart);
-      this.set('endDate', this.openSearchOptions.osDtEnd);
+        this.set('startDate', this.openSearchOptions.osDtStart);
+        this.set('endDate', this.openSearchOptions.osDtEnd);
     }
 
     resetSortKeys() {

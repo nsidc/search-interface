@@ -26,36 +26,36 @@ import * as mapConstants from './spatial_selection_map/constants';
 //  mapContainerId or mapContainerEl
 // srid = the initial projection to show
 var OpenLayerMap = function (options, srid) {
-  var mapContainer = $(options.mapContainerEl || ('#' + options.mapContainerId)),
-      mapDiv;
+    var mapContainer = $(options.mapContainerEl || ('#' + options.mapContainerId)),
+        mapDiv;
 
-  this.options = options;
-  this.srid = srid;
-  this.defaultSrid = srid;
+    this.options = options;
+    this.srid = srid;
+    this.defaultSrid = srid;
 
-  this.north = this.south = this.east = this.west = null;
-  this.polygonString = null;
-  this.layers = {};
-  this.controls = {};
+    this.north = this.south = this.east = this.west = null;
+    this.polygonString = null;
+    this.layers = {};
+    this.controls = {};
 
-  this.mapContainerId = mapContainer.attr('id');
-  this.mapDivId = mapContainer.attr('id') + '_mapDiv';
+    this.mapContainerId = mapContainer.attr('id');
+    this.mapDivId = mapContainer.attr('id') + '_mapDiv';
 
-  // build the DOM
-  mapDiv = $('<div>').attr('id', this.mapDivId);
-  mapContainer.append(mapDiv);
+    // build the DOM
+    mapDiv = $('<div>').attr('id', this.mapDivId);
+    mapContainer.append(mapDiv);
 
-  // Create the OpenLayers map with a WMS layer and zoom bar control
-  this.createOrUpdateOpenLayersMap(this.srid);
+    // Create the OpenLayers map with a WMS layer and zoom bar control
+    this.createOrUpdateOpenLayersMap(this.srid);
 
-  // TODO
-  // this.addMapClickControl();
-  // this.addSpatialSelectionLayer();
-  // this.addTransformControl();
-  // this.addToolbar();
-  // this.addMousePositionControl();
+    // TODO
+    // this.addMapClickControl();
+    // this.addSpatialSelectionLayer();
+    // this.addTransformControl();
+    // this.addToolbar();
+    // this.addMousePositionControl();
 
-  // this.bindEvents();
+    // this.bindEvents();
 };
 
 // Make OpenLayers render a new map to the div according to the
@@ -64,7 +64,7 @@ var OpenLayerMap = function (options, srid) {
 // the 'reset map' button action.
 // newSrid = srid to switch to
 OpenLayerMap.prototype.createOrUpdateOpenLayersMap = function (newSrid) {
-  if (this.map !== undefined) {
+    if (this.map !== undefined) {
     // Clear the spatial input boxes (Lat/Lon bounds or Corner Points), any drawn boxes
     // and the search polygon value stored in a hidden field on the page.
     // TODO
@@ -72,95 +72,95 @@ OpenLayerMap.prototype.createOrUpdateOpenLayersMap = function (newSrid) {
     // this.controls.selectBoxControl.activate();
     // this.controls.navigationControl.deactivate();
 
-    // if no change to the srid, don't need to do anything except clear
-    // any selections (already done in the previous step).
-    if (this.srid === newSrid) {
-      return;
+        // if no change to the srid, don't need to do anything except clear
+        // any selections (already done in the previous step).
+        if (this.srid === newSrid) {
+            return;
+        }
     }
-  }
 
-  // Save the new srid
-  this.srid = newSrid;
+    // Save the new srid
+    this.srid = newSrid;
 
-  let mapWidth = (this.options.scaleMultiplier ?
-              this.options.scaleMultiplier * mapConstants.MAP_SETTINGS[newSrid].width :
-              mapConstants.MAP_SETTINGS[newSrid].width);
-  let mapHeight = (this.options.scaleMultiplier ?
-                this.options.scaleMultiplier * mapConstants.MAP_SETTINGS[newSrid].height :
-                mapConstants.MAP_SETTINGS[newSrid].height);
-  // let mapMaxResolution = (mapConstants.MAP_SETTINGS[newSrid].resolutionBase / mapWidth).toFixed(4);
+    let mapWidth = (this.options.scaleMultiplier ?
+        this.options.scaleMultiplier * mapConstants.MAP_SETTINGS[newSrid].width :
+        mapConstants.MAP_SETTINGS[newSrid].width);
+    let mapHeight = (this.options.scaleMultiplier ?
+        this.options.scaleMultiplier * mapConstants.MAP_SETTINGS[newSrid].height :
+        mapConstants.MAP_SETTINGS[newSrid].height);
+    // let mapMaxResolution = (mapConstants.MAP_SETTINGS[newSrid].resolutionBase / mapWidth).toFixed(4);
 
-  // update the OpenLayers map options
-  this.layers.mapWmsLayer = blueMarbleLayer();
-  let mapOptions = {
-    layers: [ this.layers.mapWmsLayer ],
-    target: this.mapDivId,
-    // restrictedExtent: mapConstants.MAP_SETTINGS[newSrid].extent,
-    // projection: mapConstants.SRID_PROJECTION[newSrid],
-    // maxExtent: mapConstants.MAP_SETTINGS[newSrid].extent,
-    // maxResolution: mapMaxResolution,
-    // tileSize: toSize([mapWidth, mapHeight]),
-    // size: toSize([mapWidth, mapHeight]),
-    // numZoomLevels: mapConstants.MAP_SETTINGS[newSrid].numZoomLevels,
-    // controls: [], // Disable default controls
-    view: new View({
-      center: [0, 0],
-      extent: [-180.0, -90.0, 180.0, 90.0],
-      projection: 'EPSG:4326',
-      zoom: 1,
-    })};
+    // update the OpenLayers map options
+    this.layers.mapWmsLayer = blueMarbleLayer();
+    let mapOptions = {
+        layers: [ this.layers.mapWmsLayer ],
+        target: this.mapDivId,
+        // restrictedExtent: mapConstants.MAP_SETTINGS[newSrid].extent,
+        // projection: mapConstants.SRID_PROJECTION[newSrid],
+        // maxExtent: mapConstants.MAP_SETTINGS[newSrid].extent,
+        // maxResolution: mapMaxResolution,
+        // tileSize: toSize([mapWidth, mapHeight]),
+        // size: toSize([mapWidth, mapHeight]),
+        // numZoomLevels: mapConstants.MAP_SETTINGS[newSrid].numZoomLevels,
+        // controls: [], // Disable default controls
+        view: new View({
+            center: [0, 0],
+            extent: [-180.0, -90.0, 180.0, 90.0],
+            projection: 'EPSG:4326',
+            zoom: 1,
+        })};
 
-  if (this.map === undefined) {
+    if (this.map === undefined) {
     // create the OpenLayers map and save it in this object
-    this.map = new Map(mapOptions);
-  } else {
-    this.map.setOptions(mapOptions);
-  }
+        this.map = new Map(mapOptions);
+    } else {
+        this.map.setOptions(mapOptions);
+    }
 
-  this.resizeMapContainer(this.srid, mapWidth, mapHeight);
+    this.resizeMapContainer(this.srid, mapWidth, mapHeight);
 
-  // this.addWmsLayerForMapProjection(newSrid);
+    // this.addWmsLayerForMapProjection(newSrid);
 
-  // TODO
-  // this.addZoomBarForMap();
+    // TODO
+    // this.addZoomBarForMap();
 
-  // TODO
-  // this.addPolarWarningIconToMap();
+    // TODO
+    // this.addPolarWarningIconToMap();
 
-  // TODO
-  //If we are in modify mode switch to selection mode to prevent
-  //problems with projection changes in modify mode.
-  // if (this.controls.transformControl !== undefined && this.controls.transformControl.active) {
-  //   this.toggleModify();
-  // }
+    // TODO
+    //If we are in modify mode switch to selection mode to prevent
+    //problems with projection changes in modify mode.
+    // if (this.controls.transformControl !== undefined && this.controls.transformControl.active) {
+    //   this.toggleModify();
+    // }
 
-  // refreshMap calls OpenLayers updateSize
-  this.refreshMap();
-  this.map.render();
-  // TODO
-  // this.map.zoomToMaxExtent();
-  if (this.srid !== mapConstants.PROJECTION_NAMES.GLOBAL) {
-    this.map.zoomIn();
-  }
+    // refreshMap calls OpenLayers updateSize
+    this.refreshMap();
+    this.map.render();
+    // TODO
+    // this.map.zoomToMaxExtent();
+    if (this.srid !== mapConstants.PROJECTION_NAMES.GLOBAL) {
+        this.map.zoomIn();
+    }
 };
 
 // update the style to support the layout of the new map
 OpenLayerMap.prototype.resizeMapContainer = function (srid, mapWidth, mapHeight) {
-  $('#' + this.mapContainerId).css({
-    'margin-top': mapConstants.MAP_SETTINGS[srid].marginTop,
-    'margin-left': mapConstants.MAP_SETTINGS[srid].marginLeft,
-    'margin-bottom': mapConstants.MAP_SETTINGS[srid].marginBottom
-  });
+    $('#' + this.mapContainerId).css({
+        'margin-top': mapConstants.MAP_SETTINGS[srid].marginTop,
+        'margin-left': mapConstants.MAP_SETTINGS[srid].marginLeft,
+        'margin-bottom': mapConstants.MAP_SETTINGS[srid].marginBottom
+    });
 
-  $('#' + this.mapDivId).css({
-    'width': mapWidth,
-    'height': mapHeight
-  });
+    $('#' + this.mapDivId).css({
+        'width': mapWidth,
+        'height': mapHeight
+    });
 
-  // TODO: [SR 6/7/13] Does this actually need to happen?
-  this.mediatorTrigger('map:changeSize', {
-    'min-height': mapConstants.MAP_SETTINGS[srid].minHeight
-  });
+    // TODO: [SR 6/7/13] Does this actually need to happen?
+    this.mediatorTrigger('map:changeSize', {
+        'min-height': mapConstants.MAP_SETTINGS[srid].minHeight
+    });
 };
 
 // TODO
@@ -175,81 +175,81 @@ OpenLayerMap.prototype.resizeMapContainer = function (srid, mapWidth, mapHeight)
 // };
 
 function blueMarbleLayer() {
-  return new Image({
-    extent: [-180.0, -90.0, 180.0, 90.0],
-    source: new ImageWMS({
-      url: 'https://nsidc.org/api/ogc/nsidc_ogc_global',
-      params: { 'LAYERS': 'blue_marble_07' },
-      ratio: 1,
-      serverType: 'geoserver',
-    })
-  });
+    return new Image({
+        extent: [-180.0, -90.0, 180.0, 90.0],
+        source: new ImageWMS({
+            url: 'https://nsidc.org/api/ogc/nsidc_ogc_global',
+            params: { 'LAYERS': 'blue_marble_07' },
+            ratio: 1,
+            serverType: 'geoserver',
+        })
+    });
 }
 
 OpenLayerMap.prototype.addWmsLayerForMapProjection = function (srid) {
-  srid; // TODO: Remove!
-  // Remove old wms layer and zoom control that need to be recreated.
-  if (this.layers.mapWmsLayer !== undefined) {
+    srid; // TODO: Remove!
+    // Remove old wms layer and zoom control that need to be recreated.
+    if (this.layers.mapWmsLayer !== undefined) {
     // remove the old layer
-    this.map.removeLayer(this.layers.mapWmsLayer, false);
-  }
+        this.map.removeLayer(this.layers.mapWmsLayer, false);
+    }
 
-  // let wrap;
-  // if (srid === '4326') {
-  //   wrap = true;
-  // } else {
-  //   wrap = false;
-  // }
+    // let wrap;
+    // if (srid === '4326') {
+    //   wrap = true;
+    // } else {
+    //   wrap = false;
+    // }
 
-  // this.layers.mapWmsLayer = new SpatialWmsLayer(
-  //   mapConstants.WMS_LAYER_NAME,
-  //   mapConstants.MAP_SERVER + mapConstants.MAP_SETTINGS[srid].mapConfig,
-  //   {
-  //     layers: mapConstants.MAP_SETTINGS[srid].layer
-  //   },
-  //   {
-  //     wrapDateLine: wrap
-  //   }
-  // );
+    // this.layers.mapWmsLayer = new SpatialWmsLayer(
+    //   mapConstants.WMS_LAYER_NAME,
+    //   mapConstants.MAP_SERVER + mapConstants.MAP_SETTINGS[srid].mapConfig,
+    //   {
+    //     layers: mapConstants.MAP_SETTINGS[srid].layer
+    //   },
+    //   {
+    //     wrapDateLine: wrap
+    //   }
+    // );
 
-  this.layers.mapWmsLayer = new Image({
-    extent: [-180.0, -90.0, 180.0, 90.0],
-    source: new ImageWMS({
-      url: 'https://nsidc.org/api/ogc/nsidc_ogc_global',
-      params: { 'LAYERS': 'blue_marble_07' },
-      ratio: 1,
-      // projection: 'EPSG:4326',
-      serverType: 'geoserver',
-    })
-  });
+    this.layers.mapWmsLayer = new Image({
+        extent: [-180.0, -90.0, 180.0, 90.0],
+        source: new ImageWMS({
+            url: 'https://nsidc.org/api/ogc/nsidc_ogc_global',
+            params: { 'LAYERS': 'blue_marble_07' },
+            ratio: 1,
+            // projection: 'EPSG:4326',
+            serverType: 'geoserver',
+        })
+    });
 
-  // Add the new WMS layer, MUST be done prior to resetting the map options
-  this.map.addLayer(this.layers.mapWmsLayer);
+    // Add the new WMS layer, MUST be done prior to resetting the map options
+    this.map.addLayer(this.layers.mapWmsLayer);
 };
 
 // Refresh the map, useful to make sure the map has the correct settings
 // for the current size and position.
 OpenLayerMap.prototype.refreshMap = function () {
-  if (this.map) {
-    this.map.updateSize();
-  }
+    if (this.map) {
+        this.map.updateSize();
+    }
 };
 
 // TODO
 // OpenLayerMap.prototype.addSpatialSelectionLayer = function () {
-  // Create the style and the layer for bounding box selection
-  // this.layers.selectionLayer = new SpatialSelectionLayer('Box Drawing Layer', {
-  //   styleMap: new OpenLayers.StyleMap({
-  //     'transform': new OpenLayers.Style({
-  //       cursor: '${role}',
-  //       pointRadius: 3,
-  //       fillColor: 'white',
-  //       fillOpacity: 1,
-  //       strokeColor: 'black'
-  //     })
-  //   })
-  // });
-  // this.map.addLayers([this.layers.selectionLayer]);
+// Create the style and the layer for bounding box selection
+// this.layers.selectionLayer = new SpatialSelectionLayer('Box Drawing Layer', {
+//   styleMap: new OpenLayers.StyleMap({
+//     'transform': new OpenLayers.Style({
+//       cursor: '${role}',
+//       pointRadius: 3,
+//       fillColor: 'white',
+//       fillOpacity: 1,
+//       strokeColor: 'black'
+//     })
+//   })
+// });
+// this.map.addLayers([this.layers.selectionLayer]);
 // };
 
 // TODO

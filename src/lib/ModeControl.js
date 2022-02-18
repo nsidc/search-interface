@@ -1,4 +1,4 @@
-import { Control, defaultControls } from 'ol/control';
+import { Control } from 'ol/control';
 
 class ModeControl extends Control {
     constructor(mediator) {
