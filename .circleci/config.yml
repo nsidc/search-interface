@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 setup: &setup
   working_directory: ~/search-interface
@@ -58,13 +58,13 @@ jobs:
             npm --access public publish
 
 workflows:
-  version: 2
+  version: 2.1
   test-package-publish:
     jobs:
       - test:
           filters:
             tags:
-               only: /.*/
+              only: /.*/
 
       - package-and-publish:
           context: org-global

@@ -57,22 +57,22 @@ describe('UtilityFunctions', function () {
     });
 
     it('capitalizes the first letter of a string', function () {
-        var propertyName = 'someProperty';
+        let propertyName = 'someProperty';
         expect(UtilityFunctions.toInitialCaps(propertyName)).toEqual('SomeProperty');
     });
 
     it('converts a string to an integer', function () {
-        var numberString = '900';
+        let numberString = '900';
         expect(UtilityFunctions.toNumber(numberString, 'int', 'Exception message')).toEqual(900);
     });
 
     it('converts a string to a float', function () {
-        var numberString = '900.234';
+        let numberString = '900.234';
         expect(UtilityFunctions.toNumber(numberString, 'float', 'Exception message')).toEqual(900.234);
     });
 
     it('throws an error if a non-digit string is passed in', function () {
-        var numberString = 'non-digit',
+        let numberString = 'non-digit',
             caughtError;
 
         try {
@@ -86,23 +86,23 @@ describe('UtilityFunctions', function () {
 
 
     it('removes html tags', function () {
-        var withTags = '<p>hello world</p>';
+        let withTags = '<p>hello world</p>';
         expect(UtilityFunctions.removeTags(withTags)).toEqual('hello world');
     });
 
     it('removes extra spaces', function () {
-        var badString = 'hello  world   ';
+        let badString = 'hello  world   ';
         expect(UtilityFunctions.removeWhitespace(badString)).toEqual('hello world');
     });
 
     it('gets an array containing the text from a jQuery array', function () {
-        var html = $.parseHTML('<div class="test">first text</div><div class="test">second text</div>');
+        let html = $.parseHTML('<div class="test">first text</div><div class="test">second text</div>');
 
         expect(UtilityFunctions.getArrayFromjQueryArrayTextContents(html)).toEqual(['first text', 'second text']);
     });
 
     it('Should escape &#<>()\'" characters', function () {
-        var taggedString = '<a>("I\'m" #1 & 2)</a>',
+        let taggedString = '<a>("I\'m" #1 & 2)</a>',
             escapedString = '&lt;a&gt;&#40;&quot;I&#39;m&quot; &#35;1 &amp; 2&#41;&lt;/a&gt;',
             renderedString;
 
@@ -120,7 +120,7 @@ describe('UtilityFunctions', function () {
 
         it('rejects strings that are not valid numbers', function () {
             // JSHint does not like symbols so instead using unicode to generate the degree symbol
-            var unicodeDegreeSymbol = '\u00B0';
+            let unicodeDegreeSymbol = '\u00B0';
             expect(UtilityFunctions.isFloat('38' + unicodeDegreeSymbol + '53\'23"N')).toBeFalsy();
             expect(UtilityFunctions.isFloat('90f')).toBeFalsy();
             expect(UtilityFunctions.isFloat('--90')).toBeFalsy();
@@ -128,29 +128,26 @@ describe('UtilityFunctions', function () {
     });
 });
 
-import { decodedQueryParameter } from './utility_functions';
-
-
 test('Unencoded string is unchanged', () => {
-    expect(decodedQueryParameter('hello')).toBe('hello');
+    expect(UtilityFunctions.decodedQueryParameter('hello')).toBe('hello');
 });
 
 test('String with spaces is unchanged', () => {
-    expect(decodedQueryParameter('hello there everyone!')).toBe('hello there everyone!');
+    expect(UtilityFunctions.decodedQueryParameter('hello there everyone!')).toBe('hello there everyone!');
 });
 
 test('String with encoded " " characters are decoded', () => {
-    expect(decodedQueryParameter('warp+factor+five+scotty')).toBe('warp factor five scotty');
+    expect(UtilityFunctions.decodedQueryParameter('warp+factor+five+scotty')).toBe('warp factor five scotty');
 });
 
 test('String with url-encoded characters are decoded', () => {
-    expect(decodedQueryParameter('airplanes and spaceships cost %24%24%24')).toBe('airplanes and spaceships cost $$$');
+    expect(UtilityFunctions.decodedQueryParameter('airplanes and spaceships cost %24%24%24')).toBe('airplanes and spaceships cost $$$');
 });
 
 test('String with encoded " " characters and url-encoded characters are decoded', () => {
-    expect(decodedQueryParameter('airplanes %26 spaceships cost %24%24%24')).toBe('airplanes & spaceships cost $$$');
+    expect(UtilityFunctions.decodedQueryParameter('airplanes %26 spaceships cost %24%24%24')).toBe('airplanes & spaceships cost $$$');
 });
 
 test('String with url-encoded "+" and form-encoded " " characters are decoded', () => {
-    expect(decodedQueryParameter('two%20%2b%20two%20equals%20four')).toBe('two + two equals four');
+    expect(UtilityFunctions.decodedQueryParameter('two%20%2b%20two%20equals%20four')).toBe('two + two equals four');
 });
