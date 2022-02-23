@@ -215,7 +215,7 @@ Prior to the ES2015 update, unit tests were implemented using a grunt task, Karm
 and a HeadlessChrome environment. A few unit tests have already been migrated to
 Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
 The remaining tests are now obsolete and need to be migrated to `Jest`. See
-PSS-460 for some history.
+PSS-460 for some history and SRCH-76 for proposed work.
 
 # Acceptance Tests
 
@@ -261,12 +261,13 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 
 # Continuous Integration
 
-TODO: Add detail! See config in `.circleci/config.yml`
-
 CircleCI is configured to run `eslint` and tests automatically when changes are committed
-to the repository.
+to the repository. See the configuration in `.circleci/config.yml`
 
-CI machine no longer needed?
+Puppet configuration exists for a CI machine with jobs for building `integration`,
+`qa`, `staging` and `blue` VMs running a standalone search interface application.
+Once the new Drupal Web site is released, the standalone application will no longer
+be necessary and the CI machine can be decommissioned. See SRCH-96.
 
 # Releasing a New Version
 
@@ -279,37 +280,59 @@ See also **Version Handling** below.
 In brief, the steps are:
 
 1. Confirm all tests pass, and that all changes have been committed and pushed
-   to origin (including a `CHANGELOG` entry).
+   to origin. Include a `CHANGELOG` entry with `UNRELEASED` in place of the
+   version number and date.
 2. Merge the feature branch into the main branch. Update your local working directory.
 
         git checkout master && git pull
 
-To release a new version of the search app, run:
+3. Bump the desired semver field (major, minor, patch), tag the master branch with the
+   updated version number, and push changes to origin.
 
-    $ npm run release
+        npm run release -- [major | minor | patch ]
 
-You will be prompted to select the next version (bump the patch,
-minor, major version numbers, or create a prerelease). The `CHANGELOG.md`
-will be updated with the new release version number by replacing `UNRELEASED`
-with `Version x.y.z`, where x.y.z is the new version number being released.
+## Version Handling
 
-**NOTE**: An `## UNRELEASED` place-holder line is necessary at the top of the
-`CHANGELOG.md` file. Below this line should be a description of changes in the
-new release.
+Versions should follow [Semantic Versioning](https://semver.org) guidelines.
+Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+the case of release candidates) will package and publish that commit to
+[npmjs.com](https://www.npmjs.com).
 
-You'll then be prompted to confirm the git commit for the new release and its
-associated git tag. Finally, confirm that you would like to push the commit and
-version tag to the origin repo.
+## Tagging release candidates
 
-At this point the CircleCI job which creates the npm package and publishes it
-to npmjs.com will be triggered. Upon successful completion, the new package
-version will be available to install.
+Note: The naming structure for the prerelease scripts (`setup:prerelease` and `bump:prerelease`)
+are intentional in order to avoid unnecessarily triggering the `release` script.
 
-## OPS Configuration Information
+       $ npm run setup:prerelease # Adds an initial pre-release tag to the current branch (e.g. v3.3.0-rc.0)
+                                  # Does not tag the branch.
+       $ npm run bump:prerelease # Bumps the prerelease number (e.g. 3.3.0-rc.1) and tags the branch.
 
-Upon completion of `v4.0.0-rc` and related stories, the portal will be deployed
-by loading a bundle created by Webpack into a Drupal context (i.e. including the
-bundle in an HTML document managed by Drupal).
+Running `npm run bump:prerelease` will tag the current branch with an updated release candidate
+version, the tag will be pushed to origin (via the `postversion` trigger), and CircleCI will build
+and publish a new package to `npmjs`.
+
+## Tagging releases
+
+To add a release tag (no `-rc.N` suffix):
+
+        npm run release -- [major | minor | patch ]
+
+The `release` script noted above is a shortcut for the built-in `npm version` command.
+Note the ` -- ` (two dashes surrounded by spaces) before the level specification. You can also do:
+
+        npm version [major | minor | patch ]
+
+`npm run release` will tag the current branch, the tag will be pushed to origin (via the
+`postversion` trigger), and CircleCI will build and publish a new package to `npmjs`.
+
+## Deploying to staging and production Drupal
+
+At a minimum, developers will need to create a PCT when a new version
+is deployed to [npmjs.com](https://www.npmjs.com). Depending on the changes,
+a pull request may also need to be submitted to update files in
+[nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/)
+(e.g. `web/libraries/package.json`).
+
 
 # Miscellaneous Development Notes
 

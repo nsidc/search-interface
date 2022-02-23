@@ -28,7 +28,12 @@
     "lint": "npx eslint ./src/",
     "lint:watch": "npx esw -w ./src/",
     "test": "jest ./src",
-    "test:watch": "jest -w ./src"
+    "test:watch": "jest -w ./src",
+    "setup:prerelease": "npm version prepatch --no-git-tag-version; npm version prerelease --preid=rc --no-git-tag-version",
+    "bump:prerelease": "npm version prerelease --preid=rc",
+    "release": "npm version",
+    "version": "./release.sh",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "backbone": "^1.4.0",
