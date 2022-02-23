@@ -25,7 +25,7 @@ everything like a method" option described by
 
 ## Dependencies and prerequisites
 
-* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/))
+* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/)
 * An OpenSearch endpoint capable of receiving search queries and returning
   search results and related facets.
 
