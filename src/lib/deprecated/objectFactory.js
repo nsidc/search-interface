@@ -17,9 +17,9 @@
 //  At present, special configration settings are required in order to use objectFactory to create
 //  Backbone Model and Collection properly.(see 'register' function section for more details).
 
-  class objectFactory {
+class objectFactory {
     initialize() {
-      this.dependencies = {};
+        this.dependencies = {};
     }
 
     // `register` stores the dependencies(modules) into the variable dependencies.
@@ -59,25 +59,25 @@
     //    models: {}
     //   });`
     register(name, dependency) {
-      this.dependencies[name] = dependency;
+        this.dependencies[name] = dependency;
     }
 
     getDependencies(name) {
-      return this.dependencies[name];
+        return this.dependencies[name];
     }
 
     getDefaultOptions(configOptions) {
-      let opts = {};
+        let opts = {};
 
-      if (configOptions.defaultOptions) {
-        opts.defaults = configOptions.defaultOptions;
-      }
+        if (configOptions.defaultOptions) {
+            opts.defaults = configOptions.defaultOptions;
+        }
 
-      return opts;
+        return opts;
     }
 
     getPreset(configOptions) {
-      return configOptions.preset || {};
+        return configOptions.preset || {};
     }
 
     // `createInstance` creates instance of the object type provided
@@ -95,29 +95,29 @@
     // creation with options:
     //   `createInstance('moduleName', {option1: value1, option2: value2...});`
     createInstance(type, options) {
-      let combinedOptions, defaultOpts, presetOpt, ClassType = this.getDependencies(type);
+        let combinedOptions, defaultOpts, presetOpt, ClassType = this.getDependencies(type);
 
-      if(!ClassType) {
-        throw new Error('Cannot create unregistered type \'' + type + '\'');
-      }
-      if(ClassType instanceof Function) {
-        return new ClassType(options);
-      }
+        if(!ClassType) {
+            throw new Error('Cannot create unregistered type \'' + type + '\'');
+        }
+        if(ClassType instanceof Function) {
+            return new ClassType(options);
+        }
 
-      if(ClassType.configOptions) {
-        defaultOpts = this.getDefaultOptions(ClassType.configOptions);
-        presetOpt = this.getPreset(ClassType.configOptions);
-      }
+        if(ClassType.configOptions) {
+            defaultOpts = this.getDefaultOptions(ClassType.configOptions);
+            presetOpt = this.getPreset(ClassType.configOptions);
+        }
 
-      combinedOptions = _.extend({}, options, defaultOpts, presetOpt);
+        combinedOptions = _.extend({}, options, defaultOpts, presetOpt);
 
-      // if the models are set, indicates this is a collection
-      if(ClassType.models) {
-        combinedOptions.models = _.extend({}, options.models, ClassType.models);
-      }
+        // if the models are set, indicates this is a collection
+        if(ClassType.models) {
+            combinedOptions.models = _.extend({}, options.models, ClassType.models);
+        }
 
-      // other backbone class or customized module
-      return new ClassType.Ctor(combinedOptions);
+        // other backbone class or customized module
+        return new ClassType.Ctor(combinedOptions);
 
     }
 
@@ -127,9 +127,9 @@
     // Params:
     // * `currentConfig`: the list of the object_name and object_settings pairs
     setConfig(currentConfig) {
-      _.each(currentConfig, function (value, key) {
-        objectFactory.register(key, value);
-      });
+        _.each(currentConfig, function (value, key) {
+            objectFactory.register(key, value);
+        });
     }
-  }
+}
 

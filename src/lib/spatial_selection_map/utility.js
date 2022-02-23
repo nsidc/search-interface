@@ -1,4 +1,5 @@
 import $ from "jquery";
+import _ from "underscore";
 
 import proj4 from 'proj4';
 import { register } from 'ol/proj/proj4';
@@ -10,26 +11,26 @@ import View from "ol/View";
 import { BASE_LAYERS, MAP_LAYER_TITLES } from './constants';
 
 export function openLayerRectangleFactory(
-  upperLeftPoint,
-  upperRightPoint,
-  lowerRightPoint,
-  lowerLeftPoint
+    upperLeftPoint,
+    upperRightPoint,
+    lowerRightPoint,
+    lowerLeftPoint
 ) {
-  var linearRingPoints = [],
-    polygon;
+    var linearRingPoints = [],
+        polygon;
 
-  linearRingPoints.push(upperLeftPoint);
-  linearRingPoints.push(upperRightPoint);
-  linearRingPoints.push(lowerRightPoint);
-  linearRingPoints.push(lowerLeftPoint);
+    linearRingPoints.push(upperLeftPoint);
+    linearRingPoints.push(upperRightPoint);
+    linearRingPoints.push(lowerRightPoint);
+    linearRingPoints.push(lowerLeftPoint);
 
-  // Construct the new Geometry polygon object with the array of points
-  // we just created.
-  // polygon = new OpenLayers.Geometry.Polygon(
-  //   [new OpenLayers.Geometry.LinearRing(linearRingPoints)]
-  // );
+    // Construct the new Geometry polygon object with the array of points
+    // we just created.
+    // polygon = new OpenLayers.Geometry.Polygon(
+    //   [new OpenLayers.Geometry.LinearRing(linearRingPoints)]
+    // );
 
-  return polygon;
+    return polygon;
 }
 
 
@@ -68,26 +69,26 @@ export function createViews() {
  * layer as configured in BASE_LAYERS.
  */
 export function createBaseLayers() {
-  let layers = {};
-  BASE_LAYERS.forEach((b) => {
-    layers[b.title] = new Image({
-      title: b.title,
-      center: b.center,
-      extent: b.extent,
-      projection: b.projection,
-      width: b.width,
-      height: b.height,
-      source: new ImageWMS({
-        url: b.url,
-        params: { 'LAYERS': b.layerName },
-        ratio: b.ratio,
-        hidpi: b.hidpi,
-        serverType: b.serverType,
-      }),
+    let layers = {};
+    BASE_LAYERS.forEach((b) => {
+        layers[b.title] = new Image({
+            title: b.title,
+            center: b.center,
+            extent: b.extent,
+            projection: b.projection,
+            width: b.width,
+            height: b.height,
+            source: new ImageWMS({
+                url: b.url,
+                params: { 'LAYERS': b.layerName },
+                ratio: b.ratio,
+                hidpi: b.hidpi,
+                serverType: b.serverType,
+            }),
+        });
     });
-  });
 
-  return layers;
+    return layers;
 }
 
 

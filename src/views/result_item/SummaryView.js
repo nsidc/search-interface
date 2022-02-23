@@ -14,9 +14,9 @@ class SummaryView extends Backbone.View {
         this.$el.html(_.template(viewTemplate));
 
         summarySection = new DetailsSectionView({
-          sectionTemplate: sectionTemplate,
-          sectionData: summary,
-          expanded: summary.length <= maxLength
+            sectionTemplate: sectionTemplate,
+            sectionData: summary,
+            expanded: summary.length <= maxLength
         }).render();
 
         this.$el.find('.summary-section').append(summarySection.el);

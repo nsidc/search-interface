@@ -8,12 +8,12 @@ const sectionTemplate = '<% _.each(data, function (p) { %>' +
 
 class ParametersView extends Backbone.View {
     render() {
-      let parameters = (this.model.get('parameters') || '');
+        let parameters = (this.model.get('parameters') || '');
 
-      this.$el.html(_.template(viewTemplate)());
-      this.$el.find('.parameters-section').append(_.template(sectionTemplate)({data: parameters}));
+        this.$el.html(_.template(viewTemplate)());
+        this.$el.find('.parameters-section').append(_.template(sectionTemplate)({data: parameters}));
 
-      return this;
+        return this;
     }
 }
 

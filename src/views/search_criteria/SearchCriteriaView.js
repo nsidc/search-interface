@@ -9,14 +9,14 @@ import viewTemplate from '../../templates/search_criteria/container.html';
 
 class SearchCriteriaView extends InputViewBase {
     get template() {
-      return _.template(viewTemplate);
+        return _.template(viewTemplate);
     }
 
     get events() {
         return {
-          'click button.find-data': 'onFindDataPressed',
-          'keypress input.keyboard-active': 'onKeyPressedInInput',
-          'click #reset-search': 'onResetSearchClicked'
+            'click button.find-data': 'onFindDataPressed',
+            'keypress input.keyboard-active': 'onKeyPressedInInput',
+            'click #reset-search': 'onResetSearchClicked'
         };
     }
 
@@ -78,16 +78,16 @@ class SearchCriteriaView extends InputViewBase {
         let geoBoundingBoxIdentifier, coords;
 
         coords = {
-          north: this.getInputField('spatial-options-north'),
-          south: this.getInputField('spatial-options-south'),
-          east: this.getInputField('spatial-options-east'),
-          west: this.getInputField('spatial-options-west')
+            north: this.getInputField('spatial-options-north'),
+            south: this.getInputField('spatial-options-south'),
+            east: this.getInputField('spatial-options-east'),
+            west: this.getInputField('spatial-options-west')
         };
 
         if (coords.north) {
-          geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);
+            geoBoundingBoxIdentifier = UtilityFunctions.nsewObjToIdentifier(coords);
         } else {
-          geoBoundingBoxIdentifier = this.getInputField('spatial-options');
+            geoBoundingBoxIdentifier = this.getInputField('spatial-options');
         }
 
         this.updateBboxModelFromIdentifier(geoBoundingBoxIdentifier || '');
@@ -105,26 +105,26 @@ class SearchCriteriaView extends InputViewBase {
     onSearchResultsReset() {
         this.keywordsView.setSearchTermField(this.options.collection);
         this.temporalCoverageView.render(
-          this.options.collection.getStartDate(),
-          this.options.collection.getEndDate()
+            this.options.collection.getStartDate(),
+            this.options.collection.getEndDate()
         );
         this.spatialCoverageView.render(this.options.collection.getOsGeoBbox().split(',').join(', '));
     }
 
     onKeyPressedInInput(event) {
         if (event.which === 13) {  // if Enter is the pressed key
-          this.onFindDataPressed();
+            this.onFindDataPressed();
         }
     }
 
     onResetSearchClicked() {
         if (this.options.reset === 'home') {
-          this.mediatorTrigger('app:home');
+            this.mediatorTrigger('app:home');
         }
 
         if (this.options.reset === 'clear') {
-          this.mediatorTrigger('search:resetClear');
-          this.onSearchClearParams();
+            this.mediatorTrigger('search:resetClear');
+            this.onSearchClearParams();
         }
     }
 
@@ -160,7 +160,7 @@ class SearchCriteriaView extends InputViewBase {
         }).render();
 
         if (this.options.reset !== 'off') {
-          this.$el.find('#reset-search').css('display', 'initial');
+            this.$el.find('#reset-search').css('display', 'initial');
         }
 
         return this;

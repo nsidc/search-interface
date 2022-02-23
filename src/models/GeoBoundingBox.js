@@ -25,16 +25,16 @@ class GeoBoundingBox extends Backbone.Model {
             this.set('north', cornerLocs[3]);
         }
         else if(cornerLocs instanceof Object &&
-            cornerLocs.hasOwnProperty('lonMin') &&
-            cornerLocs.hasOwnProperty('lonMax') &&
-            cornerLocs.hasOwnProperty('latMin') &&
-            cornerLocs.hasOwnProperty('latMax')) {
+            Object.hasOwn(cornerLocs, 'lonMin') &&
+            Object.hasOwn(cornerLocs, 'lonMax') &&
+            Object.hasOwn(cornerLocs,'latMin') &&
+            Object.hasOwn(cornerLocs, 'latMax')) {
             this.set('west', cornerLocs.lonMin);
             this.set('south', cornerLocs.latMin);
             this.set('east', cornerLocs.lonMax);
             this.set('north', cornerLocs.latMax);
         }
-        else if(cornerLocs.hasOwnProperty('urlPart')) {
+        else if(Object.hasOwn(cornerLocs, 'urlPart')) {
             this.setFromIdentifier(cornerLocs.urlPart);
         }
         else if(typeof cornerLocs === 'string') {
@@ -311,25 +311,25 @@ class GeoBoundingBox extends Backbone.Model {
     }
 
 }
-  // }, {
-  //   errors: {
-  //     northInputNotNumber : false,
-  //     southInputNotNumber : false,
-  //     eastInputNotNumber : false,
-  //     westInputNotNumber : false,
-  //     northOutOfRange : false,
-  //     southOutOfRange : false,
-  //     eastOutOfRange : false,
-  //     westOutOfRange : false,
-  //     southGreaterThanNorth : false,
-  //     upperLeftLatInputNotNumber : false,
-  //     upperLeftLonInputNotNumber : false,
-  //     lowerRightLatInputNotNumber : false,
-  //     lowerRightLonInputNotNumber : false,
-  //     upperLeftLatOutOfRange : false,
-  //     upperLeftLonOutOfRange : false,
-  //     lowerRightLatOutOfRange : false,
-  //     lowerRightLonOutOfRange : false
-  //   }
+// }, {
+//   errors: {
+//     northInputNotNumber : false,
+//     southInputNotNumber : false,
+//     eastInputNotNumber : false,
+//     westInputNotNumber : false,
+//     northOutOfRange : false,
+//     southOutOfRange : false,
+//     eastOutOfRange : false,
+//     westOutOfRange : false,
+//     southGreaterThanNorth : false,
+//     upperLeftLatInputNotNumber : false,
+//     upperLeftLonInputNotNumber : false,
+//     lowerRightLatInputNotNumber : false,
+//     lowerRightLonInputNotNumber : false,
+//     upperLeftLatOutOfRange : false,
+//     upperLeftLonOutOfRange : false,
+//     lowerRightLatOutOfRange : false,
+//     lowerRightLonOutOfRange : false
+//   }
 
 export default GeoBoundingBox;

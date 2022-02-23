@@ -14,9 +14,9 @@ import * as criteriaAppender from './lib/criteriaAppender';
 
 class SearchApp extends Backbone.Router {
     preinitialize() {
-        // Set up routing. Using this form instead of the object literal to make
-        // it harder to change the routing table - right now any changes to the
-        // routing should happen to the routeHandlerProperties object.
+    // Set up routing. Using this form instead of the object literal to make
+    // it harder to change the routing table - right now any changes to the
+    // routing should happen to the routeHandlerProperties object.
         this.routes = {
             '*path': 'doRoute'
         };
@@ -138,7 +138,7 @@ class SearchApp extends Backbone.Router {
     // Order of URL segments shouldn't matter.
     doRoute(path) {
         let searchOptions = {},
-          facetFilters = {};
+            facetFilters = {};
 
         searchOptions.pageNumber = 1;
         if(this.isItemsPerPageEnabled()) {
@@ -153,12 +153,12 @@ class SearchApp extends Backbone.Router {
 
         _.each(path.split('/'), function (pathComponent) {
             let propName = pathComponent.split('=')[0],
-              propValue,
-              matches,
-              re;
+                propValue,
+                matches,
+                re;
 
             // discard properties given in the URL not known to the app
-            if(!this.routeHandlerProperties.hasOwnProperty(propName)) {
+            if(!Object.hasOwn(this.routeHandlerProperties, propName)) {
                 return;
             }
 

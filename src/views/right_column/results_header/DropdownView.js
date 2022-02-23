@@ -1,6 +1,5 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
-import $ from 'jquery';
 import 'jquery-ui/themes/base/all.css';
 import 'jquery-ui/ui/core';
 import 'jquery-ui/ui/widgets/selectmenu';

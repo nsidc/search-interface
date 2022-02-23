@@ -1,19 +1,40 @@
 # Contents
 
+* [ES2015 Transition](#es2015-transition)
+* [Dependencies and Prerequisites](#dependencies-and-prerequisites)
 * [Git Workflow](#git-workflow)
 * [Installation](#installation)
 * [Configuration](#configuration)
-* [Running on a VM](#running-on-a-vm)
 * [Running the Linter](#running-the-linter)
+* [Running the App Locally](#running-the-app-locally)
+* [Running on a VM](#running-on-a-vm)
 * [Unit Tests](#unit-tests)
-* [Running the Acceptance Tests Locally](#running-the-acceptance-tests-locally)
-* [Git Hooks](#git-hooks)
+* [Acceptance Tests](#acceptance-tests)
+* [Continuous Integration](#continuous-integration)
 * [Releasing a New Version](#releasing-a-new-version)
-* [NSIDC Continuous Integration](#nsidc-continuous-integration)
-* [CircleCI Continuous Integration](#circleci-continuous-integration)
-* [Development Notes](#development-notes)
-* [Other Gotchas](#other-gotchas)
-* [Future Development](#future-development)
+* [Miscellaneous Development Notes](#miscellaneous-development-notes)
+
+# ES2015 transition:
+
+Branch `v4.0.0-rc` represents the migration in progress from `Bower`,
+`Grunt` and `requirejs` to a structure following the ES2015 language
+specification, using `npm` to manage dependencies and `webpack` to build
+and bundle the application. The migration strategy was based on the "Treat
+everything like a method" option described by
+[Ben McCormick](https://benmccormick.org/2015/07/06/backbone-and-es6-classes-revisited).
+
+## Dependencies and prerequisites
+
+* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/)
+* An OpenSearch endpoint capable of receiving search queries and returning
+  search results and related facets.
+
+[Dataset Search Services](https://github.com/nsidc/dataset-search-services/)
+provides the OpenSearch endpoint in the NSIDC environment. See the DSS
+project to learn more about its dependencies, including Solr and Search Solr Tools.
+A local DSS, DSS running in a pre-production environment (e.g., `integration`,
+`qa`, or `staging`), or the production version of DSS may be used as the
+OpenSearch endpoint when running a local instance.  See [Configuration](#configuration), below.
 
 # Git Workflow
 
@@ -22,95 +43,41 @@ Development on this project uses
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 2. Stage your changes (`git add`)
-3. Commit your ESLint-compliant and test-passing changes (just run `npm run lint` and `npm test`) with a
+3. Commit your ESLint-compliant (`npm run lint`) and test-passing changes
+   (`npm test`) with a
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
-4. Push to the branch (`git push -u origin my-new-feature`)
-5. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
+6. Push to the branch (`git push -u origin my-new-feature`)
+7. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
 
 # Installation
 
-Quick start to run a local instance:
+1. Install [node.js](http://nodejs.org/) (Check out [NVM](https://github.com/nvm-sh/nvm)
+   if you need to move between versions of node for different projects.)
 
-1. Install node.js. (See: http://nodejs.org/, alternatively: [NVM](https://github.com/nvm-sh/nvm))
-
-2. Install node modules:
+3. Install node modules:
 
         npm install
 
-3. Start a local dev server at `http://localhost:8080`:
-
-        npm start
-
-By default, the local server will set the environment to `development`, and will
-use the production OpenSearch endpoints. See configuration in
-`src/config/appConfig.js`.
-
 ## Additional installation steps for acceptance test environment
 
-**TO BE UPDATED** Unit and acceptance tests currently depend on Ruby. You will need to install:
+**TODO:** The acceptance test suite has not been updated for the ES2015/webpack environment
+and should be considered non-functional. See SRCH-73 and related stories SRCH-41, SRCH-50.
+
+Acceptance tests currently depend on Ruby. You will need to install:
 
 * Ruby (*version?*)
-* Rubygems and bundler
+* Rubygems and Bundler
 
 Then install the ruby gems: `bundle install`
 
-## Build and Deploy
+See more in [Acceptance Tests](#acceptance-tests), below.
 
-1. Build the application artifacts into the `dist` directory:
+# Configuration
 
-        npm run build # Build a bundle packaged for production environment
-        npm run build:dev  # Build with source maps for development environment
-                           # Update environment-dependent URL configurations in
-                           # `src/config/appConfig.js` as needed.
-
-2. Remove old build artifacts from `dist`:
-
-        npm run clean
-
-## Service Configuration **OBE?**
-
-Host and endpoints for development, integration and production are configured in
-`src/config/appConfig.js`.
-
-The external services used by the search portal are defined in
-`local_webserver_config.yaml`. `search_proxies` are the default choice, and
-contain endpoints for the services running on `localhost`. `integration_proxies`
-and `qa_proxies` are also defined.
-
-To run against services on integration:
-
-```bash
-./run_local_webserver.rb 8081 integration_proxies
-```
-
-To run against services on qa:
-
-```bash
-./run_local_webserver.rb 8081 qa_proxies
-```
-
-# Running on a VM
-
-TODO: `/opt/nsidc_search` is not being created/populated automatically during VM
-provisioning. Workaround after creating VM: ssh to it and create
-`/opt/nsidc_search`, ensuring it's writable by user/group `vagrant`.
-
-Rsync the artifacts in `dist` to `vagrant@your-vm-name:/opt/nsidc-search`. For example:
-
-    npm run build # or npm run build:dev
-    rsync -av dist/ vagrant@dev.nsidc_search.DEVNAME.dev.int.nsidc.org:/opt/nsidc_search
-
-The app should then be available at `http://dev.nsidc_search.DEVNAME.dev.int.nsidc.org`.
-
-`nginx` is running as a service, and can be stopped/started/etc using the
-system `service` command, e.g., `service nginx restart`.
-
-`nginx` writes logfiles by default to `/var/log/nginx`; all logs should be in
-this folder.
-
-TODO: Add information about Drupal VM build. See `DEVELOPMENT.md` in the
-`soac-webapp` project.
+The Dataset Catalog Services endpoint is configured in `src/config/appConfig.js`.
+**Caveat:** The pre-production DSS instances aren't created with valid
+SSL certificates, so attempts to use those endpoints currently fail.
 
 # Running the Linter
 
@@ -123,38 +90,142 @@ and allowed global variables.
 * [Official documentation for ESLint configuration ](https://eslint.org/docs/user-guide/configuring/)
 * [plugins to run ESLint in various editors and IDEs](https://eslint.org/docs/user-guide/integrations#editors)
 
+# Running the App Locally
+
+Run a local server instance at `http://localhost:8080`:
+
+        npm start
+
+By default, the local server will set the environment to `development`, and will
+use the production OpenSearch endpoints. See the OpenSearch endpoint configuration
+in `src/config/appConfig.js`.
+
+# Running on a VM
+
+## Building application artifacts for deployment to developer VMs
+
+1. Build the application artifacts into the `dist` directory:
+
+        npm run build # Build a bundle packaged for production environment
+        npm run build:dev  # Build with source maps for development environment
+                           # Update environment-dependent URL configurations in
+                           # `src/config/appConfig.js` as needed.
+
+2. To remove old build artifacts from `dist`:
+
+        npm run clean
+
+## Deploying to a developer VM (without Drupal)
+
+`Puppet` configuration exists in this project to build an application VM, as well as a CI
+machine. All the usual `vagrant-nsidc` environments are supported, but note that a blue
+machine will never be necessary except perhaps for testing purposes. The search interface
+is not deployed via a VM blue-green swap, but rather by pushing a Javascript bundle to
+[npmjs.com](www.npmjs.com).
+
+To create a developer VM:
+
+    vagrant nsidc up --env=dev
+
+TODO: `/opt/nsidc_search` is not being created/populated automatically during VM
+provisioning. Workaround after creating VM:
+
+    vagrant nsidc ssh --env=dev
+    sudo mkdir /opt/nsidc_search
+    sudo chown vagrant:vagrant /opt/nsidc_search
+    # rsync dist and restart nginx?
+
+The app will be available at `http://dev.nsidc_search.USERNAME.dev.int.nsidc.org/`
+
+`nginx` writes logfiles by default to `/var/log/nginx`.
+
+To deploy a locally built and bundled version of the application to the VM
+(separately from VM provisioning), build the SOAC web app locally and rsync
+the contents of `/dist` to `/opt/nsidc_search`.
+
+     $ npm run build:dev  # Build with source maps for development environment, and development
+                         # settings (see `urls` in `src/config/appConfig.js`)
+                         # Do "npm run build" if you don't need source maps.
+     $ rsync -av dist/ vagrant@dev.nsidc_search.USERNAME.dev.int.nsidc.org:/opt/nsidc_search
+
+## Deploying to a developer Drupal VM
+
+Ansible and Garrison are used to deploy a new Drupal VM. The relevant repositories are:
+
+1. [ansible_drupal_nsidc_org](https://nsidc.org/bitbucket/scm/dsite/ansible_drupal_nsidc_org.git)
+   Note that this project is hosted in an NSIDC-managed local Bitbucket repository, NOT on
+   bitbucket.org.
+
+2. If you need to modify the version of `soac-webapp` installed from `npmjs.com`:
+   [nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/), specifically
+   file `web/libraries/package.json`.
+
+Build steps:
+
+1. Check out the `ansible_drupal_nsidc_org` project.
+2. Get a copy of the Drupal database as described in the README.md file.
+3. Follow the dev environment instructions in the "Deploy using garrison" section.
+   The VM will be provisioned with the version of `soac-webapp` specified in the
+   `nsidc-drupal8` project `staging` branch, in file `web/libraries/package.json`.
+4. Access the application on the resulting VM at:
+
+        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/soac
+
+   Replace `USERNAME` with your LDAP username. Note that on the dev VM, some external
+   images may not render. However, the maps and graphs for SOAC itself should render on
+   the individual map pages.
+
+### Building a developer Drupal VM with a different `npmjs.com` version of `search-interface`
+
+If you've published a new version of `search-interface` to `npmjs.com` and want to build a
+Drupal VM using that new version, create a temporary branch in the `nsidc-drupal8` project
+and modify the `web/libraries/package.json` file to specify your desired version. Commit
+the branch changes. Then change the **Deploy using garrison** step in the VM build process
+that looks like:
+
+    vagrant nsidc ssh --no-tty --env=dev -c "/vagrant/local_garrison.sh -e staging -r staging"
+
+to instead use your branch name:
+
+    vagrant nsidc ssh --no-tty --env=dev -c "/vagrant/local_garrison.sh -e my-new-branch -r my-new-branch"
+
+Note that this option is for testing `search-interface` changes that have been published
+to `npmjs.com`. See the next section if you need to test `search-interface` changes that
+have not yet been published to `npmjs.com`.
+
+### Redeploying to an existing developer Drupal VM
+
+If you want to deploy a work-in-progress `search-interface` package to an existing
+dev VM, copy the `index.bundle.js` file to the DEV machine using the following
+commands (run from within the ansible project directory):
+
+    npm run build # Or npm run build:dev if you want source maps for debugging
+
+    # Also copy the source map file, if you did "npm run build:dev" in the step above.
+    scp /path/to/index.bundle.js dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org:/home/vagrant/drupal/web/libraries/node_modules/@nsidc/search-interface/dist/index.bundle.js
+
+    vagrant nsidc ssh --no-tty --env=dev -c "cd /home/vagrant/drupal; lando drush cache:rebuild"
+
+NOTE: The last step may not strictly be necessary, but if copying the file doesn't cause
+the application to be updated, the `lando drush...` should refresh everything.
 
 # Unit Tests
 
-***NOTE: Look for the keyword TODO: SKIPPED, to see some tests that are being
-skipped for now because they are failing intermittently.  Need to investigate.***
+Prior to the ES2015 update, unit tests were implemented using a grunt task, Karma,
+and a HeadlessChrome environment. A few unit tests have already been migrated to
+Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
+The remaining tests are now obsolete and need to be migrated to `Jest`. See
+PSS-460 for some history and SRCH-76 for proposed work.
 
-Run the unit tests using Karma in HeadlessChrome with `grunt
-karma`. Test code is located in `spec/`, written in
-[Jasmine 1.3](http://jasmine.github.io/1.3/introduction.html) along with
-[Sinon](http://sinonjs.org/).
+# Acceptance Tests
 
-Note that running these tests locally may result in failure. If so, try running
-the unit tests in a browser (discussed below).  Make sure unit tests pass in the
-browser and in Travis CI before merging any code with master.
+**TODO**: Migrate from Ruby-based tests to JS-based acceptance tests if
+possible, and replace outdated `grunt` tasks with `npm tasks` to run the
+acceptance test suite. The tests themselves haven't been update to the ES2015
+language specification, and are currently not usable.
+See SRCH-73 and related stories SRCH-41, SRCH-50.
 
-It can helpful for debugging purposes to run the unit tests in a browser. To do
-so, follow these steps:
-
-* if you don't already have the file `_SpecRunner.html`, run `grunt test:unit`
-  to generate the file
-* make sure your port 8081 is open (kill the local webserver if you are
-  running it)
-* `grunt serve-tests`
-* point your browser to
-  [localhost:8081/_SpecRunner.html](localhost:8081/_SpecRunner.html)
-
-
-# Running the Acceptance Tests Locally
-
-TODO: Update to use npm tasks for testing
-
-Prerequisites
+## Prerequisites
 
 The acceptance tests use the official
 [Ruby implementation of Cucumber](https://github.com/cucumber/cucumber-ruby),
@@ -188,80 +259,82 @@ against a different URL (like when running the tests locally), specify with a
 grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 ```
 
-# Git Hooks
+# Continuous Integration
 
-TODO: Ditch `Grunt`, use `npm`. See `CircleCI` section below.
+CircleCI is configured to run `eslint` and tests automatically when changes are committed
+to the repository. See the configuration in `.circleci/config.yml`
 
-~~Our build server attempts to build the project with every revision, and it
-requires that linters and unit tests pass successfully. To protect yourself from
-the embarrassment of breaking the build, git hooks can be set up to run
-everything on your local box before you push.~~
-
-~~Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
-plugin. Running `grunt githooks` udpates files in your `.git/hooks/` so that the
-specific grunt tasks will be run at the given git events. This means if the
-githooks task configuration is ever changed, you will need to run `grunt
-githooks` again to update your hook scripts (and if a hook is removed the
-Gruntfile configuration, you may need to delete the old script from
-`.git/hooks/`).~~
-
-~~Currently included hooks (and the tasks they run) are:~~
-
-* `pre-commit`: `scsslint` and `jshint`
-* `pre-push`: `jasmine`
+Puppet configuration exists for a CI machine with jobs for building `integration`,
+`qa`, `staging` and `blue` VMs running a standalone search interface application.
+Once the new Drupal Web site is released, the standalone application will no longer
+be necessary and the CI machine can be decommissioned. See SRCH-96.
 
 # Releasing a New Version
 
-To release a new version of the search app, run:
+Tl;dr: Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+the case of release candidates) will package and publish that commit to
+[npmjs.com](https://www.npmjs.com)!
 
-    $ npm run release
+See also **Version Handling** below.
 
-You will be prompted to select the next version (bump the patch,
-minor, major version numbers, or create a prerelease). The `CHANGELOG.md`
-will be updated with the new release version number by replacing `UNRELEASED`
-with `Version x.y.z`, where x.y.z is the new version number being released.
+In brief, the steps are:
 
-**NOTE**: An `## UNRELEASED` place-holder line is necessary at the top of the
-`CHANGELOG.md` file. Below this line should be a description of changes in the
-new release.
+1. Confirm all tests pass, and that all changes have been committed and pushed
+   to origin. Include a `CHANGELOG` entry with `UNRELEASED` in place of the
+   version number and date.
+2. Merge the feature branch into the main branch. Update your local working directory.
 
-You'll then be prompted to confirm the git commit for the new release and its
-associated git tag. Finally, confirm that you would like to push the commit and
-version tag to the origin repo.
+        git checkout master && git pull
 
-At this point the CircleCI job which creates the npm package and publishes it
-to npmjs.com will be triggered. Upon successful completion, the new package
-version will be available to install.
+3. Bump the desired semver field (major, minor, patch), tag the master branch with the
+   updated version number, and push changes to origin.
 
-# NSIDC Continuous Integration
+        npm run release -- [major | minor | patch ]
 
-NSIDC's project CI utilizes internal configuration found in the `*.yaml` files, `Vagrantfile`
-and `/puppet/*`.   If you are utilizing this project external to NSIDC
-you can safely ignore those files and the remainder of this section.
+## Version Handling
 
-Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
-`project` name for the plugin to use. This repository really has two projects,
-`arctic-data-explorer` (formerly ade_search) and `nsidc_search`, configured in
-`vagrant-nsidc.arctic-data-explorer.yaml` and `vagrant-nsidc.nsidc_search.yaml`.
+Versions should follow [Semantic Versioning](https://semver.org) guidelines.
+Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+the case of release candidates) will package and publish that commit to
+[npmjs.com](https://www.npmjs.com).
 
-To use the correct config file, set the appropriate environment variable:
+## Tagging release candidates
 
-```shell
-export VAGRANT_NSIDC_YAML=vagrant-nsidc.arctic-data-explorer.yaml
-```
+Note: The naming structure for the prerelease scripts (`setup:prerelease` and `bump:prerelease`)
+are intentional in order to avoid unnecessarily triggering the `release` script.
 
-If switching which project you are working on, take care that you are using the
-correct config file, and that the temp file `.nsidc-project.yaml` references the
-right project.
+       $ npm run setup:prerelease # Adds an initial pre-release tag to the current branch (e.g. v3.3.0-rc.0)
+                                  # Does not tag the branch.
+       $ npm run bump:prerelease # Bumps the prerelease number (e.g. 3.3.0-rc.1) and tags the branch.
 
-Once that is setup, machines can be provisioned as expected using the vagrant-nsidc
-plugin.
+Running `npm run bump:prerelease` will tag the current branch with an updated release candidate
+version, the tag will be pushed to origin (via the `postversion` trigger), and CircleCI will build
+and publish a new package to `npmjs`.
 
-# CircleCI Continuous Integration
+## Tagging releases
 
-TODO: Add detail! See config in `.circleci/config.yml`
+To add a release tag (no `-rc.N` suffix):
 
-# Development Notes
+        npm run release -- [major | minor | patch ]
+
+The `release` script noted above is a shortcut for the built-in `npm version` command.
+Note the ` -- ` (two dashes surrounded by spaces) before the level specification. You can also do:
+
+        npm version [major | minor | patch ]
+
+`npm run release` will tag the current branch, the tag will be pushed to origin (via the
+`postversion` trigger), and CircleCI will build and publish a new package to `npmjs`.
+
+## Deploying to staging and production Drupal
+
+At a minimum, developers will need to create a PCT when a new version
+is deployed to [npmjs.com](https://www.npmjs.com). Depending on the changes,
+a pull request may also need to be submitted to update files in
+[nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/)
+(e.g. `web/libraries/package.json`).
+
+
+# Miscellaneous Development Notes
 
 ## CSS / Sass
 
@@ -296,38 +369,7 @@ TODO: Add detail! See config in `.circleci/config.yml`
   (with additional rules that should be cleaned up in
   `config/scsslint-todo.yml`)
 
-## Bootstrap
-
-We are using a customized version of Bootstrap to avoid conflicts with global
-NSIDC styles included via SSI. To add to the existing set of styles and scripts
-go to Bootstrap's
-[customize page](http://getbootstrap.com/2.3.2/customize.html).
-
-To generate the download, first deselect all items in the "Choose components"
-and "Select jQuery plugins" sections.
-
-In "Choose components" select the following:
-
-* Base CSS
-    * Buttons
-* Components
-    * Button groups and dropdowns
-    * Alerts
-* JS Components
-    * Dropdowns
-
-In "Select jQuery plugins" select the following:
-
-* Dropdowns
-* Buttons
-
-Replace the `src/contrib/bootstrap/` directory with the contents of the
-downloaded zip file. Be sure to update this list of components after each new
-download.
-
-## Other Gotchas
-
-### Node "circular dependency" warnings
+## Node "circular dependency" warnings
 When running some of the Grunt tasks, you may see some warning output like:
 
     (node:29680) Warning: Accessing non-existent property 'cat' of module exports inside circular dependency
@@ -342,13 +384,13 @@ to include `--trace-warnings`. For example:
 
     NODE_OPTIONS="--trace-warnings" grunt test:unit
 
-### Xvnc password failure in acceptance tests
+## Xvnc password failure in acceptance tests
 
 If acceptance tests are failing with a warning about an invalid Xvnc password,
 run `vncpasswd` on the machine running the tests and set a dummy password
 (password value doesn't matter).
 
-### A Tale of Exports and Imports
+## A Tale of Exports and Imports
 
 Apparently NodeJS has added a new thing in package.json called "exports". A
 package author can use this section to declare what things are exported for use,
@@ -394,36 +436,3 @@ If / when the vanillajs-datepicker package updates their exports to export this 
 ```
 import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
 ```
-
-## Future Development
-
-These do not yet have tickets in JIRA:
-
-* The webpack configuration (and probably the code structure) need additional
-  refinement in order to reduce the size of the bundled application.
-
-* Move to ES20xx or Typescript.
-
-* Rewrite using React components?
-
-* Dataset Search Services (the Solr back end) is accessed via OpenSearchlight,
-  an open source project owned by NSIDC. That project also needs to be migrated
-  from `RequireJS` to ES6/webpack. Some initial experimentation with ES6-style
-  code exists in branch `soac-62`. **The srch-28 branch of search-interface is
-  running off of the OpenSearchlight branch soac-62, and uses a source file
-  rather than a "built" file.** (See the `git` reference to
-  OpenSearchlight in `package.json` and the `import` statement in
-  `OpenSearchProvider.js`.). **This is not an acceptable long-term
-  approach for a production application.** OpenSearchlight needs to be
-  modernized or replaced. Note that OpenSearchlight is in the open source
-  arena, but since we haven't been actively maintaining it I'm guessing
-  there isn't a huge pool of current users.
-
-  Q: Can Julia to review this and make sure we can push this to Future Development?
-  A: Tentatively, we think the answer is yes and that we
-  [can push this off until 2022 sustainment](https://github.com/nsidc/search-interface/pull/65#discussion_r672579884)
-
-* The Arctic Data Explorer (ADE) has been decommissioned, and
-  some ADE-specific code was removed as part of the work on SOAC-62/SRCH-28.
-  The remaining references to ADE should be removed.
-  TODO: Future Development?

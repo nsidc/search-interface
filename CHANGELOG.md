@@ -1,6 +1,7 @@
 ## Unreleased
 
-- 
+- Move from `RequireJS` to `ES2015` structure.
+- Switch to `package.json` for dependency management, `webpack` for building artifacts.
 
 ## Version 3.0.2-7
 

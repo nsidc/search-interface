@@ -15,88 +15,88 @@ var SearchParamsModel = sinon.stub().returns(createFakeModel()),
 
 describe('Ade Main View', function () {
 
-  var el, params, adeMainView, testConfig;
+    var el, params, adeMainView, testConfig;
 
-  beforeEach(function () {
-    el = document.createElement('div');
-    params = {
-      el: el,
-      searchResultsCollection: new Backbone.Collection(),
-      facetsCollection: new Backbone.Collection(),
-      searchParamsModel: new SearchParamsModel()
-    };
-
-    testConfig = {
-      'MainHeaderView': {Ctor: MainHeaderView, defaultOptions: {templateId: '#nsidc_search-MainHeaderView-panel' } },
-      'HomePageView' : {Ctor: HomePageView, defaultOptions: {templateId: 'ADE'} },
-      'LeftColumnView' : {Ctor: LeftColumnView, defaultOptions: {templateId: 'ADE'} },
-      'RightColumnView' : {Ctor: RightColumnView, defaultOptions: {templateId: 'ADE'} },
-      'LoadingResultsView' : {Ctor: LoadingResultsView, defaultOptions: {templateId: 'ADE'} },
-      'SearchErrorView': {Ctor: SearchErrorView, defaultOptions: {templateId: 'ADE'} }
-    };
-
-    _([ RightColumnView, MainHeaderView, LeftColumnView
-      ]).each(function (ViewCtor) {
-        ViewCtor.resetHistory();
-      });
-
-      // No need to actually emit any debugger messages
-    sinon.stub(debug, 'warn');
-  });
-
-  afterEach(function () {
-    debug.warn.restore();
-  });
-
-  it('Should create the correct child elements', function () {
-    // arrange
-    adeMainView = new AdeMainView(params);
-    // act
-    adeMainView.render();
-    // assert
-    expect($(el).find('#search-content').length).toEqual(1);
-  });
-
-  describe('search:resetClear', function () {
-    var mediator;
     beforeEach(function () {
-      adeMainView = new AdeMainView(params);
-      mediator = new Mediator();
-      adeMainView.setMediator(mediator);
-      adeMainView.render();
-      mediator.trigger('search:resetClear');
+        el = document.createElement('div');
+        params = {
+            el: el,
+            searchResultsCollection: new Backbone.Collection(),
+            facetsCollection: new Backbone.Collection(),
+            searchParamsModel: new SearchParamsModel()
+        };
+
+        testConfig = {
+            'MainHeaderView': {Ctor: MainHeaderView, defaultOptions: {templateId: '#nsidc_search-MainHeaderView-panel' } },
+            'HomePageView' : {Ctor: HomePageView, defaultOptions: {templateId: 'ADE'} },
+            'LeftColumnView' : {Ctor: LeftColumnView, defaultOptions: {templateId: 'ADE'} },
+            'RightColumnView' : {Ctor: RightColumnView, defaultOptions: {templateId: 'ADE'} },
+            'LoadingResultsView' : {Ctor: LoadingResultsView, defaultOptions: {templateId: 'ADE'} },
+            'SearchErrorView': {Ctor: SearchErrorView, defaultOptions: {templateId: 'ADE'} }
+        };
+
+        _([ RightColumnView, MainHeaderView, LeftColumnView
+        ]).each(function (ViewCtor) {
+            ViewCtor.resetHistory();
+        });
+
+        // No need to actually emit any debugger messages
+        sinon.stub(debug, 'warn');
     });
 
-    it('should add a reset message', function () {
-      expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
+    afterEach(function () {
+        debug.warn.restore();
     });
 
-    it('should remove the reset message on a new search', function () {
-      mediator.trigger('search:initiated');
-      expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(0);
-    });
-
-    it('should replace the current message if one already exists', function () {
-      mediator.trigger('search:resetClear');
-      expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
-    });
-  });
-
-  describe('subview creation', function () {
-    var viewsInstantiated = {
-      'RightColumnView': RightColumnView,
-      'MainHeaderView': MainHeaderView,
-      'LeftColumnView': LeftColumnView,
-      'HomePageView': HomePageView,
-      'SearchErrorView': SearchErrorView
-    };
-    _.each(viewsInstantiated, function (viewCtor, viewCtorName) {
-
-      it('Should instantiate the ' + viewCtorName + ' view', function () {
+    it('Should create the correct child elements', function () {
+    // arrange
         adeMainView = new AdeMainView(params);
+        // act
         adeMainView.render();
-        expect(viewCtor.mock.calls.length).toBeGreaterThan(0);
-      });
+        // assert
+        expect($(el).find('#search-content').length).toEqual(1);
     });
-  });
+
+    describe('search:resetClear', function () {
+        var mediator;
+        beforeEach(function () {
+            adeMainView = new AdeMainView(params);
+            mediator = new Mediator();
+            adeMainView.setMediator(mediator);
+            adeMainView.render();
+            mediator.trigger('search:resetClear');
+        });
+
+        it('should add a reset message', function () {
+            expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
+        });
+
+        it('should remove the reset message on a new search', function () {
+            mediator.trigger('search:initiated');
+            expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(0);
+        });
+
+        it('should replace the current message if one already exists', function () {
+            mediator.trigger('search:resetClear');
+            expect(adeMainView.$el.find('#content-explanation-message').length).toEqual(1);
+        });
+    });
+
+    describe('subview creation', function () {
+        var viewsInstantiated = {
+            'RightColumnView': RightColumnView,
+            'MainHeaderView': MainHeaderView,
+            'LeftColumnView': LeftColumnView,
+            'HomePageView': HomePageView,
+            'SearchErrorView': SearchErrorView
+        };
+        _.each(viewsInstantiated, function (viewCtor, viewCtorName) {
+
+            it('Should instantiate the ' + viewCtorName + ' view', function () {
+                adeMainView = new AdeMainView(params);
+                adeMainView.render();
+                expect(viewCtor.mock.calls.length).toBeGreaterThan(0);
+            });
+        });
+    });
 });

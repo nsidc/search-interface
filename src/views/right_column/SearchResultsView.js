@@ -21,12 +21,12 @@ class SearchResultsView extends Backbone.View {
 
     renderItems() {
         this.collection.each(function (collectionElement) {
-          var subView = new ResultItemView({
-            config: this.config,
-            model: collectionElement
-          });
-          subView.render();
-          this.$el.append(subView.el);
+            var subView = new ResultItemView({
+                config: this.config,
+                model: collectionElement
+            });
+            subView.render();
+            this.$el.append(subView.el);
         }, this);
     }
 }
