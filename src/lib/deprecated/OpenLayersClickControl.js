@@ -10,31 +10,31 @@ import mediatorMixin from '../mediator_mixin';
 * control.
 */
 var ClickControl = OpenLayers.Class(OpenLayers.Control, {
-  defaultHandlerOptions: {
-    'single': true,
-    'double': false,
-    'pixelTolerance': 0,
-    'stopSingle': false,
-    'stopDouble': false
-  },
+    defaultHandlerOptions: {
+        'single': true,
+        'double': false,
+        'pixelTolerance': 0,
+        'stopSingle': false,
+        'stopDouble': false
+    },
 
-  initialize: function () {
-    this.handlerOptions = OpenLayers.Util.extend(
-      {}, this.defaultHandlerOptions
-    );
-    OpenLayers.Control.prototype.initialize.apply(
-      this, arguments
-    );
-    this.handler = new OpenLayers.Handler.Click(
-      this,
-      {
-        'click': function (e) {
-          this.mediatorTrigger('map:click', e);
-        }
-      },
-      this.handlerOptions
-    );
-  }
+    initialize: function () {
+        this.handlerOptions = OpenLayers.Util.extend(
+            {}, this.defaultHandlerOptions
+        );
+        OpenLayers.Control.prototype.initialize.apply(
+            this, arguments
+        );
+        this.handler = new OpenLayers.Handler.Click(
+            this,
+            {
+                'click': function (e) {
+                    this.mediatorTrigger('map:click', e);
+                }
+            },
+            this.handlerOptions
+        );
+    }
 });
 
 _.extend(ClickControl.prototype, mediatorMixin);

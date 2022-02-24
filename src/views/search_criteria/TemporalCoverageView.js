@@ -107,8 +107,8 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     bindEvents(mediator) {
-      mediator.on('app:home', this.onAppHome, this);
-      mediator.on('dateRangeRequestComplete', this.onDateRangeRequestComplete, this);
+        mediator.on('app:home', this.onAppHome, this);
+        mediator.on('dateRangeRequestComplete', this.onDateRangeRequestComplete, this);
     }
 
     onAppHome() {
@@ -186,8 +186,8 @@ class TemporalCoverageView extends InputViewBase {
         this.endDatepicker = new Datepicker(endInput, _.extend({},
             datepickerOptions, {
                 format: {
-                   toValue: _.partial(toValue, endOfMonth, endOfYear),
-                   toDisplay
+                    toValue: _.partial(toValue, endOfMonth, endOfYear),
+                    toDisplay
                 }
             }
         ));
@@ -210,30 +210,30 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     validate() {
-      let startText = this.getInputField('start-date');
-      let endText = this.getInputField('end-date');
-      let startDate = this.startDatepicker.getDate();
-      let endDate = this.endDatepicker.getDate();
+        let startText = this.getInputField('start-date');
+        let endText = this.getInputField('end-date');
+        let startDate = this.startDatepicker.getDate();
+        let endDate = this.endDatepicker.getDate();
 
-      let valid = true;
-      let errors = [];
+        let valid = true;
+        let errors = [];
 
-      if (startText && !isValid(startDate)) {
-          valid = false;
-          errors.push(dateStatus.BAD_FORMAT_START);
-      }
+        if (startText && !isValid(startDate)) {
+            valid = false;
+            errors.push(dateStatus.BAD_FORMAT_START);
+        }
 
-      if (endText && !isValid(endDate)) {
-          valid = false;
-          errors.push(dateStatus.BAD_FORMAT_END);
-      }
+        if (endText && !isValid(endDate)) {
+            valid = false;
+            errors.push(dateStatus.BAD_FORMAT_END);
+        }
 
-      if (startText && endText && startDate > endDate) {
-          valid = false;
-          errors.push(dateStatus.BAD_DATE_RANGE);
-      }
+        if (startText && endText && startDate > endDate) {
+            valid = false;
+            errors.push(dateStatus.BAD_DATE_RANGE);
+        }
 
-      return [valid, errors];
+        return [valid, errors];
     }
 
     hideAllDateErrors() {

@@ -57,7 +57,7 @@ export const openSearchOptions = {
 export const appConfig = {
     description: 'Config for NSIDC Search',
     features: {
-        // results header
+    // results header
         itemsPerPage: [25, 50, 100, 250, 500],
 
         // dropdown to sort results from the search results header

@@ -10,29 +10,29 @@ var SpatialCoverageCompassView = sinon.stub().returns(createFakeView());
 objectFactory.register('SpatialCoverageCompassView', {Ctor: SpatialCoverageCompassView});
 
 describe('Spatial Coverage View', function () {
-  var spatialCoverageView, stubGeoBoundingBox;
+    var spatialCoverageView, stubGeoBoundingBox;
 
-  describe('rendering', function () {
-    beforeEach(function () {
-      objectFactory.register('SpatialCoverageTextView', {
-        Ctor: NsidcSpatialCoverageTextView,
-        configOptions: { preset: { presetText: 'Click to define Lat/Lon' } }
-      });
+    describe('rendering', function () {
+        beforeEach(function () {
+            objectFactory.register('SpatialCoverageTextView', {
+                Ctor: NsidcSpatialCoverageTextView,
+                configOptions: { preset: { presetText: 'Click to define Lat/Lon' } }
+            });
 
-      stubGeoBoundingBox = new GeoBoundingBox();
-      stubGeoBoundingBox.isSetToDefaults = sinon.stub();
-      stubGeoBoundingBox.asIdentifier = sinon.stub();
+            stubGeoBoundingBox = new GeoBoundingBox();
+            stubGeoBoundingBox.isSetToDefaults = sinon.stub();
+            stubGeoBoundingBox.asIdentifier = sinon.stub();
 
-      spatialCoverageView = new SpatialCoverageView({model: stubGeoBoundingBox});
-      spatialCoverageView.render();
+            spatialCoverageView = new SpatialCoverageView({model: stubGeoBoundingBox});
+            spatialCoverageView.render();
+        });
+
+        it('renders a NsidcSpatialCoverageTextView', function () {
+            expect(spatialCoverageView.$el.find('#spatial-options').is('input')).toBeTruthy();
+        });
+
+        it('renders a SpatialCoverageCompassView', function () {
+            expect(spatialCoverageView.$el.find('#compass-container').is('div')).toBeTruthy();
+        });
     });
-
-    it('renders a NsidcSpatialCoverageTextView', function () {
-      expect(spatialCoverageView.$el.find('#spatial-options').is('input')).toBeTruthy();
-    });
-
-    it('renders a SpatialCoverageCompassView', function () {
-      expect(spatialCoverageView.$el.find('#compass-container').is('div')).toBeTruthy();
-    });
-  });
 });

@@ -13,7 +13,7 @@ class TemporalMetadataView extends Backbone.View {
         let ranges = this.model.get('dateRanges');
 
         ranges = _.filter(ranges, function (range) {
-          return range.startDate && isDate(parse(range.startDate, 'yyyy-MM-dd', new Date()));
+            return range.startDate && isDate(parse(range.startDate, 'yyyy-MM-dd', new Date()));
         }, this);
 
         if(ranges.length > 0 || this.forceRender) {

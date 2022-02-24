@@ -5,20 +5,20 @@ import viewTemplate from '../../templates/left_column/logo_nsidc.html';
 class LogoView extends Backbone.View {
 
     initialize(options) {
-      this.options = options;
+        this.options = options;
     }
 
     render() {
-      this.$el.html(_.template(viewTemplate));
-      return this;
+        this.$el.html(_.template(viewTemplate));
+        return this;
     }
 
     show() {
-      this.$el.removeClass('hidden');
+        this.$el.removeClass('hidden');
     }
 
     hide() {
-      this.$el.addClass('hidden');
+        this.$el.addClass('hidden');
     }
 }
 
