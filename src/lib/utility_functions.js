@@ -123,7 +123,7 @@ export function round(number, precision) {
 export function getArrayFromjQueryArrayTextContents(jQueryArray) {
     let results = [];
 
-    if (!$.isArray(jQueryArray)) {
+    if (Array.isArray(jQueryArray)) {
         return undefined;
     }
 
