@@ -31,12 +31,10 @@ class SearchApp extends Backbone.Router {
             // If a Drupal variable is set (presumed to be a string or strings representing
             // text search input from a search field anywhere on the web site), use that
             // for search input.
-            if (name === 'doRoute' && drupalSettings.dataset) {
-                // escape input, encode white space
-                // path = keywords=sea+ice+extent
+            // NOTE! This code has not been tested in the real Drupal world!
+            if (name === 'doRoute' && window['drupalSettings'].keywords) {
+                args[0] = 'keywords=' + window['drupalSettings'].keywords;
             }
-
-
 
             if (callback) callback.apply(this, args);
         }
