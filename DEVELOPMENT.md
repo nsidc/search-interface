@@ -280,7 +280,7 @@ See also **Version Handling** below.
 In brief, the steps are:
 
 1. Confirm all tests pass, and that all changes have been committed and pushed
-   to origin. Include a `CHANGELOG` entry with `UNRELEASED` in place of the
+   to origin. Include a `CHANGELOG` entry with the text `Unreleased` instead of a
    version number and date.
 2. Merge the feature branch into the main branch. Update your local working directory.
 
