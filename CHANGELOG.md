@@ -2,6 +2,7 @@
 
 - Move from `RequireJS` to `ES2015` structure.
 - Switch to `package.json` for dependency management, `webpack` for building artifacts.
+- Fix Reset button config link; remove unneeded 'clear' option.
 
 ## Version 3.0.2-7
 

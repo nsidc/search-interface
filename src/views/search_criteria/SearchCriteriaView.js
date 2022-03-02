@@ -41,7 +41,6 @@ class SearchCriteriaView extends InputViewBase {
 
     bindEvents(mediator) {
         this.options.collection.on('reset', this.onSearchResultsReset, this);
-        mediator.on('search:clearParams', this.onSearchClearParams, this);
         mediator.on('search:example', this.onExampleSearch, this);
     }
 
@@ -118,13 +117,8 @@ class SearchCriteriaView extends InputViewBase {
     }
 
     onResetSearchClicked() {
-        if (this.options.reset === 'home') {
-            this.mediatorTrigger('app:home');
-        }
-
-        if (this.options.reset === 'clear') {
-            this.mediatorTrigger('search:resetClear');
-            this.onSearchClearParams();
+        if (this.options.config.searchCriteriaView.reset === 'home') {
+            this.mediator.trigger('app:home');
         }
     }
 
