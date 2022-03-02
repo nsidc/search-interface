@@ -172,7 +172,7 @@ describe('Search Criteria View', function () {
             });
 
             it('triggers the app:home event when the reset link is hit', function () {
-                view.options.reset = 'home';
+                view.options.config.searchCriteriaView.reset = 'home';
 
                 view.onResetSearchClicked();
 
