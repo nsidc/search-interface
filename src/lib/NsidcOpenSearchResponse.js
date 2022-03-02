@@ -75,7 +75,7 @@ function getLinkObj(linkXml) {
 
 function getSortedArray(xml, selector) {
     let filtered = $(xml).filterNode(selector);
-    var arr = UtilityFunctions.getArrayFromjQueryArrayTextContents(filtered);
+    let arr = UtilityFunctions.getArrayFromjQueryArrayTextContents(filtered);
     if (arr !== undefined) {
         arr = arr.sort();
     }
@@ -86,10 +86,8 @@ function processOsEntries(entryXml) {
     var results = [];
 
     entryXml.find("entry").each(function () {
-        var entryObj,
+        let entryObj,
             entry = $(this);
-
-        getSortedArray(this, "dif:Detailed_Variable");
 
         entryObj = {
             title: entry.filterNode("title").text(),

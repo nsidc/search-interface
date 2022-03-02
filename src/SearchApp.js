@@ -14,12 +14,30 @@ import * as criteriaAppender from './lib/criteriaAppender';
 
 class SearchApp extends Backbone.Router {
     preinitialize() {
-    // Set up routing. Using this form instead of the object literal to make
-    // it harder to change the routing table - right now any changes to the
-    // routing should happen to the routeHandlerProperties object.
+        // Set up routing. Using this form instead of the object literal to make
+        // it harder to change the routing table - right now any changes to the
+        // routing should happen to the routeHandlerProperties object.
         this.routes = {
             '*path': 'doRoute'
         };
+
+        // Intercept the callback to check for Drupal variable or query parameters
+        this.execute = function(callback, args, name) {
+            // If no drupal context, set it to empty so the below checks will work
+            if (window['drupalSettings'] === void 0) {
+                window['drupalSettings'] = {};
+            }
+
+            // If a Drupal variable is set (presumed to be a string or strings representing
+            // text search input from a search field anywhere on the web site), use that
+            // for search input.
+            // NOTE! This code has not been tested in the real Drupal world!
+            if (name === 'doRoute' && window['drupalSettings'].keywords) {
+                args[0] = 'keywords=' + window['drupalSettings'].keywords;
+            }
+
+            if (callback) callback.apply(this, args);
+        }
     }
 
     initialize(params) {
@@ -145,8 +163,10 @@ class SearchApp extends Backbone.Router {
             searchOptions.itemsPerPage = this.openSearchOptions.osItemsPerPage;
         }
 
+        // Always render the HTML content when loading or reloading the page.
+        this.homeView.render();
+
         if((path === null || path === '') && this.isHomePageEnabled()) {
-            this.homeView.render();
             this.mediator.trigger('app:home');
             return;
         }
@@ -181,7 +201,6 @@ class SearchApp extends Backbone.Router {
 
         this.searchParamsModel.setCriteria(searchOptions);
         this.mediator.trigger('search:urlParams', this.searchParamsModel, facetFilters);
-
     }
 
     onSearchCancel() {
