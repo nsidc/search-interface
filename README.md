@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/nsidc/search-interface.svg?style=shield&circle-token=f182936bb3f5d4f3c23191890111095f8db0edeb)](https://circleci.com/gh/nsidc/search-interface)
+[![CircleCI](https://circleci.com/gh/nsidc/search-interface/tree/master.svg?style=shield&circle-token=f182936bb3f5d4f3c23191890111095f8db0edeb)](https://circleci.com/gh/nsidc/search-interface/tree/master)
 
 # NSIDC Search Portal
 
@@ -9,7 +9,7 @@ changes.
 
 ### Prerequisites:
 
-* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/))
+* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/)
 * An OpenSearch endpoint capable of receiving search queries and returning
   search results and related facets. Configure the desired endpoint for the
   relevant environment in `src/config/appConfig.js`.
@@ -21,17 +21,17 @@ See [`DEVELOPMENT.md`](https://github.com/nsidc/search-interface/blob/master/DEV
 ### How to contact NSIDC
 
 User Services and general information:
-Support: http://support.nsidc.org
-Email: nsidc@nsidc.org
 
-Phone: +1 303.492.6199
-Fax: +1 303.492.2468
+  - Email: nsidc@nsidc.org
+  - Phone: +1 303.492.6199
+  - Fax: +1 303.492.2468
 
 Mailing address:
-National Snow and Ice Data Center
-CIRES, 449 UCB
-University of Colorado
-Boulder, CO 80309-0449 USA
+
+      National Snow and Ice Data Center
+      CIRES, 449 UCB
+      University of Colorado
+      Boulder, CO 80309-0449 USA
 
 ### License
 
