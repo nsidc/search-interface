@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/nsidc/search-interface.svg?style=svg&circle-token=f182936bb3f5d4f3c23191890111095f8db0edeb)](https://circleci.com/gh/nsidc/search-interface)
+Master: [![CircleCI](https://circleci.com/gh/nsidc/search-interface.svg?style=shield&circle-token=f182936bb3f5d4f3c23191890111095f8db0edeb)](https://circleci.com/gh/nsidc/search-interface)
+Release candidate: [![CircleCI](https://circleci.com/gh/nsidc/search-interface/tree/v4%2E0%2E0-rc.svg?style=shield&circle-token=f182936bb3f5d4f3c23191890111095f8db0edeb)](https://circleci.com/gh/nsidc/search-interface)
 
 # NSIDC Search Portal
 
