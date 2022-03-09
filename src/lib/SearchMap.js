@@ -309,6 +309,9 @@ export default class SearchMap {
         this.clearExtentLayer();
         let view = this.map.getView();
         view.setZoom(view.getMinZoom());
+        this.mode = Mode.MapMode;
+        this.ModeControl.resetToggle();
+        this.ModeControl.handleModeToggle();
     }
 
     /**
