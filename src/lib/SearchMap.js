@@ -26,6 +26,9 @@ import {
 import { DEFAULT_LAYER_TITLE } from './spatial_selection_map/constants';
 
 const round2 = (n) => Math.round(n * 100) / 100;
+const WEST = -1;
+const EAST = 1;
+const NODIR = 0;
 
 const Mode = {
     MapMode: 'MapMode',
@@ -179,10 +182,6 @@ export default class SearchMap {
      *  latitude values in a polar projection.
      */
     extentGeometry(coordinates, geometry, projection) {
-        if (!geometry) {
-            geometry = new Polygon([]);
-        }
-
         // Get projection-specific functions
         let toGlobal = getTransform(projection.getCode(), 'EPSG:4326');
         let coordinatesFn;
@@ -196,9 +195,49 @@ export default class SearchMap {
         // lon/lat boundaries defined by the points.
         let a = toGlobal(coordinates[0]),
             b = toGlobal(coordinates[1]);
-        let west = round2(Math.min(a[0], b[0])),
+
+        if (!geometry) {
+            geometry = new Polygon([]);
+            this.last_b0 = b[0];
+            this.draw_dir = NODIR;
+        } else {
+            if (b[0] < this.last_b0) {
+                // if the new drag point is more west than before
+                if (this.draw_dir === NODIR) {
+                    // if there was no dir set, set it to WEST
+                    this.draw_dir = WEST;
+                } else if (this.draw_dir === EAST) {
+                    // if the draw dir was EAST, but it comes back to the origin and starts
+                    // going west (and not because of crossing the dateline), change the
+                    // direction to WEST
+                    if (this.last_b0 > a[0] && b[0] < a[0] && !(this.last_b0 > 0.0 && b[0] < 0.0)) {
+                        this.draw_dir = WEST;
+                    }
+                }
+            } else if (b[0] > this.last_b0) {
+                // if the new drag point is more east than before
+                if (this.draw_dir === NODIR) {
+                    // if there was no dir set, set it to EAST
+                    this.draw_dir = EAST;
+                } else if (this.draw_dir === WEST) {
+                    // if the draw dir was WEST, but it comes back to the origin and starts
+                    // going east (and not because of crossing the dateline), change the
+                    // direction to EAST
+                    if (this.last_b0 < a[0] && b[0] > a[0] && !(this.last_b0 < 0.0 && b[0] > 0.0)) {
+                        this.draw_dir = EAST;
+                    }
+                }
+            }
+
+            this.last_b0 = b[0];
+        }
+
+        let a_lat = round2(a[0]);
+        let b_lat = round2(b[0]);
+
+        let west = (this.draw_dir === WEST) ? b_lat : a_lat,
             south = round2(Math.min(a[1], b[1])),
-            east = round2(Math.max(a[0], b[0])),
+            east = (this.draw_dir === EAST) ? b_lat : a_lat,
             north = round2(Math.max(a[1], b[1]));
 
         geometry.setCoordinates([coordinatesFn(west, south, east, north)]);
