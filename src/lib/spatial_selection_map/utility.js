@@ -136,6 +136,10 @@ export function setVisibility(layerMap, layerTitle) {
  *  intermediate coordinates on each side.
  */
 export function multisegmentBoxFromExtent(west, south, east, north, segments=20) {
+    if (west > east) {
+        east += 360.0;
+    }
+
     let width = Math.abs(east - west),
         height = Math.abs(north - south);
 
