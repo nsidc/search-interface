@@ -4,6 +4,7 @@ import 'ol/ol.css';
 import Feature from 'ol/Feature';
 import MousePosition from 'ol/control/MousePosition';
 import Polygon from 'ol/geom/Polygon';
+import MultiPolygon from 'ol/geom/MultiPolygon';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Draw, DragPan } from 'ol/interaction';
@@ -240,7 +241,7 @@ export default class SearchMap {
             east = (this.draw_dir === EAST) ? b_lat : a_lat,
             north = round2(Math.max(a[1], b[1]));
 
-        geometry.setCoordinates([coordinatesFn(west, south, east, north)]);
+        geometry.setCoordinates(coordinatesFn(west, south, east, north));
         this.publishExtent(west, south, east, north);
 
         return geometry;
@@ -250,7 +251,19 @@ export default class SearchMap {
      *
      */
     globalCoordinatesFromExtent(west, south, east, north) {
-        return [[west, south], [east, south], [east, north], [west, north], [west, south]];
+        return [[[west, south], [east, south], [east, north], [west, north], [west, south]]];
+    }
+
+    /**
+     * Used to create multipolygon coordinates for when the map is in global view, and the bounding
+     * box crosses the dateline.  Only really needed when switching from polar to global view, or
+     * when manually updating text values in global view
+     */
+    globalCoordinatesFromExtentAroundDateline(west, south, east, north) {
+        return [
+            [[ [-180.0, south], [east, south], [east, north], [-180.0, north], [-180.0, south] ]],
+            [[ [west, south], [180.0, south], [180.0, north], [west, north], [west, south] ]]
+        ]
     }
 
     /**
@@ -259,7 +272,7 @@ export default class SearchMap {
     polarCoordinatesFromExtent(projection, west, south, east, north) {
         let box = multisegmentBoxFromExtent(west, south, east, north);
         let globalToPolar = getTransform('EPSG:4326', projection);
-        return _.chunk(globalToPolar(box), 2);
+        return [_.chunk(globalToPolar(box), 2)];
     }
 
     /**
@@ -272,7 +285,7 @@ export default class SearchMap {
         // Simplify the coordinates to just the corners
         let geometry = new Polygon([gc]);
         let e = geometry.getExtent();
-        geometry.setCoordinates([this.globalCoordinatesFromExtent(e[0], e[1], e[2], e[3])]);
+        geometry.setCoordinates(this.globalCoordinatesFromExtent(e[0], e[1], e[2], e[3]));
 
         return geometry;
     }
@@ -303,16 +316,22 @@ export default class SearchMap {
      */
     extentDrawEnded(event) {
         let geometry = event.feature.getGeometry().clone();
-        console.log(geometry);
+        this.createExtentLayer(geometry);
+        this.mediator.trigger('map:extentDrawEnded');
+        this.toggleMode();
+    }
+
+    /**
+     *  Create the actual box "layer" for display on the map
+     */
+    createExtentLayer(geometry) {
         this.extentLayer = new VectorLayer({
             source: new VectorSource({ features: [
-                new Feature({geometry})
-            ] }),
+                    new Feature({geometry})
+                ] }),
         });
 
         this.map.addLayer(this.extentLayer);
-        this.mediator.trigger('map:extentDrawEnded');
-        this.toggleMode();
     }
 
     /**
@@ -338,7 +357,29 @@ export default class SearchMap {
      *
      */
     changeExtent(north, west, south, east) {
-        console.log('SearchMap.changeLatLonBoundary', north, west, south, east);
+        let code = this.map.getView().getProjection().getCode();
+        let coordinatesFn;
+        let geometry;
+        if (code === 'EPSG:4326') {
+            // global view
+            if (west <= east) {
+                // if it doesn't wrap the dateline, just use a regular box for the polygon
+                geometry = new Polygon([]);
+                coordinatesFn = _.bind(this.globalCoordinatesFromExtent, this);
+            } else {
+                // if it wraps the dateline, we need to have it draw two separate boxes, as OpenLayers
+                // apparently does not automatically draw the "wrapping" on the other side of the map.
+                geometry = new MultiPolygon([]);
+                coordinatesFn = _.bind(this.globalCoordinatesFromExtentAroundDateline, this);
+            }
+        } else {
+            // polar view
+            geometry = new Polygon([]);
+            coordinatesFn = _.bind(this.polarCoordinatesFromExtent, this, code);
+        }
+        geometry.setCoordinates(coordinatesFn(west, south, east, north));
+        this.clearExtentLayer();
+        this.createExtentLayer(geometry);
     }
 
     /**
@@ -367,6 +408,8 @@ export default class SearchMap {
         this.reprojectExtent(currentProjection, view.getProjection());
 
         resizeMapContainer(this.map, currentLayer.get('width'), currentLayer.get('height'));
+        view.setZoom(view.getMinZoom());
+        this.mediator.trigger('map:redrawBoundingBox');
     }
 
     toggleMode() {
