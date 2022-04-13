@@ -288,20 +288,6 @@ describe('Spatial Coverage Compass View (box with 4 directions)', function () {
                 expect(mediatorStub.trigger).toHaveBeenCalledWith('map:changeGlobalCoords');
             });
 
-            it('should report an adjusted west coordinate to Open Layers for boxes crossing the date line', function () {
-                var west = 170, east = -170,
-                    adjustedWest = west - 360;
-
-                view.setMediator(mediatorStub);
-
-                view.west(west);
-                view.east(east);
-                view.boundingBoxUpdate();
-
-                expect(mediatorStub.trigger).toHaveBeenCalledWith('map:changeGlobalCoords');
-                expect(mediatorStub.trigger.firstCall[2]).toBe(adjustedWest);
-            });
-
             it('should not change map bounding box when input is invalid', function () {
                 view.setMediator(mediatorStub);
 

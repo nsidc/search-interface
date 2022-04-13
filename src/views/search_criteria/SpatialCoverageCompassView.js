@@ -318,10 +318,6 @@ class SpatialCoverageCompassView extends Backbone.View {
             south = parseFloat(this.south());
 
         if(this.validateUserInputBbox()) {
-            // if(west > east) {
-            //     west -= 360;
-            // }
-
             this.mediator.trigger('map:changeCoordinates', north, west, south, east);
         }
     }
