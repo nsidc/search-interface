@@ -295,7 +295,7 @@ export default class SearchMap {
      */
     polarGeometryFromGlobalExtent(projection, extent) {
         return new Polygon(
-            [this.polarCoordinatesFromExtent(projection, extent[0], extent[1], extent[2], extent[3])]
+            this.polarCoordinatesFromExtent(projection, extent[0], extent[1], extent[2], extent[3])
         );
     }
 
@@ -327,8 +327,8 @@ export default class SearchMap {
     createExtentLayer(geometry) {
         this.extentLayer = new VectorLayer({
             source: new VectorSource({ features: [
-                    new Feature({geometry})
-                ] }),
+                new Feature({geometry})
+            ] }),
         });
 
         this.map.addLayer(this.extentLayer);
