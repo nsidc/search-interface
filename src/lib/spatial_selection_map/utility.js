@@ -134,10 +134,16 @@ export function setVisibility(layerMap, layerTitle) {
  *  From an extent (NSEW bounds), create a flat coordinate array which
  *  starts at the SW point and continues counter-clockwise, creating
  *  intermediate coordinates on each side.
+ *  If segments is not positive, it will calculate a number of segments based on the size
+ *  of the extent
  */
-export function multisegmentBoxFromExtent(west, south, east, north, segments=20) {
+export function multisegmentBoxFromExtent(west, south, east, north, segments=0) {
     if (west > east) {
         east += 360.0;
+    }
+
+    if (segments <= 0) {
+        segments = Math.floor( (east-west) / 5.0 );
     }
 
     let width = Math.abs(east - west),

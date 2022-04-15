@@ -41,6 +41,7 @@ class SpatialCoverageCompassView extends Backbone.View {
         mediator.on('search:initiated', this.onSearchInitiated, this);
         mediator.on('map:clearSelection', this.mapSelectionCleared, this);
         mediator.on('map:changeBoundingBox', this.mapBoundingBoxChanged, this);
+        mediator.on('map:redrawBoundingBox', this.boundingBoxUpdate, this);
         mediator.on('map:click', this.clearSpatialSelection, this);
     }
 
@@ -317,10 +318,6 @@ class SpatialCoverageCompassView extends Backbone.View {
             south = parseFloat(this.south());
 
         if(this.validateUserInputBbox()) {
-            if(west > east) {
-                west -= 360;
-            }
-
             this.mediator.trigger('map:changeCoordinates', north, west, south, east);
         }
     }
