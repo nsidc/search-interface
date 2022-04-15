@@ -30,10 +30,12 @@ class GeoBoundingBox extends Backbone.Model {
             // Object.hasOwn(cornerLocs, 'lonMax') &&
             // Object.hasOwn(cornerLocs,'latMin') &&
             // Object.hasOwn(cornerLocs, 'latMax')) {
+            /* eslint-disable no-prototype-builtins */
             cornerLocs.hasOwnProperty('lonMin') &&
             cornerLocs.hasOwnProperty('lonMax') &&
             cornerLocs.hasOwnProperty('latMin') &&
             cornerLocs.hasOwnProperty('latMax')) {
+            /* eslint-enable no-prototype-builtins */
             this.set('west', cornerLocs.lonMin);
             this.set('south', cornerLocs.latMin);
             this.set('east', cornerLocs.lonMax);
