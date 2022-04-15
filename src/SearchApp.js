@@ -178,7 +178,9 @@ class SearchApp extends Backbone.Router {
                 re;
 
             // discard properties given in the URL not known to the app
-            if(!Object.hasOwn(this.routeHandlerProperties, propName)) {
+            // TODO: eventually change this to, once Safari, etc, implement hasOwn properly, and remove hasOwnProperty lines
+            // if(!Object.hasOwn(this.routeHandlerProperties, propName)) {
+            if(!this.routeHandlerProperties.hasOwnProperty(propName)) {
                 return;
             }
 
