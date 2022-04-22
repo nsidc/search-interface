@@ -3,6 +3,7 @@
 - Move from `RequireJS` to `ES2015` structure.
 - Switch to `package.json` for dependency management, `webpack` for building artifacts.
 - Fix Reset button config link; remove unneeded 'clear' option.
+- Using arc-shaped selection boxes for polar views.
 
 ## Version 3.0.2-7
 
