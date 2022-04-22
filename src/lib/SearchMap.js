@@ -409,7 +409,9 @@ export default class SearchMap {
 
         resizeMapContainer(this.map, currentLayer.get('width'), currentLayer.get('height'));
         view.setZoom(view.getMinZoom());
-        this.mediator.trigger('map:redrawBoundingBox');
+
+        // If there is a selection box, trigger the redraw method
+        if (this.extentLayer) this.mediator.trigger('map:redrawBoundingBox');
     }
 
     toggleMode() {
