@@ -37,7 +37,7 @@
     "karma-spec-reporter": "0.0.32",
     "requirejs": "^2.3.6",
     "sinon": "9.0.2",
-    "stylelint": "13.6.1"
+    "stylelint": "15.6.0"
   },
   "dependencies": {
     "acorn": "^7.3.1",
