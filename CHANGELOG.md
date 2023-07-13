@@ -1,7 +1,5 @@
 ## 3.1.0 (2023-07-13)
 
-## Unreleased
-
 - CI updates to reflect the change from `master` to `main` as the default
   branch. Note that these changes have *not* been tested by building a new CI
   machine. Additional VM configuration updates will be handled in a separate
