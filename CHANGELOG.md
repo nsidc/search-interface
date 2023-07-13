@@ -1,3 +1,5 @@
+## 3.1.0 (2023-07-13)
+
 ## Unreleased
 
 - CI updates to reflect the change from `master` to `main` as the default
