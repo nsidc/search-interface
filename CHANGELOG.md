@@ -1,3 +1,10 @@
+## Unreleased
+
+- CI updates to reflect the change from `master` to `main` as the default
+  branch. Note that these changes have *not* been tested by building a new CI
+  machine. Additional VM configuration updates will be handled in a separate
+  story.
+
 ## 3.0.0 (2020-07-17)
 
 - Update node.js and Javascript package versions.
