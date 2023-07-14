@@ -50,10 +50,12 @@ nsidc_jenkins::jobs:
       - type: string
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
-        default: master
+        default: main
     git:
       repo: "%{hiera('gitrepo')}"
       poll_scm: true
+      branches: main
+      checkout_local: '**'
     command: |
       git checkout $ref
     trigger_job: "%{hiera('job_integration_install_deps')}"
@@ -123,9 +125,11 @@ nsidc_jenkins::jobs:
       - type: string
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
-        default: master
+        default: main
     git:
       repo: "%{hiera('gitrepo')}"
+      branches: main
+      checkout_local: '**'
     command: git checkout $ref
     trigger_job: "%{hiera('job_qa_install_deps')}"
 
@@ -181,6 +185,8 @@ nsidc_jenkins::jobs:
         default: latest
     git:
       repo: "%{hiera('gitrepo')}"
+      branches: main
+      checkout_local: '**'
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('job_staging_install_deps')}"
 
@@ -237,6 +243,8 @@ nsidc_jenkins::jobs:
         default: "%{hiera('project')}-staging"
     git:
       repo: "%{hiera('gitrepo')}"
+      branches: main
+      checkout_local: '**'
     command: git checkout refs/tags/$tag
     trigger_job: "%{hiera('job_blue_install_deps')}"
 
@@ -286,7 +294,7 @@ nsidc_jenkins::jobs:
       - type: string
         name: branch
         description: git branch to checkout and tag
-        default: master
+        default: main
       - type: choice
         name: version_part
         choices:
@@ -295,6 +303,8 @@ nsidc_jenkins::jobs:
         - major
     git:
       repo: "%{hiera('gitrepo')}"
+      branches: main
+      checkout_local: '**'
     command: |
       git checkout $branch
       npm install

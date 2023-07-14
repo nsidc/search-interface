@@ -5,6 +5,13 @@
 - Fix Reset button config link; remove unneeded 'clear' option.
 - Using arc-shaped selection boxes for polar views.
 
+## 3.1.0 (2023-07-13)
+
+- CI updates to reflect the change from `master` to `main` as the default
+  branch. Note that these changes have *not* been tested by building a new CI
+  machine. Additional VM configuration updates will be handled in a separate
+  story.
+
 ## Version 3.0.2-7
 
 - Update homepage link to learn more about the Cryosphere.
@@ -31,6 +38,8 @@
     + Improved code formatting & linting
     + All JavaScript packages are now all managed by npm
     + The build and other tasks are now handled by npm scripts
+
+## 3.0.0 (2020-07-17)
 
 - Update node.js and Javascript package versions.
 - Switch from Jade to Pug for HTML templates (Jade was renamed).
