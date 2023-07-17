@@ -18,7 +18,8 @@
     "node": "^14.19.0",
     "npm": "^6.14.16"
   },
-  "browser": "dist/index.bundle.js",
+  "type": "module",
+  "browser": "./dist/index.bundle.js",
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
@@ -33,7 +34,7 @@
     "bump:prerelease": "npm version prerelease --preid=rc",
     "release": "npm version",
     "version": "./release.sh",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push --follow-tags"
   },
   "dependencies": {
     "OpenSearchlight": "git+https://github.com/nsidc/OpenSearchlight.git#soac-62",
