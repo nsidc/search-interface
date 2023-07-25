@@ -1,0 +1,16 @@
+#spatial-options {
+  float: left;
+  margin: 0;
+  padding: 0 10px;
+  width: $header-spatial-options-width;
+}
+
+#globe-logo {
+  background: url(img('nsidc-globe-logo.png')) no-repeat;
+  background-size: 167px 100px;
+  cursor: pointer;
+  height: 100px;
+  width: 200px;
+  margin: 15px 10px 5px 0;
+  background-position: center;
+}

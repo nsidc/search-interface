@@ -1,0 +1,77 @@
+version: 2.1
+
+setup: &setup
+  working_directory: ~/search-interface
+  docker:
+    - image: node:14.19.0
+
+jobs:
+  test:
+    <<: *setup
+    steps:
+      - checkout
+      - restore_cache:
+          key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Check package audit
+          command: npx check-audit
+      - run:
+          name: Lint
+          command: npx eslint -o reports/lint/lint.xml -f junit "./src/"
+      - run:
+          name: Test
+          command: npx jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: reports/junit/
+      - store_artifacts:
+          path: reports/lint/
+      - store_artifacts:
+          path: reports/junit/
+      - store_artifacts:
+          path: reports/coverage/
+      - save_cache:
+          key: search-interface-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - "~/search-interface/node_modules"
+      - persist_to_workspace:
+          root: ~/search-interface
+          paths:
+            - .
+
+  package-and-publish:
+    <<: *setup
+    steps:
+      - attach_workspace:
+          at: ~/search-interface
+      - run:
+          name: Build package
+          command: npm run build
+      - run:
+          name: Publish to npmjs.org
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" >> ~/.npmrc
+            npm --access public publish
+
+workflows:
+  version: 2.1
+  test-package-publish:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
+
+      - package-and-publish:
+          context: org-global
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*(\-[\.a-zA-Z0-9]+)?$/

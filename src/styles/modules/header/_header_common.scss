@@ -1,0 +1,559 @@
+.search-header {
+  @include box-shadow(0 2px 3px rgba(15, 38, 76, .4));
+  background: $header-bg;
+  background-position: $header-bg-position;
+  height: 115px;
+  margin: 0;
+  overflow: visible;
+  position: relative;
+  width: 100%;
+  min-width: 1050px;
+  z-index: 1;
+
+  #header-items {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 1050px;
+    height: 100%;
+    margin-left: 0;
+    margin-right: auto;
+    margin-top: 0;
+  }
+
+  input,
+  .add-on,
+  .combo-box-drop-down {
+    @include box-shadow($search-criteria-box-shadow);
+    border: $search-criteria-input-border;
+  }
+
+  button {
+    @include border-radius(4px);
+    @include box-shadow($search-criteria-box-shadow);
+    cursor: pointer;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    width: 120px;
+
+    &.submit-coordinates {
+      font-size: 11px;
+      height: 22px;
+      vertical-align: top;
+      width: auto;
+    }
+
+    // reset bounding box
+    &.reset-coordinates {
+      background: #fff;
+      background-image: none;
+      color: #000;
+      font-size: 11px;
+      height: 22px;
+      line-height: 0;
+      text-shadow: none;
+      width: auto;
+
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
+
+  .spatial-trigger {
+    @include box-shadow($search-criteria-box-shadow);
+    float: left;
+    height: 16px;
+    padding: 0;
+    width: 16px;
+
+    &,
+    &:hover,
+    &:active {
+      cursor: pointer;
+      float: left;
+      height: 26px;
+      padding: 0;
+      position: relative;
+      top: 0;
+      width: 27px;
+    }
+
+    &:before {
+      background-image: url(img('globe-icon.png'));
+      content: '';
+      display: block;
+      height: 16px;
+      position: absolute;
+      width: 16px;
+      left: 5px;
+      top: 5px;
+    }
+
+    &:hover {
+      &:before {
+        background-position: 0 -16px;
+      }
+    }
+
+    &:active {
+      &:before {
+        background-position: 0 0;
+      }
+    }
+  }
+
+}
+
+#search-criteria {
+  display: flex;
+  align-content: space-between;
+  justify-content: left;
+  margin: 1em auto;
+  margin-left: 0;
+  width: $header-search-criteria-width;
+
+  input {
+    @include border-radius(4px);
+    @include box-shadow($search-criteria-box-shadow);
+    border: $search-criteria-input-border;
+    font-size: 1em;
+    height: 26px;
+    padding: 0 $header-keyword-input-text-padding;
+
+    &.combo-box-input {
+      @include border-radius($combo-box-input-border-radius);
+      border-right: 0;
+    }
+  }
+
+  #search-buttons {
+    padding: 0.5em 0 0.5em 1.5em;
+    width: auto;
+    font-size: $find-data-font-size;
+
+    .find-data {
+      margin: 3px 10px 0 0;
+      width: 7em;
+    }
+
+    .reset-search {
+      margin: 3px 0 0 0;
+      width: 5em;
+    }
+  }
+}
+
+#search-form-fields {
+  height: 85px;
+  padding: 0.5em 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  width: $header-keyword-container-width;
+}
+
+
+#keywords-container {
+  float: left;
+  margin: 3px 0;
+
+  .keyword-input-box {
+    label {
+      display: none;
+    }
+  }
+
+  #keyword {
+    float: left;
+    width: $header-keyword-input-width;
+  }
+}
+
+#spatial-temporal-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#temporal-box {
+
+  #start-date,
+  #end-date {
+    float: left;
+    width: 8em;
+  }
+
+  .input-append {
+    float: left;
+  }
+
+  label {
+    float: left;
+    font-size: 14px;
+    padding: 4px 5px 0 0;
+
+    &:nth-of-type(2) {
+      margin-left: 8px;
+      margin-right: 2px;
+    }
+  }
+
+  .add-on {
+    @include border-radius($combo-box-drop-down-border-radius);
+    border: $search-criteria-input-border;
+    cursor: pointer;
+    padding: 2px 10px 4px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &,
+    &:hover,
+    &:active {
+      @include inline-block;
+      @include user-select;
+
+      background: #f7f7f7;
+      border: $search-criteria-input-border;
+      border-left-color: $search-criteria-add-on-border-left-color;
+      cursor: pointer;
+      float: left;
+      height: 26px;
+      padding: 0;
+      position: relative;
+      top: 0;
+      width: 27px;
+    }
+
+    &:before {
+      background-image: url(img('calendar-icon.png'));
+      content: '';
+      display: block;
+      height: 16px;
+      left: 5px;
+      position: absolute;
+      top: 5px;
+      width: 16px;
+    }
+
+    &:hover {
+      &:before {
+        background-position: 0 -16px;
+      }
+    }
+
+    &:active {
+      &:before {
+        background-position: 0 0;
+      }
+    }
+  }
+}
+
+.combo-box-drop-down {
+  @include border-radius($combo-box-drop-down-border-radius);
+  background: #f7f7f7;
+  border: $search-criteria-input-border;
+  border-left-color: #ddd;
+  cursor: pointer;
+  padding: 0;
+}
+
+.date-error {
+  float: left;
+  margin: 0 0 0 18px;
+  text-align: center;
+  width: 195px;
+
+  > .ui-widget {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+
+    > .ui-state-error {
+      padding: 0 10px;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+#spatial-container {
+
+  > label {
+    display: none;
+  }
+}
+
+#map-container { margin: auto; }
+
+#spatial-compass {
+  text-align: center;
+
+  input {
+    @include box-shadow(1px 2px 2px rgba(15, 38, 76, .3));
+    border: 1px solid #ddd;
+  }
+
+  .alert {
+    clear: both;
+    text-align: left;
+  }
+
+  .bbox-error {
+    float: left;
+    padding-top: 4px;
+  }
+}
+
+#mode-toggle {
+    top: .5em;
+    left: .5em;
+}
+
+.toggle-active {
+    background-color: rgba(0, 255, 255, 1) !important;
+    button {
+        color: rgba(0, 255, 255, 1) !important;
+    }
+}
+
+.geospatialInputFieldsNsew {
+  .compassInput {
+    margin: 1.1em;
+  }
+}
+
+#northInput {
+  clear: right;
+  display: block;
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+#southInput {
+  display: block;
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+#eastInput {
+  clear: right;
+}
+
+#westInput {
+  clear: left;
+  margin-left: 20px;
+  margin-right: 58px;
+  margin-top: 10px;
+}
+
+// TODO: Needed?
+// Style the OpenLayers map
+.openlayers-map {
+  img {
+    margin: 0;
+  }
+}
+
+.olControlTransformFeatureActive {
+  cursor: pointer;
+}
+
+.olControlDrawFeaturePolygonActive {
+  cursor: crosshair;
+}
+
+.olControlNavigationActive {
+  cursor: pointer;
+}
+
+.olControlEditingToolbar > .olButton {
+  -webkit-filter: #{'grayscale(0%)'};
+  filter: url('data:image/svg+xml;utf8, <svg xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"grayscale\"><feColorMatrix type=\"matrix\" values=\"1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\"/></filter></svg>#grayscale');
+  float: left;
+}
+
+.olControlEditingToolbar > .disabled {
+  @include opacity(.4);
+  cursor: default;
+}
+
+div {
+  &.olControlEditingToolbar {
+    left: 0;
+    right: initial;
+    top: 0;
+  }
+
+  &.olControlPanZoomBar {
+    top: 28px;
+  }
+
+  &.olControlMousePosition {
+    color: #ffa500;
+    font-family: Verdana;
+    font-size: 1em;
+  }
+
+  &.geospatialInputFieldsNsew {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.geospatialInputFieldsCorners {
+  .compassInput {
+    margin-bottom: .24em;
+    margin-left: .18em;
+    width: 75px;
+  }
+}
+
+.upperLeftCoordinate {
+  float: left;
+  margin: 0 0 5px 170px;
+  width: 150px;
+}
+
+.lowerRightCoordinate {
+  float: left;
+  margin: 0 170px 5px 0;
+  width: 150px;
+}
+
+.cornerLabel {
+  clear: both;
+}
+
+#cancel-coordinates {
+  cursor: pointer;
+}
+
+#primary-actions {
+  clear: both;
+  margin: 0 30px;
+  padding: 10px 0;
+}
+
+#compass-container {
+  position: absolute;
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
+  background: #fff;
+  border: 1px solid #ccc;
+  clear: left;
+  margin: 30px 0;
+  padding: 10px;
+  width: 670px;
+  text-align: center;
+  z-index: 9999;
+
+  h3 {
+    margin: 0.5em 0em;
+    padding: 0em;
+  }
+
+  .mapProjection {
+    font-size: 1em;
+    input {
+      height: auto;
+      border: none;
+      box-shadow: none;
+    }
+    padding-bottom: 0.5em;
+  }
+
+  .mapInstructions {
+    font-style: italic;
+    padding-bottom: 0.5em;
+  }
+
+}
+
+#spatialInput_nsew {
+  input {
+    width: 90px;
+  }
+}
+
+/**
+ * The zoomslider in the second map shall be placed between the zoom-in and
+ * zoom-out buttons.
+ */
+#map-container .ol-zoom {
+  position:absolute;
+  top: 40px;
+  left: .5em;
+}
+
+#map-container .ol-zoom .ol-zoom-out {
+  margin-top: 205px;
+}
+
+#map-container .ol-zoomslider {
+  background-color: rgba(0, 30, 156, 0.25);
+  /*
+  Zoom control top: 0.5em
+  Zoom control padding: 2px
+  Zoom in button margin top: 1px
+  Zoom in button height: font size 1.14em * 1.375 height
+  */
+  top: calc(40px + 2px + 1px + 1.14 * 1.375em);
+  left: .5em;
+}
+
+#map-container .ol-touch .ol-zoom .ol-zoom-out {
+  margin-top: 212px;
+}
+
+#map-container .ol-touch .ol-zoomslider {
+  top: 2.75em;
+}
+
+#map-container .ol-zoom-in.ol-has-tooltip:hover [role=tooltip],
+#map-container .ol-zoom-in.ol-has-tooltip:focus [role=tooltip] {
+  top: 3px;
+}
+
+#map-container .ol-zoom-out.ol-has-tooltip:hover [role=tooltip],
+#map-container .ol-zoom-out.ol-has-tooltip:focus [role=tooltip] {
+  top: 232px;
+}
+
+
+// auto-suggest dropdown
+$auto-suggest-highlight-color: rgba(0, 0, 0, .1);
+
+.tt-menu {
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, .2));
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .2);
+  padding-left: 10px;
+  padding-top: 5px;
+  width: $header-keyword-input-width;
+}
+
+.tt-cursor {
+  background: $auto-suggest-highlight-color;
+}
+
+.tt-suggestion {
+  cursor: pointer;
+
+  &:hover {
+    background: $auto-suggest-highlight-color;
+  }
+
+}
+
+#map-container .ol-mouse-position {
+    top: unset;
+    bottom: 8px;
+    right: 8px;
+    position: absolute;
+    color: #ffa500;
+}

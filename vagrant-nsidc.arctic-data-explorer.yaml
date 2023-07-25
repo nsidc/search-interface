@@ -1,7 +1,0 @@
-project: arctic-data-explorer
-gitrepo: git@github.com:nsidc/search-interface.git
-
-vsphere:
-  template:
-    default: xenial64-nsidc-puppet4
-    ci: xenial64-docker-puppet4-jenkins1

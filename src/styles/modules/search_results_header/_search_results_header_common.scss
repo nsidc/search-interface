@@ -1,0 +1,78 @@
+// rules for selectors shared between the projects go here
+// different values for the different projects can be configured with variables
+
+$header-font-size: 12px;
+
+.results-header {
+  margin: 15px 0 10px;
+  width: $header-search-criteria-width;
+
+  &.btn-group {
+    font-size: $header-font-size;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    button {
+      font-family: $default-font-family;
+      margin: 0;
+      vertical-align: baseline;
+    }
+  }
+
+  > div {
+    clear: none;
+    float: left;
+    margin: 0;
+
+    &.btn-group {
+      font-size: $header-font-size;
+      vertical-align: baseline;
+      display: inline-block;
+    }
+
+    &.results-count {
+      vertical-align: baseline;
+      width: 30%;
+
+      p {
+        margin: 2px 0;
+      }
+    }
+
+    &.result-options {
+      text-align: right;
+      width: 70%;
+
+      label {
+        font-size: $header-font-size;
+        margin-right: 3px;
+        vertical-align: baseline;
+      }
+
+    }
+
+  }
+
+  // lining up the dropdowns
+  .sort-results {
+    display: inline-block;
+  }
+
+  .results-per-page {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+
+  #results-per-page-button {
+    width: auto;
+  }
+}
+
+.ui-selectmenu-button.ui-button {
+  width: unset;
+}
+
+ul#results-per-page-menu li.ui-menu-item div {
+  padding-left: 10px;
+}

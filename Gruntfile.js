@@ -34,11 +34,6 @@ module.exports = function (grunt) {
 
     },
     preserveLicenseComments: false,
-    shim: {
-      'vendor/debug': {
-        exports: 'debug'
-      }
-    }
   };
 
   // files that tasks run on
@@ -178,7 +173,6 @@ module.exports = function (grunt) {
           {expand: true, cwd: 'bower_components/openlayers', src: ['img/**/*', 'theme/**/*'], dest: 'src/contrib/openlayers/'},
           {expand: true, cwd: 'bower_components/proj4', src: ['**'], dest: 'src/contrib/proj4/'},
           {expand: true, cwd: 'bower_components/tipsy', src: ['**'], dest: 'src/contrib/tipsy/'},
-          {expand: true, cwd: 'bower_components/web-socket-js', src: ['**'], dest: 'src/contrib/web-socket-js/'}
         ]
       }
     },

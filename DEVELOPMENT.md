@@ -1,119 +1,238 @@
-**NOTE**: The Arctic Data Explorer (ADE) has been decommissioned.
-Although there are still references to it throughout this project,
-they can be removed.
- 
-## Git workflow
+# Contents
+
+* [ES2015 Transition](#es2015-transition)
+* [Dependencies and Prerequisites](#dependencies-and-prerequisites)
+* [Git Workflow](#git-workflow)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Running the Linter](#running-the-linter)
+* [Running the App Locally](#running-the-app-locally)
+* [Running on a VM](#running-on-a-vm)
+* [Unit Tests](#unit-tests)
+* [Acceptance Tests](#acceptance-tests)
+* [Continuous Integration](#continuous-integration)
+* [Releasing a New Version](#releasing-a-new-version)
+* [Miscellaneous Development Notes](#miscellaneous-development-notes)
+
+# ES2015 transition:
+
+Branch `v4.0.0-rc` represents the migration in progress from `Bower`,
+`Grunt` and `requirejs` to a structure following the ES2015 language
+specification, using `npm` to manage dependencies and `webpack` to build
+and bundle the application. The migration strategy was based on the "Treat
+everything like a method" option described by
+[Ben McCormick](https://benmccormick.org/2015/07/06/backbone-and-es6-classes-revisited).
+
+## Dependencies and prerequisites
+
+* [Node](http://nodejs.org/) and [npm](https://www.npmjs.org/)
+* An OpenSearch endpoint capable of receiving search queries and returning
+  search results and related facets.
+
+[Dataset Search Services](https://github.com/nsidc/dataset-search-services/)
+provides the OpenSearch endpoint in the NSIDC environment. See the DSS
+project to learn more about its dependencies, including Solr and Search Solr Tools.
+A local DSS, DSS running in a pre-production environment (e.g., `integration`,
+`qa`, or `staging`), or the production version of DSS may be used as the
+OpenSearch endpoint when running a local instance.  See [Configuration](#configuration), below.
+
+# Git Workflow
 
 Development on this project uses
 [the GitHub Flow](https://guides.github.com/introduction/flow/index.html):
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 2. Stage your changes (`git add`)
-3. Commit your JSHint-compliant and test-passing changes (just run `grunt`) with a
+3. Commit your ESLint-compliant (`npm run lint`) and test-passing changes
+   (`npm test`) with a
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
-4. Push to the branch (`git push -u origin my-new-feature`)
-5. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
+6. Push to the branch (`git push -u origin my-new-feature`)
+7. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
 
-## NSIDC Continuous Integration
+# Installation
 
-NSIDC's project CI utilizes internal configuration found in the `*.yaml` files, `Vagrantfile`
-and `/puppet/*`.   If you are utilizing this project external to NSIDC
-you can safely ignore those files and the remainder of this section.
+1. Install [node.js](http://nodejs.org/) (Check out [NVM](https://github.com/nvm-sh/nvm)
+   if you need to move between versions of node for different projects.)
 
-Most projects just have a file called `vagrant-nsidc.yaml`, which specifies a
-`project` name for the plugin to use. This repository really has two projects,
-`arctic-data-explorer` (formerly ade_search) and `nsidc_search`, configured in
-`vagrant-nsidc.arctic-data-explorer.yaml` and `vagrant-nsidc.nsidc_search.yaml`.
+3. Install node modules:
 
-To use the correct config file, set the appropriate environment variable:
+        npm install
 
-```shell
-export VAGRANT_NSIDC_YAML=vagrant-nsidc.arctic-data-explorer.yaml
-```
+## Additional installation steps for acceptance test environment
 
-If switching which project you are working on, take care that you are using the
-correct config file, and that the temp file `.nsidc-project.yaml` references the
-right project.
+**TODO:** The acceptance test suite has not been updated for the ES2015/webpack environment
+and should be considered non-functional. See SRCH-73 and related stories SRCH-41, SRCH-50.
 
-Once that is setup, machines can be provisioned as expected using the vagrant-nsidc
-plugin.
+Acceptance tests currently depend on Ruby. You will need to install:
 
-## Grunt
+* Ruby (*version?*)
+* Rubygems and Bundler
 
-Run `grunt tasks` to get a list and descriptions of the most important grunt
-tasks defined in `Gruntfile.js`. Tasks that should use additional command line
-flags list those flags at the end of the description.
+Then install the ruby gems: `bundle install`
 
-The default grunt task (i.e., just running `grunt`) runs syntax checkers and
-unit tests.
+See more in [Acceptance Tests](#acceptance-tests), below.
 
-`grunt tasks` does not list `grunt watch` tasks, and there are a couple of those
-that are useful:
+# Configuration
 
-* `grunt watch:lint-test` will automatically run JSHint, scss-lint, and the
-  Jasmine test suite whenever a JavaScript or Sass file is changed
-* `grunt watch:build-$PROJECT` automatically runs `grunt build:$PROJECT-dev`
-  whenever a Sass or Pug  file is changed (`PROJECT` must be `ade` or
-  `nsidc`)
+The Dataset Catalog Services endpoint is configured in `src/config/appConfig.js`.
+**Caveat:** The pre-production DSS instances aren't created with valid
+SSL certificates, so attempts to use those endpoints currently fail.
 
-## Build
+# Running the Linter
 
-`grunt build:nsidc` and `grunt build:ade` will create a `build/` directory
-containing HTML and CSS files generated from Pug and Sass files, as well as a
-minified JavaScript file created by the
-[RequireJS Optimizer](http://requirejs.org/docs/optimization.html). Other files,
-such as external JavaScript libs and image files, are also copied to `build/` so
-that it contains everything needed to run the interface in a browser. This
-directory can then be compressed and used for deployment.
+Run once with `npm run lint`. Run automatically whenever a JavaScript file is changed
+with `npm run lint:watch`.
 
-`grunt build:nsidc-dev` and `grunt build:ade-dev` skip the RequireJS
-optimizer step, and do not create a `build/` directory. Instead, the generated
-HTML and CSS are kept within `src/`.
+ESLint is configured in `.eslintrc.json`, a JSON file containing a list of options
+and allowed global variables.
 
-The environment defaults to development, to set the environment pass an
-environment argument to grunt, for example `grunt build:nsidc
---environment=production`. The CSS generated from the Sass source varies based
-on the environment; for production, it will be compressed, otherwise it is more
-readable and includes line numbers mapping to the original source files. The
-generated HTML also uses the environment to load the appropriate configuration
-from `src/conf/`.
+* [Official documentation for ESLint configuration ](https://eslint.org/docs/user-guide/configuring/)
+* [plugins to run ESLint in various editors and IDEs](https://eslint.org/docs/user-guide/integrations#editors)
 
-## Running the app locally
+# Running the App Locally
 
-Make sure grunt is installed by running `npm install -g grunt-cli` (with root
-access).
+Run a local server instance at `http://localhost:8080`:
 
-Run `grunt build:nsidc-dev` or `grunt build:ade-dev` to generate the
-appropriate `src/index.html` file (as well as css files), then
-`./run_local_webserver.rb` and open your browser to http://localhost:8081.
+        npm start
 
-To run using the code generated by the RequireJS optimizer (concatenated and
-minified js, rather than the standard source), modify
-`local_webserver_config.yaml` to use `build/` instead of `src/`.
+By default, the local server will set the environment to `development`, and will
+use the production OpenSearch endpoints. See the OpenSearch endpoint configuration
+in `src/config/appConfig.js`.
 
-### External services
+# Running on a VM
 
-The external services used by the search portal are defined in
-`local_webserver_config.yaml`. `search_proxies` are the default choice, and
-contain endpoints for the services running on `localhost`. `integration_proxies`
-and `qa_proxies` are also defined.
+## Building application artifacts for deployment to developer VMs
 
-To run against services on integration:
+1. Build the application artifacts into the `dist` directory:
 
-```bash
-./run_local_webserver.rb 8081 integration_proxies
-```
+        npm run build # Build a bundle packaged for production environment
+        npm run build:dev  # Build with source maps for development environment
+                           # Update environment-dependent URL configurations in
+                           # `src/config/appConfig.js` as needed.
 
-To run against services on qa:
+2. To remove old build artifacts from `dist`:
 
-```bash
-./run_local_webserver.rb 8081 qa_proxies
-```
+        npm run clean
 
-## Running the acceptance tests locally
+## Deploying to a developer VM (without Drupal)
 
-Prerequisites
+`Puppet` configuration exists in this project to build an application VM, as well as a CI
+machine. All the usual `vagrant-nsidc` environments are supported, but note that a blue
+machine will never be necessary except perhaps for testing purposes. The search interface
+is not deployed via a VM blue-green swap, but rather by pushing a Javascript bundle to
+[npmjs.com](www.npmjs.com).
+
+To create a developer VM:
+
+    vagrant nsidc up --env=dev
+
+TODO: `/opt/nsidc_search` is not being created/populated automatically during VM
+provisioning. Workaround after creating VM:
+
+    vagrant nsidc ssh --env=dev
+    sudo mkdir /opt/nsidc_search
+    sudo chown vagrant:vagrant /opt/nsidc_search
+    # rsync dist and restart nginx?
+
+The app will be available at `http://dev.nsidc_search.USERNAME.dev.int.nsidc.org/`
+
+`nginx` writes logfiles by default to `/var/log/nginx`.
+
+To deploy a locally built and bundled version of the application to the VM
+(separately from VM provisioning), build the SOAC web app locally and rsync
+the contents of `/dist` to `/opt/nsidc_search`.
+
+     $ npm run build:dev  # Build with source maps for development environment, and development
+                         # settings (see `urls` in `src/config/appConfig.js`)
+                         # Do "npm run build" if you don't need source maps.
+     $ rsync -av dist/ vagrant@dev.nsidc_search.USERNAME.dev.int.nsidc.org:/opt/nsidc_search
+
+## Deploying to a developer Drupal VM
+
+Ansible and Garrison are used to deploy a new Drupal VM. The relevant repositories are:
+
+1. [ansible_drupal_nsidc_org](https://nsidc.org/bitbucket/scm/dsite/ansible_drupal_nsidc_org.git)
+   Note that this project is hosted in an NSIDC-managed local Bitbucket repository, NOT on
+   bitbucket.org.
+
+2. If you need to modify the version of `soac-webapp` installed from `npmjs.com`:
+   [nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/), specifically
+   file `web/libraries/package.json`.
+
+Build steps:
+
+1. Check out the `ansible_drupal_nsidc_org` project.
+2. Get a copy of the Drupal database as described in the README.md file.
+3. Follow the dev environment instructions in the "Deploy using garrison" section.
+   The VM will be provisioned with the version of `soac-webapp` specified in the
+   `nsidc-drupal8` project `staging` branch, in file `web/libraries/package.json`.
+4. Access the application on the resulting VM at:
+
+        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/soac
+
+   Replace `USERNAME` with your LDAP username. Note that on the dev VM, some external
+   images may not render. However, the maps and graphs for SOAC itself should render on
+   the individual map pages.
+
+### Building a developer Drupal VM with a different `npmjs.com` version of `search-interface`
+
+If you've published a new version of `search-interface` to `npmjs.com` and want to build a
+Drupal VM using that new version, create a temporary branch in the `nsidc-drupal8` project
+and modify the `web/libraries/package.json` file to specify your desired version. Commit
+the branch changes. Then change the **Deploy using garrison** step in the VM build process
+that looks like:
+
+    vagrant nsidc ssh --no-tty --env=dev -c "/vagrant/local_garrison.sh -e staging -r staging"
+
+to instead use your branch name:
+
+    vagrant nsidc ssh --no-tty --env=dev -c "/vagrant/local_garrison.sh -e my-new-branch -r my-new-branch"
+
+Note that this option is for testing `search-interface` changes that have been published
+to `npmjs.com`. See the next section if you need to test `search-interface` changes that
+have not yet been published to `npmjs.com`.
+
+### Redeploying to an existing developer Drupal VM
+
+If you want to deploy a work-in-progress `search-interface` package to an existing
+dev VM, copy the `index.bundle.js` file to the DEV machine using the following
+commands (run from within the ansible project directory):
+
+    npm run build # Or npm run build:dev if you want source maps for debugging
+
+    # Also copy the source map file, if you did "npm run build:dev" in the step above.
+    scp /path/to/index.bundle.js dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org:/home/vagrant/drupal/web/libraries/node_modules/@nsidc/search-interface/dist/index.bundle.js
+
+    vagrant nsidc ssh --no-tty --env=dev -c "cd /home/vagrant/drupal; lando drush cache:rebuild"
+
+NOTE: The last step may not strictly be necessary, but if copying the file doesn't cause
+the application to be updated, the `lando drush...` should refresh everything.
+
+# Unit Tests
+
+Prior to the ES2015 update, unit tests were implemented using a grunt task, Karma,
+and a HeadlessChrome environment. A few unit tests have already been migrated to
+Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
+The remaining tests are now obsolete and need to be migrated to `Jest`. See
+PSS-460 for some history and SRCH-76 for proposed work.
+
+# Acceptance Tests
+
+**TODO**: Migrate from Ruby-based tests to JS-based acceptance tests if
+possible, and replace outdated `grunt` tasks with `npm tasks` to run the
+acceptance test suite. The tests themselves haven't been update to the ES2015
+language specification, and are currently not usable.
+See SRCH-73 and related stories SRCH-41, SRCH-50.
+
+## Prerequisites
+
+The acceptance tests use the official
+[Ruby implementation of Cucumber](https://github.com/cucumber/cucumber-ruby),
+and we use the tool [RuboCop](https://github.com/bbatsov/rubocop) to lint the
+Ruby code contained within this project. After installing the gems listed in
+`Gemfile` with `bundle install`, RuboCop can be run with `bundle exec
+rubocop`. Settings can be found in `.rubocop.yml`.
 
 * Firefox
 * If using the development VM under Mac OS X,
@@ -140,6 +259,83 @@ against a different URL (like when running the tests locally), specify with a
 grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 ```
 
+# Continuous Integration
+
+CircleCI is configured to run `eslint` and tests automatically when changes are committed
+to the repository. See the configuration in `.circleci/config.yml`
+
+Puppet configuration exists for a CI machine with jobs for building `integration`,
+`qa`, `staging` and `blue` VMs running a standalone search interface application.
+Once the new Drupal Web site is released, the standalone application will no longer
+be necessary and the CI machine can be decommissioned. See SRCH-96.
+
+# Releasing a New Version
+
+Tl;dr: Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+the case of release candidates) will package and publish that commit to
+[npmjs.com](https://www.npmjs.com)!
+
+See also **Version Handling** below.
+
+In brief, the steps are:
+
+1. Confirm all tests pass, and that all changes have been committed and pushed
+   to origin. Include a `CHANGELOG` entry with the text `Unreleased` instead of a
+   version number and date.
+2. Merge the feature branch into the main branch. Update your local working directory.
+
+        git checkout master && git pull
+
+3. Bump the desired semver field (major, minor, patch), tag the master branch with the
+   updated version number, and push changes to origin.
+
+        npm run release -- [major | minor | patch ]
+
+## Version Handling
+
+Versions should follow [Semantic Versioning](https://semver.org) guidelines.
+Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+the case of release candidates) will package and publish that commit to
+[npmjs.com](https://www.npmjs.com).
+
+## Tagging release candidates
+
+Note: The naming structure for the prerelease scripts (`setup:prerelease` and `bump:prerelease`)
+are intentional in order to avoid unnecessarily triggering the `release` script.
+
+       $ npm run setup:prerelease # Adds an initial pre-release tag to the current branch (e.g. v3.3.0-rc.0)
+                                  # Does not tag the branch.
+       $ npm run bump:prerelease # Bumps the prerelease number (e.g. 3.3.0-rc.1) and tags the branch.
+
+Running `npm run bump:prerelease` will tag the current branch with an updated release candidate
+version, the tag will be pushed to origin (via the `postversion` trigger), and CircleCI will build
+and publish a new package to `npmjs`.
+
+## Tagging releases
+
+To add a release tag (no `-rc.N` suffix):
+
+        npm run release -- [major | minor | patch ]
+
+The `release` script noted above is a shortcut for the built-in `npm version` command.
+Note the ` -- ` (two dashes surrounded by spaces) before the level specification. You can also do:
+
+        npm version [major | minor | patch ]
+
+`npm run release` will tag the current branch, the tag will be pushed to origin (via the
+`postversion` trigger), and CircleCI will build and publish a new package to `npmjs`.
+
+## Deploying to staging and production Drupal
+
+At a minimum, developers will need to create a PCT when a new version
+is deployed to [npmjs.com](https://www.npmjs.com). Depending on the changes,
+a pull request may also need to be submitted to update files in
+[nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/)
+(e.g. `web/libraries/package.json`).
+
+
+# Miscellaneous Development Notes
+
 ## CSS / Sass
 
 * The structure of our [Sass](http://sass-lang.com/) code is as follows:
@@ -161,7 +357,7 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
             * old, monolithic CSS files converted to Sass syntax still needing
               cleanup (break into smaller parts, put those parts in `modules/`)
 * `grunt sass:dev` generates `src/css/ade-search.css` and
-  `src/css/nsidc-search.css`, combining the project-specifc scss and the common
+  `src/css/nsidc-search.css`, combining the project-specific scss and the common
   files into one
 * `grunt sass:$PROJECT` generates `tmp/css/$PROJECT-search.css`; this is used by
   `grunt build:$PROJECT` (see the Build section)
@@ -173,115 +369,7 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
   (with additional rules that should be cleaned up in
   `config/scsslint-todo.yml`)
 
-## Unit tests
-
-***NOTE: Look for the keyword TODO: SKIPPED, to see some tests that are being
-skipped for now because they are failing intermittently.  Need to investigate.***
-
-Run the unit tests using Karma in HeadlessChrome with `grunt
-karma`. Test code is located in `spec/`, written in
-[Jasmine 1.3](http://jasmine.github.io/1.3/introduction.html) along with
-[Sinon](http://sinonjs.org/). 
-
-Note that running these tests locally may result in failure. If so, try running
-the unit tests in a browser (discussed below).  Make sure unit tests pass in the
-browser and in Travis CI before merging any code with master.
-
-It can helpful for debugging purposes to run the unit tests in a browser. To do
-so, follow these steps:
-
-* if you don't already have the file `_SpecRunner.html`, run `grunt test:unit`
-  to generate the file
-* make sure your port 8081 is open (kill the local webserver if you are
-  running it)
-* `grunt serve-tests`
-* point your browser to
-  [localhost:8081/_SpecRunner.html](localhost:8081/_SpecRunner.html)
-
-## JSHint
-
-Run with `grunt jshint`. Run automatically whenever a JavaScript file is changed
-with `grunt watch:jshint`.
-
-JSHint is configured in `.jshintrc`, a JSON file containing a list of options
-and allowed global variables.
-
-* [Official documentation for JSHint configuration options](http://www.jshint.com/docs/options/)
-* [Grunt task for JSHint](http://www.github.com/gruntjs/grunt-contrib-jshint)
-* [JSHint in Emacs with flycheck](https://github.com/flycheck/flycheck)
-* [plugins to run JSHint in various editors and IDEs](http://www.jshint.com/install/#plugins)
-
-## RuboCop
-
-The acceptance tests use the official
-[Ruby implementation of Cucumber](https://github.com/cucumber/cucumber-ruby),
-and we use the tool [RuboCop](https://github.com/bbatsov/rubocop) to lint the
-Ruby code contained within this project. After installing the gems listed in
-`Gemfile` with `bundle install`, RuboCop can be run with `bundle exec
-rubocop`. Settings can be found in `.rubocop.yml`.
-
-## Git Hooks
-
-Our build server attempts to build the project with every revision, and it
-requires that linters and unit tests pass successfully. To protect yourself from
-the embarrassment of breaking the build, git hooks can be set up to run
-everything on your local box before you push.
-
-Git hooks are configured in `Gruntfile.js` with the `grunt-githooks`
-plugin. Running `grunt githooks` udpates files in your `.git/hooks/` so that the
-specific grunt tasks will be run at the given git events. This means if the
-githooks task configuration is ever changed, you will need to run `grunt
-githooks` again to update your hook scripts (and if a hook is removed the
-Gruntfile configuration, you may need to delete the old script from
-`.git/hooks/`).
-
-Currently included hooks (and the tasks they run) are:
-
-* `pre-commit`: `scsslint` and `jshint`
-* `pre-push`: `jasmine`
-
-## Bootstrap
-
-We are using a customized version of Bootstrap to avoid conflicts with global
-NSIDC styles included via SSI. To add to the existing set of styles and scripts
-go to Bootstrap's
-[customize page](http://getbootstrap.com/2.3.2/customize.html).
-
-To generate the download, first deselect all items in the "Choose components"
-and "Select jQuery plugins" sections.
-
-In "Choose components" select the following:
-
-* Base CSS
-    * Buttons
-* Componets
-    * Button groups and dropdowns
-    * Alerts
-* JS Components
-    * Dropdowns
-
-In "Select jQuery plugins" select the following:
-
-* Dropdowns
-* Buttons
-
-Replace the `src/contrib/bootstrap/` directory with the contents of the
-downloaded zip file. Be sure to update this list of components after each new
-download.
-
-## Releases
-
-The version in `package.json` is updated automatically with the `grunt
-release:$part` task (where `$part` is `patch`, `minor`, or `major`). This task
-creates a git tag for the new version, and adds 2 new header lines to
-`CHANGELOG.md`, indicating the version number and the date it was
-released. Note that no `## Unreleased` place-holder line is necessary at the top of the
-`CHANGELOG.md` file. Simply add a description of changes at the beginning of `CHANGELOG.md`
-and the release version and date will be inserted when the version is `bump`-ed.
-
-## Other gotchas
-
-### Node "circular dependency" warnings
+## Node "circular dependency" warnings
 When running some of the Grunt tasks, you may see some warning output like:
 
     (node:29680) Warning: Accessing non-existent property 'cat' of module exports inside circular dependency
@@ -289,15 +377,62 @@ When running some of the Grunt tasks, you may see some warning output like:
     (node:29680) Warning: Accessing non-existent property 'cd' of module exports inside circular dependency
     (node:29680) Warning: Accessing non-existent property 'chmod' of module exports inside circular dependency
     (node:29680) Warning: Accessing non-existent property 'cp' of module exports inside circular dependency
-    
+
 This is apparently being emitted by the `shelljs` package in the Node 14+ context.
 To see more details and confirm the source set the `NODE_OPTIONS` environment variable
 to include `--trace-warnings`. For example:
 
     NODE_OPTIONS="--trace-warnings" grunt test:unit
-    
-### Xvnc password failure in acceptance tests
+
+## Xvnc password failure in acceptance tests
 
 If acceptance tests are failing with a warning about an invalid Xvnc password,
 run `vncpasswd` on the machine running the tests and set a dummy password
 (password value doesn't matter).
+
+## A Tale of Exports and Imports
+
+Apparently NodeJS has added a new thing in package.json called "exports". A
+package author can use this section to declare what things are exported for use,
+and a map to where they are located in the package directory.
+
+Webpack 5 now enforces this--if you attempt to import something which is not
+declared as exported from the package it is in, the import will fail. A package
+which omits the "exports" section defaults to everything being exported /
+importable. A package which includes the "exports" section only exports things
+listed, nothing else.
+
+This has the following side-effect:
+* Your code imports "foo" from package X
+* Your code imports "bar" from package Y
+* Package X has no "exports" section because the author(s) didn't know about this new feature
+* Package Y does have an exports section, but it does not export "bar" (possibly because they didn't understand this new feature)
+* Using webpack 4 is no problem, both imports work
+* Upgrading to webpack to v5 results in the import of "foo" succeeding and the import of "bar" failing
+
+In our case we were successfully importing CSS from vanillajs-datepicker, but
+when upgrading webpack to v5, the build started raising a new error indicating
+that the CSS could not be imported because the package (vanillajs-datepicker)
+did not export it.
+
+A workaround in the webpack config which bypasses the export / import rules:
+
+```
+resolve: {
+  alias: {
+    'vjs-datepicker': path.resolve(__dirname, 'node_modules/vanillajs-datepicker/dist/css')
+  }
+}
+```
+
+which allows the import of this form to work (currently used in `TemporalCoverageView`):
+
+```
+import 'vjs-datepicker/datepicker-bs4.css';
+```
+
+If / when the vanillajs-datepicker package updates their exports to export this CSS, we can change the import back to:
+
+```
+import 'vanillajs-datepicker/dist/css/datepicker-bs4.css';
+```

@@ -1,0 +1,70 @@
+// rules for NSIDC-only selectors go here
+
+// Ensure facet tooltips have white text.
+.tippy-content {
+  color: #fff;
+}
+
+#left-column {
+  background: #f7f7f7;
+  padding: 20px 5px 10px 15px;
+  vertical-align: top;
+  width: 210px;
+  min-width: 210px;
+}
+
+#facets {
+  .facet {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+    width: inherit;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  h3 {
+    color: #444;
+    font-family: $default-font-family;
+    font-size: 1.1em;
+    font-weight: bold;
+    width: 100%;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul {
+    &.with-scrolling {
+      max-height: 180px;
+      overflow-y: scroll;
+
+      li {
+        padding-right: 0;
+      }
+    }
+  }
+
+  input {
+    &.facet-filter {
+      @include box-shadow($search-criteria-box-shadow);
+      border: $search-criteria-input-border;
+      left: 10px;
+      margin-bottom: 7px;
+      position: relative;
+      width: 140px;
+    }
+  }
+}
+
+.facet_clear_link {
+  cursor: pointer;
+  display: inline;
+  float: right;
+  font-size: .8em;
+  padding-top: 3px;
+}

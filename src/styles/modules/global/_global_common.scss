@@ -1,0 +1,139 @@
+body {
+  background: none;
+  color: $body-color;
+  width: 100%;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 0.8125em;
+  line-height: 1.5;
+  margin: 0 auto;
+  text-align: left;
+}
+
+#search-app {
+  min-height: 800px;
+  width: 100%;
+}
+
+#container {
+  @include box-shadow(0 3px 5px #0f264c);
+  clear: both;
+  padding: 0;
+  width: 1100px;
+
+  input {
+    font-size: 1em;
+
+    &[type=radio] {
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+
+    &.projection {
+      margin-left: 1em;
+    }
+
+  }
+
+  .cornerInputRow {
+    input {
+      &.calcInputBox {
+        background-color: #f3f3f3;
+        border: 1px solid #d7d7d7;
+        color: #888;
+      }
+    }
+  }
+}
+
+#wrapper {
+  background: #fff;
+}
+
+.onTop {
+  z-index: 9999;
+}
+
+.visible {
+  display: inline;
+}
+
+.hidden {
+  display: none;
+}
+
+.label {
+  float: left;
+  font-weight: bold;
+}
+
+div {
+  &.alert {
+    background-color: transparent;
+    border: transparent;
+    color: #000;
+
+    h4 {
+      background-color: transparent;
+      border: transparent;
+      color: #000;
+    }
+  }
+}
+
+.alert > .icon-info-sign {
+  color: #0b4bc2;
+}
+
+.tipsy {
+  font-size: 12px;
+}
+
+.highlighting {
+  background-color: #ffa;
+}
+
+#content {
+  float: left;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  width: inherit;
+
+  .sub-feature {
+    @include border-radius(1em);
+    background: #fff;
+    border: 1px solid #ccc;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    min-height: 320px;
+    width: 310px;
+  }
+
+}
+
+#no-results {
+  font-size: 16px;
+  height: 310px;
+  margin: 40px 0;
+  text-align: center;
+}
+
+// Chrome's scrollbars mimic the scrollbars of the OS
+//
+// in Mac OS X, it is possible to have scrollbars be hidden by default, but we
+// want our scrollbars always be visible
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  @include border-radius(4px);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  background-color: rgba(0, 0, 0, .5);
+}

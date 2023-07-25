@@ -87,7 +87,7 @@ if $environment == 'ci' {
   package { 'fluxbox': }
 }
 
-if ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') {
+if $environment != 'ci' {
 
   $hiera_project = hiera('project')
   $application_root = "/opt/${hiera_project}"

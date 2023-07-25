@@ -1,24 +1,27 @@
-.project
-root.dir
-local_config.yaml
-.DS_Store
-.idea
 *.iml
+.DS_Store
 .floo
+.idea
+.project
 .sublime-project
+dist/
+local_config.yaml
+root.dir
+reports
 
 # /
-/build
-/tmp
-/node_modules
+/.Xauthority*
+/.bundle/
 /.grunt/
-/_SpecRunner.html
 /.sass-cache/
+/_SpecRunner.html
+/build
+/node_modules
 /src/css
 /src/index*.html
-/.bundle/
+/tmp
 /vendor/
-/.Xauthority*
+docs/
 
 \#*\#
 \.\#*
@@ -40,3 +43,8 @@ local_config.yaml
 /puppet/modules/
 
 # end vagrant-nsidc
+
+# Local development configuration files
+.vscode/
+.tmuxp.yaml
+.vimlocal

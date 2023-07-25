@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es2017": true
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "impliedStrict": true,
+        "sourceType": "module"
+    },
+    "ignorePatterns": ["**/vendor/**/*.js", "**/contrib/**/*.js", "**/spec/**/*.js", "**/deprecated/**/*.js"],
+    "rules": {
+            "indent": ["error", 4]
+    }
+}

@@ -1,9 +1,43 @@
+## Unreleased
+
+- Move from `RequireJS` to `ES2015` structure.
+- Switch to `package.json` for dependency management, `webpack` for building artifacts.
+- Fix Reset button config link; remove unneeded 'clear' option.
+- Using arc-shaped selection boxes for polar views.
+
 ## 3.1.0 (2023-07-13)
 
 - CI updates to reflect the change from `master` to `main` as the default
   branch. Note that these changes have *not* been tested by building a new CI
   machine. Additional VM configuration updates will be handled in a separate
   story.
+
+## Version 3.0.2-7
+
+- Update homepage link to learn more about the Cryosphere.
+
+## Version 3.0.2-2
+
+- Popper.js installed to get rid of bootstrap peer-dependency complaint. This is
+  actually an outdated package; should be using @popperjs/core.
+- Replaced jquery/tipsy with tippy as a bridge. Eventually should go with React
+  components (everest-ui currently uses react-tooltip).
+- Switched to tippy.js in the TemporalCoverageView.
+- Finished integration of the TemporalCoverageView with the datepicker. We switched
+  to use vanillajs-datepicker due to the unsupported status of the old datepicker.
+  In addition, the vanillajs datepicker ended up being simpler to do various
+  integrations with validations, etc.
+- Added a template() method to the temporal coverage view to render & set the View
+  object's element.
+- Switched to the date-fns package to parse, validate, and format date time strings.
+- Unified the TemporalCoverageView's adjustEndDate and formatDateInput into one
+  method. Using the date-fns package, it now parses *and* completes
+  partially-entered dates in the input elements. The behavior remains unchanged.
+- Internal updates:
+    + Added npm script to generate code documentation.
+    + Improved code formatting & linting
+    + All JavaScript packages are now all managed by npm
+    + The build and other tasks are now handled by npm scripts
 
 ## 3.0.0 (2020-07-17)
 
