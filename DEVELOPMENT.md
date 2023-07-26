@@ -140,7 +140,7 @@ The app will be available at `http://dev.nsidc_search.USERNAME.dev.int.nsidc.org
 `nginx` writes logfiles by default to `/var/log/nginx`.
 
 To deploy a locally built and bundled version of the application to the VM
-(separately from VM provisioning), build the SOAC web app locally and rsync
+(separately from VM provisioning), build the Data Search web app locally and rsync
 the contents of `/dist` to `/opt/nsidc_search`.
 
      $ npm run build:dev  # Build with source maps for development environment, and development
@@ -284,9 +284,9 @@ In brief, the steps are:
    version number and date.
 2. Merge the feature branch into the main branch. Update your local working directory.
 
-        git checkout master && git pull
+        git checkout main && git pull
 
-3. Bump the desired semver field (major, minor, patch), tag the master branch with the
+3. Bump the desired semver field (major, minor, patch), tag the main branch with the
    updated version number, and push changes to origin.
 
         npm run release -- [major | minor | patch ]

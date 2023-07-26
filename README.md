@@ -1,4 +1,4 @@
-Main branch: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/nsidc/search-interface/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/nsidc/search-interface/tree/main)
+Build status for `main`: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/nsidc/search-interface/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/nsidc/search-interface/tree/main)
 
 # NSIDC Search Portal
 
@@ -16,7 +16,7 @@ changes.
 
 ### Development notes
 
-See [`DEVELOPMENT.md`](https://github.com/nsidc/search-interface/blob/master/DEVELOPMENT.md).
+See [`DEVELOPMENT.md`](https://github.com/nsidc/search-interface/blob/main/DEVELOPMENT.md).
 
 ### How to contact NSIDC
 
