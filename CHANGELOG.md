@@ -1,4 +1,4 @@
-## Unreleased
+## v4.0.0 (2023-07-25)
 
 - Move from `RequireJS` to `ES2015` structure.
 - Switch to `package.json` for dependency management, `webpack` for building artifacts.
@@ -182,7 +182,7 @@ Bugfixes:
 
 ## 1.7.4 (2015-02-26)
 
-## Unreleased
+## v4.0.0 (2023-07-25)
 
 Features:
 
