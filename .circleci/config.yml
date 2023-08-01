@@ -3,7 +3,7 @@ version: 2.1
 setup: &setup
   working_directory: ~/search-interface
   docker:
-    - image: node:18.17.0
+    - image: node:20.5.0
 
 jobs:
   test:
