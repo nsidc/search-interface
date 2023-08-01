@@ -2,6 +2,7 @@ import * as Backbone from 'backbone';
 import _ from 'underscore';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import thumbnail from './../../images/map/map-projection-4326.png';
 
 // settings for all the drawn bounding boxes
 const bboxSettings = {
@@ -112,8 +113,7 @@ class SpatialThumbnailView extends Backbone.View {
 
         layers = [];
 
-        const img = require('./../../images/map/map-projection-' + this.options.mapProjection + '.png');
-        layers.push(L.imageOverlay(img, [[-90, -180], [90, 180]]));
+        layers.push(L.imageOverlay(thumbnail, [[-90, -180], [90, 180]]));
 
         _.each(this.model.get('boundingBoxes'), function (bbox) {
             addLayer(layers, bbox, _.extend({

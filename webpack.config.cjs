@@ -53,6 +53,12 @@ const config = {
     module: {
         rules: [
             {
+                test: /\.js$/i,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
+            {
                 test: /\.html$/i,
                 loader: "html-loader",
             },

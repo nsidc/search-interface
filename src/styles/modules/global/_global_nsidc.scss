@@ -27,27 +27,23 @@ body {
   width: 120px;
 }
 
-// if we just use "button" instead of ".container button" here, the bootstrap
-// button stylings will have precedence over these stylings
-.container {
-  button {
-    &.blue-shade {
-      @include background-image-gradient('#83bce8 5%, #065084 100%');
-      @include border-radius(4px);
-      background-color: #065084;
-      border: 1px solid #7a99aa;
-      border-top-color: #c9dce7;
-      color: #fff;
-      filter: none;
-      text-decoration: none;
-      text-shadow: 1px 1px 0 #7c7e93;
-      white-space: nowrap;
+button {
+  &.blue-shade {
+    @include background-image-gradient('#83bce8 5%, #065084 100%');
+    @include border-radius(4px);
+    background-color: #065084;
+    border: 1px solid #7a99aa;
+    border-top-color: #c9dce7;
+    color: #fff;
+    filter: none;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #7c7e93;
+    white-space: nowrap;
 
-      &:hover {
-        @include background-image-gradient('#065084 0, #83bce8 100%');
-        background-color: #076aaf;
-        filter: none;
-      }
+    &:hover {
+      @include background-image-gradient('#065084 0, #83bce8 100%');
+      background-color: #076aaf;
+      filter: none;
     }
   }
 }
