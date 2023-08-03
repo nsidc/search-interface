@@ -1,4 +1,4 @@
-## Unreleased
+## v4.1.0 (2023-08-03)
 
 - Bump Javascript dependencies to latest possible versions.
 - CSS tweaks necessitated by style changes in latest Openlayers version.
