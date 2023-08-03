@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Bump Javascript dependencies to latest possible versions.
+- CSS tweaks necessitated by style changes in latest Openlayers version.
 - Rename Webpack and Babel config files to support use of CommonJS syntax.
 - Webpack, Babel, and Jest configuration updates for ESx (browser environment)
   support.
