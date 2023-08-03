@@ -1,7 +1,13 @@
 {
   "clearMocks": true,
-  "testRegex": "((\\.|/*.)(spec))\\.js?$",
-  "verbose": true,
+  "moduleDirectories": ["node_modules", "src"],
+  "moduleFileExtensions": ["js", "jsx"],
+  "modulePaths": ["<rootDir>/src"],
+  "rootDir": "src",
   "testEnvironment": "jsdom",
-  "rootDir": "src"
+  "testRegex": "((\\.|/*.)(spec))\\.js?$",
+  "transform": {
+    "^.+\\.(js|jsx)$": ["babel-jest", {"rootMode": "upward"}]
+  },
+  "verbose": true
 }

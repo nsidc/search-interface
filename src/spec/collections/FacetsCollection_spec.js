@@ -2,7 +2,6 @@ import Backbone from 'backbone';
 
 import FacetsCollection from '../../collections/FacetsCollection';
 import JSONFacets from '../../lib/JSONFacets';
-import Mediator from '../../lib/Mediator';
 
 describe('FacetResultsCollection', function () {
     var facets, facetsCollection,

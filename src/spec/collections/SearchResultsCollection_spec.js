@@ -60,7 +60,7 @@ describe('SearchResultsCollection', function () {
     });
 
     describe('Initial load has a collection', function () {
-        var fakeMediator = { 
+        var fakeMediator = {
             on: jest.fn(),
             trigger: jest.fn()
         };
@@ -105,7 +105,7 @@ describe('SearchResultsCollection', function () {
     });
 
     describe('Server responses and processing', function () {
-        var fakeMediator = { 
+        var fakeMediator = {
             on: jest.fn(),
             trigger: jest.fn()
         };
@@ -139,7 +139,7 @@ describe('SearchResultsCollection', function () {
     });
 
     describe('Changing to page 2 generates updated collection', function () {
-        var fakeMediator = { 
+        var fakeMediator = {
             on: jest.fn(),
             trigger: jest.fn()
         };
