@@ -291,6 +291,13 @@
 
 #map-container {
   margin: auto;
+  --ol-subtle-background-color: rgba(255, 255, 255, 0.4);
+  --ol-background-color: rgba(0, 60, 136, 0.5);
+  --ol-subtle-foreground-color: white;
+
+  .ol-control {
+    padding: 2px;
+  }
 }
 
 #spatial-compass {
