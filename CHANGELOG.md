@@ -1,3 +1,8 @@
+## Unreleased
+
+- Remove `engines` section from `package.json` as a workaround for older Drupal
+  environment.
+
 ## v4.1.0 (2023-08-03)
 
 - Bump Javascript dependencies to latest possible versions.

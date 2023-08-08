@@ -15,10 +15,6 @@
     "LICENSE",
     "README.md"
   ],
-  "engines": {
-    "node": "^20.5.0",
-    "npm": "^9.8.0"
-  },
   "type": "module",
   "browser": "./dist/index.bundle.js",
   "scripts": {
