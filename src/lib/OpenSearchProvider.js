@@ -2,21 +2,18 @@ import _ from "underscore";
 
 import FacetsResponse from "./FacetsResponse";
 import NsidcOpenSearchResponse from "./NsidcOpenSearchResponse";
-import OpenSearchlight from "OpenSearchlight/src/OpenSearchlight";
 import SearchTerms from "./SearchTerms";
 import { appConfig } from "../config/appConfig";
 import { openSearchOptions } from "../config/appConfig";
+import { config, discover, registerFormat } from 'opensearch-browser';
 
 function OpenSearchProvider() {
-    // TODO: remove event handling from provider?
-    // this.on("search:cancel", this.onSearchCancel, this);
-
     /** Request a JSON-formatted data of a feed from the provider.
    *  parameters:
    *    - settings: An object containing the following key/value pairs:
-   *                  - success: a callback function to use when the request is successful.  The
-   *                             function will be passed a single argument: a JSONResults object
-   *                             (see definition above)
+   *    - success: a callback function to use when the request is successful.  The
+   *               function will be passed a single argument: a JSONResults object
+   *               (see definition above)
    *
    *  returns:
    *    - nothing
@@ -54,30 +51,43 @@ function OpenSearchProvider() {
             facetFilters = "";
         }
 
-        OpenSearchlight.query({
-            osdd: osParams.osdd,
-            contentType: contentType,
-            requestHeaders: osParams.osRequestHeaders,
-            parameters: {
-                searchTerms: st,
-                "nsidc:title": title,
-                "nsidc:parameters": parameters,
-                "nsidc:sensors": sensors,
-                "nsidc:authors": authors,
-                startIndex: osParams.osStartIndex,
-                count: osParams.osItemsPerPage,
-                "geo:box": osParams.geoBoundingBox || "",
-                "geo:relation": osParams.osGeoRel,
-                "time:start": osParams.osDtStart || "",
-                "time:end": osParams.osDtEnd || "",
-                "nsidc:source": osParams.osSource,
-                "nsidc:facetFilters": encodeURIComponent(facetFilters),
-                sortKeys: osParams.osSortKeys,
-            },
-            success: successCallback,
-            error: errorCallback,
-            queryXhr: this.holdRequest,
+        config({
+            useXHR: true
         });
+
+        const searchResponseFormat = {
+            parse: function(text) {
+                let response = new NsidcOpenSearchResponse();
+                return (response.fromXml(text, osParams));
+            }
+        };
+        const facetFormat = {
+            parse: function(text) {
+                let response = new FacetsResponse(appConfig.facets.facetNames);
+                return (response.fromXml(text, osParams));
+            }
+        };
+
+        registerFormat('application/atom+xml', searchResponseFormat)
+        registerFormat('application/nsidc:facets+xml', facetFormat)
+
+        discover(osParams.osdd).then((service) => {
+            service.search(
+              {
+                  searchTerms: st,
+                  startIndex: osParams.osStartIndex,
+                  count: osParams.osItemsPerPage,
+                  "geo:box": osParams.geoBoundingBox || "",
+                  "time:start": osParams.osDtStart || "",
+                  "time:end": osParams.osDtEnd || "",
+                  "nsidc:source": osParams.osSource,
+                  "nsidc:facetFilters": encodeURIComponent(facetFilters),
+                  sortKeys: osParams.osSortKeys
+              },
+              {
+                  type: options.contentType
+              }).then((results) => options.success(results))
+        }).catch(errorCallback);
     };
 
     this.onSearchCancel = function () {
@@ -96,17 +106,5 @@ function OpenSearchProvider() {
         }
     };
 }
-
-OpenSearchProvider.prototype.successHandle = function (jqXhr, options) {
-    let response;
-
-    if (options.contentType.indexOf("facets") !== -1) {
-        response = new FacetsResponse(appConfig.facets.facetNames);
-    } else {
-        response = new NsidcOpenSearchResponse();
-    }
-
-    options.success(response.fromXml(jqXhr.responseText, options.osParameters));
-};
 
 export default OpenSearchProvider;

@@ -41,7 +41,7 @@
     "jquery-ui": "^1.12.1",
     "leaflet": "^1.7.1",
     "ol": "^7.4.0",
-    "OpenSearchlight": "git+https://github.com/nsidc/OpenSearchlight.git#soac-62",
+    "opensearch-browser": "^2.0.0-alpha.6",
     "popper.js": "^1.16.1",
     "proj4": "^2.8.0",
     "tippy.js": "^6.3.7",
