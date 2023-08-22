@@ -78,7 +78,6 @@
     "karma-jasmine": "^5.0.0",
     "karma-jasmine-jquery-2": "0.1.1",
     "karma-jasmine-sinon": "1.0.4",
-    "karma-moment": "0.1.0",
     "karma-sinon": "1.0.5",
     "karma-spec-reporter": "~0.0.32",
     "log4js": "^6.4.4",
