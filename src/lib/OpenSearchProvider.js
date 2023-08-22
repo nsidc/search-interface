@@ -11,9 +11,9 @@ function OpenSearchProvider() {
     /** Request a JSON-formatted data of a feed from the provider.
    *  parameters:
    *    - settings: An object containing the following key/value pairs:
-   *    - success: a callback function to use when the request is successful.  The
-   *               function will be passed a single argument: a JSONResults object
-   *               (see definition above)
+   *                - success: a callback function to use when the request is successful.  The
+   *                  function will be passed a single argument: a JSONResults object
+   *                - error: An error callback.
    *
    *  returns:
    *    - nothing
@@ -24,13 +24,9 @@ function OpenSearchProvider() {
           `${openSearchOptions.osProvider.openSearchHost}${openSearchOptions.osdd}` :
           `${openSearchOptions.osProvider.openSearchHost}:${openSearchOptions.osProvider.port}${openSearchOptions.osdd}`;
 
-        let onSuccess = function (jqXhr) {
-            OpenSearchProvider.prototype.successHandle(jqXhr, options);
-        };
-
         this.abortSearchRequests();
 
-        this.queryOpenSearch(options, onSuccess, options.error);
+        this.queryOpenSearch(options, options.success, options.error);
     };
 
     this.queryOpenSearch = function (options, successCallback, errorCallback) {
