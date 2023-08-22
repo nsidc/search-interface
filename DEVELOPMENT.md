@@ -264,6 +264,20 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 CircleCI is configured to run `eslint` and tests automatically when changes are committed
 to the repository. See the configuration in `.circleci/config.yml`
 
+## Running CircleCI locally
+
+You can run the CircleCI job(s) in your local workspace to confirm all steps pass
+before committing any changes. The steps are:
+
+* Install the CircleCI CLI.
+* Ensure Docker is running.
+* `circleci config process .circleci/config.yml > process.yml`
+* `circleci local execute -c process.yml test`
+
+See [The CircleCI documentation](https://circleci.com/docs/local-cli/) for more information.
+
+## Legacy CI
+
 Puppet configuration exists for a CI machine with jobs for building `integration`,
 `qa`, `staging` and `blue` VMs running a standalone search interface application.
 Once the new Drupal Web site is released, the standalone application will no longer

@@ -1,3 +1,7 @@
+## Unreleased
+
+- Replace OpenSearchLight with opensearch-browser.
+
 ## v4.2.0 (2023-08-08)
 
 - Remove `engines` section from `package.json` as a workaround for older Drupal

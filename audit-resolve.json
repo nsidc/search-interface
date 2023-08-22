@@ -4,6 +4,14 @@
       "decision": "ignore",
       "madeAt": 1626802771020,
       "expiresAt": 1640995200000
+    },
+    "1091239|opensearch-browser>isomorphic-fetch>node-fetch": {
+      "decision": "ignore",
+      "madeAt": 1692723196646
+    },
+    "1091791|opensearch-browser>isomorphic-fetch>node-fetch": {
+      "decision": "ignore",
+      "madeAt": 1692723202247
     }
   },
   "rules": {},

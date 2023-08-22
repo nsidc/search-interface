@@ -36,11 +36,6 @@ function OpenSearchProvider() {
     this.queryOpenSearch = function (options, successCallback, errorCallback) {
         let osParams = options.osParameters,
             st = new SearchTerms(osParams.osSearchTerms).urlEncode(),
-            title = new SearchTerms(osParams.osTitle).urlEncode(),
-            parameters = new SearchTerms(osParams.osParameter).urlEncode(),
-            sensors = new SearchTerms(osParams.osSensor).urlEncode(),
-            authors = new SearchTerms(osParams.osAuthor).urlEncode(),
-            contentType = options.contentType,
             facetFilters;
 
         facetFilters = osParams.osFacetFilters;
@@ -73,20 +68,20 @@ function OpenSearchProvider() {
 
         discover(osParams.osdd).then((service) => {
             service.search(
-              {
-                  searchTerms: st,
-                  startIndex: osParams.osStartIndex,
-                  count: osParams.osItemsPerPage,
-                  "geo:box": osParams.geoBoundingBox || "",
-                  "time:start": osParams.osDtStart || "",
-                  "time:end": osParams.osDtEnd || "",
-                  "nsidc:source": osParams.osSource,
-                  "nsidc:facetFilters": encodeURIComponent(facetFilters),
-                  sortKeys: osParams.osSortKeys
-              },
-              {
-                  type: options.contentType
-              }).then((results) => options.success(results))
+                {
+                    searchTerms: st,
+                    startIndex: osParams.osStartIndex,
+                    count: osParams.osItemsPerPage,
+                    "geo:box": osParams.geoBoundingBox || "",
+                    "time:start": osParams.osDtStart || "",
+                    "time:end": osParams.osDtEnd || "",
+                    "nsidc:source": osParams.osSource,
+                    "nsidc:facetFilters": encodeURIComponent(facetFilters),
+                    sortKeys: osParams.osSortKeys
+                },
+                {
+                    type: options.contentType
+                }).then((results) => options.success(results))
         }).catch(errorCallback);
     };
 
