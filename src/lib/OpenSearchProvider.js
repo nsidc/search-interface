@@ -52,6 +52,7 @@ function OpenSearchProvider() {
                 return (response.fromXml(text, osParams));
             }
         };
+
         const facetFormat = {
             parse: function(text) {
                 let response = new FacetsResponse(appConfig.facets.facetNames);

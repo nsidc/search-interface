@@ -44,4 +44,4 @@ Andy Grauch, Brendan Billingsley, Chris Chalstrom, Danielle Harper, David Grant,
 Hannah Wilcox, Ian Truslove, Jonathan Kovarik, Kevin Beam, Luis Lopez, Matt
 Savoie, Miao Liu, Michael Brandt, Scott Lewis, Stuart Reed, Teri Hoyer (2013):
 Arctic Data Explorer Portal / NSIDC Search Portal. The National Snow and Ice
-Data Center. Software. http://ezid.cdlib.org/id/doi:10.7265/N55H7D75
+Data Center. Software. https://doi.org/10.7265/N55H7D75
