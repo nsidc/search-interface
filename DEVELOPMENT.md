@@ -214,6 +214,7 @@ the application to be updated, the `lando drush...` should refresh everything.
 Prior to the ES2015 update, unit tests were implemented using a grunt task, Karma,
 and a HeadlessChrome environment. A few unit tests have already been migrated to
 Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
+and the `test` and `test:watch` script definitions in `package.json`.
 The remaining tests are now obsolete and need to be migrated to `Jest`. See
 PSS-460 for some history and SRCH-76 for proposed work.
 
