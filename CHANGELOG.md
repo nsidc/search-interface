@@ -1,5 +1,10 @@
 ## Unreleased
 
+- Add a "no results" check to `FacetsCollection` so that all criteria are met
+  for marking a search complete.
+
+## Unreleased
+
 - Replace the `OpenSearchLight` dependency with `opensearch-browser`. `opensearch-browser` is
   currently deployed via a branch in `https://github.com/nsidc/opensearch`
   until the changes can be merged to the upstream project `https://github.com/eoxc/opensearch`.
