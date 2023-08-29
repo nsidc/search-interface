@@ -1,3 +1,8 @@
+## Unreleased
+
+- Replace the `OpenSearchLight` dependency with `opensearch-browser`.
+- Update DOI url in `README.md`.
+
 ## v4.2.0 (2023-08-08)
 
 - Remove `engines` section from `package.json` as a workaround for older Drupal

@@ -214,6 +214,7 @@ the application to be updated, the `lando drush...` should refresh everything.
 Prior to the ES2015 update, unit tests were implemented using a grunt task, Karma,
 and a HeadlessChrome environment. A few unit tests have already been migrated to
 Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
+and the `test` and `test:watch` script definitions in `package.json`.
 The remaining tests are now obsolete and need to be migrated to `Jest`. See
 PSS-460 for some history and SRCH-76 for proposed work.
 
@@ -263,6 +264,20 @@ grunt test:acceptance --url=http://localhost:8081 --project=arctic-data-explorer
 
 CircleCI is configured to run `eslint` and tests automatically when changes are committed
 to the repository. See the configuration in `.circleci/config.yml`
+
+## Running CircleCI locally
+
+You can run the CircleCI job(s) in your local workspace to confirm all steps pass
+before committing any changes. The steps are:
+
+* Install the CircleCI CLI.
+* Ensure Docker is running.
+* `circleci config process .circleci/config.yml > process.yml`
+* `circleci local execute -c process.yml test`
+
+See [The CircleCI documentation](https://circleci.com/docs/local-cli/) for more information.
+
+## Legacy CI
 
 Puppet configuration exists for a CI machine with jobs for building `integration`,
 `qa`, `staging` and `blue` VMs running a standalone search interface application.
