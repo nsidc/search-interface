@@ -1,8 +1,7 @@
 ## Unreleased
 
-- Replace the `OpenSearchLight` dependency with `opensearch-browser`. `opensearch-browser` is
-  currently deployed via a branch in `https://github.com/nsidc/opensearch`
-  until the changes can be merged to the upstream project `https://github.com/eoxc/opensearch`.
+- Replace the `OpenSearchLight` dependency with `opensearch-browser`.
+- Update DOI url in `README.md`.
 
 ## v4.2.0 (2023-08-08)
 
