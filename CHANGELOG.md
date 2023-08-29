@@ -1,4 +1,4 @@
-## Unreleased
+## v4.3.0 (2023-08-29)
 
 - Replace the `OpenSearchLight` dependency with `opensearch-browser`.
 - Update DOI url in `README.md`.
