@@ -1,7 +1,7 @@
 {
   "name": "@nsidc/search-interface",
   "description": "NSIDC data search interface",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
@@ -41,7 +41,7 @@
     "jquery-ui": "^1.12.1",
     "leaflet": "^1.7.1",
     "ol": "^7.4.0",
-    "opensearch-browser": "git+https://github.com/nsidc/opensearch.git#opensearch-19",
+    "opensearch-browser": "^2.0.0-alpha.7",
     "proj4": "^2.8.0",
     "tippy.js": "^6.3.7",
     "underscore": "^1.13.6",
