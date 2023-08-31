@@ -8,9 +8,7 @@ import Mediator from '../../lib/Mediator';
 describe('SearchResultsCollection', function () {
 
     var FakeOpenSearchProvider,
-        FakeOpenSearchResponse = function () {},
         provider,
-        spy,
         osDefaults = { osUrlEndPoint: 'some.fake.url/somewhere',
             osSearchTerms: 'default terms',
             osdd: 'fake osdd',

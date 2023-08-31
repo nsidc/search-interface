@@ -14,10 +14,10 @@
 * [Releasing a New Version](#releasing-a-new-version)
 * [Miscellaneous Development Notes](#miscellaneous-development-notes)
 
-# ES2015 transition:
+# Notes on ES2015 transition:
 
-Branch `v4.0.0-rc` represents the migration in progress from `Bower`,
-`Grunt` and `requirejs` to a structure following the ES2015 language
+The application was migrated from using `Bower`, `Grunt` and `requirejs`
+to a structure following the ES2015 language
 specification, using `npm` to manage dependencies and `webpack` to build
 and bundle the application. The migration strategy was based on the "Treat
 everything like a method" option described by
@@ -47,31 +47,17 @@ Development on this project uses
    (`npm test`) with a
    [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
    (`git commit`)
-6. Push to the branch (`git push -u origin my-new-feature`)
-7. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
+4. Push to the branch (`git push -u origin my-new-feature`)
+5. [Create a new Pull Request](https://github.com/nsidc/search-interface/compare)
 
 # Installation
 
 1. Install [node.js](http://nodejs.org/) (Check out [NVM](https://github.com/nvm-sh/nvm)
    if you need to move between versions of node for different projects.)
 
-3. Install node modules:
+2. Install node modules:
 
         npm install
-
-## Additional installation steps for acceptance test environment
-
-**TODO:** The acceptance test suite has not been updated for the ES2015/webpack environment
-and should be considered non-functional. See SRCH-73 and related stories SRCH-41, SRCH-50.
-
-Acceptance tests currently depend on Ruby. You will need to install:
-
-* Ruby (*version?*)
-* Rubygems and Bundler
-
-Then install the ruby gems: `bundle install`
-
-See more in [Acceptance Tests](#acceptance-tests), below.
 
 # Configuration
 
@@ -150,13 +136,14 @@ the contents of `/dist` to `/opt/nsidc_search`.
 
 ## Deploying to a developer Drupal VM
 
+**Note: As of August 2023 a bug associated with Drupal OS updates is preventing new VM builds.**
+
 Ansible and Garrison are used to deploy a new Drupal VM. The relevant repositories are:
 
-1. [ansible_drupal_nsidc_org](https://nsidc.org/bitbucket/scm/dsite/ansible_drupal_nsidc_org.git)
-   Note that this project is hosted in an NSIDC-managed local Bitbucket repository, NOT on
-   bitbucket.org.
+1. [ansible_drupal_nsidc_org](ssh://gitsrv.nsidc.org/gitsrv/webteam/ansible_drupal_nsidc_org.git))
+   Note that this project is hosted in a private, local git repository.
 
-2. If you need to modify the version of `soac-webapp` installed from `npmjs.com`:
+2. If you need to modify the version of `search-interface` installed from `npmjs.com`:
    [nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/), specifically
    file `web/libraries/package.json`.
 
@@ -165,15 +152,14 @@ Build steps:
 1. Check out the `ansible_drupal_nsidc_org` project.
 2. Get a copy of the Drupal database as described in the README.md file.
 3. Follow the dev environment instructions in the "Deploy using garrison" section.
-   The VM will be provisioned with the version of `soac-webapp` specified in the
+   The VM will be provisioned with the version of `search-interface` specified in the
    `nsidc-drupal8` project `staging` branch, in file `web/libraries/package.json`.
 4. Access the application on the resulting VM at:
 
-        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/soac
+        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/search
 
    Replace `USERNAME` with your LDAP username. Note that on the dev VM, some external
-   images may not render. However, the maps and graphs for SOAC itself should render on
-   the individual map pages.
+   images may not render.
 
 ### Building a developer Drupal VM with a different `npmjs.com` version of `search-interface`
 
@@ -196,13 +182,16 @@ have not yet been published to `npmjs.com`.
 ### Redeploying to an existing developer Drupal VM
 
 If you want to deploy a work-in-progress `search-interface` package to an existing
-dev VM, copy the `index.bundle.js` file to the DEV machine using the following
-commands (run from within the ansible project directory):
+dev Drupal VM, copy the `index.bundle.js` file to your dev Drupal machine as described below.
 
+    # Update the contents of search-interface/dist
+    cd /path-to-your-workspace/search-interface
     npm run build # Or npm run build:dev if you want source maps for debugging
 
-    # Also copy the source map file, if you did "npm run build:dev" in the step above.
-    scp /path/to/index.bundle.js dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org:/home/vagrant/drupal/web/libraries/node_modules/@nsidc/search-interface/dist/index.bundle.js
+    # Copy the updated index.bundle.js. Also copy the source map file, if you did
+    # "npm run build:dev" in the step above.
+    cd /path-to-your-workspace/ansible_drupal_nsidc_org
+    scp /path-to-your-workspace/search-interface/dist/index.bundle.js dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org:/home/vagrant/drupal/web/libraries/node_modules/@nsidc/search-interface/dist/index.bundle.js
 
     vagrant nsidc ssh --no-tty --env=dev -c "cd /home/vagrant/drupal; lando drush cache:rebuild"
 
@@ -215,16 +204,16 @@ Prior to the ES2015 update, unit tests were implemented using a grunt task, Karm
 and a HeadlessChrome environment. A few unit tests have already been migrated to
 Jest, and are explicitly executed via the `Test` configuration in `.circleci/config.yml`
 and the `test` and `test:watch` script definitions in `package.json`.
-The remaining tests are now obsolete and need to be migrated to `Jest`. See
+The remaining tests are now obsolete and need to be migrated to `Jest`. See Jira stories
 PSS-460 for some history and SRCH-76 for proposed work.
 
-# Acceptance Tests
+# Acceptance Tests (currently not usable)
 
 **TODO**: Migrate from Ruby-based tests to JS-based acceptance tests if
 possible, and replace outdated `grunt` tasks with `npm tasks` to run the
-acceptance test suite. The tests themselves haven't been update to the ES2015
+acceptance test suite. The tests themselves haven't been updated to the ES2015
 language specification, and are currently not usable.
-See SRCH-73 and related stories SRCH-41, SRCH-50.
+See Jira stories SRCH-73 and related stories SRCH-41, SRCH-50.
 
 ## Prerequisites
 
@@ -286,9 +275,9 @@ be necessary and the CI machine can be decommissioned. See SRCH-96.
 
 # Releasing a New Version
 
-Tl;dr: Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
+**Tl;dr: Adding a version tag to a branch in the format `vNN.NN.NNN` (or `vNN.NN.NN-rc.NN`, in
 the case of release candidates) will package and publish that commit to
-[npmjs.com](https://www.npmjs.com)!
+[npmjs.com](https://www.npmjs.com)!**
 
 See also **Version Handling** below.
 
