@@ -1,7 +1,8 @@
 ## Unreleased
 
-- Add a "no results" check to `FacetsCollection` so that all criteria are met
-  for marking a search complete.
+- Fix the "endless spinner" bug by adding a "no results" check to
+  `FacetsCollection` so that all criteria are met for marking a search
+  complete.
 
 ## v4.3.0 (2023-08-29)
 

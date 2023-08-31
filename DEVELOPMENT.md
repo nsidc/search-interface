@@ -156,7 +156,7 @@ Ansible and Garrison are used to deploy a new Drupal VM. The relevant repositori
    Note that this project is hosted in an NSIDC-managed local Bitbucket repository, NOT on
    bitbucket.org.
 
-2. If you need to modify the version of `soac-webapp` installed from `npmjs.com`:
+2. If you need to modify the version of `search-interface` installed from `npmjs.com`:
    [nsidc-drupal8](https://bitbucket.org/nsidc/nsidc-drupal8/src/staging/), specifically
    file `web/libraries/package.json`.
 
@@ -165,15 +165,14 @@ Build steps:
 1. Check out the `ansible_drupal_nsidc_org` project.
 2. Get a copy of the Drupal database as described in the README.md file.
 3. Follow the dev environment instructions in the "Deploy using garrison" section.
-   The VM will be provisioned with the version of `soac-webapp` specified in the
+   The VM will be provisioned with the version of `search-interface` specified in the
    `nsidc-drupal8` project `staging` branch, in file `web/libraries/package.json`.
 4. Access the application on the resulting VM at:
 
-        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/soac
+        http://dev.nsidc.org.docker-drupal8.USERNAME.dev.int.nsidc.org/data/search
 
    Replace `USERNAME` with your LDAP username. Note that on the dev VM, some external
-   images may not render. However, the maps and graphs for SOAC itself should render on
-   the individual map pages.
+   images may not render.
 
 ### Building a developer Drupal VM with a different `npmjs.com` version of `search-interface`
 
