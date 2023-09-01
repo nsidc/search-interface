@@ -90,7 +90,13 @@ and allowed global variables.
 * [Official documentation for ESLint configuration ](https://eslint.org/docs/user-guide/configuring/)
 * [plugins to run ESLint in various editors and IDEs](https://eslint.org/docs/user-guide/integrations#editors)
 
-# Running the App Locally
+# Running a dev instance of the app
+
+There are currently two ways to run a development instance of this app: running it locally
+or deploying to a developer Drupal instance.  The ability to deploy to a developer VM
+directly using puppet has been deprecated and removed.
+
+## Running the App Locally
 
 Run a local server instance at `http://localhost:8080`:
 
@@ -99,54 +105,6 @@ Run a local server instance at `http://localhost:8080`:
 By default, the local server will set the environment to `development`, and will
 use the production OpenSearch endpoints. See the OpenSearch endpoint configuration
 in `src/config/appConfig.js`.
-
-# Running on a VM
-
-## Building application artifacts for deployment to developer VMs
-
-1. Build the application artifacts into the `dist` directory:
-
-        npm run build # Build a bundle packaged for production environment
-        npm run build:dev  # Build with source maps for development environment
-                           # Update environment-dependent URL configurations in
-                           # `src/config/appConfig.js` as needed.
-
-2. To remove old build artifacts from `dist`:
-
-        npm run clean
-
-## Deploying to a developer VM (without Drupal)
-
-`Puppet` configuration exists in this project to build an application VM, as well as a CI
-machine. All the usual `vagrant-nsidc` environments are supported, but note that a blue
-machine will never be necessary except perhaps for testing purposes. The search interface
-is not deployed via a VM blue-green swap, but rather by pushing a Javascript bundle to
-[npmjs.com](www.npmjs.com).
-
-To create a developer VM:
-
-    vagrant nsidc up --env=dev
-
-TODO: `/opt/nsidc_search` is not being created/populated automatically during VM
-provisioning. Workaround after creating VM:
-
-    vagrant nsidc ssh --env=dev
-    sudo mkdir /opt/nsidc_search
-    sudo chown vagrant:vagrant /opt/nsidc_search
-    # rsync dist and restart nginx?
-
-The app will be available at `http://dev.nsidc_search.USERNAME.dev.int.nsidc.org/`
-
-`nginx` writes logfiles by default to `/var/log/nginx`.
-
-To deploy a locally built and bundled version of the application to the VM
-(separately from VM provisioning), build the Data Search web app locally and rsync
-the contents of `/dist` to `/opt/nsidc_search`.
-
-     $ npm run build:dev  # Build with source maps for development environment, and development
-                         # settings (see `urls` in `src/config/appConfig.js`)
-                         # Do "npm run build" if you don't need source maps.
-     $ rsync -av dist/ vagrant@dev.nsidc_search.USERNAME.dev.int.nsidc.org:/opt/nsidc_search
 
 ## Deploying to a developer Drupal VM
 
@@ -276,13 +234,6 @@ before committing any changes. The steps are:
 * `circleci local execute -c process.yml test`
 
 See [The CircleCI documentation](https://circleci.com/docs/local-cli/) for more information.
-
-## Legacy CI
-
-Puppet configuration exists for a CI machine with jobs for building `integration`,
-`qa`, `staging` and `blue` VMs running a standalone search interface application.
-Once the new Drupal Web site is released, the standalone application will no longer
-be necessary and the CI machine can be decommissioned. See SRCH-96.
 
 # Releasing a New Version
 

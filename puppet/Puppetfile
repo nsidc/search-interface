@@ -5,11 +5,6 @@ mod 'nsidc/nsidc_nfs',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git',
   :ref => 'latest'
 
-# Module for creating NSIDC Jenkins servers
-mod "nsidc/nsidc_jenkins",
-  :git => "git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git",
-  :ref => 'latest'
-
 # Module for webserver (nginx) install
 mod "nsidc/puppet-nginx",
   :git => 'https://github.com/nsidc/puppet-nginx',
