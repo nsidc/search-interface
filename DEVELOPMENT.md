@@ -121,7 +121,8 @@ Ansible and Garrison are used to deploy a new Drupal VM. The relevant repositori
 Build steps:
 
 1. Check out the `ansible_drupal_nsidc_org` project.
-2. Get a copy of the Drupal database as described in the README.md file.
+2. Get a copy of the Drupal database as described in the Ansible Drupal project
+   README.md file.
 3. Follow the dev environment instructions in the "Deploy using garrison" section.
    The VM will be provisioned with the version of `soac-webapp` specified in the
    `nsidc-drupal8` project `staging` branch, in file `web/libraries/package.json`.
