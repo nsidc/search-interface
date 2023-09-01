@@ -147,6 +147,12 @@ describe('FacetResultsCollection', function () {
                 expect(fakeMediator.trigger).toHaveBeenCalled();
                 expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:initiated');
             });
+
+            it('forces a facetsReturned event when the search returns zero results', function () {
+                facetsCollection.onNoResults();
+                expect(fakeMediator.trigger).toHaveBeenCalled();
+                expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsReturned');
+            });
         });
     });
 });
