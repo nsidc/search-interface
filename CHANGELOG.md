@@ -1,4 +1,4 @@
-## Unreleased
+## v4.4.0 (2023-09-05)
 
 - Fix the "endless spinner" bug by adding a "no results" check to
   `FacetsCollection` so that all criteria are met for marking a search
