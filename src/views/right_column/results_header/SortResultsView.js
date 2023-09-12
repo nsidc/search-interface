@@ -26,7 +26,8 @@ class SortResultsView extends DropdownView {
     }
 
     getSelectedOption() {
-        return this.collection.getSortKeys();
+        const sortKeys = this.collection.getSortKeys();
+        return this.dropdownOptions[sortKeys];
     }
 }
 
