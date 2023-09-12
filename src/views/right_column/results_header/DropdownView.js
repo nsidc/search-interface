@@ -52,12 +52,12 @@ class DropdownView extends Backbone.View {
         const selectedOption = this.getSelectedOption();
         const $dropdown = this.$el.find('select');
 
-        const dropdownOptionsHtml = _.map(this.dropdownOptions, function (value, key) {
-            let selected = (selectedOption === value);
+        const dropdownOptionsHtml = _.map(this.dropdownOptions, function (label, osParam) {
+            let selected = (selectedOption?.toString() === osParam);
             return this.templates.option({
                 selected,
-                displayValue: value,
-                opensearchValue: key
+                displayValue: label,
+                opensearchValue: osParam
             });
         }, this);
 

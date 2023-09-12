@@ -1,6 +1,7 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import FacetModel from '../models/FacetModel';
+import * as UtilityFunctions from '../lib/utility_functions';
 
 class FacetsCollection extends Backbone.Collection {
     get model() {
@@ -42,33 +43,15 @@ class FacetsCollection extends Backbone.Collection {
     }
 
     performFacetSearch(model, successMethod) {
-        let startPage, itemsPerPage;
-
         if (!this.facetsEnabled) {
             return;
         }
 
-        startPage = model.get('pageNumber');
-        itemsPerPage = model.get('itemsPerPage');
+        let osParams = UtilityFunctions.getOsParameters(model, this.osDefaultParameters);
 
         this.provider.requestJSON({
             contentType: this.osDefaultParameters.osFacetContentType,
-            osParameters: {
-                osSource: this.osDefaultParameters.osSource,
-                osStartIndex: (startPage - 1) * itemsPerPage + 1,
-                osItemsPerPage: itemsPerPage,
-                osSearchTerms: model.get('keyword'),
-                osAuthor: model.get('author'),
-                osParameter: model.get('parameter'),
-                osSensor: model.get('sensor'),
-                osTitle: model.get('title'),
-                osFacetFilters: model.get('facetFilters'),
-                geoBoundingBox: model.get('geoBoundingBox'),
-                osGeoRel: this.osDefaultParameters.osGeoRel,
-                osDtStart: model.get('startDate'),
-                osDtEnd: model.get('endDate'),
-                osRequestHeaders: this.osDefaultParameters.osRequestHeaders
-            },
+            osParameters: osParams,
             success: _.bind(successMethod, this),
             error: _.bind(this.onErrorResponse, this)
         });

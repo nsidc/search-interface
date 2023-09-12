@@ -1,3 +1,8 @@
+## Unreleased
+
+- Ensure sort option is returned explicitly in the OpenSearch response and
+  thus persist the user selection on the "Sort by" menu.
+
 ## v4.3.0 (2023-08-29)
 
 - Replace the `OpenSearchLight` dependency with `opensearch-browser`.
