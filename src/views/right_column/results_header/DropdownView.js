@@ -57,7 +57,7 @@ class DropdownView extends Backbone.View {
             return this.templates.option({
                 selected,
                 displayValue: value,
-                opensearchValue:key
+                opensearchValue: key
             });
         }, this);
 
