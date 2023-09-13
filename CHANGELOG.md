@@ -1,3 +1,7 @@
+## Unreleased
+
+- Change "continuous" to "present" in temporal summaries.
+
 ## v4.4.1 (2023-09-05)
 
 - Remove puppet and vagrant configuration files

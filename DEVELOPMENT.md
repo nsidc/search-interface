@@ -278,7 +278,7 @@ Note the ` -- ` (two dashes surrounded by spaces) before the level specification
 
         npm version [major | minor | patch ]
 
-`npm run release` will tag the current branch, the tag will be pushed to origin (via the
+`npm run release -- ...` will tag the current branch, the tag will be pushed to origin (via the
 `postversion` trigger), and CircleCI will build and publish a new package to `npmjs`.
 
 ## Deploying to staging and production Drupal
