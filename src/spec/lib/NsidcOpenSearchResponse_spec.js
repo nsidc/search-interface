@@ -51,6 +51,8 @@ describe('NsidcOpenSearchResponse', function () {
             expect(results.getResults()[0].dataFormats).toEqual(['stone tablet']);
         });
 
+        // A few tests were updated as part of SRCH-94. The skipped tests still need to be
+        // updated to use updated test data and to run in the Jest framework.
         it.skip('extracts multiple data access links', function () {
             var results, fakeFeed, additionalEntryContents = [
                 '   <link title="' + fakeDataUrls[1].title + '" href="' + fakeDataUrls[1].href +
