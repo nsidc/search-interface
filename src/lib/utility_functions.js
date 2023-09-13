@@ -198,7 +198,7 @@ export function osGeoBoxFromIdentifier(identifier) {
 
 export function getOsParameters(model, defaultParameters) {
     let startPage = model.get('pageNumber'),
-      itemsPerPage = model.get('itemsPerPage');
+        itemsPerPage = model.get('itemsPerPage');
 
     return {
         osSource: defaultParameters.osSource,
