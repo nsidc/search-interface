@@ -1,4 +1,4 @@
-## v4.3.1 (2023-09-13)
+## v4.3.2 (2023-09-13)
 
 - Ensure sort option is returned explicitly in the OpenSearch response and
   thus persist the user selection on the "Sort by" menu.
