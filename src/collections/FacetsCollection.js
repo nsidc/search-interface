@@ -22,6 +22,7 @@ class FacetsCollection extends Backbone.Collection {
         this.mediator?.on('search:refinedSearch', this.onRefinedSearch, this);
         this.mediator?.on('search:datacentersOnly', this.onDatacentersOnly, this);
         this.mediator?.on('search:urlParams', this.onSearchUrlParams, this);
+        this.mediator?.on('search:noResults', this.onNoResults, this);
     }
 
     onSearchInitiated(model) {
@@ -111,6 +112,10 @@ class FacetsCollection extends Backbone.Collection {
             this.reset();
             this.mediator.trigger('search:error');
         }
+    }
+
+    onNoResults() {
+        this.mediator?.trigger('search:facetsReturned');
     }
 
     countCaps(str) {
