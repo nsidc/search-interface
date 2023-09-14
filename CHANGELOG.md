@@ -1,3 +1,7 @@
+## Unreleased
+
+- Merge 4.3.2 patch into HEAD/main.
+
 ## v4.4.1 (2023-09-05)
 
 - Remove puppet and vagrant configuration files
