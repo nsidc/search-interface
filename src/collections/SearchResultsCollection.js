@@ -35,28 +35,11 @@ class SearchResultsCollection extends Backbone.Collection {
     }
 
     performSearch(model, successMethod) {
-        var startPage = model.get('pageNumber'),
-            itemsPerPage = model.get('itemsPerPage');
+        let osParams = UtilityFunctions.getOsParameters(model, this.osDefaultParameters);
 
         this.provider.requestJSON({
             contentType: this.osDefaultParameters.osSearchContentType,
-            osParameters: {
-                osSource: this.osDefaultParameters.osSource,
-                osStartIndex: (startPage - 1) * itemsPerPage + 1,
-                osItemsPerPage: itemsPerPage,
-                osSearchTerms: model.get('keyword'),
-                osAuthor: model.get('author'),
-                osParameter: model.get('parameter'),
-                osSensor: model.get('sensor'),
-                osTitle: model.get('title'),
-                osFacetFilters: model.get('facetFilters'),
-                geoBoundingBox: model.get('geoBoundingBox'),
-                osGeoRel: this.osDefaultParameters.osGeoRel,
-                osDtStart: model.get('startDate'),
-                osDtEnd: model.get('endDate'),
-                osSortKeys: model.get('sortKeys'),
-                osRequestHeaders: this.osDefaultParameters.osRequestHeaders
-            },
+            osParameters: osParams,
             success: _.bind(successMethod, this),
             error: _.bind(this.onErrorResponse, this)
         });

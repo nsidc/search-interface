@@ -9,6 +9,11 @@
   `FacetsCollection` so that all criteria are met for marking a search
   complete.
 
+## v4.3.2 (2023-09-13)
+
+- Ensure sort option is returned explicitly in the OpenSearch response and
+  thus persist the user selection on the "Sort by" menu.
+
 ## v4.3.0 (2023-08-29)
 
 - Replace the `OpenSearchLight` dependency with `opensearch-browser`.

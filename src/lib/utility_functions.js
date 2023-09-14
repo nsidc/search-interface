@@ -195,3 +195,26 @@ export function osGeoBoxFromIdentifier(identifier) {
     geoBox = [coords.west, coords.south, coords.east, coords.north].join(",");
     return geoBox === ",,," ? "" : geoBox;
 }
+
+export function getOsParameters(model, defaultParameters) {
+    let startPage = model.get('pageNumber'),
+        itemsPerPage = model.get('itemsPerPage');
+
+    return {
+        osSource: defaultParameters.osSource,
+        osStartIndex: (startPage - 1) * itemsPerPage + 1,
+        osItemsPerPage: itemsPerPage,
+        osSearchTerms: model.get('keyword'),
+        osAuthor: model.get('author'),
+        osParameter: model.get('parameter'),
+        osSensor: model.get('sensor'),
+        osTitle: model.get('title'),
+        osFacetFilters: model.get('facetFilters'),
+        geoBoundingBox: model.get('geoBoundingBox'),
+        osGeoRel: defaultParameters.osGeoRel,
+        osDtStart: model.get('startDate'),
+        osDtEnd: model.get('endDate'),
+        osSortKeys: model.get('sortKeys'),
+        osRequestHeaders: defaultParameters.osRequestHeaders
+    };
+}

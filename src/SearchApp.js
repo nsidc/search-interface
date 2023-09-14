@@ -193,7 +193,7 @@ class SearchApp extends Backbone.Router {
             if(propName === 'facetFilters') {
                 facetFilters = JSON.parse(decodeURIComponent(propValue));
             }
-            else if(_.contains(['keywords', 'author', 'title', 'sensor', 'parameter', 'sortKeys'], propName)) {
+            else if(_.contains(['keywords', 'author', 'title', 'sensor', 'parameter'], propName)) {
                 let decodedPropValue = decodedQueryParameter(decodeURI(propValue));
                 searchOptions[propName] = new SearchTerms(decodedPropValue).asArray();
             }
