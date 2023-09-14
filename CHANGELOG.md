@@ -2,6 +2,10 @@
 
 - Change "continuous" to "present" in temporal summaries.
 
+## v4.4.2 (2023-09-14)
+
+- Merge 4.3.2 patch into HEAD/main.
+
 ## v4.4.1 (2023-09-05)
 
 - Remove puppet and vagrant configuration files
@@ -12,6 +16,11 @@
 - Fix the "endless spinner" bug by adding a "no results" check to
   `FacetsCollection` so that all criteria are met for marking a search
   complete.
+
+## v4.3.2 (2023-09-13)
+
+- Ensure sort option is returned explicitly in the OpenSearch response and
+  thus persist the user selection on the "Sort by" menu.
 
 ## v4.3.0 (2023-08-29)
 

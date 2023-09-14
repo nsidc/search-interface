@@ -23,7 +23,7 @@ jobs:
           command: npx eslint -o reports/lint/lint.xml -f junit "./src/"
       - run:
           name: Test
-          command: npx jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
+          command: npx jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/lib/NsidcOpenSearchResponse_spec.js src/spec/collections --coverage --coverageDirectory reports/coverage --ci --runInBand --reporters="default" --reporters="jest-junit"
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:

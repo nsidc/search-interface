@@ -61,9 +61,10 @@ class SearchCriteriaView extends InputViewBase {
                 startDate: this.getInputField('start-date'),
                 endDate: this.getInputField('end-date'),
                 osGeoBbox: this.getGeoBbox(),
-                itemsPerPage: this.model.get('itemsPerPage')
+                itemsPerPage: this.model.get('itemsPerPage'),
+                sortKeys: this.model.get('sortKeys'),
                 // setCriteria() first resets all the criteria, so save the items per page
-                // so that it is unchanged when we start a new search via the Find Data button
+                // and sort keys for use in the next search.
             };
             _.extend(criteriaHash, this.keywordsView.getKeywords());
 
