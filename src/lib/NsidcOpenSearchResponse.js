@@ -25,7 +25,7 @@ function getBoundingBoxFrom(xml) {
 }
 
 function getDateRangeFrom(xml) {
-    var dates,
+    let dates,
         rangeObj,
         rangeArr,
         dateRegex = new RegExp("(.*)/(.*)");
@@ -34,13 +34,14 @@ function getDateRangeFrom(xml) {
     rangeArr = [];
 
     _.each(dates, function (date) {
-        var dateParts = $(date).text().match(dateRegex);
-        rangeObj = {
-            startDate: dateParts[1],
-            endDate: dateParts[2],
+        let dateParts = $(date).text().match(dateRegex);
+        if(dateParts !== null) {
+            rangeObj = {
+                startDate: dateParts[1],
+                endDate: dateParts[2]
+            };
+            rangeArr.push(rangeObj);
         };
-
-        rangeArr.push(rangeObj);
     });
 
     return rangeArr;

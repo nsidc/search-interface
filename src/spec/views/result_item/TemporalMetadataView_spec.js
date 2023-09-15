@@ -1,13 +1,65 @@
 import Backbone from 'backbone';
 import TemporalMetadataView from '../../../views/result_item/TemporalMetadataView';
+import _ from 'underscore';
 
 describe('NSIDC Temporal Metadata View', function () {
-    describe('Rendering', function () {
-        it('does almost nothing', function () {
-            var testvar = 1;
-            expect(testvar).toEqual(1);
-        });
+    describe('Content', function () {
+       it('keeps start and end when both exist', function () {
+           // one pair
+           // multiple pairs
+           //<dc:date>1973-01-01/2500-12-31</dc:date>
+           //<dc:date>2006-01-01/</dc:date>
+           let rangeList = [
+               ['1980-01-01', '2010-12-31'],
+               ['1990-01-01', '2020-12-31']
+           ];
+           let rangeArr = [];
 
+           rangeArr = _.map(rangeList, function(range) {
+               return { startDate: range[0], endDate: range[1] };
+           })
+           expect(rangeArr.length).toEqual(2);
+
+           let filtered = new TemporalMetadataView({}).filterRanges(rangeArr);
+           expect(filtered).toEqual(rangeArr);
+       });
+
+       it('keeps only the start and shows present if end is empty', function () {
+           // one pair
+           // multiple pairs
+           let rangeList = [
+               ['1980-01-01', ''],
+               ['', '2020-12-31'],
+               ['', '']
+           ];
+
+           let rangeArr = [];
+
+           rangeArr = _.map(rangeList, function(range) {
+               return { startDate: range[0], endDate: range[1] };
+           })
+           expect(rangeArr.length).toEqual(3);
+
+           let filtered = new TemporalMetadataView({}).filterRanges(rangeArr);
+           expect(filtered.length).toEqual(1);
+           expect(filtered[0]).toEqual(rangeArr[0]);
+           expect(filtered[0].startDate).toMatch('1980-01-01');
+           expect(filtered[0].endDate).toMatch('present');
+       });
+
+       it('does not keep entries with missing start date', function () {
+           // empty string, undefined, not a date
+           // one pair
+           // multiple pairs
+           let rangeList = [
+               ['1980-01-01', ''],
+               ['', '2020-12-31'],
+               ['', '']
+           ];
+       });
+    });
+
+    describe('Rendering', function () {
         it.skip('should display the words Temporal Coverage when given a temporal range', function () {
             var model, el, temporalMetadataView;
             model = new Backbone.Model({dateRanges: [{ startDate: '2013-01-01', endDate: '2013-01-31' }]});
