@@ -1,6 +1,5 @@
 import NsidcOpenSearchResponse from '../../lib/NsidcOpenSearchResponse';
 import _ from "underscore";
-import { log } from "console";
 
 describe('NsidcOpenSearchResponse', function () {
     let nsidcOpenSearchResponse = new NsidcOpenSearchResponse();

@@ -20,7 +20,11 @@ describe('NSIDC Temporal Metadata View', function () {
             expect(rangeArr.length).toEqual(2);
 
             let filtered = new TemporalMetadataView({}).filterRanges(rangeArr);
-            expect(filtered).toEqual(rangeArr);
+            expect(filtered.length).toEqual(2);
+            expect(filtered[0].startDate).toMatch('1980-01-01');
+            expect(filtered[0].endDate).toMatch('2010-12-31');
+            expect(filtered[1].startDate).toMatch('1990-01-01');
+            expect(filtered[1].endDate).toMatch('2020-12-31');
         });
 
         it('keeps only the start and shows present if end is empty', function () {
