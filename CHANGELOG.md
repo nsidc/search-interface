@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Change "continuous" to "present" in temporal summaries.
+- Use the string "present" rather than "continuous" in temporal summaries.
 
 ## v4.4.2 (2023-09-14)
 

@@ -41,7 +41,7 @@ function getDateRangeFrom(xml) {
                 endDate: dateParts[2]
             };
             rangeArr.push(rangeObj);
-        };
+        }
     });
 
     return rangeArr;
