@@ -10,7 +10,7 @@ import VectorSource from 'ol/source/Vector';
 import { Draw, DragPan } from 'ol/interaction';
 import { ZoomSlider } from 'ol/control';
 import { getTransform } from 'ol/proj';
-import { toStringHDMS } from 'ol/coordinate';
+import { toStringXY } from 'ol/coordinate';
 
 import ModeControl from './ModeControl';
 
@@ -124,7 +124,7 @@ export default class SearchMap {
      */
     addMousePositionControl() {
         const mousePositionControl = new MousePosition({
-            coordinateFormat: (xy) => toStringHDMS(xy, 0),
+            coordinateFormat: (xy) => toStringXY(xy, 0),
             projection: 'EPSG:4326',
             placeholder: 'Mouse is not over map',
         });
