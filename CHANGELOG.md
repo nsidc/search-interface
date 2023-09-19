@@ -1,4 +1,4 @@
-## Unreleased
+## v4.5.0 (2023-09-19)
 
 - Use the string "present" rather than "continuous" in temporal summaries.
 
