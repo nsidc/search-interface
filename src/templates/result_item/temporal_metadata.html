@@ -4,18 +4,10 @@
 <div class="value">
 <% _.each(dateRanges, function(date) { %>
   <div class="temporal-results">
-  <% if (date.startDate !== undefined && date.startDate !== "") { %>
     <time class="dtstart" datetime="<%= date.startDate %>"><%= date.startDate %></time>
     to
-    <% if (date.endDate !== undefined && date.endDate !== "") { %>
-      <time class="dtend" datetime="<%= date.endDate %>"><%= date.endDate %></time>
-    <% } else { %>
-      <span class="dtend">continuous</span>
-    <% } %>
-  <% } else if (date.endDate !== undefined && date.endDate !== "") { %>
     <time class="dtend" datetime="<%= date.endDate %>"><%= date.endDate %></time>
-  <% } %>
-  <br>
+    <br>
   </div>
 <% }); %>
 </div>

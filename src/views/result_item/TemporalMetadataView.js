@@ -10,17 +10,26 @@ class TemporalMetadataView extends Backbone.View {
     }
 
     render() {
-        let ranges = this.model.get('dateRanges');
-
-        ranges = _.filter(ranges, function (range) {
-            return range.startDate && isDate(parse(range.startDate, 'yyyy-MM-dd', new Date()));
-        }, this);
+        let ranges = this.filterRanges(this.model.get('dateRanges'));
 
         if(ranges.length > 0 || this.forceRender) {
             this.$el.html(_.template(viewTemplate)({dateRanges: ranges}));
         }
 
         return this;
+    }
+
+    filterRanges(dateRanges) {
+        let ranges = _.filter(dateRanges, function (range) {
+            return range.startDate && isDate(parse(range.startDate, 'yyyy-MM-dd', new Date()));
+        }, this);
+
+        return _.map(ranges, function (range) {
+            if (range.endDate === undefined || range.endDate === '') {
+                range.endDate = 'present';
+            }
+            return range;
+        });
     }
 }
 

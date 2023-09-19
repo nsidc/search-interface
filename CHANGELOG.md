@@ -1,3 +1,7 @@
+## Unreleased
+
+- Use the string "present" rather than "continuous" in temporal summaries.
+
 ## v4.4.2 (2023-09-14)
 
 - Merge 4.3.2 patch into HEAD/main.
