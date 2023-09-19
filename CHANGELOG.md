@@ -1,4 +1,4 @@
-## Unreleased
+## v4.5.1 (2023-09-19)
 
 - Version tagging `main`
 
