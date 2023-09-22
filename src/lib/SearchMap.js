@@ -124,7 +124,7 @@ export default class SearchMap {
      */
     addMousePositionControl() {
         const mousePositionControl = new MousePosition({
-            coordinateFormat: (xy) => toStringXY(xy, 0),
+            coordinateFormat: (xy) => toStringXY(xy, 2),
             projection: 'EPSG:4326',
             placeholder: 'Mouse is not over map',
         });

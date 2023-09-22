@@ -553,8 +553,10 @@ $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
 #map-container .ol-mouse-position {
     top: unset;
-    bottom: 8px;
-    right: 8px;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    padding: 0.5em;
     position: absolute;
     color: #ffa500;
 }
