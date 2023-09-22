@@ -1,7 +1,7 @@
 {
   "name": "@nsidc/search-interface",
   "description": "NSIDC data search interface",
-  "version": "4.4.2",
+  "version": "4.5.1",
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     "doc": "jsdoc -c jsdoc-conf.json",
     "lint": "npx eslint ./src/",
     "lint:watch": "npx esw -w ./src/",
-    "test": "jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/lib/NsidcOpenSearchResponse_spec.js src/spec/collections",
+    "test": "jest src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/lib/NsidcOpenSearchResponse_spec.js src/spec/views/result_item/TemporalMetadataView_spec.js src/spec/collections",
     "test:watch": "jest -w src/spec/lib/utility_functions_spec.js src/spec/lib/Mediator_spec.js src/spec/lib/NsidcOpenSearchResponse_spec.js src/spec/collections",
     "setup:prerelease": "npm version prepatch --no-git-tag-version; npm version prerelease --preid=rc --no-git-tag-version",
     "bump:prerelease": "npm version prerelease --preid=rc",

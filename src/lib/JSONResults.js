@@ -1,4 +1,4 @@
-/** An class used to pass JSON Results from a request.
+/** A class used to pass JSON Results from a request.
 *  parameters:
 *    - init: An object containing the following key/value pairs:
 *              - results: An array of objects, each containing the following keys:
