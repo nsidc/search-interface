@@ -496,7 +496,7 @@ div {
 }
 
 #map-container .ol-zoomslider {
-  background-color: rgba(0, 30, 156, 0.25);
+  background-color: $search-criteria-widget-background-color;
   /*
   Zoom control top: 0.5em
   Zoom control padding: 2px
@@ -556,7 +556,9 @@ $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
     bottom: 0px;
     right: 0px;
     width: 100%;
-    padding: 0.5em;
+    padding: 0.25em 0.5em;
     position: absolute;
-    color: #ffa500;
+    text-align: right;
+    color: white;
+    background-color: $search-criteria-widget-background-color;
 }
