@@ -1,4 +1,4 @@
-## Unreleased
+## v4.6.0 (2023-09-28)
 
 - Show mouse position over map in decimal degrees rather than DMS.
 
