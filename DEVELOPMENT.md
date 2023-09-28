@@ -260,7 +260,7 @@ Note: The naming structure for the prerelease scripts (`setup:prerelease` and `b
 are intentional in order to avoid unnecessarily triggering the `release` script.
 
        $ npm run setup:prerelease # Adds an initial pre-release tag to the current branch (e.g. v3.3.0-rc.0)
-                                  # Does not tag the branch.
+                                  # Does not tag the branch. You'll need to push changes to git after running this step.
        $ npm run bump:prerelease # Bumps the prerelease number (e.g. 3.3.0-rc.1) and tags the branch.
 
 Running `npm run bump:prerelease` will tag the current branch with an updated release candidate

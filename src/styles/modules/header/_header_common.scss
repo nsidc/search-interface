@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .search-header {
   @include box-shadow(0 2px 3px rgba(15, 38, 76, .4));
   background: $header-bg;
@@ -496,7 +498,7 @@ div {
 }
 
 #map-container .ol-zoomslider {
-  background-color: rgba(0, 30, 156, 0.25);
+  background-color: color.adjust($search-criteria-widget-background-color, $alpha: -0.75);
   /*
   Zoom control top: 0.5em
   Zoom control padding: 2px
@@ -553,8 +555,13 @@ $auto-suggest-highlight-color: rgba(0, 0, 0, .1);
 
 #map-container .ol-mouse-position {
     top: unset;
-    bottom: 8px;
-    right: 8px;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    padding: 0.25em 0.5em;
+    border: none;
     position: absolute;
-    color: #ffa500;
+    text-align: right;
+    color: white;
+    background-color: $search-criteria-widget-background-color;
 }

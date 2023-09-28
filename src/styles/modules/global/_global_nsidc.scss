@@ -31,7 +31,7 @@ button {
   &.blue-shade {
     @include background-image-gradient('#83bce8 5%, #065084 100%');
     @include border-radius(4px);
-    background-color: #065084;
+    background-color: $standard-blue;
     border: 1px solid #7a99aa;
     border-top-color: #c9dce7;
     color: #fff;
@@ -61,7 +61,7 @@ button {
   width: 700px;
 
   h2 {
-    color: #1e4285;
+    color: $standard-blue;
     font-size: 24px;
     font-weight: bold;
     line-height: 24px;

@@ -1,6 +1,10 @@
+## Unreleased
+
+- Show mouse position over map in decimal degrees rather than DMS.
+
 ## v4.5.1 (2023-09-19)
 
-- Version tagging `main`
+- Version tagging `main` (v4.5.0 was accidentally built from the feature branch.)
 
 ## v4.5.0 (2023-09-19)
 
