@@ -31,7 +31,7 @@ export const BASE_LAYERS = [{
     layerName: "BlueMarble_ShadedRelief_Bathymetry",
     center: [0, 0],
     extent: [-180.0, -90.0, 180.0, 90.0],
-    width: 660,
+    width: 'auto',
     height: 330,
     ratio: 1,
     hidpi: false,
