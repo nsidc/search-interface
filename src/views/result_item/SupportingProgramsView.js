@@ -14,8 +14,9 @@ class SupportingProgramsView extends Backbone.View {
                 'AGDC': [/^AGDC/],
                 'FGDC': [/^FGDC/],
                 'ELOKA': [/^ELOKA/],
-                'NASA_DAAC': [/^NASA NSIDC DAAC/],
+                'NASA_DAAC': [/^NASA NSIDC DAAC/, /^NASA$/],
                 'ADC': [/^ADC/],
+                'NSIDC': [/^NSIDC$/, /^ADE/, /^ACADIS/],
 
                 'USADCC': [/^USADCC/, /^NSIDC_ARCSS/],
                 'NSIDC_ARC': [/^NSIDC_ROCS/, /^NSIDC ARC/]
