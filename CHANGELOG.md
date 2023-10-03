@@ -1,3 +1,8 @@
+## Unreleased
+
+- Adding NSIDC logo to be used for NSIDC, ADE, and ACADIS supporting programs
+- Associating the NASA logo to datasets with NASA as the support program
+
 ## v4.6.0 (2023-09-28)
 
 - Show mouse position over map in decimal degrees rather than DMS.
