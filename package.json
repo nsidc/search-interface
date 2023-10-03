@@ -1,7 +1,7 @@
 {
   "name": "@nsidc/search-interface",
   "description": "NSIDC data search interface",
-  "version": "4.6.1-rc.1",
+  "version": "4.6.2-rc.0",
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
