@@ -1,4 +1,4 @@
-## Unreleased
+## v4.7.0 (2023-10-03)
 
 - Adding NSIDC logo to be used for NSIDC, ADE, and ACADIS supporting programs
 - Associating the NASA logo to datasets with NASA as the support program
