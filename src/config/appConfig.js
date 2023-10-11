@@ -4,10 +4,15 @@ const urls = {
         dateRangeHost: '',
         port: 666
     },
+    // development: {
+    //     openSearchHost: 'https://nsidc.org',
+    //     dateRangeHost: 'https://nsidc.org',
+    //     port: 80
+    // },
     development: {
-        openSearchHost: 'https://nsidc.org',
+        openSearchHost: 'http://dev.dss.glewis.dev.int.nsidc.org',
         dateRangeHost: 'https://nsidc.org',
-        port: 80
+        port: 10680
     },
     integration: {
         openSearchHost: 'https://integration.dss.apps.int.nsidc.org',
@@ -15,7 +20,7 @@ const urls = {
         port: 10680
     },
     production: {
-        openSearchHost: 'https://nsidc.org/',
+        openSearchHost: 'https://nsidc.org',
         dateRangeHost: 'https://nsidc.org',
         port: 80
     },
@@ -33,7 +38,8 @@ export function environmentUrls(environment) {
 // Values consistent across all environments
 export const openSearchOptions = {
     osProvider: {},
-    osdd: '/api/dataset/2/OpenSearchDescription',
+    // osdd: '/api/dataset/2/OpenSearchDescription',
+    osdd: '/OpenSearchDescription',
     osSource: 'NSIDC',
     osStartIndex: 0,
     osItemsPerPage: 25,

@@ -3,11 +3,14 @@
   "moduleDirectories": ["node_modules", "src"],
   "moduleFileExtensions": ["js", "jsx"],
   "rootDir": "src",
+  "setupFilesAfterEnv": [
+    "@testing-library/jest-dom"
+  ],
   "testEnvironment": "jsdom",
   "testRegex": "((\\.|/*.)(spec))\\.js?$",
   "transform": {
     "^.+\\.(js|jsx)$": ["babel-jest", {"rootMode": "upward"}],
-    "^.+\\.html$": "<rootDir>/spec/html-loader.cjs"
+    "^.+\\.html$": "jest-html-loader"
   },
   "verbose": true
 }
