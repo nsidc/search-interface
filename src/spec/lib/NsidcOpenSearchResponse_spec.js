@@ -1,4 +1,4 @@
-import NsidcOpenSearchResponse from '../../lib/NsidcOpenSearchResponse';
+import NsidcOpenSearchResponse from '../../lib/NsidcOpenSearchResponse.js';
 import _ from "underscore";
 
 describe('NsidcOpenSearchResponse', function () {
