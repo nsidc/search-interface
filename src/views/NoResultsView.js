@@ -11,6 +11,9 @@ class NoResultsView extends Backbone.View {
     }
 
     bindEvents() {
+        if (this.mediator === undefined || this.mediator === null) {
+            return;
+        }
         this.mediator.on('search:noResults', this.onNoResultsReturned, this);
         this.mediator.on('search:initiated', this.onSearchInitiated, this);
         this.mediator.on('search:refinedSearch', this.onSearchInitiated, this);

@@ -19,6 +19,9 @@ class AlertMessageView extends Backbone.View {
     }
 
     bindEvents() {
+        if (this.mediator === undefined || this.mediator === null) {
+            return;
+        }
         this.mediator.on('app:alert', this.showAlert, this);
     }
 

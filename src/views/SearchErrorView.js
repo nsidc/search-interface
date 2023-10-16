@@ -5,7 +5,7 @@ import viewTemplate from '../templates/search_error_view.html';
 class SearchErrorView extends Backbone.View {
     initialize(options) {
         this.mediator = options.mediator;
-        this.bindEvents(this.mediator);
+        this.bindEvents();
     }
 
     render() {
@@ -13,9 +13,17 @@ class SearchErrorView extends Backbone.View {
         return this;
     }
 
-    bindEvents(mediator) {
-        mediator.on('search:initiated', this.onSearchInitiated, this);
-        mediator.on('search:error', this.onSearchError, this);
+    bindEvents() {
+        if (this.mediator === undefined || this.mediator === null) {
+            return;
+        }
+        this.mediator.on('search:initiated', this.onSearchInitiated, this);
+        this.mediator.on('search:error', this.onSearchError, this);
+    }
+
+    setMediator(mediator) {
+        this.mediator = mediator;
+        this.bindEvents();
     }
 
     show() {

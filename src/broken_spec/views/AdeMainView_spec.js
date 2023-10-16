@@ -1,3 +1,6 @@
+// TODO - We might be able to just outright delete this test, since ADE is gone.
+
+
 // import AdeMainView from '../../views/AdeMainView';
 import Mediator from '../../lib/Mediator.js';
 // import debug from '../../vendor/debug';

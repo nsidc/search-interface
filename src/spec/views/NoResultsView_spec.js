@@ -1,6 +1,5 @@
 import NoResultsView from '../../views/NoResultsView.js';
 import Mediator from '../../lib/Mediator.js';
-import $ from 'jquery';
 
 describe('NoResultsView', function () {
     let view, mediator;

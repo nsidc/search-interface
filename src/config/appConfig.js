@@ -10,9 +10,10 @@ const urls = {
     //     port: 80
     // },
     development: {
-        openSearchHost: 'http://dev.dss.glewis.dev.int.nsidc.org',
+        // openSearchHost: 'http://dev.dss.glewis.dev.int.nsidc.org',
+        openSearchHost: 'https://integration.nsidc.org',
         dateRangeHost: 'https://nsidc.org',
-        port: 10680
+        port: 80
     },
     integration: {
         openSearchHost: 'https://integration.dss.apps.int.nsidc.org',
@@ -38,8 +39,8 @@ export function environmentUrls(environment) {
 // Values consistent across all environments
 export const openSearchOptions = {
     osProvider: {},
-    // osdd: '/api/dataset/2/OpenSearchDescription',
-    osdd: '/OpenSearchDescription',
+    osdd: '/api/dataset/2/OpenSearchDescription',
+    // osdd: '/OpenSearchDescription',
     osSource: 'NSIDC',
     osStartIndex: 0,
     osItemsPerPage: 25,

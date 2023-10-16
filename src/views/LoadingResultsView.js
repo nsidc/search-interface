@@ -1,30 +1,42 @@
 import Backbone from 'backbone';
+import _ from 'underscore';
+import viewTemplate from '../templates/loading_results.html';
 
 class LoadingResultsView extends Backbone.View {
 
     initialize(options) {
         if(options !== undefined) {
             this.mediator = options.mediator;
-            this.bindEvents(this.mediator);
+            this.bindEvents();
         }
         this.datasetsReturned = true;
         this.facetsReturned = true;
+        this.hideLoadingResultsOverlay();
     }
 
-    bindEvents(mediator) {
-        mediator.on('search:initiated', this.onSearchInitiated, this);
-        mediator.on('search:urlParams', this.onSearchInitiated, this);
-        mediator.on('search:fullSearchComplete', this.onSearchDatasetsReturned, this);
-        mediator.on('search:facetsReturned', this.onSearchFacetsReturned, this);
-        mediator.on('search:refinedSearch', this.onSearchRefined, this);
-        mediator.on('search:refinedSearchComplete', this.onSearchDatasetsReturned, this);
-        mediator.on('search:noResults', this.hideLoadingResultsOverlay, this);
-        mediator.on('search:error', this.hideLoadingResultsOverlay, this);
-        mediator.on('app:home', this.onAppHome, this);
-        mediator.on('search:success', this.onSearchSuccess, this);
+    bindEvents() {
+        if (this.mediator === undefined || this.mediator === null) {
+            return;
+        }
+        this.mediator.on('search:initiated', this.onSearchInitiated, this);
+        this.mediator.on('search:urlParams', this.onSearchInitiated, this);
+        this.mediator.on('search:fullSearchComplete', this.onSearchDatasetsReturned, this);
+        this.mediator.on('search:facetsReturned', this.onSearchFacetsReturned, this);
+        this.mediator.on('search:refinedSearch', this.onSearchRefined, this);
+        this.mediator.on('search:refinedSearchComplete', this.onSearchDatasetsReturned, this);
+        this.mediator.on('search:noResults', this.hideLoadingResultsOverlay, this);
+        this.mediator.on('search:error', this.hideLoadingResultsOverlay, this);
+        this.mediator.on('app:home', this.onAppHome, this);
+        this.mediator.on('search:success', this.onSearchSuccess, this);
+    }
+
+    setMediator(mediator) {
+        this.mediator = mediator;
+        bindEvents();
     }
 
     render() {
+        this.$el.html(_.template(viewTemplate)());
         return this;
     }
 
@@ -68,7 +80,7 @@ class LoadingResultsView extends Backbone.View {
     }
 
     onSearchSuccess() {
-        this.showLoadingResultsOverlay("Loading results...");
+        this.showLoadingResultsOverlay("Loading Results...");
     }
 }
 

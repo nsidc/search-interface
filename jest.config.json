@@ -2,6 +2,9 @@
   "clearMocks": true,
   "moduleDirectories": ["node_modules", "src"],
   "moduleFileExtensions": ["js", "jsx"],
+  "moduleNameMapper": {
+    "^.+\\.(gif|jpg|jpeg|png)$": "<rootDir>/mocks/fileMock.js"
+  },
   "rootDir": "src",
   "setupFilesAfterEnv": [
     "@testing-library/jest-dom"
