@@ -1,23 +1,24 @@
 import NoResultsView from '../../views/NoResultsView.js';
 import Mediator from '../../lib/Mediator.js';
+import $ from 'jquery';
 
-describe.skip('NoResultsView', function () {
-    var view, mediator;
+describe('NoResultsView', function () {
+    let view, mediator;
 
     beforeEach(function () {
         mediator = new Mediator();
-        view = new NoResultsView().render();
+        view = new NoResultsView({mediator: mediator}).render();
     });
 
     it('should initially be hidden', function () {
-        expect(view.$el).toHaveClass('hidden');
+        expect(view.el).toHaveClass('hidden');
     });
 
     it('should be visible when no results are returned', function () {
         view.setMediator(mediator);
 
         mediator.trigger('search:noResults');
-        expect(view.$el).not.toHaveClass('hidden');
+        expect(view.el).not.toHaveClass('hidden');
     });
 
     it('should be hidden when the app goes home', function () {
@@ -25,13 +26,13 @@ describe.skip('NoResultsView', function () {
         mediator.trigger('search:noResults');
 
         mediator.trigger('app:home');
-        expect(view.$el).toHaveClass('hidden');
+        expect(view.el).toHaveClass('hidden');
     });
 
     it('should be hidden when a new search is performed', function () {
-        view.setMediator(mediator);
+        view.bindEvents(mediator);
 
         mediator.trigger('search:initiated');
-        expect(view.$el).toHaveClass('hidden');
+        expect(view.el).toHaveClass('hidden');
     });
 });

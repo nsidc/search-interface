@@ -16,7 +16,7 @@ describe('mediated event handling', function () {
     it('is bound to the app:home event', function () {
         jest.spyOn(homeContentView, 'onAppHome');
 
-        homeContentView.bindEvents(mediator);
+        homeContentView.setMediator(mediator);
 
         mediator.trigger('app:home');
         expect(homeContentView.onAppHome).toHaveBeenCalled();
@@ -36,7 +36,7 @@ describe('mediated event handling', function () {
 
         mediator = new Mediator();
         jest.spyOn(mediator, 'trigger').mockReturnValue({});
-        homeContentView.bindEvents(mediator);
+        homeContentView.setMediator(mediator);
 
         homeContentView.onClickExampleTerm(event);
 
