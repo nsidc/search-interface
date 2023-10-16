@@ -3,7 +3,8 @@
   "moduleDirectories": ["node_modules", "src"],
   "moduleFileExtensions": ["js", "jsx"],
   "moduleNameMapper": {
-    "^.+\\.(gif|jpg|jpeg|png)$": "<rootDir>/mocks/fileMock.js"
+    "^.+\\.(gif|jpg|jpeg|png)$": "<rootDir>/mocks/fileMock.js",
+    "^.+\\.css$": "<rootDir>/mocks/fileMock.js"
   },
   "rootDir": "src",
   "setupFilesAfterEnv": [
@@ -13,7 +14,8 @@
   "testRegex": "((\\.|/*.)(spec))\\.js?$",
   "transform": {
     "^.+\\.(js|jsx)$": ["babel-jest", {"rootMode": "upward"}],
-    "^.+\\.html$": "jest-html-loader"
+    "^.+\\.html$": "jest-html-loader",
+    "^.+\\.(ts|tsx)$": "ts-jest"
   },
   "verbose": true
 }
