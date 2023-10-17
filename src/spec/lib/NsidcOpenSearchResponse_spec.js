@@ -34,9 +34,6 @@ describe('NsidcOpenSearchResponse', function () {
         '<summary>dataset summary</summary>';
 
         response += dateRangesToXml(mergedOpts.dateRanges);
-        // for (let dr of mergedOpts.dateRanges) {
-        //     response += '<dc:date>' + dr.startDate + '/' + dr.endDate + '</dc:date>';
-        // }
 
         for (let bb of mergedOpts.bboxes) {
             response += '<georss:box>';

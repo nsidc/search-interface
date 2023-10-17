@@ -12,7 +12,7 @@
         "impliedStrict": true,
         "sourceType": "module"
     },
-    "ignorePatterns": ["**/vendor/**/*.js", "**/contrib/**/*.js", "**/spec/**/*.js", "**/deprecated/**/*.js"],
+    "ignorePatterns": ["**/vendor/**/*.js", "**/contrib/**/*.js", "**/spec/**/*.js", "**/deprecated/**/*.js", "**/broken_spec/**/*.js"],
     "rules": {
             "indent": ["error", 4]
     }

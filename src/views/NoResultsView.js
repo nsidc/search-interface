@@ -27,7 +27,6 @@ class NoResultsView extends Backbone.View {
     }
 
     render() {
-        console.log(_.template(viewTemplate)());
         this.$el.html(_.template(viewTemplate)());
         return this;
     }

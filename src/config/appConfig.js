@@ -34,7 +34,7 @@ export function environmentUrls(environment) {
 // Values consistent across all environments
 export const openSearchOptions = {
     osProvider: {},
-    // If running on with the dev environment, remove all but the OpenSearchDescription from this
+    // If running on a dev environment, remove all but the OpenSearchDescription from this
     osdd: '/api/dataset/2/OpenSearchDescription',
     osSource: 'NSIDC',
     osStartIndex: 0,

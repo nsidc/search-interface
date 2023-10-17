@@ -32,7 +32,7 @@ class LoadingResultsView extends Backbone.View {
 
     setMediator(mediator) {
         this.mediator = mediator;
-        bindEvents();
+        this.bindEvents();
     }
 
     render() {

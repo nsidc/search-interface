@@ -1,5 +1,4 @@
 import HomeContentView from '../../views/HomeContentView';
-// import NullView from '../../views/NullView';
 import Mediator from '../../lib/Mediator.js';
 
 describe('mediated event handling', function () {
