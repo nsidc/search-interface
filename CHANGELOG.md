@@ -1,3 +1,9 @@
+## Unreleased
+
+- Moved broken tests to a new location so they can be moved back into the main
+  test folder when fixed.
+- Fixed several test suites to work properly with Jest.
+
 ## v4.7.0 (2023-10-03)
 
 - Adding NSIDC logo to be used for NSIDC, ADE, and ACADIS supporting programs
