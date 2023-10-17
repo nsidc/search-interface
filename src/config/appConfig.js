@@ -4,13 +4,8 @@ const urls = {
         dateRangeHost: '',
         port: 666
     },
-    // development: {
-    //     openSearchHost: 'https://nsidc.org',
-    //     dateRangeHost: 'https://nsidc.org',
-    //     port: 80
-    // },
     development: {
-        // openSearchHost: 'http://dev.dss.glewis.dev.int.nsidc.org',
+        // Change this to a developer host if desired.  If you do, port number should change to 10680
         openSearchHost: 'https://integration.nsidc.org',
         dateRangeHost: 'https://nsidc.org',
         port: 80
@@ -39,8 +34,8 @@ export function environmentUrls(environment) {
 // Values consistent across all environments
 export const openSearchOptions = {
     osProvider: {},
+    // If running on with the dev environment, remove all but the OpenSearchDescription from this
     osdd: '/api/dataset/2/OpenSearchDescription',
-    // osdd: '/OpenSearchDescription',
     osSource: 'NSIDC',
     osStartIndex: 0,
     osItemsPerPage: 25,
