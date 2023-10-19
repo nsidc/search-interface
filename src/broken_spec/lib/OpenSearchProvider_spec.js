@@ -1,5 +1,5 @@
-import OpenSearchProvider from '../../lib/OpenSearchProvider.js';
-import FacetsResponse from '../../lib/FacetsResponse.js';
+import OpenSearchProvider from '../../lib/OpenSearchProvider';
+import FacetsResponse from '../../lib/FacetsResponse';
 
 describe.skip('OpenSearchProvider', function () {
     var JqXhrBuilder = function (response) {

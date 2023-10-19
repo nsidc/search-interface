@@ -1,4 +1,4 @@
-import FacetModel from '../../models/FacetModel.js';
+import FacetModel from '../../models/FacetModel';
 
 describe.skip('Facet Model', function () {
     var model;

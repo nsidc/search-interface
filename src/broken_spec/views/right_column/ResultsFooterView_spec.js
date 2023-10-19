@@ -1,4 +1,4 @@
-import ResultsFooterView from '../../../views/right_column/results_footer/ResultsFooterView.js';
+import ResultsFooterView from '../../../views/right_column/results_footer/ResultsFooterView';
 // import objectFactory from '../../../lib/objectFactory';
 
 // var createFakeView = function () {return sinon.createStubInstance(Backbone.View);};

@@ -1,5 +1,5 @@
 // import SpatialSelectionTransformControl from '../../../lib/spatial_selection_map/SpatialSelectionTransformControl';
-import Mediator from '../../../lib/Mediator.js';
+import Mediator from '../../../lib/Mediator';
 
 describe.skip('SpatialSelectionTransformControl', function () {
     describe('Uses the OpenLayers.Control.TransformFeature to manipulate a bounding box', function () {

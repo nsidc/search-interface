@@ -1,4 +1,4 @@
-import * as UtilityFunctions from '../../lib/utility_functions.js';
+import * as UtilityFunctions from '../../lib/utility_functions';
 import $ from 'jquery';
 
 describe('UtilityFunctions', function () {

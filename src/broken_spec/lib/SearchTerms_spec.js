@@ -1,4 +1,4 @@
-import SearchTerms from '../../lib/SearchTerms.js';
+import SearchTerms from '../../lib/SearchTerms';
 
 describe.skip('SearchTerms', function () {
 

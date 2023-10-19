@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
-import AlertMessageView from '../../views/AlertMessageView.js';
-import Mediator from '../../lib/Mediator.js';
+import AlertMessageView from '../../views/AlertMessageView';
+import Mediator from '../../lib/Mediator';
 
 describe('AlertMessageView', function () {
     let resultsCollection, view, mediator, options;

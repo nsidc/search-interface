@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import TemporalMetadataView from '../../../views/result_item/TemporalMetadataView.js';
+import TemporalMetadataView from '../../../views/result_item/TemporalMetadataView';
 import _ from 'underscore';
 
 describe('NSIDC Temporal Metadata View', function () {

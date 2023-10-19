@@ -1,7 +1,7 @@
-import GeoBoundingBox from '../../../models/GeoBoundingBox.js';
+import GeoBoundingBox from '../../../models/GeoBoundingBox';
 // import SpatialCoverageCompassView from '../../../views/search_criteria/SpatialCoverageCompassView';
 // import SpatialSelectionUtilities from '../../../lib/spatial_selection_map/SpatialSelectionUtilities';
-import Mediator from '../../../lib/Mediator.js';
+import Mediator from '../../../lib/Mediator';
 
 describe.skip('Spatial Coverage Compass View (box with 4 directions)', function () {
     var view, geoBoundingBox, element, bboxChangeSpy, initMapStub;

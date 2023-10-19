@@ -1,5 +1,5 @@
-import Mediator from '../../lib/Mediator.js';
-import SearchParamsModel from '../../models/SearchParamsModel.js';
+import Mediator from '../../lib/Mediator';
+import SearchParamsModel from '../../models/SearchParamsModel';
 
 jest.mock('../../lib/Mediator');
 

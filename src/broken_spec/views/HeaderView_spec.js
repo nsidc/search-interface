@@ -3,7 +3,7 @@
 // get these tests working properly.
 
 
-import HeaderView from '../../views/HeaderView.js';
+import HeaderView from '../../views/HeaderView';
 
 // var createFakeView = function() { return sinon.createStubInstance(Backbone.View); };
 // var SearchCriteriaView = sinon.stub().returns(createFakeView());
