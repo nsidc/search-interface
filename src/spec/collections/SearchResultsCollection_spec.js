@@ -277,7 +277,7 @@ describe('SearchResultsCollection', function () {
             resultsCollection.onNewSearchResultData(fakeJson);
 
             // assert
-            expect(resultsCollection.getKeyword()).toBe('test keyword');
+            expect(resultsCollection.getKeywords()).toBe('test keyword');
             expect(resultsCollection.getStartDate()).toBe('2011-01-01');
             expect(resultsCollection.getEndDate()).toBe('2011-12-31');
             expect(resultsCollection.getOsGeoBbox()).toBe('N:99,S:1,E:98,W:56');

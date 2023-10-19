@@ -1,3 +1,8 @@
+## Unreleased
+
+- Force a default search when initially viewing the application interface.
+- Remove bits and pieces of deprecated code.
+
 ## v4.7.0 (2023-10-03)
 
 - Adding NSIDC logo to be used for NSIDC, ADE, and ACADIS supporting programs
