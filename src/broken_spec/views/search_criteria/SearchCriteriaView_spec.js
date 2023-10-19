@@ -103,17 +103,6 @@ describe.skip('Search Criteria View', function () {
             view = new SearchCriteriaView({model: searchParameters, searchResultsCollection: resultsCollection});
         });
 
-        it('updates the search term field and triggers a new search when an example term is selected', function () {
-            view.render();
-            sinon.stub(view, 'onFindDataPressed');
-
-            view.onExampleSearch('iceberg');
-
-            expect(view.getInputField('keyword')).toBe('iceberg');
-            expect(view.onFindDataPressed).toHaveBeenCalled();
-        });
-
-
         it('clears all inputs when the search:clearParams event is triggered', function () {
             view.render();
 
