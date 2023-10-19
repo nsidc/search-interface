@@ -70,11 +70,6 @@ class SearchApp extends Backbone.Router {
             pageNumber: 'pageNumber=(\\d+)',
             osGeoBbox: 'osGeoBbox=(.*)',
             itemsPerPage: 'itemsPerPage=(\\d+)',
-
-            // deprecated properties
-            p: 'p=(\\d+)',
-            bbox: 'bbox=(.*)',
-            psize: 'psize=(\\d+)'
         };
 
         this.routeHandlerProperties = this.properties;
@@ -127,6 +122,7 @@ class SearchApp extends Backbone.Router {
         // Initialize the view framework
         this.homeView = new BaseView({
             el: this.el,
+            isHomePageEnabled: this.isHomePageEnabled(),
             version: this.version,
             config: this.config,
             searchParamsModel: this.searchParamsModel,
@@ -166,9 +162,14 @@ class SearchApp extends Backbone.Router {
         // Always render the HTML content when loading or reloading the page.
         this.homeView.render();
 
-        if((path === null || path === '') && this.isHomePageEnabled()) {
+        if(this.isHomePageEnabled()) {
             this.mediator.trigger('app:home');
             return;
+        }
+
+        // If no search criteria are available, add empty keywords to force a default search.
+        if (path === null) {
+            path = 'keywords=';
         }
 
         _.each(path.split('/'), function (pathComponent) {

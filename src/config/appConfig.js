@@ -77,7 +77,7 @@ export const appConfig = {
         autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
 
         // home page
-        homePage: true,
+        homePage: false,
     },
 
     facets: {

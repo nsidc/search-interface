@@ -264,15 +264,6 @@ class SearchParamsModel extends Backbone.Model {
     }
 
     resetCriteria() {
-        // TODO: Is "unset" necessary?
-        // this.unset('keyword');
-        // this.unset('author');
-        // this.unset('parameter');
-        // this.unset('sensor');
-        // this.unset('title');
-        // this.unset('startDate');
-        // this.unset('endDate');
-        // this.unset('sortKeys');
         this.setParamsFromDefaults();
     }
 }

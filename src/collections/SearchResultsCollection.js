@@ -100,8 +100,12 @@ class SearchResultsCollection extends Backbone.Collection {
         return this.totalResultsCount;
     }
 
-    // prevent undefined keywords.
-    getKeyword() {
+    // This is used by both by setSearchTermField in KeywordsView and generateUrl
+    // in criteriaAppender. The latter dynamically creates an accessor (getter) for
+    // each of the properties listed in routeHandlerProperties (see SearchApp.js
+    // initialization).
+    getKeywords() {
+        // prevent undefined keywords.
         return this.keyword || '';
     }
 
@@ -119,31 +123,6 @@ class SearchResultsCollection extends Backbone.Collection {
 
     getTitle() {
         return this.title;
-    }
-
-    getPopulatedTerms() {
-        let termFields = {
-            all: this.getKeyword(),
-            author: this.getAuthor(),
-            parameter: this.getParameter(),
-            sensor: this.getSensor(),
-            title: this.getTitle()
-        };
-        let terms = {};
-
-        function termsFieldHasValue(termsField) {
-            if (termsField === null || termsField === undefined || termsField.length === 0) {
-                return false;
-            }
-            return true;
-        }
-        _.each(_.keys(termFields), function(key) {
-            if (termsFieldHasValue(termFields[key])) {
-                terms[key] = termFields[key];
-            }
-        });
-
-        return terms;
     }
 
     getStartDate() {
@@ -203,24 +182,6 @@ class SearchResultsCollection extends Backbone.Collection {
             this.reset();
             this.mediator?.trigger('search:error');
         }
-    }
-
-    // deprecated functions for retrieving parameters based on old URLs
-
-    getKeywords() {
-        return this.getKeyword();
-    }
-
-    getP() {
-        return this.getPageNumber();
-    }
-
-    getBbox() {
-        return this.getOsGeoBbox();
-    }
-
-    getPsize() {
-        return this.getItemsPerPage();
     }
 }
 
