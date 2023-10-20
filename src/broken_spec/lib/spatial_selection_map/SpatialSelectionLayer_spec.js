@@ -1,5 +1,5 @@
 // import SpatialSelectionLayer from '../../../lib/spatial_selection_map/SpatialSelectionLayer';
-import Mediator from '../../../lib/Mediator.js'
+import Mediator from '../../../lib/Mediator'
 
 describe.skip('SpatialSelectionLayer', function () {
     describe('Uses the OpenLayers.Layer.Vector to draw a bounding box', function () {

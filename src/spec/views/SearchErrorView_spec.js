@@ -1,5 +1,5 @@
-import SearchErrorView from '../../views/SearchErrorView.js';
-import Mediator from '../../lib/Mediator.js';
+import SearchErrorView from '../../views/SearchErrorView';
+import Mediator from '../../lib/Mediator';
 
 describe('Search Error View', function () {
     let view, mediator;

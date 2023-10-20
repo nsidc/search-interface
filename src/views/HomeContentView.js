@@ -14,22 +14,11 @@ class HomeContentView extends Backbone.View {
     initialize(options) {
         this.options = options;
         this.mediator = options.mediator;
-        this.bindEvents();
-    }
 
-    bindEvents() {
-        if (this.mediator === undefined || this.mediator === null) {
-            return;
-        }
         this.mediator.on('app:home', this.onAppHome, this);
         this.mediator.on('search:initiated', this.onSearchInitiated, this);
         this.mediator.on('search:urlParams', this.onSearchInitiated, this);
         this.mediator.on('search:facetsOnly', this.onSearchInitiated, this);
-    }
-
-    setMediator(mediator) {
-        this.mediator = mediator;
-        this.bindEvents();
     }
 
     render() {

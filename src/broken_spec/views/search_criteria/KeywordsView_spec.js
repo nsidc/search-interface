@@ -1,4 +1,4 @@
-import KeywordsView from '../../../views/search_criteria/KeywordsView.js';
+import KeywordsView from '../../../views/search_criteria/KeywordsView';
 // import keywordsTemplate from '../../../text!templates/search_criteria/keywords.html';
 
 describe.skip('Keywords View', function () {

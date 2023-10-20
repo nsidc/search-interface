@@ -1,4 +1,4 @@
-import InputViewBase from '../../views/InputViewBase.js';
+import InputViewBase from '../../views/InputViewBase';
 
 describe('Input View Base', function () {
     let FakeView, view;

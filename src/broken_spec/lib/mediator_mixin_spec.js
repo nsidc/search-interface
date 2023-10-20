@@ -1,5 +1,5 @@
-import mediatorMixin from '../../lib/mediator_mixin.js';
-import Mediator from '../../lib/Mediator.js';
+import mediatorMixin from '../../lib/mediator_mixin';
+import Mediator from '../../lib/Mediator';
 
 describe.skip('Mediator Mixin', function () {
     describe('usage overview', function () {

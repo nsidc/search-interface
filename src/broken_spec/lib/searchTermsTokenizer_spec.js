@@ -1,4 +1,4 @@
-import tokenizer from '../../lib/searchTermsTokenizer.js';
+import tokenizer from '../../lib/searchTermsTokenizer';
 
 describe.skip('Search Terms Tokenizer', function () {
     it('tokenizes a single simple word into an array', function () {

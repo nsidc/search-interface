@@ -1,4 +1,4 @@
-import Mediator from '../../lib/Mediator.js';
+import Mediator from '../../lib/Mediator';
 
 describe('Mediator', function () {
     it('can be constructed', function () {

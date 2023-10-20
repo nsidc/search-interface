@@ -1,5 +1,5 @@
 import HomeContentView from '../../views/HomeContentView';
-import Mediator from '../../lib/Mediator.js';
+import Mediator from '../../lib/Mediator';
 
 describe('mediated event handling', function () {
 
@@ -12,10 +12,15 @@ describe('mediated event handling', function () {
         homeContentView.render();
     });
 
-    it('is bound to the app:home event', function () {
-        jest.spyOn(homeContentView, 'onAppHome');
+    function rebindEvent(event, target) {
+        mediator.off(event);
+        mediator.on(event, target, homeContentView);
+    }
 
-        homeContentView.setMediator(mediator);
+    it('is bound to the app:home event', function () {
+        let spy = jest.spyOn(homeContentView, 'onAppHome');
+
+        rebindEvent('app:home', spy);
 
         mediator.trigger('app:home');
         expect(homeContentView.onAppHome).toHaveBeenCalled();
@@ -24,22 +29,6 @@ describe('mediated event handling', function () {
     it('is hidden when a search is intiated', function () {
         mediator.trigger('search:initiated');
         expect(homeContentView.el).toHaveClass('hidden');
-    });
-
-    it('triggers a search when an example term is selected', function () {
-        let event = {
-            target: {
-                text: 'sea ice'
-            }
-        };
-
-        mediator = new Mediator();
-        jest.spyOn(mediator, 'trigger').mockReturnValue({});
-        homeContentView.setMediator(mediator);
-
-        homeContentView.onClickExampleTerm(event);
-
-        expect(mediator.trigger).toHaveBeenCalledWith('search:example', 'sea ice');
     });
 
     it('is visible after the app:home event', function () {

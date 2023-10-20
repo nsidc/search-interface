@@ -1,4 +1,4 @@
-import FacetsResponse from '../../lib/FacetsResponse.js';
+import FacetsResponse from '../../lib/FacetsResponse';
 
 describe.skip('FacetsResponse', function () {
     var facetsResponse,

@@ -1,4 +1,4 @@
-import GeoBoundingBox from '../../models/GeoBoundingBox.js';
+import GeoBoundingBox from '../../models/GeoBoundingBox';
 
 describe.skip('GeoBoundingBox', function () {
 

@@ -1,5 +1,5 @@
-import criteriaAppender from '../../lib/criteriaAppender.js';
-import SearchResultsCollection from '../../collections/SearchResultsCollection.js';
+import criteriaAppender from '../../lib/criteriaAppender';
+import SearchResultsCollection from '../../collections/SearchResultsCollection';
 
 describe.skip('Criteria Appender', function () {
 

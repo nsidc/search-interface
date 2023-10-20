@@ -1,5 +1,5 @@
-import NsidcSpatialCoverageTextView from '../../../views/search_criteria/SpatialCoverageTextView.js';
-import GeoBoundingBox from '../../../models/GeoBoundingBox.js'
+import NsidcSpatialCoverageTextView from '../../../views/search_criteria/SpatialCoverageTextView';
+import GeoBoundingBox from '../../../models/GeoBoundingBox'
 // Why? 'models/SearchParamsModel'
 
 describe.skip('NSIDC Spatial Coverage Text View ', function () {

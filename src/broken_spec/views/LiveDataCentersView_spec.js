@@ -2,7 +2,7 @@
 
 
 // import LiveDataCentersView from '../../views/LiveDataCentersView';
-import Mediator from '../../lib/Mediator.js';
+import Mediator from '../../lib/Mediator';
 
 // var createFakeModel = function () { return sinon.createStubInstance(Backbone.Model); };
 // var SearchParamsModel = sinon.stub().returns(createFakeModel());
