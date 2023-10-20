@@ -36,10 +36,12 @@ class SearchCriteriaView extends InputViewBase {
             });
         }
 
-        this.bindEvents(this.mediator);
+        this.bindEvents();
     }
 
-    bindEvents(_mediator) {
+    // NOTE: If mediator-related events are added again to this, the mediator will need
+    // to be passed in
+    bindEvents() {
         this.options.collection.on('reset', this.onSearchResultsReset, this);
     }
 
