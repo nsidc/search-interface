@@ -3,6 +3,7 @@
 - Moved broken tests to a new location so they can be moved back into the main
   test folder when fixed.
 - Fixed several test suites to work properly with Jest.
+- Updated release shell script to be more platform-agnostic
 
 ## v4.7.0 (2023-10-03)
 
