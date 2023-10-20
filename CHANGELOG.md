@@ -1,4 +1,4 @@
-## Unreleased
+## v4.8.1 (2023-10-20)
 
 - Minor bug fix with the release script
 
