@@ -247,6 +247,8 @@ In brief, the steps are:
 
         npm run release -- [major | minor | patch ]
 
+   **NOTE: Mac Users - Make sure you are using a GNU-compliant version of sed**
+
 ## Version Handling
 
 Versions should follow [Semantic Versioning](https://semver.org) guidelines.

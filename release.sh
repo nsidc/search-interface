@@ -7,7 +7,7 @@ DATE_STR="$(date +%F)"
 # candidate version bump.
 if [ -n $VERSION ]; then
   echo "Updating CHANGELOG with version number and date: $VERSION ($DATE_STR)"
-  sed -i '' "s/^## Unreleased$/## v$VERSION ($DATE_STR)/" CHANGELOG.md
+  sed -i "s/^## Unreleased$/## v$VERSION ($DATE_STR)/" CHANGELOG.md
   git add CHANGELOG.md
 fi
 

@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Minor bug fix with the release script
+
+## v4.8.0 (2023-10-20)
+
 - Moved broken tests to a new location so they can be moved back into the main
   test folder when fixed.
 - Fixed several test suites to work properly with Jest.
