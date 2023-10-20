@@ -1,5 +1,8 @@
 #!/bin/sh
 
+VERSION=`node -p "require('./package.json').version"`
+DATE_STR="$(date +%F)"
+
 # Update CHANGELOG.md with current version and date if this is not a release
 # candidate version bump.
 if [ -n $VERSION ]; then
