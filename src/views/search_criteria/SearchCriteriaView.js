@@ -36,17 +36,13 @@ class SearchCriteriaView extends InputViewBase {
             });
         }
 
-        this.bindEvents(this.mediator);
+        this.bindEvents();
     }
 
-    bindEvents(mediator) {
+    // NOTE: If mediator-related events are added again to this, the mediator will need
+    // to be passed in
+    bindEvents() {
         this.options.collection.on('reset', this.onSearchResultsReset, this);
-        mediator.on('search:example', this.onExampleSearch, this);
-    }
-
-    onExampleSearch(terms) {
-        this.keywordsView.setInputField('keyword', terms);
-        this.onFindDataPressed();
     }
 
     updateBboxModelFromIdentifier(geoBboxIdentifier) {

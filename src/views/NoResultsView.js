@@ -10,6 +10,8 @@ class NoResultsView extends Backbone.View {
         this.mediator.on('search:refinedSearch', this.onSearchInitiated, this);
         this.mediator.on('search:displayPreviousResults', this.onDisplayPreviousResults, this);
         this.mediator.on('app:home', this.onAppHome, this);
+
+        this.hideNoResultsMessage();
     }
 
     render() {

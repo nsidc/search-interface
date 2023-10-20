@@ -1,7 +1,7 @@
 import InputViewBase from '../../views/InputViewBase';
 
 describe('Input View Base', function () {
-    var FakeView, view;
+    let FakeView, view;
     FakeView = InputViewBase.extend({
         render: function () {
             this.$el.html('<input id="test" type="text" value="default"/>');
@@ -19,6 +19,6 @@ describe('Input View Base', function () {
 
     it('sets the value of an input', function () {
         view.setInputField('test', 'new value');
-        expect(view.$el.find('#test').val()).toBe('new value');
+        expect(view.el.querySelector('#test').value).toBe('new value');
     });
 });
