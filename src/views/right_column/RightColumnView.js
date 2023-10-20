@@ -18,6 +18,7 @@ class RightColumnView extends Backbone.View {
         // they searched for is being worked on) and when the results are
         // returned (params may have been corrected or normalized)
         mediator.on('search:initiated', this.hideView, this);
+        mediator.on('search:urlParams', this.hideView, this);
         mediator.on('search:complete', this.onSearchComplete, this);
         mediator.on('search:displayPreviousResults', this.onDisplayPreviousResults, this);
         mediator.on('search:refinedSearch', this.onSearchRefined, this);

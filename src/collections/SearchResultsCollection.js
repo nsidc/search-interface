@@ -4,7 +4,8 @@ import * as UtilityFunctions from '../lib/utility_functions';
 
 class SearchResultsCollection extends Backbone.Collection {
 
-    initialize(options) {
+    constructor(models, options) {
+        super(models, options);
         if (options && options.osDefaultParameters && (!options.osDefaultParameters.osdd)) {
             throw new Error('undefined OSDD URL value in configuration');
         }
@@ -97,7 +98,7 @@ class SearchResultsCollection extends Backbone.Collection {
     }
 
     getTotalResultsCount() {
-        return this.totalResultsCount;
+        return this.totalResultsCount || 0;
     }
 
     // This is used by both by setSearchTermField in KeywordsView and generateUrl

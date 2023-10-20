@@ -89,7 +89,7 @@ class SearchApp extends Backbone.Router {
             mediator: this.mediator,
             openSearchOptions: this.openSearchOptions
         });
-        this.searchResultsCollection = new SearchResultsCollection({
+        this.searchResultsCollection = new SearchResultsCollection(null, {
             mediator: this.mediator,
             provider: this.openSearchProvider,
             osDefaultParameters: this.openSearchOptions
