@@ -34,7 +34,7 @@ class FacetView extends Backbone.View {
 
     readOptions(options) {
         this.scrollThreshold = options.config.scrollThreshold;
-        this.selectedFacets = options.config.selectedFacets;
+        this.selectedFacets = options.selectedFacets;
         this.facetResetButton = options.config.facetResetButton;
         this.mediator = options.mediator;
     }
@@ -99,6 +99,8 @@ class FacetView extends Backbone.View {
         this.updateCounts();
 
         this.sortFacets();
+
+        this.mediator.trigger('facet:clearLinkTrigger');
 
         return this;
     }
