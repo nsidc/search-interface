@@ -9,7 +9,7 @@ class FacetModel extends Backbone.Model {
         _.each(values, function (param) {
             param.selected = false;
         });
-        this.mediator = this.collection.mediator;
+        this.mediator = this.collection?.mediator;
         this.bindEvents(this.mediator);
     }
 
@@ -20,7 +20,7 @@ class FacetModel extends Backbone.Model {
 
     clearFacetSelected(facet) {
         if(this.get('id') === facet) {
-            var values = this.get('values');
+            let values = this.get('values');
             _.each(values, function (parm) {
                 parm.selected = false;
             });
@@ -28,11 +28,19 @@ class FacetModel extends Backbone.Model {
     }
 
     toggleSelectedFacet(facet, value) {
+        this.setSelectedFacet(facet, value)
+    }
+
+    setSelectedFacet(facet, value, newValue = 'toggle') {
         if(this.get('id') === facet) {
-            var values = this.get('values');
+            let values = this.get('values');
             _.each(values, function (param) {
                 if(param.fullName === value) {
-                    param.selected = !param.selected;
+                    if (newValue === 'toggle') {
+                        param.selected = !param.selected;
+                    } else {
+                        param.selected = newValue;
+                    }
                 }
             });
             this.set({'values': values});
@@ -40,7 +48,7 @@ class FacetModel extends Backbone.Model {
     }
 
     selected() {
-        var selected = false;
+        let selected = false;
         _.each(this.get('values'), function (value) {
             if(value.selected === true) {
                 selected = true;

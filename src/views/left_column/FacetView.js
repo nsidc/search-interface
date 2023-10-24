@@ -100,7 +100,7 @@ class FacetView extends Backbone.View {
 
         this.sortFacets();
 
-        this.mediator.trigger('facet:clearLinkTrigger');
+        this.initializeSelections();
 
         return this;
     }
@@ -173,6 +173,21 @@ class FacetView extends Backbone.View {
         // clear the input text, update visible facets
         $input.val('');
         $input.keyup();
+    }
+
+    initializeSelections() {
+        let facet = this.model.get('id');
+        let values = this.model.get('values');
+
+        _.each(values, function (value) {
+            if(this.selectedFacets && this.selectedFacets.indexOf(value.fullName) !== -1) {
+                this.model.setSelectedFacet(facet, value.fullName, true);
+                this.mediator.trigger('facet:clearLinkTrigger');
+                this.sortFacets();
+                this.scrollToTop();
+            }
+
+        }, this);
     }
 
     sortFacets() {
