@@ -33,17 +33,17 @@ class FacetView extends Backbone.View {
     }
 
     readOptions(options) {
-        this.scrollThreshold = options.config.scrollThreshold;
-        this.selectedFacets = options.selectedFacets;
-        this.facetResetButton = options.config.facetResetButton;
-        this.mediator = options.mediator;
+        this.scrollThreshold = options?.config?.scrollThreshold;
+        this.selectedFacets = options?.selectedFacets;
+        this.facetResetButton = options?.config?.facetResetButton;
+        this.mediator = options?.mediator;
     }
 
     bindEvents() {
-        this.mediator.on('search:facetsRefined', this.updateCounts, this);
-        this.mediator.on('search:complete', this.addTooltips, this);
-        this.mediator.on('facet:sort', this.sortFacets, this);
-        this.mediator.on('search:complete', this.scrollToTop, this);
+        this.mediator?.on('search:facetsRefined', this.updateCounts, this);
+        this.mediator?.on('search:complete', this.addTooltips, this);
+        this.mediator?.on('facet:sort', this.sortFacets, this);
+        this.mediator?.on('search:complete', this.scrollToTop, this);
     }
 
     render() {
@@ -134,8 +134,8 @@ class FacetView extends Backbone.View {
     toggleFacet(ev) {
         var facet = $(ev.target).closest('ul').attr('id'),
             name = $(ev.target).closest('li').attr('name');
-        this.mediator.trigger('model:toggleFacet', facet, name);
-        this.mediator.trigger('facet:clearLinkTrigger');
+        this.mediator?.trigger('model:toggleFacet', facet, name);
+        this.mediator?.trigger('facet:clearLinkTrigger');
         this.sortFacets();
         this.scrollToTop();
     }
@@ -182,7 +182,7 @@ class FacetView extends Backbone.View {
         _.each(values, function (value) {
             if(this.selectedFacets && this.selectedFacets.indexOf(value.fullName) !== -1) {
                 this.model.setSelectedFacet(facet, value.fullName, true);
-                this.mediator.trigger('facet:clearLinkTrigger');
+                this.mediator?.trigger('facet:clearLinkTrigger');
                 this.sortFacets();
                 this.scrollToTop();
             }

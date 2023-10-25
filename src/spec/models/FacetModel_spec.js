@@ -1,4 +1,4 @@
-import FacetModel from '../../models/FacetModel.js';
+import FacetModel from '../../models/FacetModel';
 
 describe('Facet Model', function () {
     let model;
