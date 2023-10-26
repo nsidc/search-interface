@@ -21,7 +21,7 @@ class ClearFacetLinkView extends Backbone.View {
 
     clearFacet() {
         _.each(this.$el.find(':input[type=checkbox]'), function (input) {
-            $(input).attr('checked', false);
+            input.checked = false;
         });
         this.mediator.trigger('model:clearFacet', this.facet);
         this.mediator.trigger('model:clearSelectedFacet', this.facet);
@@ -47,6 +47,7 @@ class ClearFacetLinkView extends Backbone.View {
     }
 
     onTypedInput(ev) {
+        console.log(ev);
         let el = $(this.element).find('.facet_clear_link');
 
         if($(ev.target).val() !== '') {

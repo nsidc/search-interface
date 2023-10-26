@@ -106,7 +106,7 @@ class FacetView extends Backbone.View {
     }
 
     filterVisibleFacets(ev) {
-        var $facetResults,
+        let $facetResults,
             $input,
             regex;
 
@@ -115,7 +115,7 @@ class FacetView extends Backbone.View {
         regex = new RegExp($input.val(), 'i');
 
         $facetResults.addClass('hidden').filter(function () {
-            var matchesLongName,
+            let matchesLongName,
                 matchesShortName,
                 isSelected,
                 $this;
@@ -132,7 +132,7 @@ class FacetView extends Backbone.View {
     }
 
     toggleFacet(ev) {
-        var facet = $(ev.target).closest('ul').attr('id'),
+        let facet = $(ev.target).closest('ul').attr('id'),
             name = $(ev.target).closest('li').attr('name');
         this.mediator?.trigger('model:toggleFacet', facet, name);
         this.mediator?.trigger('facet:clearLinkTrigger');
@@ -141,7 +141,7 @@ class FacetView extends Backbone.View {
     }
 
     updateCounts() {
-        var facetCategoryList = this.$('ul#' + this.model.get('id'));
+        let facetCategoryList = this.$('ul#' + this.model.get('id'));
         _.each(this.model.get('values'), function (value) {
             facetCategoryList.find('li#' + value.id + ' .count').text('(' + value.count + ')');
             if(value.count === '0') {
@@ -166,7 +166,7 @@ class FacetView extends Backbone.View {
     }
 
     clearFilterInput() {
-        var $input = this.$('.facet-filter');
+        let $input = this.$('.facet-filter');
 
         this.scrollToTop();
 
@@ -191,7 +191,7 @@ class FacetView extends Backbone.View {
     }
 
     sortFacets() {
-        var $listItems,
+        let $listItems,
             $selected,
             values;
 
