@@ -82,7 +82,6 @@ describe('Facet view', function () {
             ).toBeChecked();
         });
 
-        // TODO: Need to fix this test, it can't find the input specified but it should be there
         it('Does not check the box when a parameter is not selected', function () {
             expect(
               facetView.el
