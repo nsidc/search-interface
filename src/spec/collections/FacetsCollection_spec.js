@@ -4,7 +4,7 @@ import FacetsCollection from '../../collections/FacetsCollection';
 import JSONFacets from '../../lib/JSONFacets';
 
 describe('FacetResultsCollection', function () {
-    var facets, facetsCollection,
+    let facets, facetsCollection,
         osDefaults = { osUrlEndPoint: 'some.fake.url/somewhere',
             osSearchTerms: 'default terms',
             osdd: 'fake osdd',
@@ -23,7 +23,7 @@ describe('FacetResultsCollection', function () {
     });
 
     it('updates the counts on facets when new facet values are provided', function () {
-        var newFacets = generateFakeFacets();
+        let newFacets = generateFakeFacets();
         newFacets[0].values[0].count = '500';
         newFacets[0].values[1].count = '265';
         newFacets[0].values.pop();
@@ -38,11 +38,11 @@ describe('FacetResultsCollection', function () {
 
     describe('Server calls', function () {
         let spy;
-        var provider,
+        let provider,
             fakeSearchParamsModel,
             FakeOpenSearchProvider = function () {
                 this.requestJSON = function (options) {
-                    var json = new JSONFacets({facets: generateFakeFacets()});
+                    let json = new JSONFacets({facets: generateFakeFacets()});
 
                     options.success(json, options);
                 };
@@ -53,22 +53,23 @@ describe('FacetResultsCollection', function () {
             fakeSearchParamsModel.setFacetFilters = jest.fn();
 
             provider = new FakeOpenSearchProvider();
+            spy = jest.spyOn(provider, 'requestJSON');
 
             facetsCollection = new FacetsCollection(null, {
                 provider: provider,
                 osDefaultParameters: osDefaults,
                 facets: facets,
-                facetsEnabled: true
+                config: {
+                    facets: { enabled: true }
+                }
             });
-
-            spy = jest.spyOn(provider, 'requestJSON');
         });
 
         afterEach(function () {
             spy.mockRestore()
         });
 
-        it.skip('makes a facet request for search initiated event', function () {
+        it('makes a facet request for search initiated event', function () {
             facetsCollection.onSearchInitiated(fakeSearchParamsModel);
 
             expect(spy).toHaveBeenCalled();
@@ -76,7 +77,7 @@ describe('FacetResultsCollection', function () {
             expect(spy.mock.calls[0][0].osFacetFilters).not.toBeDefined();
         });
 
-        it.skip('makes a facet request for search datacenters only event (for dynamic counts on home page)', function () {
+        it('makes a facet request for search datacenters only event (for dynamic counts on home page)', function () {
             facetsCollection.onDatacentersOnly(fakeSearchParamsModel);
 
             expect(spy).toHaveBeenCalled();
@@ -84,7 +85,7 @@ describe('FacetResultsCollection', function () {
             expect(spy.mock.calls[0][0].osFacetFilters).not.toBeDefined();
         });
 
-        it.skip('uses facet filters for refined search event', function () {
+        it('uses facet filters for refined search event', function () {
             fakeSearchParamsModel.set('facetFilters', {facetParameter: ['Albedo', 'Ice Extent']});
             facetsCollection.onRefinedSearch(fakeSearchParamsModel);
 
@@ -93,7 +94,7 @@ describe('FacetResultsCollection', function () {
         });
 
         describe('Server responses and processing', function () {
-            var fakeMediator = {
+            let fakeMediator = {
                 on: jest.fn(),
                 trigger: jest.fn()
             };
@@ -107,22 +108,22 @@ describe('FacetResultsCollection', function () {
                 fakeMediator.trigger.mockRestore();
             });
 
-            it.skip('triggers the facets returned event', function () {
+            it('triggers the facets returned event', function () {
                 facetsCollection.onSearchInitiated(fakeSearchParamsModel);
 
                 expect(fakeMediator.trigger).toHaveBeenCalled();
                 expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsReturned');
             });
 
-            it.skip('triggers the facets refined event when facets are refined', function () {
+            it('triggers the facets refined event when facets are refined', function () {
                 facetsCollection.onRefinedSearch(fakeSearchParamsModel);
 
                 expect(fakeMediator.trigger).toHaveBeenCalled();
                 expect(fakeMediator.trigger.mock.calls[0][0]).toEqual('search:facetsRefined');
             });
 
-            it.skip('triggers a refined search after the first facet request from the url is complete', function () {
-                var facetFilters = { data_center: ['nsidc', 'cisl'] };
+            it('triggers a refined search after the first facet request from the url is complete', function () {
+                let facetFilters = { data_center: ['nsidc', 'cisl'] };
 
                 facetsCollection.onSearchUrlParams(fakeSearchParamsModel, facetFilters);
 
@@ -132,13 +133,13 @@ describe('FacetResultsCollection', function () {
             });
 
             it('counts the facet values in the response', function () {
-                var json = new JSONFacets({facets: generateFakeFacets()});
+                let json = new JSONFacets({facets: generateFakeFacets()});
 
                 expect(facetsCollection.countFacetValues(json.getFacets())).toBe(1475);
             });
 
             it('triggers a normal search after the first facet request from the url is complete with zero results', function () {
-                var facetFilters = { data_center: ['nsidc', 'cisl'] },
+                let facetFilters = { data_center: ['nsidc', 'cisl'] },
                     facets = [{id: 'dataCenters', name: 'Data Centers', values: []}],
                     json = new JSONFacets({facets: facets});
 
@@ -157,7 +158,7 @@ describe('FacetResultsCollection', function () {
     });
 });
 
-var generateFakeFacets = function () {
+let generateFakeFacets = function () {
     return [{
         id: 'dataCenters',
         name: 'Data Centers',
