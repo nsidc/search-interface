@@ -107,7 +107,7 @@ describe.skip('Temporal Coverage View', function () {
                 };
 
             beforeEach(function () {
-                var resultsCollection = new SearchResultsCollection({model: searchParameters});
+                var resultsCollection = new SearchResultsCollection(null, {model: searchParameters});
                 sinon.stub(resultsCollection, 'performSearch').returns(null);
                 temporalCoverageView = new TemporalCoverageView({model: searchParameters, searchResultsCollection: resultsCollection});
                 temporalCoverageView.render();
@@ -172,7 +172,7 @@ describe.skip('Temporal Coverage View', function () {
         describe('invalid date parameters', function () {
 
             beforeEach(function () {
-                var resultsCollection = new SearchResultsCollection({model: searchParameters});
+                var resultsCollection = new SearchResultsCollection(null, {model: searchParameters});
                 sinon.stub(resultsCollection, 'performSearch').returns(null);
                 temporalCoverageView = new TemporalCoverageView({model: searchParameters, searchResultsCollection: resultsCollection});
                 temporalCoverageView.render();

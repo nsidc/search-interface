@@ -50,7 +50,7 @@ class SearchApp extends Backbone.Router {
         this.openSearchOptions.osProvider = envUrls;
         this.config.temporalCoverageView.provider = envUrls;
 
-        this.displayHomePageOnCancel = true;
+        this.displayHomePageOnCancel = false;
 
         // Property names are a regular expression string,
         //
@@ -122,7 +122,6 @@ class SearchApp extends Backbone.Router {
         // Initialize the view framework
         this.homeView = new BaseView({
             el: this.el,
-            isHomePageEnabled: this.isHomePageEnabled(),
             version: this.version,
             config: this.config,
             searchParamsModel: this.searchParamsModel,
