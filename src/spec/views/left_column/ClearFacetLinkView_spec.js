@@ -27,23 +27,28 @@ describe('Clear facet link view', function () {
 
     // TODO: The original tests had the selectedFacets set, but that meant some of the expected default states
     // were incorrect.  Most of the tests can be duplicated here, but with some different results.
-    // Ran out of time to actually do the implementation
-    xdescribe('for facet with previously-selected entries', function () {
-        // beforeEach(function () {
-        //     facetModel = new FacetModel(fakeFacetModelData);
-        //     mediator = new Mediator();
-        //
-        //     facetView = new FacetView({
-        //         model: facetModel,
-        //         selectedFacets: ['National Snow and Ice Data Center | NSIDC', 'National Oceanographic Data Center | NODC'],
-        //         facetCounts: 'static',
-        //         config: {
-        //             facetResetButton: 'true',
-        //             scrollThreshold: 1
-        //         },
-        //         mediator: mediator
-        //     });
-        // });
+    // Ran out of time to actually do the implementation for those, but added one related to the fixed functionality
+    describe('for facet with previously-selected entries', function () {
+        beforeEach(function () {
+            mediator = new Mediator();
+            facetModel = new FacetModel(fakeFacetModelData, {mediator: mediator});
+
+            facetView = new FacetView({
+                model: facetModel,
+                selectedFacets: ['National Snow and Ice Data Center | NSIDC', 'National Oceanographic Data Center | NODC'],
+                facetCounts: 'static',
+                config: {
+                    facetResetButton: 'true',
+                    scrollThreshold: 1
+                },
+                mediator: mediator
+            });
+        });
+
+        it('renders a visible clear facet link', function () {
+            expect(facetView.el.querySelectorAll('.facet_clear_link').length).toBe(1);
+            expect(facetView.el.querySelector('.facet_clear_link')).toBeVisible();
+        });
     });
 
     describe('for facet with no selected entries', function () {
