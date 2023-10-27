@@ -43,6 +43,9 @@ describe('Clear facet link view', function () {
                 },
                 mediator: mediator
             });
+
+            facetView.render();
+            document.body.append(facetView.el);
         });
 
         it('renders a visible clear facet link', function () {
