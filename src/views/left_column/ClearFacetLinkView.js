@@ -17,6 +17,7 @@ class ClearFacetLinkView extends Backbone.View {
         this.template = _.template(viewTemplate)({id: this.facet + '_clear_button'});
         this.mediator = options.mediator;
         this.mediator.on('facet:clearLinkTrigger', this.toggle, this);
+        this.toggle();
     }
 
     clearFacet() {
@@ -47,7 +48,6 @@ class ClearFacetLinkView extends Backbone.View {
     }
 
     onTypedInput(ev) {
-        console.log(ev);
         let el = $(this.element).find('.facet_clear_link');
 
         if($(ev.target).val() !== '') {

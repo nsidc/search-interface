@@ -138,7 +138,6 @@ describe('Facet view', function () {
                 // type junk into the filter input
                 input = facetView.el.querySelector('.facet-filter');
                 input.value = 'adfasdfa';
-                console.log(input);
                 input.dispatchEvent(new Event('keyup', { bubbles: true }));
             });
 

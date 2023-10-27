@@ -9,7 +9,7 @@ class FacetModel extends Backbone.Model {
         _.each(values, function (param) {
             param.selected = false;
         });
-        this.mediator = this.collection?.mediator;
+        this.mediator = this.collection?.mediator || options?.mediator;
         this.bindEvents(this.mediator);
     }
 
