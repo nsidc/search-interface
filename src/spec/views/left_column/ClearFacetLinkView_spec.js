@@ -25,9 +25,11 @@ describe('Clear facet link view', function () {
     let facetView, facetModel;
     let mediator;
 
-    // TODO: The original tests had the selectedFacets set, but that meant some of the expected default states
-    // were incorrect.  Most of the tests can be duplicated here, but with some different results.
-    // Ran out of time to actually do the implementation for those, but added one related to the fixed functionality
+    // TODO: The original tests had facets selected by default in the beforeEach, but some of the tests themselves
+    // seemed to make the assumption that things were "clean".  I split this into two sections - one for pre-selected
+    // items (shown here), and one for no pre-selected items (shown later); the original tests are all in that latter
+    // section.  It could be beneficial to have similar tests in this section, but I ran out of time to do them all
+    // for this particular iteration.
     describe('for facet with previously-selected entries', function () {
         beforeEach(function () {
             mediator = new Mediator();

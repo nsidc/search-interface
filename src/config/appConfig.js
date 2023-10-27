@@ -6,7 +6,7 @@ const urls = {
     },
     development: {
         // Change this to a developer host if desired.  If you do, port number should change to 10680
-        openSearchHost: 'https://staging.nsidc.org',
+        openSearchHost: 'https://nsidc.org',
         dateRangeHost: 'https://nsidc.org',
         port: 80
     },

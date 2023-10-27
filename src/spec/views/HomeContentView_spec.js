@@ -13,11 +13,6 @@ describe('mediated event handling', function () {
         homeContentView.render();
     });
 
-    // function rebindEvent(event, target) {
-    //     mediator.off(event);
-    //     mediator.on(event, target, homeContentView);
-    // }
-
     it('is bound to the app:home event', function () {
         let spy = jest.spyOn(homeContentView, 'onAppHome');
 
