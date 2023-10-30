@@ -1,7 +1,7 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
 
-import { appConfig, openSearchOptions, environmentUrls } from './config/appConfig';
+import { appConfig, appRouteHandlerProperties, openSearchOptions, environmentUrls } from './config/appConfig';
 import BaseView from './views/BaseView';
 import { decodedQueryParameter } from './lib/utility_functions';
 import FacetsCollection from './collections/FacetsCollection';
@@ -52,27 +52,9 @@ class SearchApp extends Backbone.Router {
 
         this.displayHomePageOnCancel = false;
 
-        // Property names are a regular expression string,
-        //
-        // Values need to exist as attributes on the SearchParamsModel and
-        // SearchResultsCollection, with the latter needing getXXX methods for
-        // each.
-        this.properties = {
-            keywords: 'keywords=(.*)',
-            author: 'author=(.*)',
-            title: 'title=(.*)',
-            sensor: 'sensor=(.*)',
-            parameter: 'parameter=(.*)',
-            startDate: 'startDate=(.*)',
-            endDate: 'endDate=(.*)',
-            sortKeys: 'sortKeys=(.*)',
-            facetFilters: 'facetFilters=(.*)',
-            pageNumber: 'pageNumber=(\\d+)',
-            osGeoBbox: 'osGeoBbox=(.*)',
-            itemsPerPage: 'itemsPerPage=(\\d+)',
-        };
 
-        this.routeHandlerProperties = this.properties;
+
+        this.routeHandlerProperties = appRouteHandlerProperties;
         this.mediator = new Mediator();
 
         _.extend(OpenSearchProvider.prototype, this.mediator);
@@ -186,7 +168,7 @@ class SearchApp extends Backbone.Router {
                 return;
             }
 
-            re = this.compileRegex(this.properties[propName]);
+            re = this.compileRegex(this.routeHandlerProperties[propName]);
             matches = pathComponent.match(re);
             propValue = matches[1];
 

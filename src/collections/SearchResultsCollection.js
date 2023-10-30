@@ -103,8 +103,8 @@ class SearchResultsCollection extends Backbone.Collection {
 
     // This is used by both by setSearchTermField in KeywordsView and generateUrl
     // in criteriaAppender. The latter dynamically creates an accessor (getter) for
-    // each of the properties listed in routeHandlerProperties (see SearchApp.js
-    // initialization).
+    // each of the properties listed in routeHandlerProperties (see properties defined
+    // in appConfig.js).
     getKeywords() {
         // prevent undefined keywords.
         return this.keyword || '';

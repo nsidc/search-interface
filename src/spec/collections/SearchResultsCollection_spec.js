@@ -2,8 +2,6 @@ import Backbone from 'backbone';
 
 import SearchResultsCollection from '../../collections/SearchResultsCollection';
 import JSONResults from '../../lib/JSONResults';
-import OpenSearchProvider from '../../lib/OpenSearchProvider';
-import Mediator from '../../lib/Mediator';
 
 describe('SearchResultsCollection', function () {
 
@@ -260,11 +258,11 @@ describe('SearchResultsCollection', function () {
         it('Updated search information is available through getters', function () {
             // arrange
             let fakeJson;
-            let mediator = {
+            let fakeMediator = {
                 on: jest.fn(),
                 trigger: jest.fn()
             };
-            resultsCollection.mediator = mediator;
+            resultsCollection.mediator = fakeMediator;
 
             fakeJson = new JSONResults(
                 { keyword: 'test keyword',
@@ -292,7 +290,7 @@ describe('SearchResultsCollection', function () {
             resultsCollection;
 
         beforeEach(function () {
-            let mediator = {
+            let fakeMediator = {
                 on: jest.fn(),
                 trigger: jest.fn()
             };
@@ -302,7 +300,7 @@ describe('SearchResultsCollection', function () {
                 searchParamsModel: new Backbone.Model()
             });
 
-            resultsCollection.mediator = mediator;
+            resultsCollection.mediator = fakeMediator;
         });
 
         it('Should use Model information, when it is provided rather than the defaults', function () {

@@ -4,6 +4,7 @@
 - Update SearchResultsCollection initialization to avoid single phantom search result
   showing up while search is in progress.
 - Hide pagination controls for all events representing a "search in progress."
+- Move route parameter configuration to appConfig.js.
 - Remove bits and pieces of deprecated code.
 
 ## v4.8.1 (2023-10-20)

@@ -2,11 +2,11 @@ import _ from "underscore";
 import * as UtilityFunctions from "../lib/utility_functions";
 import SearchTerms from "./SearchTerms";
 
-function getAccessorName(propertyName) {
+export function getAccessorName(propertyName) {
     return "get" + UtilityFunctions.toInitialCaps(propertyName);
 }
 
-function substituteFirstCaptureGroup(inputRegex, replacement, options) {
+export function substituteFirstCaptureGroup(inputRegex, replacement, options) {
     let encode = true;
     if (options && options.urlEncode === false) {
         encode = false;
@@ -49,7 +49,7 @@ export function generateUrl(routerProperties, searchResults) {
             // routing
             propValue = encodeURIComponent(JSON.stringify(propValue));
         } else if (_.contains(["p", "bbox", "psize"], propName)) {
-            // deprecated url params, don't add them to url any more
+            // deprecated url params, don't add them to url
             propValue = "";
         }
 
