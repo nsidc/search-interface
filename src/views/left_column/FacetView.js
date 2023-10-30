@@ -33,17 +33,17 @@ class FacetView extends Backbone.View {
     }
 
     readOptions(options) {
-        this.scrollThreshold = options.config.scrollThreshold;
-        this.selectedFacets = options.config.selectedFacets;
-        this.facetResetButton = options.config.facetResetButton;
-        this.mediator = options.mediator;
+        this.scrollThreshold = options?.config?.scrollThreshold;
+        this.selectedFacets = options?.selectedFacets;
+        this.facetResetButton = options?.config?.facetResetButton;
+        this.mediator = options?.mediator;
     }
 
     bindEvents() {
-        this.mediator.on('search:facetsRefined', this.updateCounts, this);
-        this.mediator.on('search:complete', this.addTooltips, this);
-        this.mediator.on('facet:sort', this.sortFacets, this);
-        this.mediator.on('search:complete', this.scrollToTop, this);
+        this.mediator?.on('search:facetsRefined', this.updateCounts, this);
+        this.mediator?.on('search:complete', this.addTooltips, this);
+        this.mediator?.on('facet:sort', this.sortFacets, this);
+        this.mediator?.on('search:complete', this.scrollToTop, this);
     }
 
     render() {
@@ -100,11 +100,13 @@ class FacetView extends Backbone.View {
 
         this.sortFacets();
 
+        this.initializeSelections();
+
         return this;
     }
 
     filterVisibleFacets(ev) {
-        var $facetResults,
+        let $facetResults,
             $input,
             regex;
 
@@ -113,7 +115,7 @@ class FacetView extends Backbone.View {
         regex = new RegExp($input.val(), 'i');
 
         $facetResults.addClass('hidden').filter(function () {
-            var matchesLongName,
+            let matchesLongName,
                 matchesShortName,
                 isSelected,
                 $this;
@@ -130,16 +132,16 @@ class FacetView extends Backbone.View {
     }
 
     toggleFacet(ev) {
-        var facet = $(ev.target).closest('ul').attr('id'),
+        let facet = $(ev.target).closest('ul').attr('id'),
             name = $(ev.target).closest('li').attr('name');
-        this.mediator.trigger('model:toggleFacet', facet, name);
-        this.mediator.trigger('facet:clearLinkTrigger');
+        this.mediator?.trigger('model:toggleFacet', facet, name);
+        this.mediator?.trigger('facet:clearLinkTrigger');
         this.sortFacets();
         this.scrollToTop();
     }
 
     updateCounts() {
-        var facetCategoryList = this.$('ul#' + this.model.get('id'));
+        let facetCategoryList = this.$('ul#' + this.model.get('id'));
         _.each(this.model.get('values'), function (value) {
             facetCategoryList.find('li#' + value.id + ' .count').text('(' + value.count + ')');
             if(value.count === '0') {
@@ -164,7 +166,7 @@ class FacetView extends Backbone.View {
     }
 
     clearFilterInput() {
-        var $input = this.$('.facet-filter');
+        let $input = this.$('.facet-filter');
 
         this.scrollToTop();
 
@@ -173,8 +175,23 @@ class FacetView extends Backbone.View {
         $input.keyup();
     }
 
+    initializeSelections() {
+        let facet = this.model.get('id');
+        let values = this.model.get('values');
+
+        _.each(values, function (value) {
+            if(this.selectedFacets && this.selectedFacets.indexOf(value.fullName) !== -1) {
+                this.model.setSelectedFacet(facet, value.fullName, true);
+                this.mediator?.trigger('facet:clearLinkTrigger');
+                this.sortFacets();
+                this.scrollToTop();
+            }
+
+        }, this);
+    }
+
     sortFacets() {
-        var $listItems,
+        let $listItems,
             $selected,
             values;
 

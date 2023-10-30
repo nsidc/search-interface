@@ -1,3 +1,8 @@
+## Unreleased
+
+- Fixed bug with checkboxes not persisting properly when page is reloaded with
+  facet selections in the URL
+
 ## v4.8.1 (2023-10-20)
 
 - Minor bug fix with the release script

@@ -17,11 +17,12 @@ class ClearFacetLinkView extends Backbone.View {
         this.template = _.template(viewTemplate)({id: this.facet + '_clear_button'});
         this.mediator = options.mediator;
         this.mediator.on('facet:clearLinkTrigger', this.toggle, this);
+        this.toggle();
     }
 
     clearFacet() {
         _.each(this.$el.find(':input[type=checkbox]'), function (input) {
-            $(input).attr('checked', false);
+            input.checked = false;
         });
         this.mediator.trigger('model:clearFacet', this.facet);
         this.mediator.trigger('model:clearSelectedFacet', this.facet);
