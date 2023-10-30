@@ -56,6 +56,26 @@ export const openSearchOptions = {
     osSortKeys: 'score,,desc'
 };
 
+// Property names are a regular expression string,
+//
+// Values need to exist as attributes on the SearchParamsModel and
+// SearchResultsCollection, with the latter needing getXXX methods for
+// each.
+export const appRouteHandlerProperties = {
+    keywords: 'keywords=(.*)',
+    author: 'author=(.*)',
+    title: 'title=(.*)',
+    sensor: 'sensor=(.*)',
+    parameter: 'parameter=(.*)',
+    startDate: 'startDate=(.*)',
+    endDate: 'endDate=(.*)',
+    sortKeys: 'sortKeys=(.*)',
+    facetFilters: 'facetFilters=(.*)',
+    pageNumber: 'pageNumber=(\\d+)',
+    osGeoBbox: 'osGeoBbox=(.*)',
+    itemsPerPage: 'itemsPerPage=(\\d+)',
+};
+
 export const appConfig = {
     description: 'Config for NSIDC Search',
     features: {
@@ -79,7 +99,7 @@ export const appConfig = {
         autoSuggestPath: '/api/dataset/2/suggest?q=%QUERY&source=',
 
         // home page
-        homePage: true,
+        homePage: false,
     },
 
     facets: {

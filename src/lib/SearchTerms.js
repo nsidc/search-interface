@@ -11,7 +11,7 @@ class SearchTerms {
         this.tokenizer = new SearchTermsTokenizer();
 
         if (terms instanceof Array) {
-            this.terms = terms;
+            this.terms = [...terms];
         } else {
             if (terms === "" || terms === undefined) {
                 this.terms = [];
@@ -28,8 +28,7 @@ class SearchTerms {
     }
 
     asArray() {
-        let foo = _(this.terms).clone();
-        return foo;
+        return [...this.terms];
     }
 
     asInputString() {

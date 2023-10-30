@@ -1,3 +1,12 @@
+## Unreleased
+
+- Force a default search when initially viewing the application interface.
+- Update SearchResultsCollection initialization to avoid single phantom search result
+  showing up while search is in progress.
+- Hide pagination controls for all events representing a "search in progress."
+- Move route parameter configuration to appConfig.js.
+- Remove bits and pieces of deprecated code.
+
 ## v4.9.0 (2023-10-30)
 
 - Fixed bug with checkboxes not persisting properly when page is reloaded with

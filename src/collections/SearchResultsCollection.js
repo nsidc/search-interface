@@ -4,7 +4,8 @@ import * as UtilityFunctions from '../lib/utility_functions';
 
 class SearchResultsCollection extends Backbone.Collection {
 
-    initialize(options) {
+    constructor(models, options) {
+        super(models, options);
         if (options && options.osDefaultParameters && (!options.osDefaultParameters.osdd)) {
             throw new Error('undefined OSDD URL value in configuration');
         }
@@ -97,11 +98,15 @@ class SearchResultsCollection extends Backbone.Collection {
     }
 
     getTotalResultsCount() {
-        return this.totalResultsCount;
+        return this.totalResultsCount || 0;
     }
 
-    // prevent undefined keywords.
-    getKeyword() {
+    // This is used by both by setSearchTermField in KeywordsView and generateUrl
+    // in criteriaAppender. The latter dynamically creates an accessor (getter) for
+    // each of the properties listed in routeHandlerProperties (see properties defined
+    // in appConfig.js).
+    getKeywords() {
+        // prevent undefined keywords.
         return this.keyword || '';
     }
 
@@ -119,31 +124,6 @@ class SearchResultsCollection extends Backbone.Collection {
 
     getTitle() {
         return this.title;
-    }
-
-    getPopulatedTerms() {
-        let termFields = {
-            all: this.getKeyword(),
-            author: this.getAuthor(),
-            parameter: this.getParameter(),
-            sensor: this.getSensor(),
-            title: this.getTitle()
-        };
-        let terms = {};
-
-        function termsFieldHasValue(termsField) {
-            if (termsField === null || termsField === undefined || termsField.length === 0) {
-                return false;
-            }
-            return true;
-        }
-        _.each(_.keys(termFields), function(key) {
-            if (termsFieldHasValue(termFields[key])) {
-                terms[key] = termFields[key];
-            }
-        });
-
-        return terms;
     }
 
     getStartDate() {
@@ -203,24 +183,6 @@ class SearchResultsCollection extends Backbone.Collection {
             this.reset();
             this.mediator?.trigger('search:error');
         }
-    }
-
-    // deprecated functions for retrieving parameters based on old URLs
-
-    getKeywords() {
-        return this.getKeyword();
-    }
-
-    getP() {
-        return this.getPageNumber();
-    }
-
-    getBbox() {
-        return this.getOsGeoBbox();
-    }
-
-    getPsize() {
-        return this.getItemsPerPage();
     }
 }
 

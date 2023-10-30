@@ -48,7 +48,7 @@ describe.skip('Search Criteria View', function () {
             }
         };
 
-        resultsCollection = new SearchResultsCollection({model: searchParameters});
+        resultsCollection = new SearchResultsCollection(null, {model: searchParameters});
         resultsCollection.getKeyword = sinon.stub().returns(['ice']);
         resultsCollection.getStartDate = sinon.stub().returns('2001-02-03');
         resultsCollection.getEndDate = sinon.stub().returns('2004-05-06');

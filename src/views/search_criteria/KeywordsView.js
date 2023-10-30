@@ -33,7 +33,7 @@ class KeywordsView extends InputViewBase {
     }
 
     setSearchTermField(resultsCollection) {
-        this.setInputField('keyword', this.searchTermsAsString(resultsCollection.getKeyword()));
+        this.setInputField('keyword', this.searchTermsAsString(resultsCollection.getKeywords()));
     }
 
     searchTermsAsString(searchTerms) {

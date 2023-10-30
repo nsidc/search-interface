@@ -1,14 +1,14 @@
 import SearchTerms from '../../lib/SearchTerms';
 
-describe.skip('SearchTerms', function () {
+describe('SearchTerms', function () {
 
     it('is constructed from an array of terms', function () {
-        var searchTerms = new SearchTerms(['one', 'two', 'three']);
-        expect(searchTerms.length).toEqual(3);
+        let searchTerms = new SearchTerms(['one', 'two', 'three']);
+        expect(searchTerms.length).toBe(3);
     });
 
     it('doesn\'t hold on to references to the constructing array', function () {
-        var arr = ['one', 'two'],
+        let arr = ['one', 'two'],
             searchTerms = new SearchTerms(arr);
 
         arr[0] = 'something else';
@@ -17,7 +17,7 @@ describe.skip('SearchTerms', function () {
     });
 
     it('doesn\'t leak mutable references to its internal data', function () {
-        var arr = ['one', 'two'],
+        let arr = ['one', 'two'],
             searchTerms = new SearchTerms(arr),
             returnVal = searchTerms.asArray();
 
@@ -26,10 +26,9 @@ describe.skip('SearchTerms', function () {
         expect(searchTerms.asArray()).toEqual(['one', 'two']);
     });
 
-    it('requires an array of terms in the ctor call', function () {
-        expect(function () {
-            new SearchTerms('blah');
-        }).toThrow();
+    it('tokenizes input to an array of terms in the ctor call', function () {
+        let searchTerms = new SearchTerms('blah');
+        expect(searchTerms.asArray()).toEqual(['blah']);
     });
 
     it('allows empty strings in the ctor call', function () {
