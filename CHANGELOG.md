@@ -1,4 +1,4 @@
-## Unreleased
+## v4.10.0 (2023-10-30)
 
 - Force a default search when initially viewing the application interface.
 - Update SearchResultsCollection initialization to avoid single phantom search result
