@@ -1,4 +1,4 @@
-## Unreleased
+## v4.9.0 (2023-10-30)
 
 - Fixed bug with checkboxes not persisting properly when page is reloaded with
   facet selections in the URL
