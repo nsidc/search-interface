@@ -1,5 +1,6 @@
 import HomeContentView from '../../views/HomeContentView';
 import Mediator from '../../lib/Mediator';
+import {rebindEvent} from "../rebindEvents.js";
 
 describe('mediated event handling', function () {
 
@@ -12,15 +13,10 @@ describe('mediated event handling', function () {
         homeContentView.render();
     });
 
-    function rebindEvent(event, target) {
-        mediator.off(event);
-        mediator.on(event, target, homeContentView);
-    }
-
     it('is bound to the app:home event', function () {
         let spy = jest.spyOn(homeContentView, 'onAppHome');
 
-        rebindEvent('app:home', spy);
+        rebindEvent(mediator, 'app:home', spy, homeContentView);
 
         mediator.trigger('app:home');
         expect(homeContentView.onAppHome).toHaveBeenCalled();
