@@ -1,6 +1,7 @@
 ## v4.10.0 (2023-10-30)
 
-- Force a default search when initially viewing the application interface.
+- Force a default search when initially viewing the application interface and
+  when `Reset` is selected.
 - Update SearchResultsCollection initialization to avoid single phantom search result
   showing up while search is in progress.
 - Hide pagination controls for all events representing a "search in progress."
