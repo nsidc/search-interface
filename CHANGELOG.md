@@ -1,4 +1,4 @@
-## Unreleased
+## v4.10.1 (2023-10-31)
 
 - Trigger a default search when the search form is reset.
 
