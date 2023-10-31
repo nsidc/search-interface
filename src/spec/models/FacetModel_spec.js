@@ -1,7 +1,7 @@
 import FacetModel from '../../models/FacetModel';
 
-describe.skip('Facet Model', function () {
-    var model;
+describe('Facet Model', function () {
+    let model;
 
     describe('setting the facet from a hash of options', function () {
 
@@ -62,6 +62,18 @@ describe.skip('Facet Model', function () {
                 expect(model.selected()).toBe(false);
                 model.toggleSelectedFacet('data_centers', 'National Oceanographic Data Center');
                 expect(model.selected()).toBe(true);
+            });
+        });
+
+        describe('the facet value setter', function () {
+           it('sets the selected value to true', function () {
+               model.setSelectedFacet('data_centers', 'National Oceanographic Data Center', true);
+               expect(model.selected()).toBe(true);
+           });
+
+            it('sets the selected value to false', function () {
+                model.setSelectedFacet('data_centers', 'National Oceanographic Data Center', false);
+                expect(model.selected()).toBe(false);
             });
         });
     });
