@@ -189,7 +189,7 @@ class SearchApp extends Backbone.Router {
     }
 
     onAppHome() {
-        this.navigate('/',  {trigger: true});
+        this.navigate('/', {trigger: true});
     }
 
     addCurrentUrlToNavigationHistory() {
