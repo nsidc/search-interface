@@ -114,9 +114,7 @@ class SearchCriteriaView extends InputViewBase {
     }
 
     onResetSearchClicked() {
-        if (this.options.config.searchCriteriaView.reset === 'home') {
-            this.mediator.trigger('app:home');
-        }
+        this.mediator.trigger('app:home');
     }
 
     toggleVisibility(element) {

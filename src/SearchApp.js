@@ -50,10 +50,6 @@ class SearchApp extends Backbone.Router {
         this.openSearchOptions.osProvider = envUrls;
         this.config.temporalCoverageView.provider = envUrls;
 
-        this.displayHomePageOnCancel = false;
-
-
-
         this.routeHandlerProperties = appRouteHandlerProperties;
         this.mediator = new Mediator();
 
@@ -143,11 +139,6 @@ class SearchApp extends Backbone.Router {
         // Always render the HTML content when loading or reloading the page.
         this.homeView.render();
 
-        if(this.isHomePageEnabled()) {
-            this.mediator.trigger('app:home');
-            return;
-        }
-
         // If no search criteria are available, add empty keywords to force a default search.
         if (path === null) {
             path = 'keywords=';
@@ -190,22 +181,15 @@ class SearchApp extends Backbone.Router {
     }
 
     onSearchCancel() {
-        if(this.displayHomePageOnCancel && this.isHomePageEnabled()) {
-            this.mediator.trigger('app:home');
-        }
-        else {
-            this.mediator.trigger('search:displayPreviousResults');
-        }
+        this.mediator.trigger('search:displayPreviousResults');
     }
 
     onSearchComplete() {
-        this.displayHomePageOnCancel = false;
         this.addCurrentUrlToNavigationHistory();
     }
 
     onAppHome() {
-        this.displayHomePageOnCancel = true;
-        this.navigate('/', {replace: true});
+        this.navigate('/', {trigger: true});
     }
 
     addCurrentUrlToNavigationHistory() {

@@ -107,15 +107,7 @@ class TemporalCoverageView extends InputViewBase {
     }
 
     bindEvents(mediator) {
-        mediator.on('app:home', this.onAppHome, this);
         mediator.on('dateRangeRequestComplete', this.onDateRangeRequestComplete, this);
-    }
-
-    onAppHome() {
-        $('div.start-date').hide();
-        $('input#start-date').hide();
-        $('input#end-date').hide();
-        this.render();
     }
 
     requestDateRange() {

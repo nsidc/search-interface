@@ -114,9 +114,6 @@ export const appConfig = {
 
     searchCriteriaView: {
         searchButtonText: 'Search',
-
-        // reset link
-        reset: 'home',
     },
 
     temporalCoverageView: {
